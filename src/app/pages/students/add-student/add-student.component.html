@@ -1,0 +1,143 @@
+<div class="example-container">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Додати учня
+        </mat-panel-title>
+        <mat-panel-description>
+          +
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form
+        [formGroup]="addStudentForm"
+        (ngSubmit)="onAdd($event)"
+        class="form-container"
+      >
+        <div class="avatar">
+          <label (click)="imageInput.click()"
+            ><img
+              [src]="studentAvatar"
+              alt="Upload avatar"
+              class="avatar-img"
+            />
+            <div class="avatar-hover">
+              <img src="../../../../assets/images/photo-camera.png" alt="" />
+            </div>
+          </label>
+
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            id="avatar"
+            [hidden]="true"
+            #imageInput
+          />
+        </div>
+        <div class="data">
+          <div class="input-margin">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Ім'я"
+                formControlName="firstname"
+                required
+              />
+              <mat-error *ngIf="this.addStudentForm.get('firstname').invalid"
+                >Українською та з великої літери.Обов'язкове поле!</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="input-margin">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Прізвище"
+                formControlName="lastname"
+                required
+              />
+              <mat-error *ngIf="this.addStudentForm.get('lastname').invalid"
+                >Українською та з великої літери.Обов'язкове поле!</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="input-margin">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="По-батькові"
+                formControlName="patronymic"
+                required
+              />
+              <mat-error *ngIf="this.addStudentForm.get('patronymic').invalid"
+                >Українською та з великої літери.Обов'язкове поле!</mat-error
+              >
+            </mat-form-field>
+          </div>
+         
+
+          <div class="input-margin">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Електронна скринька"
+                formControlName="email"
+              />
+              <mat-error *ngIf="this.addStudentForm.get('email').invalid"
+                >Формат example@gmail.com</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="input-margin">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Номер телефону"
+                formControlName="phone"
+              />
+              <mat-error *ngIf="this.addStudentForm.get('phone').invalid"
+                >Формат +380992244666</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <mat-card-actions>
+            <div class="input-margin">
+              <mat-form-field>
+                <input
+                  matInput
+                  matInput
+                  [matDatepicker]="picker"
+                  placeholder="Дата народження"
+                  formControlName="dateOfBirth"
+                  required
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker
+                  #picker
+                  startView="year"
+                  [startAt]="startDate"
+                ></mat-datepicker>
+                <mat-error
+                  *ngIf="this.addStudentForm.get('dateOfBirth').invalid"
+                  >Дата народження. Обов'язкове поле!</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <button
+              mat-flat-button
+              color="warn"
+              type="submit"
+              [disabled]="!addStudentForm.valid"
+            >
+              Додати
+            </button>
+          </mat-card-actions>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

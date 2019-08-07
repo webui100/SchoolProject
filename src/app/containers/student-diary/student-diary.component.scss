@@ -1,0 +1,70 @@
+.navigation {
+  text-align: center;
+  margin: 1rem;
+  mat-form-field {
+    width: 8rem;
+  }
+  .current-week {
+    margin-left: 1rem;
+  }
+}
+
+.diary {
+  padding: .7rem;
+  .day-in-diary {
+    margin: .7rem 0;
+    mat-card {
+       padding: 0;
+      mat-card-title {
+        padding: .8rem 0 0 .8rem;
+      }
+      table {
+        width: 100%;
+        border-spacing: 1px;
+        th {
+          padding: .5rem;
+          background: #5b33a1;
+          color: #fff;
+        }
+        td {
+          padding: .5rem;
+          background: #e2e2e2;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+h3 {
+  margin-top: 3rem;
+  text-align: center;
+  color: #5b33a1;
+}
+
+@media screen and (min-width: 1024px) {
+  .diary {
+    display: flex;
+    flex-wrap: wrap;
+    padding: .4rem .4rem .4rem .8rem;
+    .day-in-diary {
+      flex: 0 0 49%;
+      margin: .3rem;
+    }
+    .day-1 {
+       order: 1;
+    }
+    .day-2 {
+      order: 3;
+    }
+    .day-3 {
+      order: 5;
+    }
+    .day-4 {
+      order: 2;
+    }
+    .day-5 {
+      order: 4;
+    }
+  }
+}

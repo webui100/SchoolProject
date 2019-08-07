@@ -1,0 +1,46 @@
+
+
+mat-card {
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+  box-shadow: none !important;
+
+  mat-card-title {
+    background-color: #694CB7;
+    padding: 10px;
+    color: white;
+    margin: 0;
+  }
+
+  mat-card-content {
+
+    width: 100%;
+    font-size: 30px;
+    display: flex;
+  }
+
+}
+
+.counting {
+  mat-card-content {
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.container {
+  padding: 10px 10px 0;
+}
+
+.card-container {
+  padding: 0 10px;
+}
+
+.chart-block-container {
+  width: 100%;
+  padding: 0 30px 10px;
+
+}
+

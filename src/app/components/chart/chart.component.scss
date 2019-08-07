@@ -1,0 +1,68 @@
+mat-card {
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+  box-shadow: none !important;
+
+  mat-card-title {
+    background-color: #694CB7;
+    padding: 10px;
+    color: white;
+    margin: 0;
+  }
+
+  mat-card-content {
+
+    width: 100%;
+    font-size: 30px;
+    display: flex;
+  }
+
+}
+
+.counting {
+  mat-card-content {
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.container {
+  padding: 10px 10px 0;
+}
+
+.card-container {
+  padding: 0 10px;
+}
+
+.chart-card {
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.chart-control-panel, .chart-container {
+  padding: 0 10px;
+}
+
+.chart-container {
+  padding: 10px 15px;
+  overflow: hidden;
+}
+
+.chart-control-panel {
+  padding-top: 10px;
+  padding-left: 20px;
+  font-size: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-radio-button {
+  width: 100%;
+  margin-top: 10px;
+}

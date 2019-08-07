@@ -1,0 +1,116 @@
+<div class="main-container">
+    <div class="header mat-elevation-z5">
+        <img src="../../../assets/images/298731-64.png" alt="" width="40px">
+        <div><h3> Список предметів </h3></div>
+    </div>
+  
+    <!-- Filter -->
+    <div class="filter-container">
+      <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
+      </mat-form-field>
+    </div> 
+  
+    <!-- Add new subject -->
+    <div class="accordion">
+      <mat-accordion>
+        <mat-expansion-panel [(expanded)]="expandStatus">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Додати новий предмет
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form [formGroup]="addSubject" (ngSubmit)="submitAdd($event)">
+              <mat-card-content class="mat-card-content">
+                  <mat-form-field class="mat-form-field">
+                    <input 
+                      matInput
+                      placeholder="Назва предмету"
+                      formControlName="subjectName" 
+                      required pattern="[А-ЯІЇЄҐа-яіїєґ()' -]+">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input
+                      matInput
+                      name="subjectDescription"
+                      placeholder="Додаткова інформація"
+                      formControlName="subjectDescription"
+                      pattern="[А-ЯІЇЄҐа-яіїєґ()' -]+">
+                  </mat-form-field>
+                  <mat-card-actions>
+                    <button class="primary-button"
+                      mat-raised-button color="primary" 
+                      type="submit" 
+                      [disabled]="!addSubject.valid">Зберегти предмет
+                    </button>
+                  </mat-card-actions>
+              </mat-card-content>   
+          </form> 
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-container  mat-elevation-z8">
+      <mat-table [dataSource]="subjectsList" matSort>
+          <!-- Name Column -->
+          <ng-container matColumnDef="subjectName">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Назва предмету </mat-header-cell>
+              <mat-cell *matCellDef="let subject"> {{subject.subjectName}} </mat-cell>
+          </ng-container>
+  
+          <!-- Info Column -->
+          <ng-container matColumnDef="subjectDescription">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Додаткова інформація </mat-header-cell>
+              <mat-cell *matCellDef="let subject"> {{subject.subjectDescription}} </mat-cell>
+          </ng-container>
+  
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"
+                  matRipple
+                  class="subject-row"
+                  [cdkDetailRow]="row"
+                  [cdkDetailRowTpl]="tpl"
+                  (click)="createEditForm(row)">
+          </mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    </div>
+  
+    <!-- Edit -->
+    <ng-template #tpl let-subject>
+        <div class="mat-row detail-row" [@detailExpand] style="overflow: hidden">
+            <mat-card class="mat-card">
+                <form [formGroup]="editSubject" (ngSubmit)="submitEdit($event)">
+                    <mat-card-content class="mat-card-content">
+                        <mat-form-field>
+                          <input 
+                            matInput
+                            placeholder="Назва предмету"
+                            formControlName="subjectName"
+                            required pattern="[А-ЯІЇЄҐа-яіїєґ()' -]+">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input
+                            matInput
+                            placeholder="Додаткова інформація"
+                            formControlName="subjectDescription">
+                        </mat-form-field>
+                        <mat-card-actions>
+                          <button 
+                            class="primary-button"
+                            mat-raised-button 
+                            color="primary" 
+                            type="submit" 
+                            [disabled]="!editSubject.valid"
+                            pattern="[А-ЯІЇЄҐа-яіїєґ()' -]+">
+                              Зберегти предмет
+                          </button>
+                        </mat-card-actions>
+                    </mat-card-content>   
+                </form> 
+          </mat-card>   
+        </div>
+    </ng-template>
+  </div>
+  

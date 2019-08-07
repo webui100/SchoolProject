@@ -1,0 +1,29 @@
+<div class="background">
+  <div class="substrate">
+    <div class="form-block">
+      <form [formGroup]="login" (ngSubmit)="onSubmit($event)">
+        <figure>
+          <img src="../../../assets/images/schoolLogo-new.png" alt="Logo" class="logotype">
+        </figure>
+        <h1 class="mat-h1 mat-headline">Вхід в систему</h1>
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Login" formControlName="username"/>
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="off"/>
+            <mat-icon matSuffix>lock</mat-icon>
+          </mat-form-field>
+        </p>
+
+        <div class="button">
+          <button type="submit" mat-flat-button [disabled]="!login.valid">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
