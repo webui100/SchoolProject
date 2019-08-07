@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { TeachersService } from 'src/app/services/teachers.service';
-import { selectTeachers, selectTeachersList } from 'src/app/store/teachers/teachers.selector';
+import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class DailyScheduleComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private teachersObj: TeachersService,
               private storeTeachers: Store<{ teachers }>) {
-    this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachersList));
+    this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachers));
 
               }
 
