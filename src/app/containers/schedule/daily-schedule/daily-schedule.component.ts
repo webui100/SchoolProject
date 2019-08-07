@@ -42,7 +42,8 @@ export class DailyScheduleComponent implements OnInit {
     this.addDailySubjects.emit(this.dailySchedule);
     this.buildDailySchedul();
 
-    this.teachersTemp$.subscribe(res => {
+    this.teachersTemp$.subscribe(response => {
+      const res = response.teachersList;
       if (!res) {
         this.teachersObj.getTeachers();
       }
