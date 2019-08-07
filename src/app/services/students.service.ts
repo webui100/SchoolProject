@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 import {
   getStudentsAction,
@@ -15,7 +15,7 @@ import { NotificationService } from "./notification.service";
 })
 export class StudentsService {
   BASE_URL = environment.APIEndpoint;
-  public subject = new Subject<string | ArrayBuffer>();
+  public observable;
 
   constructor(
     private http: HttpClient,
@@ -41,9 +41,11 @@ export class StudentsService {
   encImage(event) {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
-    reader.onloadend = e => {
-      this.subject.next(reader.result);
-    };
+    this.observable = new Observable(subscriber => {
+      reader.onloadend = e => {
+        subscriber.next(reader.result);
+      };
+    });
   }
   //updates student data
   updateStudentData(data) {

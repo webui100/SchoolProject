@@ -46,7 +46,7 @@ export class AddStudentComponent implements OnInit {
   ) {}
   onFileSelected(event) {
     this.studentsService.encImage(event);
-    this.studentsService.subject.subscribe(res => {
+    this.studentsService.observable.subscribe(res => {
       this.selectedFile = res;
       this.studentAvatar = res;
     });
@@ -80,8 +80,7 @@ export class AddStudentComponent implements OnInit {
       lastname: "",
       patronymic: "",
       email: "",
-      phone: "",
-      avatar: ""
+      phone: ""
     });
   }
 
@@ -104,9 +103,9 @@ export class AddStudentComponent implements OnInit {
       phone: this.addStudentForm.get("phone").value,
       id: 0
     };
-    this.resetValues();
-
     this.studentsService.addStudent(data);
+    this.studentAvatar = "../../../../assets/images/no-user-image.png";
+    this.resetValues();
   }
   ngOnInit() {
     this.studentAvatar = this.studentAvatar
