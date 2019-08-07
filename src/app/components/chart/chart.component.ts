@@ -25,7 +25,7 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.chartObj);
+
   }
 
 }
