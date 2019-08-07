@@ -36,6 +36,7 @@ import {
 export class StudentsComponent implements OnInit {
   dataSource: MatTableDataSource<Student>;
   students$;
+  checkData;
   columnsToDisplay = ["firstname", "lastname", "patronymic"];
 
   expandedElement: Student | null;
@@ -57,25 +58,23 @@ export class StudentsComponent implements OnInit {
   ) {
     this.students$ = this.store.pipe(select(selectStudentsData));
   }
-  loadStudents(){
-    this.studentsService.getStudents(17);
+  loadStudents() {
     this.students$.subscribe(data => {
-      const checkData = data.students
-      this.dataSource = new MatTableDataSource(checkData);
-      if(data!=null){
+      this.checkData = data.students;
+      this.dataSource = new MatTableDataSource(this.checkData);
+      if (data) {
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort; 
+        this.dataSource.sort = this.sort;
       }
     });
+    if (!this.checkData) {
+      this.studentsService.getStudents(17);
+    }
   }
   ngOnInit() {
-    if(this.students$){
-      this.loadStudents();
-    }
-
-    
+    this.loadStudents();
   }
-  
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
