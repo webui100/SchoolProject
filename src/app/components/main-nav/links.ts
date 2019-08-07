@@ -6,8 +6,13 @@ const links = [
   },
   {
     path: 'pupils',
-    title: 'Учні / Класи',
+    title: 'Учні',
     icon: 'people'
+  },
+  {
+    path: 'classes',
+    title: 'Класи',
+    icon: 'label'
   },
   {
     path: 'teachers',
