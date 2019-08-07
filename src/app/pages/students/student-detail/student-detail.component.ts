@@ -3,17 +3,28 @@ import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { StudentsService } from "../../../services/students.service";
 import { Student } from "../../../models/students";
 import { ValidationService } from "../../../services/validation.service";
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from "@angular/material-moment-adapter";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from "@angular/material/core";
 @Component({
   selector: "webui-student-detail",
   templateUrl: "./student-detail.component.html",
   styleUrls: ["./student-detail.component.scss"],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'uk-UK'},
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ],
+    { provide: MAT_DATE_LOCALE, useValue: "uk-UK" },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+  ]
 })
 export class StudentDetailComponent implements OnInit {
   @Input() student: Student;
@@ -53,7 +64,7 @@ export class StudentDetailComponent implements OnInit {
   //Event hendler for encrypt img to BASE64
   onFileSelected(event) {
     this.studentsService.encImage(event);
-    this.studentsService.subject.subscribe(res => {
+    this.studentsService.observable.subscribe(res => {
       this.selectedFile = res;
       this.studentAvatar = res;
     });
@@ -90,7 +101,9 @@ export class StudentDetailComponent implements OnInit {
       email: this.student.email,
       phone: this.student.phone
     });
-    this.studentAvatar = this.student.avatar?this.student.avatar:  '../../../../assets/images/no-user-image.png';
+    this.studentAvatar = this.student.avatar
+      ? this.student.avatar
+      : "../../../../assets/images/no-user-image.png";
   }
 
   ngOnInit() {
