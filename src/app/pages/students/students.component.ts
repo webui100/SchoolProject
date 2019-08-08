@@ -1,11 +1,11 @@
-import { Student } from '../../models/students';
-import { StudentsService } from '../../services/students.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Store, select } from '@ngrx/store';
-import { selectStudentsData } from '../../store/students/students.selector';
+import { Student } from "../../models/students";
+import { StudentsService } from "../../services/students.service";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { Store, select } from "@ngrx/store";
+import { selectStudentsData } from "../../store/students/students.selector";
 
 import {
   animate,
@@ -13,22 +13,22 @@ import {
   style,
   transition,
   trigger
-} from '@angular/animations';
+} from "@angular/animations";
 
 /**
  * @title Table with expandable rows
  */
 @Component({
-  selector: 'webui-students',
-  templateUrl: './students.component.html',
-  styleUrls: ['./students.component.scss'],
+  selector: "webui-students",
+  templateUrl: "./students.component.html",
+  styleUrls: ["./students.component.scss"],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
+    trigger("detailExpand", [
+      state("collapsed", style({ height: "0px", minHeight: "0" })),
+      state("expanded", style({ height: "*" })),
       transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+        "expanded <=> collapsed",
+        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
       )
     ])
   ]
@@ -36,25 +36,19 @@ import {
 export class StudentsComponent implements OnInit {
   dataSource: MatTableDataSource<Student>;
   students$;
-<<<<<<< HEAD
-  checkData;
   columnsToDisplay = ["firstname", "lastname", "patronymic"];
-
-=======
-  columnsToDisplay = ['firstname', 'lastname', 'patronymic'];
   checkData;
->>>>>>> 9b2d64dcefc6c4c88c9556ffdca4f02b7ac6aad0
   expandedElement: Student | null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   dataHeader(header) {
     switch (header) {
-      case 'firstname':
-        return 'Ім\'я';
-      case 'lastname':
-        return 'Прізвище';
-      case 'patronymic':
-        return 'По-батькові';
+      case "firstname":
+        return "Ім'я";
+      case "lastname":
+        return "Прізвище";
+      case "patronymic":
+        return "По-батькові";
     }
   }
   constructor(
@@ -67,7 +61,7 @@ export class StudentsComponent implements OnInit {
     this.students$.subscribe(data => {
       this.checkData = data.students;
       this.dataSource = new MatTableDataSource(this.checkData);
-      if (data) {
+      if (this.checkData) {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
