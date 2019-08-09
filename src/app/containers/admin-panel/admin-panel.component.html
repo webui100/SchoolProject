@@ -21,7 +21,7 @@
       </div>
       </div>
     <div class="chart-block-container">
-    <webui-chart [chartObj]="chartObject"
+    <webui-chart [chartObj]="chart$ | async"
                  (emitChartType)="setChartType($event)"
                  (emitChartClass)="setClassChart($event)">
     </webui-chart>

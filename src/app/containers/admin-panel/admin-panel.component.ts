@@ -2,15 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AdminPanelService} from '../../services/admin-panel.service';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
+import {Chart} from '../../models/chart.model';
 import {
-  chartColorsSelector,
-  chartDataSelector,
-  chartLabelsSelector, chartLegendSelector,
-  chartOptionsSelector,
-  chartTypeSelector
+  chartSelector
 } from 'src/app/store/chart/chart.selectors';
 import randomC from 'randomcolor';
-import ChartObject from '../../models/chartObject.model';
 
 @Component({
   selector: 'webui-admin-panel',
@@ -25,13 +21,8 @@ export class AdminPanelComponent implements OnInit {
   subjects$: Observable<number>;
   students$: Observable<number>;
   classes$: Observable<number>;
-  data$: Observable<Array<number>>;
-  labels$: Observable<Array<string>>;
-  colors$: Observable<Array<object>>;
-  chartType$: Observable<string>;
-  options$: Observable<object>;
-  legend$: Observable<boolean>;
-  chartObject: ChartObject;
+
+  chart$: Observable<Chart>;
 
   static getRandomColor(): string {
     return randomC({
@@ -76,20 +67,7 @@ export class AdminPanelComponent implements OnInit {
 
     this.setClassChart('11');
 
-    this.colors$ = this.store.select(chartColorsSelector);
-    this.data$ = this.store.select(chartDataSelector);
-    this.labels$ = this.store.select(chartLabelsSelector);
-    this.options$ = this.store.select(chartOptionsSelector);
-    this.chartType$ = this.store.select(chartTypeSelector);
-    this.legend$ = this.store.select(chartLegendSelector);
-    this.chartObject = {
-      colors$: this.colors$,
-      data$: this.data$,
-      labels$: this.labels$,
-      options$: this.options$,
-      chartType$: this.chartType$,
-      legend$: this.legend$
-    };
+    this.chart$ = this.store.select(chartSelector);
 
   }
 
