@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import ChartObject from '../../models/chartObject.model';
 import {Chart} from '../../models/chart.model';
 
 @Component({
