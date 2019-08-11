@@ -75,8 +75,8 @@ export class ScheduleComponent implements OnInit {
       }
     });
 
-    // this.schedule.getSchedule(16);
-    
+    // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
+
     if (!this.years.length) {
       for (let i = 0; i <= 3; i++) {
         this.years.push((this.currentYear + i));
@@ -91,7 +91,7 @@ export class ScheduleComponent implements OnInit {
     this.filteredClasses = this.scheduleForm.get('class').valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filterClasses(value, this.classes))
+        map(value => this._filterClasses(value.toString(), this.classes))
       );
     this.filteredYears = this.scheduleForm.get('year').valueChanges
       .pipe(
@@ -100,9 +100,9 @@ export class ScheduleComponent implements OnInit {
       );
   }
 
-  // displayFn(user?: string): string | undefined {
-  //   return user ? user : undefined;
-  // }
+  displayFn(classItem?: any): string | undefined {
+    return classItem ? classItem.className : undefined;
+  }
 
   private _filter(value: string, arr: any[]): string[] {
     const filterValue = value.toLowerCase();

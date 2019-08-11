@@ -17,9 +17,13 @@ export class DailyScheduleComponent implements OnInit {
   secondGroupTeachersVisible: boolean[] = [];
 
   teachers: object[] = [];
+  subjects: object[] = [];
   teachersTemp$: any;
   subjectsTemp$: any;
-  filteredTeachers: Observable<string[]>;
+  filteredTeachersFirstGroup: Observable<string[]>;
+  filteredTeachersSecondGroup: Observable<string[]>;
+  filteredSubjectsFirstGroup: Observable<string[]>;
+  filteredSubjectsSecondGroup: Observable<string[]>;
 
   lessonsMaxPerDay = 8;
 
@@ -35,8 +39,6 @@ export class DailyScheduleComponent implements OnInit {
   ngOnInit() {
     this.buildDailySchedule();
 
-    // this.subjectsTemp$.subscribe();
-
     this.teachersTemp$.subscribe(response => {
       const res = response.teachersList;
       for (const key in res) {
@@ -46,6 +48,14 @@ export class DailyScheduleComponent implements OnInit {
                 fullName: `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`,
                 id: teacher.id
               });
+        }
+      }
+    });
+
+    this.subjectsTemp$.subscribe(res => {
+      for (const key in res) {
+        if (res.hasOwnProperty(key)) {
+          this.subjects.push(res[key]);
         }
       }
     });
@@ -63,16 +73,21 @@ export class DailyScheduleComponent implements OnInit {
       firstGroupTeacher: this.formBuilder.control(''),
       secondGroupTeacher: this.formBuilder.control('')
     }));
+
+    this.setSubjectAutocompleteFirstGroup(0);
   }
 
   addLesson(lessonNumber) {
-    if (lessonNumber < (this.lessonsMaxPerDay - 1) && this.dailySchedule.length === lessonNumber + 1) {
+    if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
+        this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
         firstGroup: this.formBuilder.control(''),
         secondGroup: this.formBuilder.control(''),
         firstGroupTeacher: this.formBuilder.control(''),
         secondGroupTeacher: this.formBuilder.control('')
       }));
+
+      this.setSubjectAutocompleteFirstGroup(lessonNumber + 1);
     }
   }
 
@@ -81,13 +96,17 @@ export class DailyScheduleComponent implements OnInit {
     this.removeSecondGroup(lessonNumber);
     this.removeTeacher(lessonNumber, 'first');
     this.removeTeacher(lessonNumber, 'second');
-    if (lessonNumber === (this.lessonsMaxPerDay - 1)) {
-      this.addLesson(lessonNumber - 1);
+    if (lessonNumber === (this.lessonsMaxPerDay - 1) ||
+        (lessonNumber < (this.lessonsMaxPerDay - 1) &&
+        this.dailySchedule.length === this.lessonsMaxPerDay - 1)) {
+      this.addLesson(this.lessonsMaxPerDay - 2);
     }
   }
 
   addSecondGroup(lessonNumber: number): void {
     this.secondGroupVisible[lessonNumber] = true;
+
+    this.setSubjectAutocompleteSecondGroup(lessonNumber);
   }
 
   removeSecondGroup(lessonNumber) { // онулювати значення "предмет" 2-ї групи
@@ -95,18 +114,14 @@ export class DailyScheduleComponent implements OnInit {
   }
 
   addTeacherToLesson(lessonNumber, group: string) {
-    if (group === 'first') {this.firstGroupTeachersVisible[lessonNumber] = true; }
-    if (group === 'second') {this.secondGroupTeachersVisible[lessonNumber] = true; }
-    // this.dailySchedule.value[lessonNumber].firstGroupTeacher.valueChanges;
-
-    // this.filteredTeachers = this.dailySchedule.value[lessonNumber].get('firstGroupTeacher').valueChanges
-    //   .pipe(
-    //     startWith(''),
-    //     map(value => {
-    //       console.log(value);
-    //       this._filter(value, this.teachers);
-    //     })
-    //   ).subscribe();
+    if (group === 'first') {
+      this.firstGroupTeachersVisible[lessonNumber] = true;
+      this.setTeacherAutocompleteFirstGroup(lessonNumber);
+    }
+    if (group === 'second') {
+      this.secondGroupTeachersVisible[lessonNumber] = true;
+      this.setTeacherAutocompleteSecondGroup(lessonNumber);
+    }
   }
 
   removeTeacher(lessonNumber, group: string) { // онулювати значення "вчитель"
@@ -114,12 +129,53 @@ export class DailyScheduleComponent implements OnInit {
     if (group === 'second') {this.secondGroupTeachersVisible[lessonNumber] = false; }
   }
 
-  // private _filter(value: string, arr: any[]): string[] {
-  //   const filterValue = value.toLowerCase();
-  //   if (typeof (arr[0]) === 'number') {
-  //     arr.map((item, index) => arr[index] = item.toString());
-  //   }
-  //   return arr.filter(option => option.toLowerCase().includes(filterValue));
-  // }
+  setTeacherAutocompleteFirstGroup(lessonNumber: number) {
+    this.filteredTeachersFirstGroup = this.dailySchedule.controls[lessonNumber].get('firstGroupTeacher').valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterTeachers(value.toString(), this.teachers))
+    );
+  }
 
+  setTeacherAutocompleteSecondGroup(lessonNumber: number) {
+    this.filteredTeachersSecondGroup = this.dailySchedule.controls[lessonNumber].get('secondGroupTeacher').valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterTeachers(value.toString(), this.teachers))
+    );
+  }
+
+  private _filterTeachers(value: any, arr: any[]): string[] {
+    const filterValue = value.toLowerCase();
+    return arr.filter(option => option.fullName.toLowerCase().includes(filterValue));
+  }
+
+  displayTeacherFn(teacher?: any): string | undefined {
+    return teacher ? teacher.fullName : undefined;
+  }
+
+  setSubjectAutocompleteFirstGroup(lessonNumber: number) {
+    this.filteredSubjectsFirstGroup = this.dailySchedule.controls[lessonNumber].get('firstGroup').valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterSubjects(value.toString(), this.subjects))
+    );
+  }
+
+  setSubjectAutocompleteSecondGroup(lessonNumber: number) {
+    this.filteredSubjectsSecondGroup = this.dailySchedule.controls[lessonNumber].get('secondGroup').valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterSubjects(value.toString(), this.subjects))
+    );
+  }
+
+  private _filterSubjects(value: any, arr: any[]): string[] {
+    const filterValue = value.toLowerCase();
+    return arr.filter(option => option.subjectName.toLowerCase().includes(filterValue));
+  }
+
+  displaySubjectFn(subject?: any): string | undefined {
+    return subject ? subject.subjectName : undefined;
+  }
 }

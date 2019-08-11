@@ -10,8 +10,8 @@
   </mat-form-field>
   <mat-form-field>
     <input type="text" placeholder="Клас" matInput [formControl]="this.scheduleForm.get('class')" [matAutocomplete]="classA">
-    <mat-autocomplete #classA="matAutocomplete">
-      <mat-option *ngFor="let class of filteredClasses | async" [value]="class.className">
+    <mat-autocomplete #classA="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
         {{class.className}}
       </mat-option>
     </mat-autocomplete>
@@ -24,7 +24,6 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-
 
   <mat-accordion>
     <mat-expansion-panel *ngFor="let day of daysOfWeek; let i=index">
