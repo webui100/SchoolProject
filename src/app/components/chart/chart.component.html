@@ -7,7 +7,7 @@
           <div class="chart-control-panel">
             <mat-form-field>
               <mat-label>Виберіть потік</mat-label>
-              <mat-select  (selectionChange)="setChartClass($event.value)" [value]="11">
+              <mat-select (selectionChange)="setChartClass($event.value)" [value]="11">
                 <mat-option
                   *ngFor='let num of listOfClasses'
                   [value]="num">

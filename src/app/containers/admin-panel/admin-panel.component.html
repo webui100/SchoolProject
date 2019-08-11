@@ -1,40 +1,16 @@
 <div class="container">
   <div class="myrow">
-    <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-      <div class="card-container">
-        <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: teachers$, title: 'Вчителі'}"></ng-container>
-      </div>
-    </div>
-    <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-      <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: subjects$, title: 'Предмети'}"></ng-container>
-      </div>
-    </div>
-    <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-      <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: classes$, title: 'Класи'}"></ng-container>
-      </div>
-      </div>
-    <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-      <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: students$, title: 'Учні'}"></ng-container>
-      </div>
-      </div>
+    <webui-count-bar [quantityObj]="quantityObj$ | async"></webui-count-bar>
     <div class="chart-block-container">
-    <webui-chart [chartObj]="chart$ | async"
-                 (emitChartType)="setChartType($event)"
-                 (emitChartClass)="setClassChart($event)">
-    </webui-chart>
+      <webui-chart [chartObj]="chart$ | async"
+                   (emitChartType)="chartTypeListener$.next($event)"
+                   (emitChartClass)="setClassChart($event)">
+      </webui-chart>
     </div>
   </div>
 </div>
 
 
-<ng-template #card let-obs="obs" let-title="title">
-    <mat-card class="counting">
-      <mat-card-title>{{title}}</mat-card-title>
-      <mat-card-content>{{obs | async}}</mat-card-content>
-    </mat-card>
-</ng-template>
+
 
 
