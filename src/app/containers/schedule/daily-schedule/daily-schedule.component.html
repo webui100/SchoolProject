@@ -1,93 +1,89 @@
-<!-- {{dayOfWeek}} -->
-<form [formGroup]="formDailySchedule">
-  <fieldset formArrayName="dailySchedule">
-    <legend>{{legendDay}}</legend>
-    <div *ngFor="let lesson of formDailySchedule.get('dailySchedule').controls; let lessonNumber=index">
-      <span>{{ lessonNumber + 1 }}. </span>
+<form [formGroup]="dailySchedule">
+  <legend>{{legendDay}}</legend>
+  <div *ngFor="let lesson of dailySchedule.controls; let lessonNumber=index">
+    <span>{{ lessonNumber + 1 }}. </span>
+    <div class="lesson-field">
+      <mat-form-field>
+        <mat-select [formControl]="lesson.get('firstGroup')" (selectionChange)="addLesson(lessonNumber)"
+          placeholder="Предмет">
+          <mat-option *ngFor="let subject of subjectsTemp$ | async" [value]="subject">
+            {{ subject.subjectName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div class="lesson-field">
+        <mat-form-field *ngIf="firstGroupTeachersVisible[lessonNumber]">
+          <mat-select [formControl]="lesson.get('firstGroupTeacher')" placeholder="Вчитель">
+            <mat-option *ngFor="let teacher of teachers" [value]="teacher">
+              {{ teacher.fullName }}
+            </mat-option>
+          </mat-select>
+          <!-- <input type="text" placeholder="Вчитель" matInput [formControl]="lesson.controls.firstGroupTeacher" [matAutocomplete]="teacherA">
+              <mat-autocomplete #teacherA="matAutocomplete">
+                   [displayWith]="displayFn" 
+                <mat-option *ngFor="let teacher of filteredTeachers | async" [value]="teacher">
+                  {{teacher}}
+                </mat-option>
+              </mat-autocomplete> -->
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addTeacherToLesson(lessonNumber, 'first')"
+          *ngIf="lesson.get('firstGroup').value && !firstGroupTeachersVisible[lessonNumber]">
+          <mat-icon class="add">person_add</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="removeTeacher(lessonNumber, 'first')"
+          *ngIf="firstGroupTeachersVisible[lessonNumber]">
+          <mat-icon class="remove">person_add_disabled</mat-icon>
+        </button>
+      </div>
+      <div class="lesson-field" *ngIf="secondGroupVisible[lessonNumber]">
         <mat-form-field>
-          <mat-select [formControl]="lesson.controls.firstGroup" (selectionChange)="addLesson(lessonNumber)"
-            placeholder="Предмет">
-            <mat-option *ngFor="let subject of subjects" [value]="subject">
+          <mat-select [formControl]="lesson.get('secondGroup')" placeholder="Предмет">
+            <mat-option *ngFor="let subject of subjectsTemp$ | async" [value]="subject">
               {{ subject.subjectName }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <div class="lesson-field">
-          <mat-form-field *ngIf="firstGroupTeachersVisible[lessonNumber]">
-            <mat-select [formControl]="lesson.controls.firstGroupTeacher" placeholder="Вчитель">
-              <mat-option *ngFor="let teacher of teachers" [value]="teacher">
-                {{ teacher.fullName }}
-              </mat-option>
-            </mat-select>
-            <!-- <input type="text" placeholder="Вчитель" matInput [formControl]="lesson.controls.firstGroupTeacher" [matAutocomplete]="teacherA">
+        <mat-form-field *ngIf="secondGroupTeachersVisible[lessonNumber]">
+          <mat-select [formControl]="lesson.get('secondGroupTeacher')" placeholder="Вчитель">
+            <mat-option *ngFor="let teacher of teachers" [value]="teacher">
+              {{ teacher.fullName }}
+            </mat-option>
+          </mat-select>
+          <!-- <input type="text" placeholder="Вчитель" matInput [formControl]="lesson.controls.firstGroupTeacher" [matAutocomplete]="teacherA">
               <mat-autocomplete #teacherA="matAutocomplete">
                    [displayWith]="displayFn" 
                 <mat-option *ngFor="let teacher of filteredTeachers | async" [value]="teacher">
                   {{teacher}}
                 </mat-option>
               </mat-autocomplete> -->
-          </mat-form-field>
-          <button mat-icon-button type="button" (click)="addTeacherToLesson(lessonNumber, 'first')"
-            *ngIf="lesson.controls.firstGroup.value && !firstGroupTeachersVisible[lessonNumber]">
-            <mat-icon class="add">person_add</mat-icon>
-          </button>
-          <button mat-icon-button type="button" (click)="removeTeacher(lessonNumber, 'first')"
-            *ngIf="firstGroupTeachersVisible[lessonNumber]">
-            <mat-icon class="remove">person_add_disabled</mat-icon>
-          </button>
-        </div>
-        <div class="lesson-field" *ngIf="secondGroupVisible[lessonNumber]">
-          <mat-form-field>
-            <mat-select [formControl]="lesson.controls.secondGroup" placeholder="Предмет">
-              <mat-option *ngFor="let subject of subjects" [value]="subject">
-                {{ subject.subjectName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field *ngIf="secondGroupTeachersVisible[lessonNumber]">
-            <mat-select [formControl]="lesson.controls.secondGroupTeacher" placeholder="Вчитель">
-              <mat-option *ngFor="let teacher of teachers" [value]="teacher">
-                {{ teacher.fullName }}
-              </mat-option>
-            </mat-select>
-            <!-- <input type="text" placeholder="Вчитель" matInput [formControl]="lesson.controls.firstGroupTeacher" [matAutocomplete]="teacherA">
-              <mat-autocomplete #teacherA="matAutocomplete">
-                   [displayWith]="displayFn" 
-                <mat-option *ngFor="let teacher of filteredTeachers | async" [value]="teacher">
-                  {{teacher}}
-                </mat-option>
-              </mat-autocomplete> -->
-          </mat-form-field>
-          <button mat-icon-button type="button" (click)="addTeacherToLesson(lessonNumber, 'second')"
-            *ngIf="lesson.controls.secondGroup.value && !secondGroupTeachersVisible[lessonNumber]">
-            <mat-icon class="add">person_add</mat-icon>
-          </button>
-          <button mat-icon-button type="button" (click)="removeTeacher(lessonNumber, 'second')"
-            *ngIf="secondGroupTeachersVisible[lessonNumber]">
-            <mat-icon class="remove">person_add_disabled</mat-icon>
-          </button>
-        </div>
-
-        <button mat-icon-button type="button" (click)="addSecondGroup(lessonNumber)"
-          *ngIf="!secondGroupVisible[lessonNumber] && lesson.controls.firstGroup.value">
-          <mat-icon class="add">add_box</mat-icon>
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addTeacherToLesson(lessonNumber, 'second')"
+          *ngIf="lesson.get('secondGroup').value && !secondGroupTeachersVisible[lessonNumber]">
+          <mat-icon class="add">person_add</mat-icon>
         </button>
-        <button mat-icon-button type="button" (click)="removeSecondGroup(lessonNumber)"
-          *ngIf="secondGroupVisible[lessonNumber]">
-          <mat-icon class="remove">delete</mat-icon>
+        <button mat-icon-button type="button" (click)="removeTeacher(lessonNumber, 'second')"
+          *ngIf="secondGroupTeachersVisible[lessonNumber]">
+          <mat-icon class="remove">person_add_disabled</mat-icon>
         </button>
       </div>
 
-      <div class="lesson-field">
-        <button mat-icon-button type="button" (click)="removeLesson(lessonNumber)" *ngIf="(lessonNumber !== 0 && 
-                lessonNumber !== (formDailySchedule.get('dailySchedule').controls.length - 1)) ||
-                lessonNumber === 7 && formDailySchedule.get('dailySchedule').value[lessonNumber].firstGroup">
-          <mat-icon class="remove">remove</mat-icon>
-        </button>
-      </div>
+      <button mat-icon-button type="button" (click)="addSecondGroup(lessonNumber)"
+        *ngIf="!secondGroupVisible[lessonNumber] && lesson.get('firstGroup').value">
+        <mat-icon class="add">add_box</mat-icon>
+      </button>
+      <button mat-icon-button type="button" (click)="removeSecondGroup(lessonNumber)"
+        *ngIf="secondGroupVisible[lessonNumber]">
+        <mat-icon class="remove">delete</mat-icon>
+      </button>
     </div>
-  </fieldset>
+
+    <div class="lesson-field">
+      <button mat-icon-button type="button" (click)="removeLesson(lessonNumber)" *ngIf="(lessonNumber !== 0 && 
+                lessonNumber !== (dailySchedule.controls.length - 1)) ||
+                lessonNumber === 7 && dailySchedule.value[lessonNumber].firstGroup">
+        <mat-icon class="remove">remove</mat-icon>
+      </button>
+    </div>
+  </div>
 </form>

@@ -1,8 +1,7 @@
 <h1>Розклад уроків</h1>
-
 <form>
   <mat-form-field>
-    <input type="text" placeholder="Семестр" matInput [formControl]="term" [matAutocomplete]="termA">
+    <input type="text" placeholder="Семестр" matInput [formControl]="this.scheduleForm.get('term')" [matAutocomplete]="termA">
     <mat-autocomplete #termA="matAutocomplete">
       <mat-option *ngFor="let term of filteredTerm | async" [value]="term">
         {{term}}
@@ -10,15 +9,15 @@
     </mat-autocomplete>
   </mat-form-field>
   <mat-form-field>
-    <input type="text" placeholder="Клас" matInput [formControl]="chosenClass" [matAutocomplete]="classA">
+    <input type="text" placeholder="Клас" matInput [formControl]="this.scheduleForm.get('class')" [matAutocomplete]="classA">
     <mat-autocomplete #classA="matAutocomplete">
-      <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
-        {{class}}
+      <mat-option *ngFor="let class of filteredClasses | async" [value]="class.className">
+        {{class.className}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
   <mat-form-field>
-    <input type="text" placeholder="Навчальний рік" matInput [formControl]="year" [matAutocomplete]="yearA">
+    <input type="text" placeholder="Навчальний рік" matInput [formControl]="this.scheduleForm.get('year')" [matAutocomplete]="yearA">
     <mat-autocomplete #yearA="matAutocomplete">
       <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
         {{year}} - {{+year + 1}}
@@ -39,53 +38,9 @@
       </mat-expansion-panel-header>
 
       <webui-daily-schedule 
-        *ngFor="let lesson of day.lessons"
-        [lesson]="lesson"
-        [dayOfWeek]="day.name"
-        [subjects]="subjects" 
-      >
+        [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)">
       </webui-daily-schedule>
-
-      <!-- <table mat-table [dataSource]="dataSourse" class="mat-elevation-z8">
-      <ng-container matColumnDef="col">
-        <th mat-header-cell *matHeaderCellDef> Col </th>
-        <td mat-cell *matCellDef="let data">
-          <mat-form-field>
-            <mat-label>{{data}}</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let lesson of lessons" [value]="lesson">
-                {{lesson}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="dataHeaders"></tr>
-      <tr mat-row *matRowDef="let row; columns: dataHeaders;"></tr>
-    </table> -->
-
-
-      <!-- <mat-form-field>
-      <input matInput placeholder="First name">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Age">
-    </mat-form-field> -->
     </mat-expansion-panel>
-
-    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel> -->
   </mat-accordion>
 
   <button type="submit" (click)="onSubmit()" mat-raised-button>Submit</button>
