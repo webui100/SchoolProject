@@ -4,7 +4,8 @@ import {Observable, Subject, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {Chart} from '../../models/chart.model';
 import {
-  chartSelector, getStudentsFromClass,
+  chartSelector,
+  getStudentsFromClass,
   selectQuantityTSC,
   selectActiveClasses
 } from 'src/app/store/chart/chart.selectors';
