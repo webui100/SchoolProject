@@ -1,16 +1,48 @@
 import { State as AppState } from '../index';
-import { createSelector } from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
+import ClassModel from '../../models/schoolclass.model';
+
 
 export const chartSelector = (state: AppState) => state.chart;
 
-export const chartDataSelector = (state: AppState) => state.chart.chart.data;
+export const selectTeachers = (state: AppState) => state.teachers.teachersList;
+export const selectSubjects = (state: AppState) => state.subjects.data;
+export const selectActiveClasses = (state: AppState) => {
+  if (state.classes.classesList) {
+    return state.classes.classesList.filter((item: ClassModel) => item.isActive !== false);
+  } else {
+    return [];
+  }
+};
 
-export const chartTypeSelector = (state: AppState) => state.chart.chart.type;
+export const selectQuantityTSC = createSelector(
+  selectActiveClasses,
+  selectSubjects,
+  selectTeachers,
+  (classes, subjects, teachers) => {
+    return {
+      classes: classes ? classes.length : null,
+      subjects: subjects ? subjects.length : null,
+      teachers: teachers ? teachers.length : null,
+      students: classes ? classes.reduce((acc, item: ClassModel) => acc + item.numOfStudents, 0) : null
+    };
+  }
+);
 
-export const chartLabelsSelector = (state: AppState) => state.chart.chart.labels;
+export const getStudentsFromClass = createSelector(
+  selectActiveClasses,
+  (classes, props) => {
+    const regex = new RegExp(`^${props.className}[-(а-я]`, 'i');
+    console.log(classes, regex);
+    return classes
+      .filter((value) => regex.test(value.className))
+      .reduce((acc, value: ClassModel) => {
+      acc.push({
+        data: [value.numOfStudents],
+        label: value.className
+      });
+      return acc;
+    }, []);
+  }
+);
 
-export const chartColorsSelector = (state: AppState) => state.chart.chart.colors;
-
-export const chartOptionsSelector = (state: AppState) => state.chart.chart.options;
-
-export const chartLegendSelector = (state: AppState) => state.chart.chart.legend;

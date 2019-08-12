@@ -7,7 +7,7 @@
           <div class="chart-control-panel">
             <mat-form-field>
               <mat-label>Виберіть потік</mat-label>
-              <mat-select  (selectionChange)="setChartClass($event.value)" [value]="11">
+              <mat-select (selectionChange)="setChartClass($event.value)" [value]="11">
                 <mat-option
                   *ngFor='let num of listOfClasses'
                   [value]="num">
@@ -26,12 +26,12 @@
 
           <div class="chart-container">
             <canvas baseChart
-                    [data]="chartObj.data$ | async"
-                    [labels]="chartObj.labels$ | async"
-                    [options]="chartObj.options$ | async"
-                    [legend]="chartObj.legend$ | async"
-                    [chartType]="chartObj.chartType$ | async"
-                    [colors]="chartObj.colors$ | async"></canvas>
+                    [data]="chartObj.data"
+                    [labels]="chartObj.labels"
+                    [options]="chartObj.options"
+                    [legend]="chartObj.legend"
+                    [chartType]="chartObj.type"
+                    [colors]="chartObj.colors"></canvas>
           </div>
         </div>
       </div>
