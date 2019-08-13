@@ -1,8 +1,12 @@
 <div class="myrow w-100">
-  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.teachers, title: 'Вчителі'}"></ng-container>
-  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.subjects, title: 'Предмети'}"></ng-container>
-  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.classes, title: 'Класи'}"></ng-container>
-  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.students, title: 'Учні'}"></ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.teachers, title: 'Вчителі'}">
+  </ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.subjects, title: 'Предмети'}">
+  </ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.classes, title: 'Класи'}">
+  </ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.students, title: 'Учні'}">
+  </ng-container>
 </div>
 
 <ng-template #card let-obs="obs" let-title="title">
