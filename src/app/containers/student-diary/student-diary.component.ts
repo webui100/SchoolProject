@@ -3,11 +3,12 @@ import { Store, select } from '@ngrx/store';
 import { DateAdapter } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { format, addDays, subDays, getDate, getDay, setDate } from 'date-fns';
+import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
 import { StudentDiaryService } from '../../services/student-diary.service';
 import { selectDiary } from '../../store/diary/diary.selectors';
-import { Diary } from '../../store/diary/diary.reducer';
+import { Diary } from '../../models/diary.model';
+
 
 @Component({
   selector: 'webui-student-diary',
@@ -17,7 +18,7 @@ import { Diary } from '../../store/diary/diary.reducer';
 })
 export class StudentDiaryComponent implements OnInit {
   diary?: Diary;
-  dateValue = StudentDiaryComponent.getStartOfWeek();
+  dateValue = this.getStartOfWeek();
   weekDays: Date[];
   dayNumbers: number[];
   showDiary: boolean;
@@ -33,7 +34,7 @@ export class StudentDiaryComponent implements OnInit {
     });
   }
 
-  static getStartOfWeek() {
+  getStartOfWeek() {
     const today = new Date();
     const weekDaysPassed = getDay(today) - 1;
     return setDate(today, getDate(today) - weekDaysPassed);
@@ -48,12 +49,7 @@ export class StudentDiaryComponent implements OnInit {
   }
 
   fetchDiary() {
-    const date = this.dateValue;
-    const formattedDate = format(
-      new Date(date),
-      'YYYY-MM-DD'
-    );
-    this.studentDiary.fetchStudentDiary(formattedDate);
+    this.studentDiary.fetchStudentDiary(this.dateValue);
     this.setWeekDays();
   }
 
@@ -75,7 +71,7 @@ export class StudentDiaryComponent implements OnInit {
   }
 
   selectCurrentWeek() {
-    this.dateValue = StudentDiaryComponent.getStartOfWeek();
+    this.dateValue = this.getStartOfWeek();
     this.fetchDiary();
   }
 
@@ -86,5 +82,9 @@ export class StudentDiaryComponent implements OnInit {
   dateFilter(date) {
     const day = date.getDay();
     return day === 1;
+  }
+
+  downloadFile(lessonId) {
+    this.studentDiary.fetchHomeworkFile(lessonId);
   }
 }

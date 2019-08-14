@@ -14,7 +14,7 @@
   .day-in-diary {
     margin: .7rem 0;
     mat-card {
-       padding: 0;
+      padding: 0;
       mat-card-title {
         padding: .8rem 0 0 .8rem;
       }
@@ -30,6 +30,12 @@
           padding: .5rem;
           background: #e2e2e2;
           text-align: center;
+          mat-icon {
+            vertical-align: middle;
+            margin: -1.1rem 0 -.5rem .5rem;
+            font-size: 28px;
+            cursor: pointer;
+          }
         }
       }
     }
@@ -44,15 +50,15 @@ h3 {
 
 @media screen and (min-width: 1024px) {
   .diary {
-    display: flex;
-    flex-wrap: wrap;
-    padding: .4rem .4rem .4rem .8rem;
+    column-count: 2;
+    padding: .4rem .4rem 2rem .8rem;
     .day-in-diary {
       flex: 0 0 49%;
-      margin: .3rem;
+      break-inside: avoid;
+      margin: .3rem .3rem 1.5rem .1rem;
     }
     .day-1 {
-       order: 1;
+      order: 1;
     }
     .day-2 {
       order: 3;
