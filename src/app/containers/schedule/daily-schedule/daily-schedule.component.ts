@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { Store, select } from '@ngrx/store';
@@ -11,7 +11,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './daily-schedule.component.html',
   styleUrls: ['./daily-schedule.component.scss']
 })
-export class DailyScheduleComponent implements OnInit {
+export class DailyScheduleComponent implements OnInit, OnDestroy {
   secondGroupVisible: boolean[] = [];
   firstGroupTeachersVisible: boolean[] = [];
   secondGroupTeachersVisible: boolean[] = [];
@@ -20,6 +20,8 @@ export class DailyScheduleComponent implements OnInit {
   subjects: object[] = [];
   teachersTemp$: any;
   subjectsTemp$: any;
+  subjectsSubscription;
+  teachersSubscription;
   filteredTeachersFirstGroup: Observable<string[]>;
   filteredTeachersSecondGroup: Observable<string[]>;
   filteredSubjectsFirstGroup: Observable<string[]>;
@@ -28,31 +30,32 @@ export class DailyScheduleComponent implements OnInit {
   lessonsMaxPerDay = 8;
 
   @Input() public dailySchedule: FormArray;
+  @Input() public dayName: string;
 
   constructor(private formBuilder: FormBuilder,
-              private storeSubjects: Store<{ subjects }>,
-              private storeTeachers: Store<{ teachers }>) {
+    private storeSubjects: Store<{ subjects }>,
+    private storeTeachers: Store<{ teachers }>) {
     this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachers));
     this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
-              }
+  }
 
   ngOnInit() {
     this.buildDailySchedule();
 
-    this.teachersTemp$.subscribe(response => {
+    this.teachersSubscription = this.teachersTemp$.subscribe(response => {
       const res = response.teachersList;
       for (const key in res) {
         if (res.hasOwnProperty(key)) {
           const teacher = res[key];
           this.teachers.push({
-                fullName: `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`,
-                id: teacher.id
-              });
+            fullName: `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`,
+            id: teacher.id
+          });
         }
       }
     });
 
-    this.subjectsTemp$.subscribe(res => {
+    this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
       for (const key in res) {
         if (res.hasOwnProperty(key)) {
           this.subjects.push(res[key]);
@@ -67,19 +70,28 @@ export class DailyScheduleComponent implements OnInit {
 
   /** Method initializes the initial state of the component's template */
   buildDailySchedule() {
-    this.dailySchedule.push(this.formBuilder.group({
-      firstGroup: this.formBuilder.control(''),
-      secondGroup: this.formBuilder.control(''),
-      firstGroupTeacher: this.formBuilder.control(''),
-      secondGroupTeacher: this.formBuilder.control('')
-    }));
+    // if (this.dayName !== 'saturday') {
+    //   this.dailySchedule.push(this.formBuilder.group({
+    //     firstGroup: this.formBuilder.control('', [Validators.required]),
+    //     secondGroup: this.formBuilder.control(''),
+    //     firstGroupTeacher: this.formBuilder.control(''),
+    //     secondGroupTeacher: this.formBuilder.control('')
+    //   }));
+    // } else {
+      this.dailySchedule.push(this.formBuilder.group({
+        firstGroup: this.formBuilder.control(''),
+        secondGroup: this.formBuilder.control(''),
+        firstGroupTeacher: this.formBuilder.control(''),
+        secondGroupTeacher: this.formBuilder.control('')
+      }));
+    // }
 
-    this.setSubjectAutocompleteFirstGroup(0);
+      this.setSubjectAutocompleteFirstGroup(0);
   }
 
   addLesson(lessonNumber) {
     if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
-        this.dailySchedule.length === lessonNumber + 1) {
+      this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
         firstGroup: this.formBuilder.control(''),
         secondGroup: this.formBuilder.control(''),
@@ -97,7 +109,7 @@ export class DailyScheduleComponent implements OnInit {
     this.removeTeacher(lessonNumber, 'first');
     this.removeTeacher(lessonNumber, 'second');
     if (lessonNumber === (this.lessonsMaxPerDay - 1) ||
-        (lessonNumber < (this.lessonsMaxPerDay - 1) &&
+      (lessonNumber < (this.lessonsMaxPerDay - 1) &&
         this.dailySchedule.length === this.lessonsMaxPerDay - 1)) {
       this.addLesson(this.lessonsMaxPerDay - 2);
     }
@@ -125,24 +137,24 @@ export class DailyScheduleComponent implements OnInit {
   }
 
   removeTeacher(lessonNumber, group: string) { // онулювати значення "вчитель"
-    if (group === 'first') {this.firstGroupTeachersVisible[lessonNumber] = false; }
-    if (group === 'second') {this.secondGroupTeachersVisible[lessonNumber] = false; }
+    if (group === 'first') { this.firstGroupTeachersVisible[lessonNumber] = false; }
+    if (group === 'second') { this.secondGroupTeachersVisible[lessonNumber] = false; }
   }
 
   setTeacherAutocompleteFirstGroup(lessonNumber: number) {
     this.filteredTeachersFirstGroup = this.dailySchedule.controls[lessonNumber].get('firstGroupTeacher').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterTeachers(value.toString(), this.teachers))
-    );
+      .pipe(
+        startWith(''),
+        map(value => this._filterTeachers(value.toString(), this.teachers))
+      );
   }
 
   setTeacherAutocompleteSecondGroup(lessonNumber: number) {
     this.filteredTeachersSecondGroup = this.dailySchedule.controls[lessonNumber].get('secondGroupTeacher').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterTeachers(value.toString(), this.teachers))
-    );
+      .pipe(
+        startWith(''),
+        map(value => this._filterTeachers(value.toString(), this.teachers))
+      );
   }
 
   private _filterTeachers(value: any, arr: any[]): string[] {
@@ -156,18 +168,18 @@ export class DailyScheduleComponent implements OnInit {
 
   setSubjectAutocompleteFirstGroup(lessonNumber: number) {
     this.filteredSubjectsFirstGroup = this.dailySchedule.controls[lessonNumber].get('firstGroup').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterSubjects(value.toString(), this.subjects))
-    );
+      .pipe(
+        startWith(''),
+        map(value => this._filterSubjects(value.toString(), this.subjects))
+      );
   }
 
   setSubjectAutocompleteSecondGroup(lessonNumber: number) {
     this.filteredSubjectsSecondGroup = this.dailySchedule.controls[lessonNumber].get('secondGroup').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterSubjects(value.toString(), this.subjects))
-    );
+      .pipe(
+        startWith(''),
+        map(value => this._filterSubjects(value.toString(), this.subjects))
+      );
   }
 
   private _filterSubjects(value: any, arr: any[]): string[] {
@@ -177,5 +189,13 @@ export class DailyScheduleComponent implements OnInit {
 
   displaySubjectFn(subject?: any): string | undefined {
     return subject ? subject.subjectName : undefined;
+  }
+
+  ngOnDestroy() {
+    this.teachersSubscription.unsubscribe();
+    this.subjectsSubscription.unsubscribe();
+    // for (let i=0; i < this.dailySchedule.length; i++) {
+    //   this.dailySchedule.removeAt(i);
+    // }
   }
 }

@@ -7,6 +7,7 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./pages/login/login.component";
@@ -89,6 +90,7 @@ import { StudentComponent } from "./pages/student/student.component";
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),

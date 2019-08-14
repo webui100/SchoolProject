@@ -1,23 +1,23 @@
 const initialSchedule = [
     {
         name: 'monday',
-        value: 'Понеділок'
+        value: 'Понеділок *'
     },
     {
         name: 'tuesday',
-        value: 'Вівторок'
+        value: 'Вівторок *'
     },
     {
         name: 'wednesday',
-        value: 'Середа'
+        value: 'Середа *'
     },
     {
         name: 'thursday',
-        value: 'Четвер'
+        value: 'Четвер *'
     },
     {
         name: 'friday',
-        value: "П'ятниця"
+        value: "П'ятниця *"
     },
     {
         name: 'saturday',

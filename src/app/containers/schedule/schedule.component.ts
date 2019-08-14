@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { Store, select } from '@ngrx/store';
 import { SubjectsService } from 'src/app/services/subjects.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import initialSchedule from './initial-schedule';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'webui-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
   daysOfWeek = initialSchedule;
   scheduleForm: FormGroup;
 
@@ -25,13 +26,28 @@ export class ScheduleComponent implements OnInit {
   subjectsTemp$: any;
   classesTemp$: any;
   teachersTemp$: any;
+  teachersSubscription;
+  classesSubscription;
+  subjectsSubscription;
   terms: string[] = ['1', '2'];
+  termsDates = {
+    1: {
+      start: '01 Вер',
+      end: '31 Гру'
+    },
+    2: {
+      start: '15 Січ',
+      end: '30 Тра'
+    }
+  };
   classes: any = [];
   years: number[] = [];
   currentYear = (new Date()).getFullYear();
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
   filteredYears: Observable<string[]>;
+
+  // showSchedule = true;
 
   constructor(private formBuilder: FormBuilder,
               private schedule: ScheduleService,
@@ -40,7 +56,8 @@ export class ScheduleComponent implements OnInit {
               private teachersObj: TeachersService,
               private storeSubjects: Store<{ subjects }>,
               private storeClasses: Store<{ classes }>,
-              private storeTeachers: Store<{ teachers }>
+              private storeTeachers: Store<{ teachers }>,
+              private router: Router
   ) {
     this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
     this.classesTemp$ = this.storeClasses.pipe(select(selectAllClasses));
@@ -50,14 +67,14 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
     this.buildScheduleForm();
 
-    this.subjectsTemp$.subscribe(res => {
+    this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
       if (!res) {
         this.subjectsObj.getSubjects();
       }
     }
     );
 
-    this.classesTemp$.subscribe(res => {
+    this.classesSubscription = this.classesTemp$.subscribe(res => {
       if (!res) {
         this.classesObj.getClasses();
       }
@@ -68,7 +85,7 @@ export class ScheduleComponent implements OnInit {
       }
     });
 
-    this.teachersTemp$.subscribe(response => {
+    this.teachersSubscription = this.teachersTemp$.subscribe(response => {
       const res = response.teachersList;
       if (!res) {
         this.teachersObj.getTeachers();
@@ -119,9 +136,9 @@ export class ScheduleComponent implements OnInit {
 
   buildScheduleForm(): void {
     this.scheduleForm = this.formBuilder.group({
-      term: this.formBuilder.control(''),
-      class: this.formBuilder.control(''),
-      year: this.formBuilder.control(''),
+      term: this.formBuilder.control('', [Validators.required]),
+      class: this.formBuilder.control('', [Validators.required]),
+      year: this.formBuilder.control('', [Validators.required]),
       scheduleForWeek: this.formBuilder.group({
         monday: this.formBuilder.array([]),
         tuesday: this.formBuilder.array([]),
@@ -134,6 +151,29 @@ export class ScheduleComponent implements OnInit {
     }
 
   onSubmit() {
-    console.log(this.scheduleForm.value);
+    this.schedule.postSchedule(this.scheduleForm.value);
+    this.schedule.postTeacherToJournal(this.scheduleForm.value);
+  }
+
+  clearSchedule() {
+    // this.scheduleForm.get('scheduleForWeek').reset('');
+    // Object.keys(this.scheduleForm.controls).forEach(key => {
+    //   this.scheduleForm.get(key).setErrors(null);
+    // });
+
+    // this.router.navigate(['/admin/schedule']);
+    console.log('Потрібне очищення полів форми!!!');
+    
+    // this.showSchedule = false;
+    // setTimeout(() => this.showSchedule = true, 100);
+
+    // this.scheduleForm.markAsUntouched();
+    // this.scheduleForm.markAsPristine();
+  }
+
+  ngOnDestroy() {
+    this.teachersSubscription.unsubscribe();
+    this.classesSubscription.unsubscribe();
+    this.subjectsSubscription.unsubscribe();
   }
 }

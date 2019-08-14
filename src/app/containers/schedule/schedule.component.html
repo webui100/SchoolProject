@@ -1,30 +1,41 @@
 <h1>Розклад уроків</h1>
-<form>
-  <mat-form-field>
-    <input type="text" placeholder="Семестр" matInput [formControl]="this.scheduleForm.get('term')" [matAutocomplete]="termA">
-    <mat-autocomplete #termA="matAutocomplete">
-      <mat-option *ngFor="let term of filteredTerm | async" [value]="term">
-        {{term}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field>
-    <input type="text" placeholder="Клас" matInput [formControl]="this.scheduleForm.get('class')" [matAutocomplete]="classA">
-    <mat-autocomplete #classA="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
-        {{class.className}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field>
-    <input type="text" placeholder="Навчальний рік" matInput [formControl]="this.scheduleForm.get('year')" [matAutocomplete]="yearA">
-    <mat-autocomplete #yearA="matAutocomplete">
-      <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
-        {{year}} - {{+year + 1}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-
+<form (keydown.enter)="$event.preventDefault()">
+  <div layout="row" layout-align="start start" class="term-class-year-div">
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Клас *" matInput [formControl]="this.scheduleForm.get('class')"
+        [matAutocomplete]="classA">
+      <mat-autocomplete #classA="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
+          {{class.className}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Навчальний рік *" matInput [formControl]="this.scheduleForm.get('year')"
+        [matAutocomplete]="yearA">
+      <mat-autocomplete #yearA="matAutocomplete">
+        <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
+          {{year}} - {{+year + 1}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="term-div" fxFlex>
+      <mat-form-field>
+        <input type="text" placeholder="Семестр *" matInput [formControl]="this.scheduleForm.get('term')"
+          [matAutocomplete]="termA">
+        <mat-autocomplete #termA="matAutocomplete">
+          <mat-option *ngFor="let term of filteredTerm | async" [value]="term">
+            {{term}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="date-div" *ngIf="this.scheduleForm.get('term').value">
+        {{ termsDates[this.scheduleForm.get('term').value].start }} <mat-icon [inline]="true">edit</mat-icon> -
+        {{ termsDates[this.scheduleForm.get('term').value].end }} <mat-icon [inline]="true">edit</mat-icon>
+      </div>
+    </div>
+  </div>
+   <!-- *ngIf="showSchedule" (close)="showSchedule = false" -->
   <mat-accordion>
     <mat-expansion-panel *ngFor="let day of daysOfWeek; let i=index">
       <mat-expansion-panel-header>
@@ -36,11 +47,11 @@
         </mat-panel-description> -->
       </mat-expansion-panel-header>
 
-      <webui-daily-schedule 
-        [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)">
+      <webui-daily-schedule [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)" [dayName]="day.name">
       </webui-daily-schedule>
     </mat-expansion-panel>
   </mat-accordion>
 
-  <button type="submit" (click)="onSubmit()" mat-raised-button>Submit</button>
+  <button type="submit" (click)="onSubmit()" mat-raised-button [disabled]="!scheduleForm.valid">Зберегти розклад</button>
+  <button (click)="clearSchedule()" mat-raised-button>Очистити розклад</button>
 </form>

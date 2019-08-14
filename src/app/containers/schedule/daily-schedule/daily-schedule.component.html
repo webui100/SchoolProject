@@ -1,5 +1,4 @@
 <form [formGroup]="dailySchedule">
-  <legend>{{legendDay}}</legend>
   <div *ngFor="let lesson of dailySchedule.controls; let lessonNumber=index" class="lesson-div">
     <span>{{ lessonNumber + 1 }}. </span>
     <div class="lesson-info-div">
