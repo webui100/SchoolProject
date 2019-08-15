@@ -70,21 +70,21 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
 
   /** Method initializes the initial state of the component's template */
   buildDailySchedule() {
-    // if (this.dayName !== 'saturday') {
-    //   this.dailySchedule.push(this.formBuilder.group({
-    //     firstGroup: this.formBuilder.control('', [Validators.required]),
-    //     secondGroup: this.formBuilder.control(''),
-    //     firstGroupTeacher: this.formBuilder.control(''),
-    //     secondGroupTeacher: this.formBuilder.control('')
-    //   }));
-    // } else {
+    if (this.dayName !== 'saturday') {
+      this.dailySchedule.push(this.formBuilder.group({
+        firstGroup: this.formBuilder.control('', [Validators.required]),
+        secondGroup: this.formBuilder.control(''),
+        firstGroupTeacher: this.formBuilder.control(''),
+        secondGroupTeacher: this.formBuilder.control('')
+      }));
+    } else {
       this.dailySchedule.push(this.formBuilder.group({
         firstGroup: this.formBuilder.control(''),
         secondGroup: this.formBuilder.control(''),
         firstGroupTeacher: this.formBuilder.control(''),
         secondGroupTeacher: this.formBuilder.control('')
       }));
-    // }
+    }
 
       this.setSubjectAutocompleteFirstGroup(0);
   }
@@ -194,8 +194,5 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.teachersSubscription.unsubscribe();
     this.subjectsSubscription.unsubscribe();
-    // for (let i=0; i < this.dailySchedule.length; i++) {
-    //   this.dailySchedule.removeAt(i);
-    // }
   }
 }

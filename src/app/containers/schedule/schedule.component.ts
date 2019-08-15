@@ -5,13 +5,12 @@ import { SubjectsService } from 'src/app/services/subjects.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import initialSchedule from './initial-schedule';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'webui-schedule',
@@ -47,8 +46,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   filteredClasses: Observable<string[]>;
   filteredYears: Observable<string[]>;
 
-  // showSchedule = true;
-
   constructor(private formBuilder: FormBuilder,
               private schedule: ScheduleService,
               private subjectsObj: SubjectsService,
@@ -56,8 +53,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
               private teachersObj: TeachersService,
               private storeSubjects: Store<{ subjects }>,
               private storeClasses: Store<{ classes }>,
-              private storeTeachers: Store<{ teachers }>,
-              private router: Router
+              private storeTeachers: Store<{ teachers }>
   ) {
     this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
     this.classesTemp$ = this.storeClasses.pipe(select(selectAllClasses));
@@ -156,19 +152,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   clearSchedule() {
-    // this.scheduleForm.get('scheduleForWeek').reset('');
-    // Object.keys(this.scheduleForm.controls).forEach(key => {
-    //   this.scheduleForm.get(key).setErrors(null);
-    // });
-
-    // this.router.navigate(['/admin/schedule']);
-    console.log('Потрібне очищення полів форми!!!');
-    
-    // this.showSchedule = false;
-    // setTimeout(() => this.showSchedule = true, 100);
-
-    // this.scheduleForm.markAsUntouched();
-    // this.scheduleForm.markAsPristine();
+    Object.keys((this.scheduleForm.get('scheduleForWeek') as FormGroup).controls).forEach(key => {
+      while ((this.scheduleForm.get('scheduleForWeek').get(key) as FormArray).length > 1) {
+        (this.scheduleForm.get('scheduleForWeek').get(key) as FormArray).removeAt(0);
+      }
+    });
   }
 
   ngOnDestroy() {

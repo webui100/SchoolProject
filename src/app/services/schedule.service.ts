@@ -77,7 +77,6 @@ export class ScheduleService {
         observe: 'response'
       })
       .subscribe(res => {
-        console.log(res);
         if (res.status === 200 || res.status === 201) {
           this.notify.notifySuccess('Розклад доданий');
           // this.store.dispatch(addStudentsAction({ addedStudent: data }));
@@ -114,9 +113,11 @@ export class ScheduleService {
 
   postRequestTeacherToJournal(teacherId: number, classId: number, subjectId: number) {
     return this.http
-    .post(`${this.BASE_URI}teachers/${teacherId}/classes/${classId}/subjects/${subjectId}/journal`, {
-      observe: 'response'
-    })
+    .post(`${this.BASE_URI}teachers/${teacherId}/classes/${classId}/subjects/${subjectId}/journal`,
+      null,
+      {
+        observe: 'response'
+      })
     .subscribe(res => {
       if (res.status === 200 || res.status === 201) {
         this.notify.notifySuccess('Вчитель доданий до журналу');
