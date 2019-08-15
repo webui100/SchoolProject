@@ -30,47 +30,7 @@
 </div>
 
 
-<!--<div class="diary" *ngIf="showDiary">-->
-  <!--<div *ngFor="let day of weekDays; index as i;" class="day-in-diary day-{{i + 1}}">-->
-    <!--<div>{{availableDays}}</div>-->
-    <!--<mat-card>-->
-      <!--<mat-card-title>{{day | date:'EEEE, d' | titlecase}}</mat-card-title>-->
-
-      <!--<table>-->
-        <!--<tr>-->
-          <!--<th>№</th>-->
-          <!--<th>Урок</th>-->
-          <!--<th>Домашнє завдання</th>-->
-          <!--<th>Оцінка</th>-->
-          <!--<th>Примітка</th>-->
-        <!--</tr>-->
-
-        <!--<ng-container *ngFor="let data of diary.data">-->
-          <!--<tr *ngIf="data.date[2] === dayNumbers[i]">-->
-            <!--<td>{{data.lessonNumber}}</td>-->
-            <!--<td>{{data.subjectName}}</td>-->
-            <!--<td>-->
-              <!--{{data.homeWork}}-->
-              <!--<mat-icon-->
-                <!--*ngIf="data.homeworkFileId !== null"-->
-                <!--(click)="downloadFile(data.lessonId)"-->
-                <!--title="Завантажити"-->
-              <!--&gt;-->
-                <!--save_alt-->
-              <!--</mat-icon>-->
-            <!--</td>-->
-            <!--<td>{{data.mark > 0 ? data.mark : null}}</td>-->
-            <!--<td>{{data.note}}</td>-->
-          <!--</tr>-->
-        <!--</ng-container>-->
-      <!--</table>-->
-
-    <!--</mat-card>-->
-  <!--</div>-->
-<!--</div>-->
-
-
-<div class="diary" *ngIf="showDiary">
+<div *ngIf="showDiary" class="diary">
   <div *ngFor="let day of weekDays; index as i;" class="day-in-diary day-{{i + 1}}">
     <mat-card *ngIf="availableDays.includes(dayNumbers[i])">
       <mat-card-title>{{day | date:'EEEE, d' | titlecase}}</mat-card-title>

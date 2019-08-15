@@ -22,7 +22,6 @@ export class StudentDiaryComponent implements OnInit {
   weekDays: Date[];
   dayNumbers: number[];
   showDiary: boolean;
-  // availableDays = new Set();
   availableDays: number[];
 
   constructor(
@@ -33,16 +32,12 @@ export class StudentDiaryComponent implements OnInit {
     this.store.pipe(select(selectDiary)).subscribe(data => {
       this.diary = data.diary;
       this.showDiary = data.diary && !!this.diary.data.length;
-      // this.availableDays.clear();
-      // this.diary.data.map(item => this.availableDays.add(item.date[2]));
-
       this.availableDays = [];
       this.diary.data.map(item => {
         if (!this.availableDays.includes(item.date[2])) {
           this.availableDays.push(item.date[2]);
         }
       });
-      console.log('availableDays---', this.availableDays);
     });
   }
 
@@ -80,9 +75,6 @@ export class StudentDiaryComponent implements OnInit {
   selectNextWeek() {
     this.dateValue = addDays(new Date(this.dateValue), 7);
     this.fetchDiary();
-    console.log('DIARY', this.diary);
-    console.log('WEEKDAYS', this.weekDays);
-    console.log('DAYNUMBERS', this.dayNumbers);
   }
 
   selectCurrentWeek() {
