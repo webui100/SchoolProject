@@ -63,11 +63,12 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     this.subjectsService.getSubjects();
     this.classesService.getClasses();
     let classesIsExist = false;
-    const selectActiveRef = this.store.select(selectActiveClasses).subscribe(value => {
+    let selectActiveRef: Subscription;
+    selectActiveRef = this.store.select(selectActiveClasses).subscribe(value => {
         if (value.length > 0) {
           classesIsExist = true;
         }
-        if (classesIsExist) {
+        if (classesIsExist && selectActiveRef) {
           this.setClassChart(11);
           selectActiveRef.unsubscribe();
         }

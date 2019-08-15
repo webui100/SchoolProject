@@ -1,29 +1,21 @@
 <div class="myrow w-100">
-  <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-    <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.teachers, title: 'Вчителі'}"></ng-container>
-    </div>
-  </div>
-  <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-    <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.subjects, title: 'Предмети'}"></ng-container>
-    </div>
-  </div>
-  <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-    <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.classes, title: 'Класи'}"></ng-container>
-    </div>
-  </div>
-  <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
-    <div class="card-container">
-      <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.students, title: 'Учні'}"></ng-container>
-    </div>
-  </div>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.teachers, title: 'Вчителі'}">
+  </ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.subjects, title: 'Предмети'}">
+  </ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.classes, title: 'Класи'}">
+  </ng-container>
+  <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{obs: quantityObj.students, title: 'Учні'}">
+  </ng-container>
 </div>
 
 <ng-template #card let-obs="obs" let-title="title">
-  <mat-card class="counting">
-    <mat-card-title>{{title}}</mat-card-title>
-    <mat-card-content>{{obs}}</mat-card-content>
-  </mat-card>
+  <div class="mycol-desktop-1-4 mycol-tablet-1-4 mycol-phablet-1-2 mycol-laptop-1-4 mycol-mobile-1-2 m-b-10">
+    <div class="card-container">
+      <mat-card class="counting">
+        <mat-card-title>{{title}}</mat-card-title>
+        <mat-card-content>{{obs}}</mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </ng-template>
