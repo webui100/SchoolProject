@@ -33,7 +33,6 @@ export const getStudentsFromClass = createSelector(
   selectActiveClasses,
   (classes, props) => {
     const regex = new RegExp(`^${props.className}[-(а-я]`, 'i');
-    console.log(classes, regex);
     return classes
       .filter((value) => regex.test(value.className))
       .reduce((acc, value: ClassModel) => {
