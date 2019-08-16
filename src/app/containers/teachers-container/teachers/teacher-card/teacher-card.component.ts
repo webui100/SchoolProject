@@ -1,11 +1,11 @@
-import { NotificationService } from '../../../services/notification.service';
-import { TeachersService } from '../../../services/teachers.service';
-import { Teacher } from '../../../models/teacher.model';
+import { NotificationService } from '../../../../services/notification.service';
+import { TeachersService } from '../../../../services/teachers.service';
+import { Teacher } from '../../../../models/teacher.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ValidationService } from 'src/app/services/validation.service';
+import { ValidationService } from '../../../../services/validation.service';
 @Component({
   selector: 'webui-teacher-card',
   templateUrl: './teacher-card.component.html',

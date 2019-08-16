@@ -1,5 +1,5 @@
-import { ValidationService } from './../../../services/validation.service';
-import { TeachersService } from '../../../services/teachers.service';
+import { ValidationService } from '../../../../services/validation.service';
+import { TeachersService } from '../../../../services/teachers.service';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';

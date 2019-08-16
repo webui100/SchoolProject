@@ -1,11 +1,7 @@
-import {
-  selectTeachers,
-  selectTeachersByName
-} from './../../store/teachers/teachers.selector';
-import { Store, select } from '@ngrx/store';
-import { Teacher } from '../../models/teacher.model';
-import { TeachersService } from '../../services/teachers.service';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Teacher } from '../../../models/teacher.model';
+import { TeachersService } from '../../../services/teachers.service';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -31,34 +27,19 @@ import {
     ])
   ]
 })
-export class TeachersComponent implements OnInit, OnDestroy {
-  private teachersList$: any;
+export class TeachersComponent implements OnInit {
   private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth'];
   private expandedElement: Teacher | null;
   private teachersList: MatTableDataSource<Teacher>;
 
-  constructor(private teachers: TeachersService,
-              private store: Store<{}>) {
-    this.teachersList$ = this.store.pipe(select(selectTeachersByName));
-  }
+  constructor(private teachers: TeachersService) {}
+  @Input() teachersPristine: Teacher[];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator; 
 
-  /* function make subscribe and initializes "data",
-  then convert data for correct view in table
-  add a pagintator and sorting*/
-  getTeachers() {
-    if (!this.teachersList) {
-      this.teachers.getTeachers();
-    }
-    return this.teachersList$.subscribe(
-    (response: Teacher[]) => {
-      this.teachersList = new MatTableDataSource<Teacher>(response);
+  fillTable() {
+      this.teachersList = new MatTableDataSource<Teacher>(this.teachersPristine);
       this.teachersList.paginator = this.paginator;
-    },
-    (error: Error) => {
-      throw error;
-    });
   }
 
   // function for sorting, trim() remove spaces
@@ -67,10 +48,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getTeachers();
-  }
-  ngOnDestroy(): void {
-    this.teachersList$.unsubscribe();
+    this.fillTable();
   }
 
   // switcher for table header with ua text
