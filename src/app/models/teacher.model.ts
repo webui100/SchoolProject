@@ -8,4 +8,6 @@ export interface Teacher {
   login: string;
   patronymic: string;
   phone: string;
+  newPass: string;
+  oldPass: string;
 }

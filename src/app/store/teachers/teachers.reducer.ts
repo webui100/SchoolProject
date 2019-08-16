@@ -1,4 +1,4 @@
-import { Teacher } from './../../models/teacher';
+import { Teacher } from '../../models/teacher.model';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as TeacherData from './teachers.action';
 import { map } from 'rxjs/operators';
