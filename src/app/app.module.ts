@@ -11,7 +11,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./pages/login/login.component";
 
-import { TeachersComponent } from "./containers/teachers-container/teachers/teachers.component";
+import { TeachersComponent } from "./containers/teachers/teachers.component";
 import { AdminComponent } from "./pages/admin/admin.component";
 
 import { reducers, metaReducers } from "./store";
@@ -36,10 +36,10 @@ import { MatListModule } from "@angular/material";
 import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
 import { ChartsModule } from "ng2-charts";
 import "hammerjs";
-import { TeacherCardComponent } from "./containers/teachers-container/teachers/teacher-card/teacher-card.component";
+import { TeacherCardComponent } from "./containers/teachers/teacher-card/teacher-card.component";
 import { ErrorService } from "./services/error.service";
 import { StudentDiaryComponent } from "./containers/student-diary/student-diary.component";
-import { TeacherCreateComponent } from "./containers/teachers-container/teachers/teacher-create/teacher-create.component";
+import { TeacherCreateComponent } from "./containers/teachers/teacher-create/teacher-create.component";
 import { TemporaryComponent } from "./components/temporary/temporary.component";
 import { MaterialModule } from "./modules/material/material.module";
 import { ChartComponent } from "./components/chart/chart.component";
@@ -51,7 +51,7 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
-import { TeachersContainerComponent } from './containers/teachers-container/teachers-container.component';
+import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 
 @NgModule({
   declarations: [

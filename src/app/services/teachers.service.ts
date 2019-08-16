@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { editTeacher } from './../store/teachers/teachers.action';
 import { NotificationService } from './notification.service';
 import { environment } from './../../environments/environment';
@@ -10,7 +10,7 @@ import {
   addOneTeacher
 } from '../store/teachers/teachers.action';
 import { Subject } from 'rxjs';
-import { HttpGetReponse, HttpPostPutReponse } from '../models/HttpResponse.model';
+import { HttpGetResponse, HttpPostPutResponse } from '../models/HttpResponse.model';
 import { Teacher } from '../models/teacher.model';
 
 
@@ -23,21 +23,21 @@ export class TeachersService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<{ teachers }>,
+    private store: Store<object>,
     private notify: NotificationService
   ) {}
 
   getTeachers() {
     return this.http
       .get(`${this.BASE_URI}teachers`)
-      .subscribe((response: HttpGetReponse) => {
+      .subscribe((response: HttpGetResponse) => {
         this.store.dispatch(teacherAction({ teachersList: response.data }));
       });
   }
 
   editTeacher(teacherId: number, data: Teacher) {
     return this.http
-      .put<HttpPostPutReponse>(
+      .put<HttpPostPutResponse>(
         `${this.BASE_URI}admin/teachers/${teacherId}`,
         data,
         {
@@ -59,7 +59,7 @@ export class TeachersService {
 
   addTeacher(data: Teacher) {
     return this.http
-      .post<HttpPostPutReponse>(`${this.BASE_URI}teachers`,
+      .post<HttpPostPutResponse>(`${this.BASE_URI}teachers`,
       data,
       {
         observe: 'response'

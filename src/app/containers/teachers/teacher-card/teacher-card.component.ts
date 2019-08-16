@@ -1,11 +1,11 @@
-import { NotificationService } from '../../../../services/notification.service';
-import { TeachersService } from '../../../../services/teachers.service';
-import { Teacher } from '../../../../models/teacher.model';
+import { NotificationService } from '../../../services/notification.service';
+import { TeachersService } from '../../../services/teachers.service';
+import { Teacher } from '../../../models/teacher.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ValidationService } from '../../../../services/validation.service';
+import { ValidationService } from '../../../services/validation.service';
 @Component({
   selector: 'webui-teacher-card',
   templateUrl: './teacher-card.component.html',
@@ -29,15 +29,6 @@ export class TeacherCardComponent implements OnInit {
               private validServ: ValidationService,
               private formBuilder: FormBuilder,
               private notify: NotificationService) {
-                this.editTeacher = this.formBuilder.group({
-                   firstname: ['', ],
-                  lastname: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
-                  patronymic: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
-                  dateOfBirth: ['', Validators.required],
-                  email: ['', [Validators.pattern(this.validServ.emailRegExp)]],
-                  phone: ['', [Validators.pattern(this.validServ.phoneRegExp)]],
-                  login: ['', [Validators.required, Validators.pattern(this.validServ.loginRegExp)]]
-                });
               }
 
   handleFileInput(event: any): void {
@@ -54,21 +45,6 @@ export class TeacherCardComponent implements OnInit {
     });
   }
 
-  setDefaultValue(): void {
-    this.editTeacher.setValue({
-      firstname: this.teacher.firstname,
-      lastname: this.teacher.lastname,
-      patronymic: this.teacher.patronymic,
-      dateOfBirth: this.teacher.dateOfBirth,
-      email: this.teacher.email,
-      phone: this.teacher.phone,
-      login: this.teacher.login
-    });
-    this.avatarImg = this.teacher.avatar
-      ? this.teacher.avatar
-      : '../../../assets/images/no-user-image.png';
-  }
-
   submitEdit(event: Event): void {
     event.preventDefault();
     const data = this.editTeacher.value;
@@ -81,6 +57,17 @@ export class TeacherCardComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.setDefaultValue();
+   this.editTeacher = this.formBuilder.group({
+    firstname: [this.teacher.firstname, [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
+    lastname: [this.teacher.lastname, [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
+    patronymic: [this.teacher.patronymic, [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
+    dateOfBirth: [this.teacher.dateOfBirth, Validators.required],
+    email: [this.teacher.email, [Validators.pattern(this.validServ.emailRegExp)]],
+    phone: [this.teacher.phone, [Validators.pattern(this.validServ.phoneRegExp)]],
+    login: [this.teacher.login, [Validators.required, Validators.pattern(this.validServ.loginRegExp)]]
+  });
+   this.avatarImg = this.teacher.avatar
+      ? this.teacher.avatar
+      : '../../../assets/images/no-user-image.png';
   }
 }

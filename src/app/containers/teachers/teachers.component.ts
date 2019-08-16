@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs';
-import { Teacher } from '../../../models/teacher.model';
-import { TeachersService } from '../../../services/teachers.service';
+import { Teacher } from '../../models/teacher.model';
+import { TeachersService } from '../../services/teachers.service';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -32,12 +31,12 @@ export class TeachersComponent implements OnInit {
   private expandedElement: Teacher | null;
   private teachersList: MatTableDataSource<Teacher>;
 
-  constructor(private teachers: TeachersService) {}
+  constructor() {}
   @Input() teachersPristine: Teacher[];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
 
-  fillTable() {
+  fillTable(): void {
       this.teachersList = new MatTableDataSource<Teacher>(this.teachersPristine);
       this.teachersList.paginator = this.paginator;
   }
@@ -51,7 +50,8 @@ export class TeachersComponent implements OnInit {
     this.fillTable();
   }
 
-  // switcher for table header with ua text
+
+  // switcher for table header with UA text
   private dataHeader(header: string) {
     switch (header) {
       case 'firstname':

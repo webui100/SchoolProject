@@ -15,7 +15,7 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentsComponent } from "./pages/students/students.component";
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
-import { TeachersContainerComponent } from './containers/teachers-container/teachers-container.component';
+import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 
 
 
@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: "",
     component: LoginComponent,
-    canActivate: [LoginGuard]
+    //canActivate: [LoginGuard]
   },
   {
     path: "login",
@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: "teacher",
     component: TemporaryComponent,
-    canActivate: [TeacherGuard]
+    //canActivate: [TeacherGuard]
   },
   {
     path: "students",
@@ -41,13 +41,13 @@ const routes: Routes = [
   {
     path: "student",
     component: StudentComponent,
-    canActivate: [StudentGuard],
+    //canActivate: [StudentGuard],
     children: [{ path: "diary", component: StudentDiaryComponent }]
   },
   {
     path: "admin",
     component: AdminComponent,
-    canActivate: [AdminGuard],
+    //canActivate: [AdminGuard],
     children: [
       {
         path: "",

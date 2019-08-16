@@ -1,9 +1,9 @@
-export interface HttpGetReponse {
+export interface HttpGetResponse {
     data: Array<object>;
     status: string;
   }
 
-export interface HttpPostPutReponse {
+export interface HttpPostPutResponse {
     headers: object;
     status: number;
     statusText: string;
