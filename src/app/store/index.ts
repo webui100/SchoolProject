@@ -14,7 +14,7 @@ import {
   scheduleReducer,
   State as ScheduleState
 } from './schedule/schedule.reducer'; // +
-import { diaryReducer, State as DiaryState } from './diary/diary.reducer';
+import { diaryReducer, DiaryState } from './diary/diary.reducer';
 import { chartReducer, State as ChartState } from './chart/chart.reducer';
 import {
   teachersDataReducer,

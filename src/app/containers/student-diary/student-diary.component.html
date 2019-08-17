@@ -44,7 +44,7 @@
           <th>Примітка</th>
         </tr>
 
-        <ng-container *ngFor="let data of diary.data">
+        <ng-container *ngFor="let data of diary$ | async">
           <tr *ngIf="data.date[2] === dayNumbers[i]">
             <td>{{data.lessonNumber}}</td>
             <td>{{data.subjectName}}</td>
