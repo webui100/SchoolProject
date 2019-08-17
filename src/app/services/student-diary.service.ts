@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
+import { map} from 'rxjs/operators';
 import { format } from 'date-fns';
 import { saveAs } from 'file-saver';
-import { map} from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { fetchDiary } from '../store/diary/diary.actions';
-import { HomeworkFile } from '../models/homework-file.model';
+import { HomeworkFile } from '../models/diary.model';
 
 
 @Injectable({
@@ -34,8 +34,8 @@ export class StudentDiaryService {
         }),
         observe: 'response'
       })
-      .subscribe(response => {
-        this.store.dispatch(fetchDiary({ diary: response.body }));
+      .subscribe((response: any) => {
+        this.store.dispatch(fetchDiary({ lessons: response.body.data }));
       });
   }
 

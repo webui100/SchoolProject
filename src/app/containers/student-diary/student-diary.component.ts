@@ -1,13 +1,14 @@
 import { Component, OnInit, LOCALE_ID } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { DateAdapter } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
 import { StudentDiaryService } from '../../services/student-diary.service';
-import { selectDiary } from '../../store/diary/diary.selectors';
-import { Diary } from '../../models/diary.model';
+import { selectLessons } from '../../store/diary/diary.selectors';
+import { Lesson } from '../../models/diary.model';
 
 
 @Component({
@@ -17,11 +18,11 @@ import { Diary } from '../../models/diary.model';
   providers: [{provide: LOCALE_ID, useValue: 'uk'}]
 })
 export class StudentDiaryComponent implements OnInit {
-  diary?: Diary;
+  diary$: Observable<Lesson[]>;
   dateValue = this.getStartOfWeek();
   weekDays: Date[];
   dayNumbers: number[];
-  showDiary: boolean;
+  showDiary?: boolean;
   availableDays?: number[];
 
   constructor(
@@ -29,14 +30,14 @@ export class StudentDiaryComponent implements OnInit {
     private store: Store<{ diary }>,
     private dateAdapter: DateAdapter<Date>
   ) {
-    this.store.pipe(select(selectDiary)).subscribe(data => {
-      this.diary = data.diary;
-      this.showDiary = data.diary && !!this.diary.data.length;
-      if (data.diary) {
+    this.diary$ = this.store.pipe(select(selectLessons));
+    this.store.pipe(select(selectLessons)).subscribe(lessons => {
+      this.showDiary = !!(lessons && lessons.length);
+      if (lessons) {
         this.availableDays = [];
-        this.diary.data.map(item => {
-          if (!this.availableDays.includes(item.date[2])) {
-            this.availableDays.push(item.date[2]);
+        lessons.map(lesson => {
+          if (!this.availableDays.includes(lesson.date[2])) {
+            this.availableDays.push(lesson.date[2]);
           }
         });
       }
