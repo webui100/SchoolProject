@@ -5,7 +5,7 @@
     width: 8rem;
   }
   .current-week {
-    margin-left: 1rem;
+    margin-left: .3rem;
   }
 }
 
@@ -70,6 +70,37 @@ h3 {
     }
     .day-6 {
       order: 6;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .current-week {
+    font-size: .8rem;
+  }
+  .diary {
+    padding: .3rem;
+    font-size: .8rem;
+    mat-card {
+      margin-bottom: 1rem;
+      mat-card-title {
+        padding: .5rem 0 0 .5rem;
+        font-size: 1.2rem;
+      }
+      table {
+        width: 100%;
+        th {
+          padding: .2rem;
+          font-size: .75rem;
+        }
+        td {
+          padding: .2rem;
+          mat-icon {
+            margin: -.4rem 0 -.5rem .1rem;
+            font-size: 18px;
+          }
+        }
+      }
     }
   }
 }
