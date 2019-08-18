@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {select, Store} from "@ngrx/store";
 import {selectId, selectRole} from "../../store/login/login.selectors";
 import {selectAll} from "../../store/current/current-user.selector";
+import { tap } from 'rxjs/operators';
 
 
 @Component({
@@ -24,7 +25,12 @@ export class CurrentUserComponent implements OnInit {
               private current: Store<{ currentUser }>,
               private _currentUser: CurrentUserService) {
 
-    this.currentUser$ = this.current.pipe(select(selectAll)).subscribe((data)=>this.user = data);
+    this.currentUser$ = this.current.pipe(select(selectAll))
+      .subscribe(
+        (data) => this.user = data,
+        error => console.log(error),
+        () => this.currentUser$.unsubscribe());
+
     this.role$ = this.store.pipe(select(selectRole)).subscribe((data) => this.role = data);
     this.id$ = this.store.pipe(select(selectId)).subscribe((data) => this.id = data);
 }
