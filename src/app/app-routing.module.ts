@@ -41,7 +41,7 @@ const routes: Routes = [
   {
     path: "student",
     component: StudentComponent,
-    // canActivate: [StudentGuard],
+    canActivate: [StudentGuard],
     children: [{ path: "diary", component: StudentDiaryComponent }]
   },
   {
