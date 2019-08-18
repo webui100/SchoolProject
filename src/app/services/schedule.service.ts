@@ -11,6 +11,7 @@ import { NotificationService } from './notification.service';
 })
 export class ScheduleService {
   private BASE_URI = environment.APIEndpoint;
+  currentYear = (new Date()).getFullYear();
 
   constructor(private http: HttpClient,
     private notify: NotificationService,
@@ -125,5 +126,13 @@ export class ScheduleService {
         this.notify.notifyFailure(`Помилка додавання вчителя до журналу. Статус: ${res.status}`);
       }
     });
+  }
+
+  createYearsList() {
+    const years = [];
+    for (let i = 0; i <= 3; i++) {
+      years.push((this.currentYear + i));
+    }
+    return years;
   }
 }

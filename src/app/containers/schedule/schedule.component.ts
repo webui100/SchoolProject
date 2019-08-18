@@ -28,7 +28,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   teachersSubscription;
   classesSubscription;
   subjectsSubscription;
-  terms: string[] = ['1', '2'];
+  terms: string[] = ['1', '2', '1 - 2'];
   termsDates = {
     1: {
       start: '01 Вер',
@@ -37,11 +37,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     2: {
       start: '15 Січ',
       end: '30 Тра'
+    },
+    '1 - 2': {
+      start: '01 Вер',
+      end: '30 Тра'
     }
   };
   classes: any = [];
   years: number[] = [];
-  currentYear = (new Date()).getFullYear();
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
   filteredYears: Observable<string[]>;
@@ -91,9 +94,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
 
     if (!this.years.length) {
-      for (let i = 0; i <= 3; i++) {
-        this.years.push((this.currentYear + i));
-      }
+      this.years = this.schedule.createYearsList();
     }
 
     this.filteredTerm = this.scheduleForm.get('term').valueChanges
