@@ -22,7 +22,7 @@ export class StudentDiaryComponent implements OnInit {
   weekDays: Date[];
   dayNumbers: number[];
   showDiary: boolean;
-  availableDays: number[];
+  availableDays?: number[];
 
   constructor(
     private studentDiary: StudentDiaryService,
@@ -32,12 +32,14 @@ export class StudentDiaryComponent implements OnInit {
     this.store.pipe(select(selectDiary)).subscribe(data => {
       this.diary = data.diary;
       this.showDiary = data.diary && !!this.diary.data.length;
-      this.availableDays = [];
-      this.diary.data.map(item => {
-        if (!this.availableDays.includes(item.date[2])) {
-          this.availableDays.push(item.date[2]);
-        }
-      });
+      if (data.diary) {
+        this.availableDays = [];
+        this.diary.data.map(item => {
+          if (!this.availableDays.includes(item.date[2])) {
+            this.availableDays.push(item.date[2]);
+          }
+        });
+      }
     });
   }
 
