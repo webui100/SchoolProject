@@ -51,6 +51,8 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from './pages/student/student.component';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
+import { NewYearComponent } from './containers/new-year/new-year.component';
+import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { CountBarComponent } from './components/count-bar/count-bar.component';
     StudentComponent,
     AddStudentComponent,
     ClassesComponent,
-    CountBarComponent
+    CountBarComponent,
+    NewYearComponent,
+    TransferStudentsTableComponent
 
   ],
   imports: [

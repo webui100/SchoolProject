@@ -1,3 +1,4 @@
+import { NewYearComponent } from './containers/new-year/new-year.component';
 import { ScheduleComponent } from "./containers/schedule/schedule.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
@@ -23,7 +24,7 @@ const routes: Routes = [
   {
     path: "",
     component: LoginComponent,
-    canActivate: [LoginGuard]
+    //canActivate: [LoginGuard]
   },
   {
     path: "login",
@@ -32,7 +33,7 @@ const routes: Routes = [
   {
     path: "teacher",
     component: TemporaryComponent,
-    canActivate: [TeacherGuard]
+    //canActivate: [TeacherGuard]
   },
   {
     path: "students",
@@ -47,7 +48,7 @@ const routes: Routes = [
   {
     path: "admin",
     component: AdminComponent,
-    canActivate: [AdminGuard],
+    //canActivate: [AdminGuard],
     children: [
       {
         path: "",
@@ -77,7 +78,11 @@ const routes: Routes = [
       {
         path: "classes",
         component: ClassesComponent
-      }
+      },
+      {
+        path: "new-year-transition",
+        component: NewYearComponent
+      },
     ]
   }
 ];

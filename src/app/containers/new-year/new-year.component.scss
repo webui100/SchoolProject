@@ -1,0 +1,58 @@
+table {
+  width: 100%;
+}
+
+td, th {
+  text-align: center !important;
+  width: 20% !important;
+}
+
+th {
+  font-size: .9rem;
+}
+
+td {
+  font-size: .8rem;
+}
+
+.table-container {
+  padding: 10px;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row{
+  transition: .3s;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: rgb(238, 238, 238);
+  cursor: pointer;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+webui-transfer-students-table {
+  width: 100%;
+}
