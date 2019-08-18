@@ -1,16 +1,24 @@
-import { Teacher } from '../../models/teacher.model';
-import { createSelector } from '@ngrx/store';
+import { createSelector, State } from '@ngrx/store';
 import { State as AppState } from '../index';
+import { SortOptions } from 'src/app/models/sortOptions.model';
 
 export const selectTeachers = (state: AppState) => state.teachers.teachersList;
 
-export const selectTeachersByName = createSelector(
-    selectTeachers,
-    (state: Teacher[]) => {
-         return state.sort((a: Teacher, b: Teacher): any => {
-            return a.firstname.localeCompare(b.firstname);
-        });
+export const sortOptions = (state: AppState) => state.teachers.sortOptions;
+
+export const teachersSortByName = createSelector(
+  selectTeachers,
+  sortOptions,
+  (state: AppState[], options: SortOptions ) => {
+    let sorted = state.sort(
+      (a: any, b: any): any => {
+        const res = a[options.column].localeCompare(b[options.column]);
+        return res;
+      }
+    );
+    if (options.direction === 'desc') {
+      sorted = sorted.reverse();
     }
+    return state;
+  }
 );
-
-

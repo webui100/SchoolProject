@@ -1,6 +1,5 @@
 import { Teacher } from '../../models/teacher.model';
-import { TeachersService } from '../../services/teachers.service';
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -30,13 +29,15 @@ export class TeachersComponent implements OnInit {
   private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth'];
   private expandedElement: Teacher | null;
   private teachersList: MatTableDataSource<Teacher>;
+  private direction: string;
 
   constructor() {}
   @Input() teachersPristine: Teacher[];
+  @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
 
-  fillTable(): void {
+  private fillTable(): void {
       this.teachersList = new MatTableDataSource<Teacher>(this.teachersPristine);
       this.teachersList.paginator = this.paginator;
   }
@@ -44,6 +45,15 @@ export class TeachersComponent implements OnInit {
   // function for sorting, trim() remove spaces
   private applyFilter(filterValue: string): void {
     this.teachersList.filter = filterValue.trim().toLowerCase();
+  }
+
+  sortSetting(e: any, columnName: string) {
+    const currentDirection = e.target.getAttribute('data-nextDirection');
+    this.teachersSorting.emit({direction: currentDirection, column: columnName});
+
+    const nextDirection = currentDirection === 'desc' ? 'asc' : 'desc';
+    e.target.setAttribute('data-nextDirection', nextDirection);
+    this.fillTable();
   }
 
   ngOnInit(): void {

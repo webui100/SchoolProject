@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Teacher } from 'src/app/models/teacher.model';
 
 export const teacherAction = createAction(
     '[Teachers List] teachersList',
@@ -12,7 +13,11 @@ export const addOneTeacher = createAction(
 
 export const editTeacher = createAction(
     '[EditTeacher] editTeacher',
-    props<{ editedTeacher: object}>()
+    props<{ editedTeacher: Teacher }>()
 );
 
+export const sortColumn = createAction(
+    '[SortColumn] sortColumn',
+    props<{ sortOptions: object}>()
+);
 

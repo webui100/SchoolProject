@@ -1,5 +1,6 @@
+import { Teacher } from './teacher.model';
 export interface HttpGetResponse {
-    data: Array<object>;
+    data: Teacher[] | Array<object>;
     status: string;
   }
 
@@ -9,5 +10,5 @@ export interface HttpPostPutResponse {
     statusText: string;
     url: string;
     body: object;
-    data: Array<object>;
+    data: Teacher | object;
 }

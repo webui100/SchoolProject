@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
+import { selectTeachers, teachersSortByName } from 'src/app/store/teachers/teachers.selector';
 import { Observable } from 'rxjs';
+import { sortColumn } from 'src/app/store/teachers/teachers.action';
 
 @Component({
   selector: 'webui-teachers-container',
@@ -12,6 +13,10 @@ export class TeachersContainerComponent {
   private teachersList$: Observable<object[]>;
 
   constructor(private store: Store<object>) {
-    this.teachersList$ = this.store.pipe(select(selectTeachers));
+    this.teachersList$ = this.store.pipe(select(teachersSortByName));
+  }
+  teachersSorting(options: object) {
+    this.store.dispatch(sortColumn({ sortOptions: options }));
+    this.teachersList$ = this.store.pipe(select(teachersSortByName));
   }
 }
