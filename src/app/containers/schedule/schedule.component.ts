@@ -11,12 +11,30 @@ import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
+import * as ScheduleModels from 'src/app/models/schedule';
+import { MAT_DATE_FORMATS } from '@angular/material';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD MMM',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'webui-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss']
+  styleUrls: ['./schedule.component.scss'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ]
 })
+
 export class ScheduleComponent implements OnInit, OnDestroy {
   daysOfWeek = initialSchedule;
   scheduleForm: FormGroup;
@@ -29,20 +47,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   classesSubscription;
   subjectsSubscription;
   terms: string[] = ['1', '2', '1 - 2'];
-  termsDates = {
-    1: {
-      start: '01 Вер',
-      end: '31 Гру'
-    },
-    2: {
-      start: '15 Січ',
-      end: '30 Тра'
-    },
-    '1 - 2': {
-      start: '01 Вер',
-      end: '30 Тра'
-    }
-  };
+  defaultDates: ScheduleModels.DafaultTermDates;
+  showStartEndDates = false;
   classes: any = [];
   years: number[] = [];
   filteredTerm: Observable<string[]>;
@@ -133,9 +139,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   buildScheduleForm(): void {
     this.scheduleForm = this.formBuilder.group({
-      term: this.formBuilder.control('', [Validators.required]),
+      term: this.formBuilder.control({value: '', disabled: true}, [Validators.required]),
       class: this.formBuilder.control('', [Validators.required]),
       year: this.formBuilder.control('', [Validators.required]),
+      termStartDate: this.formBuilder.control(''),
+      termEndDate: this.formBuilder.control(''),
       scheduleForWeek: this.formBuilder.group({
         monday: this.formBuilder.array([]),
         tuesday: this.formBuilder.array([]),
@@ -150,6 +158,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.schedule.postSchedule(this.scheduleForm.value);
     this.schedule.postTeacherToJournal(this.scheduleForm.value);
+  }
+
+  enableTermInput() {
+    this.scheduleForm.get('term').enable();
+  }
+
+  addStartEndDates() {
+    this.defaultDates = this.schedule.getDafaultDates(this.scheduleForm.get('term').value);
+    this.scheduleForm.get('termStartDate').patchValue(this.defaultDates.start);
+    this.scheduleForm.get('termEndDate').patchValue(this.defaultDates.end);
+    this.showStartEndDates = true;
+    // console.log(this.scheduleForm)
   }
 
   clearSchedule() {

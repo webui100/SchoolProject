@@ -17,3 +17,10 @@ export interface PostLesson {
     subjectId: number;
     subjectName: string;
   }
+
+export interface DafaultTermDates {
+  start: Date;
+  end: Date;
+  minStart: Date;
+  maxEnd: Date;
+}
