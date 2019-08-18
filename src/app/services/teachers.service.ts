@@ -20,16 +20,18 @@ import { Teacher } from '../models/teacher.model';
 export class TeachersService {
   public subject = new Subject<string | ArrayBuffer>();
   private BASE_URI = environment.APIEndpoint;
+  private TEACHER_URI = 'teachers/';
+  private ADMIN_URI = 'admin/';
 
   constructor(
     private http: HttpClient,
     private store: Store<object>,
-    private notify: NotificationService
+    private notify: NotificationService,
   ) {}
 
   getTeachers() {
     return this.http
-      .get(`${this.BASE_URI}teachers`)
+      .get(`${this.BASE_URI}${this.TEACHER_URI}`)
       .subscribe((response: HttpGetResponse) => {
         this.store.dispatch(teacherAction({ teachersList: response.data }));
       });
@@ -38,7 +40,7 @@ export class TeachersService {
   editTeacher(teacherId: number, data: Teacher) {
     return this.http
       .put<HttpPostPutResponse>(
-        `${this.BASE_URI}admin/teachers/${teacherId}`,
+        `${this.BASE_URI}${this.ADMIN_URI}${this.TEACHER_URI}${teacherId}`,
         data,
         {
           observe: 'response'
@@ -59,7 +61,7 @@ export class TeachersService {
 
   addTeacher(data: Teacher) {
     return this.http
-      .post<HttpPostPutResponse>(`${this.BASE_URI}teachers`,
+      .post<HttpPostPutResponse>(`${this.BASE_URI}${this.TEACHER_URI}`,
       data,
       {
         observe: 'response'

@@ -1,5 +1,15 @@
+import { TeachersService } from './../../services/teachers.service';
 import { Teacher } from '../../models/teacher.model';
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -9,6 +19,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'webui-teachers',
@@ -25,22 +36,16 @@ import {
     ])
   ]
 })
-export class TeachersComponent implements OnInit {
+export class TeachersComponent implements OnInit, OnChanges {
   private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth'];
   private expandedElement: Teacher | null;
-  private teachersList: MatTableDataSource<Teacher>;
+  private teachersList = new MatTableDataSource<Teacher>();
   private direction: string;
 
-  constructor() {}
-  @Input() teachersPristine: Teacher[];
+  constructor(private teachServ: TeachersService) {}
+  @Input() teachersData: Teacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
-
-  private fillTable(): void {
-      this.teachersList = new MatTableDataSource<Teacher>(this.teachersPristine);
-      this.teachersList.paginator = this.paginator;
-  }
 
   // function for sorting, trim() remove spaces
   private applyFilter(filterValue: string): void {
@@ -49,17 +54,30 @@ export class TeachersComponent implements OnInit {
 
   sortSetting(e: any, columnName: string) {
     const currentDirection = e.target.getAttribute('data-nextDirection');
-    this.teachersSorting.emit({direction: currentDirection, column: columnName});
-
+    this.teachersSorting.emit({
+      direction: currentDirection,
+      column: columnName
+    });
+    this.fillTable();
     const nextDirection = currentDirection === 'desc' ? 'asc' : 'desc';
     e.target.setAttribute('data-nextDirection', nextDirection);
-    this.fillTable();
+  }
+
+  fillTable(): void {
+    this.teachersList = new MatTableDataSource<Teacher>(this.teachersData);
+    this.teachersList.paginator = this.paginator;
   }
 
   ngOnInit(): void {
     this.fillTable();
+    if (this.teachersData === undefined) {
+      this.teachServ.getTeachers();
+    }
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    this.fillTable();
+  }
 
   // switcher for table header with UA text
   private dataHeader(header: string) {

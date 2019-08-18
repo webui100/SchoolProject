@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { selectTeachers, teachersSortByName } from 'src/app/store/teachers/teachers.selector';
+import { teachersSortByName } from 'src/app/store/teachers/teachers.selector';
 import { Observable } from 'rxjs';
 import { sortColumn } from 'src/app/store/teachers/teachers.action';
 
