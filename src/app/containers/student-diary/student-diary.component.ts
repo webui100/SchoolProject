@@ -3,11 +3,12 @@ import { Store, select } from '@ngrx/store';
 import { DateAdapter } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { format, addDays, subDays, getDate, getDay, setDate } from 'date-fns';
+import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
 import { StudentDiaryService } from '../../services/student-diary.service';
 import { selectDiary } from '../../store/diary/diary.selectors';
-import { Diary } from '../../store/diary/diary.reducer';
+import { Diary } from '../../models/diary.model';
+
 
 @Component({
   selector: 'webui-student-diary',
@@ -17,10 +18,11 @@ import { Diary } from '../../store/diary/diary.reducer';
 })
 export class StudentDiaryComponent implements OnInit {
   diary?: Diary;
-  dateValue = StudentDiaryComponent.getStartOfWeek();
+  dateValue = this.getStartOfWeek();
   weekDays: Date[];
   dayNumbers: number[];
   showDiary: boolean;
+  availableDays?: number[];
 
   constructor(
     private studentDiary: StudentDiaryService,
@@ -30,10 +32,18 @@ export class StudentDiaryComponent implements OnInit {
     this.store.pipe(select(selectDiary)).subscribe(data => {
       this.diary = data.diary;
       this.showDiary = data.diary && !!this.diary.data.length;
+      if (data.diary) {
+        this.availableDays = [];
+        this.diary.data.map(item => {
+          if (!this.availableDays.includes(item.date[2])) {
+            this.availableDays.push(item.date[2]);
+          }
+        });
+      }
     });
   }
 
-  static getStartOfWeek() {
+  getStartOfWeek() {
     const today = new Date();
     const weekDaysPassed = getDay(today) - 1;
     return setDate(today, getDate(today) - weekDaysPassed);
@@ -48,19 +58,14 @@ export class StudentDiaryComponent implements OnInit {
   }
 
   fetchDiary() {
-    const date = this.dateValue;
-    const formattedDate = format(
-      new Date(date),
-      'YYYY-MM-DD'
-    );
-    this.studentDiary.fetchStudentDiary(formattedDate);
+    this.studentDiary.fetchStudentDiary(this.dateValue);
     this.setWeekDays();
   }
 
   setWeekDays() {
-    this.weekDays = new Array(5).fill('');
+    this.weekDays = new Array(6).fill('');
     this.weekDays.map((item, i, arr) => arr[i] = addDays(new Date(this.dateValue), i));
-    this.dayNumbers = new Array(5).fill('');
+    this.dayNumbers = new Array(6).fill('');
     this.dayNumbers.map((item, i, arr) => arr[i] = getDate(new Date(this.weekDays[i])));
   }
 
@@ -75,7 +80,7 @@ export class StudentDiaryComponent implements OnInit {
   }
 
   selectCurrentWeek() {
-    this.dateValue = StudentDiaryComponent.getStartOfWeek();
+    this.dateValue = this.getStartOfWeek();
     this.fetchDiary();
   }
 
@@ -86,5 +91,9 @@ export class StudentDiaryComponent implements OnInit {
   dateFilter(date) {
     const day = date.getDay();
     return day === 1;
+  }
+
+  downloadFile(lessonId) {
+    this.studentDiary.fetchHomeworkFile(lessonId);
   }
 }
