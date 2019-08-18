@@ -3,12 +3,10 @@ import * as ChartActions from './chart.actions';
 import {Chart} from '../../models/chart.model';
 
 
-export interface State {
-  chart: Chart;
-}
+// tslint:disable-next-line:no-empty-interface
+export interface State extends Chart {}
 
 export const initialState: State = {
-  chart: {
     labels: [''],
     options: {
       scaleShowVerticalLines: false,
@@ -36,7 +34,6 @@ export const initialState: State = {
         backgroundColor: [],
       },
     ]
-  }
 };
 
 const reducer = createReducer(
@@ -47,25 +44,15 @@ const reducer = createReducer(
   })),
   on(ChartActions.setChartData, (state, {data, labels, colors}) => ({
     ...state,
-    chart: {
-      data,
-      labels,
-      options: state.chart.options,
-      type: state.chart.type,
-      legend: state.chart.legend,
-      colors
-    }
+    data,
+    labels,
+    colors
   })),
   on(ChartActions.setCartType, (state, {chartType, options, legend}) => ({
     ...state,
-    chart: {
-      data: state.chart.data,
-      labels: state.chart.labels,
-      options,
-      type: chartType,
-      legend,
-      colors: state.chart.colors
-    }
+    options,
+    legend,
+    type: chartType
   }))
 );
 

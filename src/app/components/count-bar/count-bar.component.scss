@@ -1,6 +1,23 @@
-webui-count-bar{
+mat-card {
   width: 100%;
-  padding: 0 10px;
+  height: 100%;
+  padding: 0 !important;
+  box-shadow: none !important;
+
+  mat-card-title {
+    background-color: #694CB7;
+    padding: 10px;
+    color: white;
+    margin: 0;
+  }
+
+  mat-card-content {
+
+    width: 100%;
+    font-size: 30px;
+    display: flex;
+  }
+
 }
 
 .counting {
@@ -24,4 +41,3 @@ webui-count-bar{
   padding: 0 30px 10px;
 
 }
-

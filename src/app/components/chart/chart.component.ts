@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import ChartObject from '../../models/chartObject.model';
+import {Chart} from '../../models/chart.model';
 
 @Component({
   selector: 'webui-chart',
@@ -8,7 +8,7 @@ import ChartObject from '../../models/chartObject.model';
 })
 export class ChartComponent implements OnInit {
 
-  @Input() chartObj: ChartObject;
+  @Input() chartObj: Chart;
   @Output() emitChartType: EventEmitter<string> = new EventEmitter();
   @Output() emitChartClass: EventEmitter<number> = new EventEmitter();
 

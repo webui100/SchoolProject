@@ -51,6 +51,7 @@ import { AddStudentComponent } from "./pages/students/add-student/add-student.co
 import { SubjectsComponent } from './containers/subjects/subjects.component';
 import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from "./pages/student/student.component";
+import { CountBarComponent } from './components/count-bar/count-bar.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { StudentComponent } from "./pages/student/student.component";
     AddStudentComponent,
     StudentComponent,
     AddStudentComponent,
-    ClassesComponent
+    ClassesComponent,
+    CountBarComponent
 
   ],
   imports: [
