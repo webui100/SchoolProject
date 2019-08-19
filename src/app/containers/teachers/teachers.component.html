@@ -7,7 +7,7 @@
 </mat-form-field>
 
 <mat-accordion>
-    <mat-expansion-panel >
+    <mat-expansion-panel>
         <mat-expansion-panel-header>
             Додати вчителя
         </mat-expansion-panel-header>
@@ -15,13 +15,16 @@
     </mat-expansion-panel>
 </mat-accordion>
 
-<div class="mat-elevation-z5 table-container" >
+<div class="mat-elevation-z5 table-container">
     <table mat-table [dataSource]="teachersList" multiTemplateDataRows class="mat-elevation-z8">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell  *matHeaderCellDef>{{dataHeader(column)}} 
-                <mat-icon data-nextDirection="desc" (click)="sortSetting($event, column)">arrow_drop_down</mat-icon>
+            <th mat-header-cell *matHeaderCellDef>{{dataHeader(column)}}
+                    <mat-icon data-nextDirection="desc" 
+                    (click)="sortSetting($event, column)" *ngIf="ascending && column !== 'delete'" >arrow_drop_down</mat-icon>
+                    <mat-icon data-nextDirection="asc" 
+                    (click)="sortSetting($event, column)" *ngIf="!ascending && column !== 'delete'">arrow_drop_up</mat-icon>
             </th>
-            <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} </td>
+            <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} <mat-icon *ngIf="column == 'delete'">delete</mat-icon></td>
         </ng-container>
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->

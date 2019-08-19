@@ -19,7 +19,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { isUndefined } from 'util';
+
 
 @Component({
   selector: 'webui-teachers',
@@ -37,10 +37,12 @@ import { isUndefined } from 'util';
   ]
 })
 export class TeachersComponent implements OnInit, OnChanges {
-  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth'];
+  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'delete'];
   private expandedElement: Teacher | null;
   private teachersList = new MatTableDataSource<Teacher>();
-  private direction: string;
+  private nextDirection: string;
+  private ascending = true;
+
 
   constructor(private teachServ: TeachersService) {}
   @Input() teachersData: Teacher[];
@@ -59,8 +61,9 @@ export class TeachersComponent implements OnInit, OnChanges {
       column: columnName
     });
     this.fillTable();
-    const nextDirection = currentDirection === 'desc' ? 'asc' : 'desc';
-    e.target.setAttribute('data-nextDirection', nextDirection);
+    this.nextDirection = currentDirection === 'desc' ? 'asc' : 'desc';
+    e.target.setAttribute('data-nextDirection', this.nextDirection);
+    this.ascending = !this.ascending;
   }
 
   fillTable(): void {
@@ -75,7 +78,6 @@ export class TeachersComponent implements OnInit, OnChanges {
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     this.fillTable();
   }
 
