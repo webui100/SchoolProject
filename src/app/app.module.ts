@@ -52,7 +52,7 @@ import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.direct
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
-import { SortButtonComponent } from './containers/sort-button/sort-button.component';
+import { SortButtonComponent } from './components/sort-button/sort-button.component';
 
 @NgModule({
   declarations: [

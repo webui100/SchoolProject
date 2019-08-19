@@ -79,8 +79,8 @@ export class TeachersService {
   }
 
   deleteteacher(id: number) {
-    this.http.patch(`${this.BASE_URI}${this.USER_URI}${id}`, '');
-    console.log('DELETED');
+    this.http.patch(`${this.BASE_URI}${this.USER_URI}${id}`, id);
+    console.log(`${this.BASE_URI}${this.USER_URI}${id}`);
   }
 
   readFileImage(inputValue: HTMLInputElement) {

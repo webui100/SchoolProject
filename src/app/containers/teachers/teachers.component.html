@@ -23,7 +23,7 @@
             </th>
             <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} 
                 <mat-icon *ngIf="column == 'bind'">person_add</mat-icon>
-                <mat-icon *ngIf="column == 'delete'" (click)='deleteTeacher(teacher.id)'>delete_outline</mat-icon>
+                <mat-icon *ngIf="column == 'delete'" (click)='deleteTeacher($event, teacher.id)'>delete_outline</mat-icon>
             </td>
         </ng-container>
 

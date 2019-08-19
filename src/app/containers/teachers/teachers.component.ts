@@ -61,7 +61,8 @@ export class TeachersComponent implements OnInit, OnChanges {
     this.fillTable();
   }
 
-  deleteTeacher(teacherId: number): void {
+  deleteTeacher(e, teacherId: number): void {
+    e.stopPropagation();
     this.teachServ.deleteteacher(teacherId);
   }
 
