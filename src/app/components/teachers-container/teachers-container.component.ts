@@ -15,8 +15,7 @@ export class TeachersContainerComponent {
   constructor(private store: Store<object>) {
     this.teachersList$ = this.store.pipe(select(teachersSortByName));
   }
-  teachersSorting(options: object) {
-    this.store.dispatch(sortColumn({ sortOptions: options }));
+  teachersSorting() {
     this.teachersList$ = this.store.pipe(select(teachersSortByName));
   }
 }

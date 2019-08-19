@@ -1,3 +1,4 @@
+import { sortColumn } from 'src/app/store/teachers/teachers.action';
 import { TeachersService } from './../../services/teachers.service';
 import { Teacher } from '../../models/teacher.model';
 import {
@@ -19,6 +20,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -37,14 +39,13 @@ import {
   ]
 })
 export class TeachersComponent implements OnInit, OnChanges {
-  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'delete'];
+  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'bind', 'delete'];
   private expandedElement: Teacher | null;
   private teachersList = new MatTableDataSource<Teacher>();
-  private nextDirection: string;
-  private ascending = true;
 
 
-  constructor(private teachServ: TeachersService) {}
+  constructor(private teachServ: TeachersService,
+              private store: Store<object>) {}
   @Input() teachersData: Teacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -54,16 +55,14 @@ export class TeachersComponent implements OnInit, OnChanges {
     this.teachersList.filter = filterValue.trim().toLowerCase();
   }
 
-  sortSetting(e: any, columnName: string) {
-    const currentDirection = e.target.getAttribute('data-nextDirection');
-    this.teachersSorting.emit({
-      direction: currentDirection,
-      column: columnName
-    });
+
+  sortOptions(options: object): void {
+    this.store.dispatch(sortColumn({sortOptions: options}));
     this.fillTable();
-    this.nextDirection = currentDirection === 'desc' ? 'asc' : 'desc';
-    e.target.setAttribute('data-nextDirection', this.nextDirection);
-    this.ascending = !this.ascending;
+  }
+
+  deleteTeacher(teacherId: number): void {
+    this.teachServ.deleteteacher(teacherId);
   }
 
   fillTable(): void {

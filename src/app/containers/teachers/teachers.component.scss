@@ -15,6 +15,11 @@ mat-icon {
 mat-icon:hover {
   cursor: pointer;
 }
+.mat-column-delete,
+.mat-column-bind{
+  width: 10%;
+  text-align: center;
+}
 
 .header {
   @extend %flex-center;

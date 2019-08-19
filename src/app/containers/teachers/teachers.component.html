@@ -19,12 +19,12 @@
     <table mat-table [dataSource]="teachersList" multiTemplateDataRows class="mat-elevation-z8">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef>{{dataHeader(column)}}
-                    <mat-icon data-nextDirection="desc" 
-                    (click)="sortSetting($event, column)" *ngIf="ascending && column !== 'delete'" >arrow_drop_down</mat-icon>
-                    <mat-icon data-nextDirection="asc" 
-                    (click)="sortSetting($event, column)" *ngIf="!ascending && column !== 'delete'">arrow_drop_up</mat-icon>
+                <webui-sort-button [columnName]="column" (sortOptions)="sortOptions($event)"></webui-sort-button>
             </th>
-            <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} <mat-icon *ngIf="column == 'delete'">delete</mat-icon></td>
+            <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} 
+                <mat-icon *ngIf="column == 'bind'">person_add</mat-icon>
+                <mat-icon *ngIf="column == 'delete'" (click)='deleteTeacher(teacher.id)'>delete_outline</mat-icon>
+            </td>
         </ng-container>
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->

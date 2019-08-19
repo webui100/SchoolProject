@@ -22,6 +22,7 @@ export class TeachersService {
   private BASE_URI = environment.APIEndpoint;
   private TEACHER_URI = 'teachers/';
   private ADMIN_URI = 'admin/';
+  private USER_URI = 'users/';
 
   constructor(
     private http: HttpClient,
@@ -75,6 +76,11 @@ export class TeachersService {
           this.errorMessage(error);
         }
       );
+  }
+
+  deleteteacher(id: number) {
+    this.http.patch(`${this.BASE_URI}${this.USER_URI}${id}`, '');
+    console.log('DELETED');
   }
 
   readFileImage(inputValue: HTMLInputElement) {
