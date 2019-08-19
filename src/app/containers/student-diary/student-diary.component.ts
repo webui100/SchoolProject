@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, LOCALE_ID } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateAdapter } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
@@ -18,14 +18,14 @@ import { Lesson } from '../../models/diary.model';
   styleUrls: ['./student-diary.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'uk'}]
 })
-export class StudentDiaryComponent implements OnInit {
+export class StudentDiaryComponent implements OnInit, OnDestroy {
   diary$: Observable<Lesson[]>;
+  destroyStream$ = new Subject<void>();
   dateValue = this.getStartOfWeek();
   weekDays: Date[];
   dayNumbers: number[];
   showDiary?: boolean;
   availableDays?: number[];
-  destroyStream: any;
 
   constructor(
     private studentDiary: StudentDiaryService,
@@ -35,9 +35,7 @@ export class StudentDiaryComponent implements OnInit {
     this.diary$ = this.store.pipe(select(selectLessons));
 
     this.store.pipe(select(selectLessons))
-      .pipe(
-        takeUntil(this.destroyStream)
-      )
+      .pipe(takeUntil(this.destroyStream$))
       .subscribe(lessons => {
         this.showDiary = !!(lessons && lessons.length);
         if (lessons) {
@@ -63,6 +61,10 @@ export class StudentDiaryComponent implements OnInit {
     this.dateAdapter.getFirstDayOfWeek = () => 1;
     this.fetchDiary();
     this.setWeekDays();
+  }
+
+  ngOnDestroy() {
+    this.destroyStream$.next();
   }
 
   fetchDiary() {
@@ -103,9 +105,5 @@ export class StudentDiaryComponent implements OnInit {
 
   downloadFile(lessonId) {
     this.studentDiary.fetchHomeworkFile(lessonId);
-  }
-
-  ngOnDestroy() {
-    this.destroyStream.next();
   }
 }
