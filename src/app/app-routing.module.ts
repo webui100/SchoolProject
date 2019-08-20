@@ -5,7 +5,6 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
 import { LoginComponent } from "./pages/login/login.component";
-import { TeachersComponent } from "./containers/teachers/teachers.component";
 import { AdminComponent } from './pages/admin/admin.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
@@ -17,6 +16,7 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentsComponent } from "./pages/students/students.component";
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
+import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 
 
 
@@ -65,7 +65,7 @@ const routes: Routes = [
       },
       {
         path: "teachers",
-        component: TeachersComponent
+        component: TeachersContainerComponent
       },
       {
         path: 'subjects',

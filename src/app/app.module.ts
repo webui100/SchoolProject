@@ -53,6 +53,8 @@ import { StudentComponent } from './pages/student/student.component';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { NewYearComponent } from './containers/new-year/new-year.component';
 import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
+import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
+import { SortButtonComponent } from './components/sort-button/sort-button.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,9 @@ import { TransferStudentsTableComponent } from './components/transfer-students-t
     ClassesComponent,
     CountBarComponent,
     NewYearComponent,
-    TransferStudentsTableComponent
+    TransferStudentsTableComponent,
+    TeachersContainerComponent,
+    SortButtonComponent
 
   ],
   imports: [
