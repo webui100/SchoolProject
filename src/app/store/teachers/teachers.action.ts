@@ -21,3 +21,7 @@ export const sortColumn = createAction(
     props<{ sortOptions: object}>()
 );
 
+export const deleteTeacher = createAction(
+    '[DeleteTeacher] deleteTeacher',
+    props<{ deleteTeacher: number}>()
+);

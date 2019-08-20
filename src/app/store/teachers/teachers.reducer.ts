@@ -39,8 +39,19 @@ const reducer = createReducer(
       ...state,
       sortOptions
     };
+  }),
+  on(TeacherData.deleteTeacher, (state: State, { deleteTeacher }) => {
+    return {
+      ...state,
+      teachersList: state.teachersList.map((teacher: Teacher, index: number) => {
+        if (teacher.id === deleteTeacher) {
+          state.teachersList.splice(index, 1);
+        } else {
+          return teacher;
+        }
+      })
+    };
   })
-
 );
 
 export function teachersDataReducer(state: State | undefined, action: Action) {

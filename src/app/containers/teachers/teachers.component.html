@@ -31,7 +31,7 @@
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let teacher" [attr.colspan]="columnsToDisplay.length">
                 <div class="teacher-detail" [@detailExpand]="teacher == expandedElement ? 'expanded' : 'collapsed'">
-                    <webui-teacher-card [teacher]="teacher"></webui-teacher-card>
+                    <webui-teacher-card *ngIf="teacher" [teacher]="teacher"></webui-teacher-card>
                 </div>
             </td>
         </ng-container>

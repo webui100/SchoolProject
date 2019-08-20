@@ -1,5 +1,4 @@
 import { FormGroup } from '@angular/forms';
-import { editTeacher } from './../store/teachers/teachers.action';
 import { NotificationService } from './notification.service';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,11 +6,14 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   teacherAction,
-  addOneTeacher
+  addOneTeacher,
+  editTeacher,
+  deleteTeacher
 } from '../store/teachers/teachers.action';
 import { Subject } from 'rxjs';
 import { HttpGetResponse, HttpPostPutResponse } from '../models/HttpResponse.model';
 import { Teacher } from '../models/teacher.model';
+
 
 
 @Injectable({
@@ -78,9 +80,19 @@ export class TeachersService {
       );
   }
 
-  deleteteacher(id: number) {
-    this.http.patch(`${this.BASE_URI}${this.USER_URI}${id}`, id);
-    console.log(`${this.BASE_URI}${this.USER_URI}${id}`);
+  deleteTeacher(id: number) {
+    return this.http.patch(`${this.BASE_URI}${this.USER_URI}${id}`, {observe: 'response'})
+    .subscribe(
+      () => {
+        this.notify.notifySuccess('Успішно видалено');
+        this.store.dispatch(deleteTeacher({ deleteTeacher: id })
+        );
+      },
+      error => {
+        this.errorMessage(error);
+        this.notify.notifyFailure('Не вдалось видалити');
+      }
+    );
   }
 
   readFileImage(inputValue: HTMLInputElement) {

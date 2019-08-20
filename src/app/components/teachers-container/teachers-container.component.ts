@@ -1,6 +1,7 @@
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { teachersSortByName } from 'src/app/store/teachers/teachers.selector';
+import { Store } from '@ngrx/store';
+import { teachersSortByName, selectTeachers } from 'src/app/store/teachers/teachers.selector';
 import { Observable } from 'rxjs';
 import { sortColumn } from 'src/app/store/teachers/teachers.action';
 
@@ -9,13 +10,18 @@ import { sortColumn } from 'src/app/store/teachers/teachers.action';
   templateUrl: './teachers-container.component.html',
   styleUrls: ['./teachers-container.component.scss']
 })
-export class TeachersContainerComponent {
+export class TeachersContainerComponent implements OnInit{
   private teachersList$: Observable<object[]>;
 
   constructor(private store: Store<object>) {
-    this.teachersList$ = this.store.pipe(select(teachersSortByName));
   }
-  teachersSorting() {
-    this.teachersList$ = this.store.pipe(select(teachersSortByName));
+
+  teachersSorting(options) {
+    this.store.dispatch(sortColumn({sortOptions: options}));
+    this.teachersList$ = this.store.select(teachersSortByName);
+  }
+
+  ngOnInit() {
+    this.teachersList$ = this.store.select(teachersSortByName);
   }
 }

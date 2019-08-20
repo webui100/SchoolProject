@@ -1,4 +1,4 @@
-import { sortColumn } from 'src/app/store/teachers/teachers.action';
+import { sortColumn, deleteTeacher } from 'src/app/store/teachers/teachers.action';
 import { TeachersService } from './../../services/teachers.service';
 import { Teacher } from '../../models/teacher.model';
 import {
@@ -57,13 +57,13 @@ export class TeachersComponent implements OnInit, OnChanges {
 
 
   sortOptions(options: object): void {
-    this.store.dispatch(sortColumn({sortOptions: options}));
+    this.teachersSorting.emit(options);
     this.fillTable();
   }
 
   deleteTeacher(e, teacherId: number): void {
     e.stopPropagation();
-    this.teachServ.deleteteacher(teacherId);
+    this.teachServ.deleteTeacher(teacherId);
   }
 
   fillTable(): void {
