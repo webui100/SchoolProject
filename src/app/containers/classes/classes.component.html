@@ -3,7 +3,7 @@
         <mat-expansion-panel-header>
             <mat-panel-title>Активні класи</mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-expansion-panel *ngFor="let activeClass of activeUniqueClassList | keyvalue" hideToggle class="groupofclasses" >
+        <mat-expansion-panel *ngFor="let activeClass of activeUniqueClassList | keyvalue: sortKeys" hideToggle class="groupofclasses" >
             <mat-expansion-panel-header>
                 <mat-panel-title>{{activeClass.key}}</mat-panel-title>
             </mat-expansion-panel-header>
@@ -34,7 +34,7 @@
             <mat-expansion-panel-header>
                 <mat-panel-title>Неактивні класи</mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-expansion-panel *ngFor="let nonActiveClass of nonActiveUniqueClassList | keyvalue" hideToggle class="groupofclasses" >
+            <mat-expansion-panel *ngFor="let nonActiveClass of nonActiveUniqueClassList | keyvalue: sortKeys" hideToggle class="groupofclasses" >
                 <mat-expansion-panel-header>
                     <mat-panel-title>{{nonActiveClass.key}}</mat-panel-title>
                 </mat-expansion-panel-header>

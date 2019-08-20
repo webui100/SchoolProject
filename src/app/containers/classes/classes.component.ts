@@ -53,6 +53,25 @@ export class ClassesComponent implements OnInit {
     }
   }
 
+  isNumber(value){
+    return Number.isInteger(value);
+  }
+  
+  sortKeys = (current, previous) => {
+    const parsedCurrent = Number(current.key);
+    const parsedPrevious = Number (previous.key);
+    if(this.isNumber(parsedCurrent) && this.isNumber(parsedPrevious)) {
+      return parsedCurrent - parsedPrevious;
+    }
+    else if(!this.isNumber(parsedPrevious) && this.isNumber(parsedCurrent)){
+      return -1
+    }
+    else{
+      // if
+      return 1;
+    }
+  }
+
   ngOnInit() {
     // get data from endpoint
     this.classesService.getClasses();
