@@ -4,7 +4,7 @@ table {
 
 td, th {
   text-align: center !important;
-  width: 20% !important;
+  width: calc(100% / 6) !important;
 }
 
 th {

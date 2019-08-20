@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="sidenav" fixedInViewport
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [mode]="(handsetSubject$ | async) ? 'over' : 'side'"
       [(opened)]="isOpened">
 
     <mat-toolbar>Меню</mat-toolbar>
@@ -31,7 +31,7 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="isOpened = true"
-        *ngIf="isHandset$ | async">
+        *ngIf="!isOpened">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <mat-toolbar color="primary" class="button-container">
