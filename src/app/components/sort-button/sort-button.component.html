@@ -1,0 +1,2 @@
+<mat-icon data-nextDirection="desc" (click)="sortSetting($event)" *ngIf="ascending && columnName !== 'delete' && columnName !== 'bind'" >arrow_drop_down</mat-icon>
+<mat-icon data-nextDirection="asc" (click)="sortSetting($event)" *ngIf="!ascending && columnName !== 'delete' && columnName !== 'bind'">arrow_drop_up</mat-icon>

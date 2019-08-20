@@ -1,34 +1,54 @@
-import { Teacher } from './../../models/teacher';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as TeacherData from './teachers.action';
-import { map } from 'rxjs/operators';
+import { Teacher } from 'src/app/models/teacher.model';
+
+
 
 export interface State {
   teachersList: Array<object>;
+  sortOptions: object;
 }
 
 export const initialState: State = {
   teachersList: null,
+  sortOptions: { direction: 'asc', column: 'firstname'}
 };
 
 const reducer = createReducer(
   initialState,
-  on(TeacherData.teacherAction, (state, { teachersList }) => ({
+  on(TeacherData.teacherAction, (state: State, { teachersList }) => ({
     ...state,
     teachersList
   })),
-  on(TeacherData.addOneTeacher, (state, { teacher }) => {
+  on(TeacherData.addOneTeacher, (state: State, { teacher }) => {
     return {
       ...state,
       teachersList: [...state.teachersList, teacher]
     };
   }),
-  on(TeacherData.editTeacher, (state, { editedTeacher }) => {
+  on(TeacherData.editTeacher, (state: State, { editedTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map(teacher => {
-        // @ts-ignore
+      teachersList: state.teachersList.map((teacher: Teacher) => {
         return teacher.login === editedTeacher.login ? editedTeacher : teacher;
+      })
+    };
+  }),
+  on(TeacherData.sortColumn, (state: State, { sortOptions }) => {
+    return {
+      ...state,
+      sortOptions
+    };
+  }),
+  on(TeacherData.deleteTeacher, (state: State, { deleteTeacher }) => {
+    return {
+      ...state,
+      teachersList: state.teachersList.map((teacher: Teacher, index: number) => {
+        if (teacher.id === deleteTeacher) {
+          state.teachersList.splice(index, 1);
+        } else {
+          return teacher;
+        }
       })
     };
   })
