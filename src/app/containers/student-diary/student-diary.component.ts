@@ -3,10 +3,12 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateAdapter } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
+import { HomeworkDialogComponent } from '../../components/homework-dialog/homework-dialog.component';
 import { StudentDiaryService } from '../../services/student-diary.service';
 import { selectLessons } from '../../store/diary/diary.selectors';
 import { Lesson } from '../../models/diary.model';
@@ -30,7 +32,8 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
   constructor(
     private studentDiary: StudentDiaryService,
     private store: Store<{ diary }>,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    public dialog: MatDialog
   ) {
     this.diary$ = this.store.pipe(select(selectLessons));
 
@@ -103,7 +106,22 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
     return day === 1;
   }
 
-  downloadFile(lessonId) {
+  downloadFile(lessonId): void {
     this.studentDiary.fetchHomeworkFile(lessonId);
+  }
+
+  openFile(): void {
+    const dialogRef = this.dialog.open(HomeworkDialogComponent, {
+      width: '90vh',
+      height: '80vh'
+      // data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+
+      console.log(result);
+    });
   }
 }

@@ -58,6 +58,13 @@
                 >
                   save_alt
                 </mat-icon>
+                <mat-icon
+                  *ngIf="data.homeworkFileId !== null"
+                  (click)="openFile(data.lessonId)"
+                  title="Переглянути"
+                >
+                  zoom_in
+                </mat-icon>
               </td>
               <td>{{data.mark > 0 ? data.mark : null}}</td>
               <td>{{data.note}}</td>

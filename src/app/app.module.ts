@@ -51,6 +51,7 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
+import { HomeworkDialogComponent } from './components/homework-dialog/homework-dialog.component';
 
 @NgModule({
   declarations: [
@@ -77,8 +78,11 @@ import { CountBarComponent } from './components/count-bar/count-bar.component';
     StudentComponent,
     AddStudentComponent,
     ClassesComponent,
-    CountBarComponent
-
+    CountBarComponent,
+    HomeworkDialogComponent
+  ],
+  entryComponents: [
+    HomeworkDialogComponent
   ],
   imports: [
     ChartsModule,
