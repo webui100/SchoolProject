@@ -1,6 +1,6 @@
 import { sortColumn, deleteTeacher } from 'src/app/store/teachers/teachers.action';
 import { TeachersService } from './../../services/teachers.service';
-import { Teacher } from '../../models/teacher.model';
+import { ITeacher } from '../../models/teacher.model';
 import {
   Component,
   OnInit,
@@ -40,13 +40,13 @@ import { Store } from '@ngrx/store';
 })
 export class TeachersComponent implements OnInit, OnChanges {
   private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'bind', 'delete'];
-  private expandedElement: Teacher | null;
-  private teachersList = new MatTableDataSource<Teacher>();
+  private expandedElement: ITeacher | null;
+  private teachersList = new MatTableDataSource<ITeacher>();
 
 
   constructor(private teachServ: TeachersService,
               private store: Store<object>) {}
-  @Input() teachersData: Teacher[];
+  @Input() teachersData: ITeacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -61,13 +61,13 @@ export class TeachersComponent implements OnInit, OnChanges {
     this.fillTable();
   }
 
-  deleteTeacher(e, teacherId: number): void {
+  deleteTeacher(e: Event, teacherId: number): void {
     e.stopPropagation();
     this.teachServ.deleteTeacher(teacherId);
   }
 
   fillTable(): void {
-    this.teachersList = new MatTableDataSource<Teacher>(this.teachersData);
+    this.teachersList = new MatTableDataSource<ITeacher>(this.teachersData);
     this.teachersList.paginator = this.paginator;
   }
 

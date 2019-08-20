@@ -1,14 +1,14 @@
-import { Teacher } from './teacher.model';
-export interface HttpGetResponse {
-    data: Teacher[] | Array<object>;
+import { ITeacher } from './teacher.model';
+export interface IHttpGetResponse {
+    data: ITeacher[];
     status: string;
   }
 
-export interface HttpPostPutResponse {
+export interface IHttpPostPutResponse {
     headers: object;
     status: number;
     statusText: string;
     url: string;
     body: object;
-    data: Teacher | object;
+    data: ITeacher;
 }

@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as TeacherData from './teachers.action';
-import { Teacher } from 'src/app/models/teacher.model';
+import { ITeacher } from 'src/app/models/teacher.model';
 
 
 
@@ -29,7 +29,7 @@ const reducer = createReducer(
   on(TeacherData.editTeacher, (state: State, { editedTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map((teacher: Teacher) => {
+      teachersList: state.teachersList.map((teacher: ITeacher) => {
         return teacher.login === editedTeacher.login ? editedTeacher : teacher;
       })
     };
@@ -43,7 +43,7 @@ const reducer = createReducer(
   on(TeacherData.deleteTeacher, (state: State, { deleteTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map((teacher: Teacher, index: number) => {
+      teachersList: state.teachersList.map((teacher: ITeacher, index: number) => {
         if (teacher.id === deleteTeacher) {
           state.teachersList.splice(index, 1);
         } else {

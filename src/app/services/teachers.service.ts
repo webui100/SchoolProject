@@ -11,8 +11,8 @@ import {
   deleteTeacher
 } from '../store/teachers/teachers.action';
 import { Subject } from 'rxjs';
-import { HttpGetResponse, HttpPostPutResponse } from '../models/HttpResponse.model';
-import { Teacher } from '../models/teacher.model';
+import { IHttpGetResponse, IHttpPostPutResponse } from '../models/HttpResponse.model';
+import { ITeacher } from '../models/teacher.model';
 
 
 
@@ -35,14 +35,14 @@ export class TeachersService {
   getTeachers() {
     return this.http
       .get(`${this.BASE_URI}${this.TEACHER_URI}`)
-      .subscribe((response: HttpGetResponse) => {
+      .subscribe((response: IHttpGetResponse) => {
         this.store.dispatch(teacherAction({ teachersList: response.data }));
       });
   }
 
-  editTeacher(teacherId: number, data: Teacher) {
+  editTeacher(teacherId: number, data: ITeacher) {
     return this.http
-      .put<HttpPostPutResponse>(
+      .put<IHttpPostPutResponse>(
         `${this.BASE_URI}${this.ADMIN_URI}${this.TEACHER_URI}${teacherId}`,
         data,
         {
@@ -55,6 +55,7 @@ export class TeachersService {
           this.store.dispatch(
             editTeacher({ editedTeacher: response.body.data })
           );
+          console.log(response.body.data);
         },
         error => {
           this.errorMessage(error);
@@ -62,9 +63,9 @@ export class TeachersService {
       );
   }
 
-  addTeacher(data: Teacher) {
+  addTeacher(data: ITeacher) {
     return this.http
-      .post<HttpPostPutResponse>(`${this.BASE_URI}${this.TEACHER_URI}`,
+      .post<IHttpPostPutResponse>(`${this.BASE_URI}${this.TEACHER_URI}`,
       data,
       {
         observe: 'response'
@@ -73,6 +74,7 @@ export class TeachersService {
         response => {
           this.notify.notifySuccess('Успішно створено');
           this.store.dispatch(addOneTeacher({ teacher: response.body.data }));
+          console.log(response.body.data);
         },
         error => {
           this.errorMessage(error);
@@ -123,7 +125,7 @@ export class TeachersService {
   clearForm(formName: FormGroup) {
     formName.reset();
     Object.keys(formName.controls).forEach(key => {
-      formName.get(key).setErrors(null);
+      formName.get(key).markAsPristine();
     });
   }
 }
