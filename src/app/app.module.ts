@@ -48,7 +48,6 @@ import { StudentsComponent } from "./pages/students/students.component";
 import { StudentDetailComponent } from "./pages/students/student-detail/student-detail.component";
 import { AddStudentComponent } from "./pages/students/add-student/add-student.component";
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 
@@ -70,7 +69,6 @@ import { CountBarComponent } from './components/count-bar/count-bar.component';
     HeaderComponent,
     ChartComponent,
     SubjectsComponent,
-    CdkDetailRowDirective,
     StudentsComponent,
     StudentDetailComponent,
     AddStudentComponent,
