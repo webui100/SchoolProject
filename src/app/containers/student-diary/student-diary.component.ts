@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateAdapter } from '@angular/material';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
@@ -107,21 +107,29 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(lessonId): void {
-    this.studentDiary.fetchHomeworkFile(lessonId);
+    this.studentDiary.downloadHomeworkFile(lessonId);
   }
 
-  openFile(): void {
-    const dialogRef = this.dialog.open(HomeworkDialogComponent, {
-      width: '90vh',
-      height: '80vh'
-      // data: {name: this.name, animal: this.animal}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-
-      console.log(result);
-    });
+  openFile(lessonId): void {
+    this.studentDiary.openHomeworkFile(lessonId)
+      .subscribe(data => {
+        console.log(data);
+        this.dialog.open(HomeworkDialogComponent, {
+          panelClass: 'custom-dialog-container',
+          width: '90vw',
+          height: '80vh',
+          data
+        });
+      });
+    // const dialogRef = this.dialog.open(HomeworkDialogComponent, {
+    //   width: '90vw',
+    //   height: '80vh'
+    //   // data: {name: this.name, animal: this.animal}
+    // });
+    //
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   // this.animal = result;
+    // });
   }
 }

@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { Lesson } from '../../models/diary.model';
+
 
 @Component({
   selector: 'webui-homework-dialog',
@@ -7,9 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeworkDialogComponent implements OnInit {
 
-  constructor() { }
+  attachmentUrl: any;
+
+  constructor(
+    // public dialogRef: MatDialogRef<HomeworkDialogComponent>,
+    // @Inject(MAT_DIALOG_DATA) public data: Lesson
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 
   ngOnInit() {
+    this.attachmentUrl = `data:${this.data.fileType};base64,${this.data.fileData}`;
   }
 
+  showData() {
+    // console.log('dialogRef', this.dialogRef);
+    console.log('data', this.data);
+  }
 }

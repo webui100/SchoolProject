@@ -39,7 +39,7 @@ export class StudentDiaryService {
       });
   }
 
-  fetchHomeworkFile(lessonId) {
+  downloadHomeworkFile(lessonId) {
     return this.http
       .get(`${this.BASE_URI}homeworks/files/${lessonId}`, {
         headers: new HttpHeaders({
@@ -57,5 +57,20 @@ export class StudentDiaryService {
         const fileName = result.fileName;
         saveAs(file, fileName);
       });
+  }
+
+  openHomeworkFile(lessonId) {
+    return this.http
+      .get(`${this.BASE_URI}homeworks/files/${lessonId}`, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: '*/*'
+        }),
+        observe: 'response'
+      })
+      .pipe(
+        map(response => response.body),
+        map((body: HomeworkFile) => body.data)
+      );
   }
 }
