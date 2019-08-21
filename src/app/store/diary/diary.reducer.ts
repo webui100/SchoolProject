@@ -1,18 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { fetchDiary } from './diary.actions';
-
-export interface Diary {
-  data?: {
-    date: [number, number, number];
-    homeWork: string;
-    homeworkFileId: number | null;
-    lessonId: number;
-    lessonNumber: number;
-    mark: number;
-    note: string;
-    subjectName: string;
-  }[];
-}
+import { Diary } from '../../models/diary.model';
 
 export interface State {
   diary: Diary;

@@ -1,11 +1,18 @@
-import { Store, select } from '@ngrx/store';
-import { Teacher } from '../../models/teacher';
-import { TeachersService } from '../../services/teachers.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { sortColumn, deleteTeacher } from 'src/app/store/teachers/teachers.action';
+import { TeachersService } from './../../services/teachers.service';
+import { Teacher } from '../../models/teacher.model';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { selectTeachers } from '../../store/teachers/teachers.selector';
 import {
   animate,
   state,
@@ -13,6 +20,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -30,49 +38,51 @@ import {
     ])
   ]
 })
-export class TeachersComponent implements OnInit {
-  private data$: any;
-  data: Teacher[];
+export class TeachersComponent implements OnInit, OnChanges {
+  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'bind', 'delete'];
+  private expandedElement: Teacher | null;
+  private teachersList = new MatTableDataSource<Teacher>();
 
-  constructor(private teachers: TeachersService, private store: Store<{}>) {
-    this.data$ = this.store.pipe(select(selectTeachers));
-  }
 
-  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth']; // header for TH
-  private expandedElement: Teacher | null; // for expanded row
-  private teachersList: any; // list of teacher
-
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator; // View child pulls out DOM element
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  /* function make subscribe and initializes "data",
-  then convert data for correct view in table
-  add a pagintator and sorting*/
-  getTeachers() {
-    this.data$.subscribe(response => {
-      this.data = response.teachersList;
-      this.teachersList = new MatTableDataSource<Teacher>(this.data);
-      if (this.data !== null) {
-        this.teachersList.paginator = this.paginator;
-        this.teachersList.sort = this.sort;
-      }
-    });
-    if (!this.data) {
-      this.teachers.getTeachers();
-    }
-  }
+  constructor(private teachServ: TeachersService,
+              private store: Store<object>) {}
+  @Input() teachersData: Teacher[];
+  @Output() teachersSorting = new EventEmitter();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // function for sorting, trim() remove spaces
-  private applyFilter(filterValue: string) {
+  private applyFilter(filterValue: string): void {
     this.teachersList.filter = filterValue.trim().toLowerCase();
   }
 
-  ngOnInit() {
-    this.getTeachers();
+
+  sortOptions(options: object): void {
+    this.teachersSorting.emit(options);
+    this.fillTable();
   }
 
-  // switcher for table header with ua text
-  private dataHeader(header) {
+  deleteTeacher(e, teacherId: number): void {
+    e.stopPropagation();
+    this.teachServ.deleteTeacher(teacherId);
+  }
+
+  fillTable(): void {
+    this.teachersList = new MatTableDataSource<Teacher>(this.teachersData);
+    this.teachersList.paginator = this.paginator;
+  }
+
+  ngOnInit(): void {
+    this.fillTable();
+    if (this.teachersData === undefined) {
+      this.teachServ.getTeachers();
+    }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fillTable();
+  }
+
+  // switcher for table header with UA text
+  private dataHeader(header: string) {
     switch (header) {
       case 'firstname':
         return 'Ім\'я';
@@ -82,5 +92,4 @@ export class TeachersComponent implements OnInit {
         return 'Дата народження';
     }
   }
-
 }

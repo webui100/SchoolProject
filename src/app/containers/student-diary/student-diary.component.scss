@@ -10,26 +10,30 @@
 }
 
 .diary {
-  padding: .7rem;
-  .day-in-diary {
-    margin: .7rem 0;
-    mat-card {
-       padding: 0;
-      mat-card-title {
-        padding: .8rem 0 0 .8rem;
+  padding: 1rem 1rem 1.5rem;
+  mat-card {
+    margin-bottom: 1.2rem;
+    padding: 0;
+    mat-card-title {
+      padding: .8rem 0 0 .8rem;
+    }
+    table {
+      width: 100%;
+      border-spacing: 1px;
+      th {
+        padding: .5rem;
+        background: #5b33a1;
+        color: #fff;
       }
-      table {
-        width: 100%;
-        border-spacing: 1px;
-        th {
-          padding: .5rem;
-          background: #5b33a1;
-          color: #fff;
-        }
-        td {
-          padding: .5rem;
-          background: #e2e2e2;
-          text-align: center;
+      td {
+        padding: .5rem;
+        background: #e2e2e2;
+        text-align: center;
+        mat-icon {
+          vertical-align: middle;
+          margin: -1.1rem 0 -.5rem .5rem;
+          font-size: 28px;
+          cursor: pointer;
         }
       }
     }
@@ -44,15 +48,13 @@ h3 {
 
 @media screen and (min-width: 1024px) {
   .diary {
-    display: flex;
-    flex-wrap: wrap;
-    padding: .4rem .4rem .4rem .8rem;
+    column-count: 2;
     .day-in-diary {
       flex: 0 0 49%;
-      margin: .3rem;
+      break-inside: avoid;
     }
     .day-1 {
-       order: 1;
+      order: 1;
     }
     .day-2 {
       order: 3;
@@ -65,6 +67,9 @@ h3 {
     }
     .day-5 {
       order: 4;
+    }
+    .day-6 {
+      order: 6;
     }
   }
 }
