@@ -1,9 +1,21 @@
-.custom-dialog-container .mat-dialog-container {
-  padding: 0;
-  margin: 0;
+header {
+  height: 15%;
+  background: #5b33a1;
 }
 
-header {
-  height: 4rem;
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  background: #cccccc;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+footer {
+  height: 15%;
   background: #5b33a1;
 }

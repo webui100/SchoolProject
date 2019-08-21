@@ -14,7 +14,7 @@ export class HomeworkDialogComponent implements OnInit {
   attachmentUrl: any;
 
   constructor(
-    // public dialogRef: MatDialogRef<HomeworkDialogComponent>,
+    public dialogRef: MatDialogRef<HomeworkDialogComponent>,
     // @Inject(MAT_DIALOG_DATA) public data: Lesson
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
