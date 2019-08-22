@@ -1,4 +1,6 @@
-<h1>Розклад уроків</h1>
+<div class="header">
+  <h1><i class="material-icons">schedule</i> Розклад уроків</h1>
+</div>
 <form (keydown.enter)="$event.preventDefault()">
   <div layout="row" layout-align="start start" class="term-class-year-div">
     <mat-form-field fxFlex>
@@ -13,7 +15,6 @@
     <mat-form-field fxFlex>
       <input type="text" placeholder="Навчальний рік *" matInput [formControl]="scheduleForm.get('year')"
         [matAutocomplete]="yearA">
-        <!-- (input)="checkYearInput()" -->
       <mat-autocomplete #yearA="matAutocomplete" (optionSelected)="enableTermInput()">
         <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
           {{year}} - {{+year + 1}}
@@ -47,16 +48,12 @@
       </div>
     </div>
   </div>
-  <!-- -->
   <mat-accordion>
     <mat-expansion-panel *ngFor="let day of daysOfWeek; let i=index">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{day.value}}
         </mat-panel-title>
-        <!-- <mat-panel-description>
-          ({{day.lessons.length - 1}} уроків)
-        </mat-panel-description> -->
       </mat-expansion-panel-header>
 
       <webui-daily-schedule [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)" [dayName]="day.name">
@@ -67,4 +64,8 @@
   <button type="submit" (click)="onSubmit()" mat-raised-button [disabled]="!scheduleForm.valid">Зберегти
     розклад</button>
   <button (click)="clearSchedule()" mat-raised-button>Очистити розклад</button>
+  <span *ngIf="scheduleCleared.isCleared">
+    <button (click)="restoreClearedSchedule()" mat-raised-button>Відновити розклад</button>
+    Час очищення розкладу: {{ scheduleCleared.clearingTime | date:'HH:mm'}}
+  </span>
 </form>

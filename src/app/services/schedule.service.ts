@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import * as ScheduleModels from 'src/app/models/schedule';
 import { HttpClient } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
-import { getSchedule } from '../store/schedule/schedule.actions';
+import { setSchedule, setClearedSchedule } from '../store/schedule/schedule.actions';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -22,9 +22,17 @@ export class ScheduleService {
     private notify: NotificationService,
     private store: Store<{ schedule }>) { }
 
-  getSchedule(classId) {
-    return this.http.get(`${this.BASE_URI}classes/${classId}/schedule`)
-      .subscribe(res => this.store.dispatch(getSchedule(classId)));
+  // getSchedule(classId) {
+  //   return this.http.get(`${this.BASE_URI}classes/${classId}/schedule`)
+  //     .subscribe(res => this.store.dispatch(getSchedule(classId)));
+  // }
+
+  setScheduleToStore(form: any) {
+    this.store.dispatch(setSchedule(form))
+  }
+
+  setClearedScheduleToStore(form: any) {
+    this.store.dispatch(setClearedSchedule(form))
   }
 
   postSchedule(form: any) {
@@ -64,7 +72,7 @@ export class ScheduleService {
 
     const termEndDate = new Date(form.termEndDate);
     const termStartDate = new Date(form.termStartDate);
-    
+
     const scheduleObject: ScheduleModels.Schedule = {
       classId: form.class.id,
       className: form.class,
@@ -112,8 +120,8 @@ export class ScheduleService {
     const uniqueTeacherSubjectsArray = [...uniqueTeacherSubjects];
     const classId = form.class.id;
     for (let i = 0; i < uniqueTeacherSubjectsArray.length; i++) {
-      const teacherId = parseInt(uniqueTeacherSubjectsArray[i].slice(uniqueTeacherSubjectsArray[i].indexOf('-') + 1));
-      const subjectId = parseInt(uniqueTeacherSubjectsArray[i]);
+      const teacherId = parseInt((uniqueTeacherSubjectsArray[i]as string).slice(uniqueTeacherSubjectsArray[i].indexOf('-') + 1));
+      const subjectId = parseInt(uniqueTeacherSubjectsArray[i]as string);
       this.postRequestTeacherToJournal(teacherId, classId, subjectId);
     }
   }
