@@ -5,7 +5,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { format } from 'date-fns';
+import { format, addYears } from 'date-fns';
 
 @Component({
   selector: 'webui-teacher-create',
@@ -17,10 +17,10 @@ import { format } from 'date-fns';
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
 })
-export class TeacherCreateComponent implements OnInit{
+export class TeacherCreateComponent implements OnInit {
   private avatarImg = '../../../assets/images/no-user-image.png';
   private subject: Subject<string | ArrayBuffer>;
-  private maxAge = this.teachServise.checkAgeDate();
+  private maxAge = addYears(new Date(), -18);
   private addTeacher: FormGroup;
 
   constructor(private teachServise: TeachersService,

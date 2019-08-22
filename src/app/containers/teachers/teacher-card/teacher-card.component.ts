@@ -1,5 +1,5 @@
-import { format } from 'date-fns';
-import { Subscription } from 'rxjs';
+import { format, addYears } from 'date-fns';
+import { Subscription, Subject } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { TeachersService } from '../../../services/teachers.service';
 import { ITeacher } from '../../../models/teacher.model';
@@ -24,7 +24,7 @@ export class TeacherCardComponent implements OnInit {
 
   private fileToUpload: string | ArrayBuffer;
   private avatarImg: string | ArrayBuffer;
-  private maxAge = this.teachServise.checkAgeDate();
+  private maxAge =  addYears(new Date(), -18); // this.teachServise.checkAgeDate();
   private editTeacher: AbstractControl;
   private subscriptAvatar: Subscription;
 
@@ -44,7 +44,8 @@ export class TeacherCardComponent implements OnInit {
     },
     error => {
       this.notify.notifyFailure('Не вдалося завантажити фото');
-      throw new Error(error.message);
+      this.teachServise.subject = new Subject();
+      throw new Error(error);
     });
   }
 

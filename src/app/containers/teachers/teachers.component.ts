@@ -1,4 +1,3 @@
-import { sortColumn, deleteTeacher } from 'src/app/store/teachers/teachers.action';
 import { TeachersService } from './../../services/teachers.service';
 import { ITeacher } from '../../models/teacher.model';
 import {
@@ -21,6 +20,8 @@ import {
   trigger
 } from '@angular/animations';
 import { Store } from '@ngrx/store';
+import { MatDialog } from '@angular/material';
+import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dialog.component';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class TeachersComponent implements OnInit, OnChanges {
 
 
   constructor(private teachServ: TeachersService,
-              private store: Store<object>) {}
+              private store: Store<object>,
+              public dialog: MatDialog) {}
   @Input() teachersData: ITeacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -55,15 +57,9 @@ export class TeachersComponent implements OnInit, OnChanges {
     this.teachersList.filter = filterValue.trim().toLowerCase();
   }
 
-
   sortOptions(options: object): void {
     this.teachersSorting.emit(options);
     this.fillTable();
-  }
-
-  deleteTeacher(e: Event, teacherId: number): void {
-    e.stopPropagation();
-    this.teachServ.deleteTeacher(teacherId);
   }
 
   fillTable(): void {
@@ -79,6 +75,25 @@ export class TeachersComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.fillTable();
+  }
+
+  deleteTeacher(e: Event, teacherId: number): void {
+    e.stopPropagation();
+    this.dialog.open(ModalDialogComponent, {
+      data : {
+        id: teacherId,
+        message: 'Видалити користувача?',
+        buttonText: 'Видалити',
+      }});
+  }
+
+  sendTeacherList(): void {
+    this.dialog.open(ModalDialogComponent, {
+      data: {
+        id : null,
+        message: 'Відправити список вчителів на електронну почту?',
+        buttonText: 'Відправити',
+      }});
   }
 
   // switcher for table header with UA text

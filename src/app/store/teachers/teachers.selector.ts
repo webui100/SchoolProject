@@ -13,7 +13,14 @@ export const teachersSortByName = createSelector(
   sortOptions,
   (state: ITeacher[], options: ISortOptions) => {
     if (state !== null || undefined) {
-      const filtered = state.filter(el => el !== undefined);
+      const filtered = state.filter((el, index) => {
+        if (el !== undefined) {
+        return el;
+      } else {
+        state.splice(index, 1);
+      }
+      });
+
       filtered.sort(
         (a: any, b: any): number => {
             return a[options.column].localeCompare(b[options.column]);

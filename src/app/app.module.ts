@@ -31,7 +31,7 @@ import { CurrentUserComponent } from './components/current-user/current-user.com
 import { HeaderComponent } from './components/header/header.component';
 
 import { MainNavComponent } from './components/main-nav/main-nav.component';
-import { MatListModule } from '@angular/material';
+import { MatListModule, MatDialogModule } from '@angular/material';
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
 import { ChartsModule } from 'ng2-charts';
 import 'hammerjs';
@@ -52,6 +52,7 @@ import { StudentComponent } from './pages/student/student.component';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { SortButtonComponent } from './components/sort-button/sort-button.component';
+import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -80,12 +81,13 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
     ClassesComponent,
     CountBarComponent,
     TeachersContainerComponent,
-    SortButtonComponent
-
+    SortButtonComponent,
+    ModalDialogComponent
   ],
   imports: [
     ChartsModule,
     MatListModule,
+    MatDialogModule ,
     BrowserModule,
     RouterModule,
     AppRoutingModule,
@@ -115,6 +117,7 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ModalDialogComponent, TeachersComponent],
 })
 export class AppModule {}

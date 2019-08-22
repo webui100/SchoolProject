@@ -44,7 +44,7 @@ const reducer = createReducer(
     return {
       ...state,
       teachersList: state.teachersList.map((teacher: ITeacher, index: number) => {
-        if (teacher.id === deleteTeacher) {
+        if (teacher.id === deleteTeacher && teacher !== undefined) {
           state.teachersList.splice(index, 1);
         } else {
           return teacher;

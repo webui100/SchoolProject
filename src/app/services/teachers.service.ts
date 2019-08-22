@@ -25,6 +25,7 @@ export class TeachersService {
   private TEACHER_URI = 'teachers/';
   private ADMIN_URI = 'admin/';
   private USER_URI = 'users/';
+  private CREDENTIALS_URI = 'credentials/';
 
   constructor(
     private http: HttpClient,
@@ -55,7 +56,6 @@ export class TeachersService {
           this.store.dispatch(
             editTeacher({ editedTeacher: response.body.data })
           );
-          console.log(response.body.data);
         },
         error => {
           this.errorMessage(error);
@@ -74,7 +74,6 @@ export class TeachersService {
         response => {
           this.notify.notifySuccess('Успішно створено');
           this.store.dispatch(addOneTeacher({ teacher: response.body.data }));
-          console.log(response.body.data);
         },
         error => {
           this.errorMessage(error);
@@ -97,16 +96,34 @@ export class TeachersService {
     );
   }
 
-  readFileImage(inputValue: HTMLInputElement) {
-    const file: File = inputValue.files[0];
-    const reader: FileReader = new FileReader();
-    reader.onloadend = () => {
-      this.subject.next(reader.result);
-    };
-    reader.readAsDataURL(file);
+  sendTeachersList() {
+    return this.http.get(`${this.BASE_URI}${this.USER_URI}${this.CREDENTIALS_URI}${this.TEACHER_URI}`)
+    .subscribe(
+      () => {
+        this.notify.notifySuccess('Дані відправлено успішно');
+      },
+      error => {
+        this.errorMessage(error);
+        this.notify.notifyFailure('Не вдалось відправити дані');
+      }
+    );
   }
 
-  errorMessage(err: any) {
+  readFileImage(inputValue: HTMLInputElement) {
+    const file: File = inputValue.files[0];
+    console.log(file.type.includes('image'));
+    if (file.type.includes('image') && file.size < 1000000) {
+      const reader: FileReader = new FileReader();
+      reader.onloadend = () => {
+        this.subject.next(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.subject.error('IncorrectFile');
+    }
+  }
+
+  private errorMessage(err: any) {
     if (err.error.status.code === 400) {
       this.notify.notifyFailure('Невірно введені дані');
       throw new Error(`Server error: ${err.error.data}`);
@@ -117,15 +134,11 @@ export class TeachersService {
     }
   }
 
-  checkAgeDate() {
-    const checkYear = new Date().getFullYear() - 18;
-    return new Date(checkYear, new Date().getMonth(), new Date().getDate());
-  }
 
   clearForm(formName: FormGroup) {
     formName.reset();
     Object.keys(formName.controls).forEach(key => {
-      formName.get(key).markAsPristine();
+      formName.get(key).setErrors(null);
     });
   }
 }
