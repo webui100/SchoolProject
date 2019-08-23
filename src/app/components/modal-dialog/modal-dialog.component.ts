@@ -22,7 +22,7 @@ export class ModalDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  submitModal() {
+  submitModal(): void {
     if (this.data.id) {
     this.teachServ.deleteTeacher(this.data.id);
     } else {

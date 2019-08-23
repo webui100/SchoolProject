@@ -23,7 +23,6 @@ import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material';
 import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dialog.component';
 
-
 @Component({
   selector: 'webui-teachers',
   templateUrl: './teachers.component.html',
@@ -40,14 +39,17 @@ import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dial
   ]
 })
 export class TeachersComponent implements OnInit, OnChanges {
-  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'bind', 'delete'];
+  private columnsToDisplay: string[] = [
+    'firstname',
+    'lastname',
+    'dateOfBirth',
+    'bind',
+    'delete'
+  ];
   private expandedElement: ITeacher | null;
   private teachersList = new MatTableDataSource<ITeacher>();
 
-
-  constructor(private teachServ: TeachersService,
-              private store: Store<object>,
-              public dialog: MatDialog) {}
+  constructor(private teachServ: TeachersService, public dialog: MatDialog) {}
   @Input() teachersData: ITeacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -67,6 +69,27 @@ export class TeachersComponent implements OnInit, OnChanges {
     this.teachersList.paginator = this.paginator;
   }
 
+  deleteTeacher(e: Event, teacherId: number): void {
+    e.stopPropagation();
+    this.dialog.open(ModalDialogComponent, {
+      data: {
+        id: teacherId,
+        message: 'Видалити користувача?',
+        buttonText: 'Видалити'
+      }
+    });
+  }
+
+  sendTeacherList(): void {
+    this.dialog.open(ModalDialogComponent, {
+      data: {
+        id: null,
+        message: 'Відправити список вчителів на електронну почту?',
+        buttonText: 'Відправити'
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.fillTable();
     if (this.teachersData === undefined) {
@@ -75,25 +98,6 @@ export class TeachersComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.fillTable();
-  }
-
-  deleteTeacher(e: Event, teacherId: number): void {
-    e.stopPropagation();
-    this.dialog.open(ModalDialogComponent, {
-      data : {
-        id: teacherId,
-        message: 'Видалити користувача?',
-        buttonText: 'Видалити',
-      }});
-  }
-
-  sendTeacherList(): void {
-    this.dialog.open(ModalDialogComponent, {
-      data: {
-        id : null,
-        message: 'Відправити список вчителів на електронну почту?',
-        buttonText: 'Відправити',
-      }});
   }
 
   // switcher for table header with UA text

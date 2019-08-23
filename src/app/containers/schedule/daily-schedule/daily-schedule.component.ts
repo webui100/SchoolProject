@@ -4,7 +4,6 @@ import { TeachersService } from 'src/app/services/teachers.service';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-daily-schedule',
@@ -42,8 +41,7 @@ export class DailyScheduleComponent implements OnInit {
     this.addDailySubjects.emit(this.dailySchedule);
     this.buildDailySchedul();
 
-    this.teachersTemp$.subscribe(response => {
-      const res = response.teachersList;
+    this.teachersTemp$.subscribe(res => {
       if (!res) {
         this.teachersObj.getTeachers();
       }
