@@ -10,12 +10,12 @@ const selectStudents = (state: AppState) => state.newYear.transferStudents;
 export const selectTransferClasses = createSelector(
   selectClasses,
   (classes) => {
-    if(!classes) {
+    if (!classes) {
       return []
     }
     return classes
-    .filter((item: ClassModel) => item.isActive != false)
-    .filter((item: ClassModel) => item.classYear === 2019)
+      .filter((item: ClassModel) => item.isActive !== false)
+      .filter((item: ClassModel) => item.classYear === new Date(Date.now()).getFullYear())
     // .filter((item: ClassModel) => item.numOfStudents !== 0)
   }
 )
@@ -24,7 +24,7 @@ export const selectTransferStudents = createSelector(
   selectStudents,
   selectTransferClasses,
   (students, classes) => {
-    if(students) {
+    if (students) {
       return classes.reduce((acc, classItem: ClassModel) => {
         acc[classItem.className] = students.filter((student: Student) => {
           return student.classId === classItem.id;
@@ -34,6 +34,19 @@ export const selectTransferStudents = createSelector(
     } else {
       return {}
     }
-    
+
+  }
+)
+
+export const selectTransferedClasses = createSelector(
+  selectClasses,
+  (classes: Array<ClassModel>) => {
+    if (!classes) {
+      return []
+    }
+    return classes
+      //.filter((item: ClassModel) => item.isActive !== false)
+      .filter((item: ClassModel) => item.classYear === new Date(Date.now()).getFullYear() + 1)
+    // .filter((item: ClassModel) => item.numOfStudents !== 0)
   }
 )

@@ -1,8 +1,11 @@
 import { TransitionService } from 'src/app/services/transition.service';
-import { selectTransferClasses, selectTransferStudents } from './../../store/newyear/newyear.selector';
+import {
+  selectTransferClasses, selectTransferStudents,
+  selectTransferedClasses
+} from './../../store/newyear/newyear.selector';
 import { ClassesService } from './../../services/classes.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Store, select} from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { SelectionModel } from '@angular/cdk/collections';
 import ClassModel from 'src/app/models/schoolclass.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -23,48 +26,50 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class NewYearComponent implements OnInit, OnDestroy {
 
-  constructor(private classService: ClassesService, private store: Store<{classes}>,
+  constructor(private classService: ClassesService, private store: Store<{ classes }>,
     private transitionService: TransitionService) { }
+
 
   public transferList$: Observable<Array<object>>;
   public studentsList$: Observable<object>;
+  // classes that can be transfered
   public transferClasses;
+  // students from classes that can be transfered
   public transferStudents;
   private transferListRef: Subscription;
   private studentsListRef: Subscription;
+  // already transfered classes
+  public transferedClasses$: Observable<Array<ClassModel>>;
+  displayedColumns: string[] = ['select', 'name', 'number', 'button', 'newClassName'];
+  public selection = new SelectionModel<ClassModel>(true, []);
+  public expandedElement = 'conversation';
 
   ngOnInit() {
     this.classService.getClasses();
 
     this.transferList$ = this.store.pipe(select(selectTransferClasses));
-    this.studentsList$ = this.store.pipe(select(selectTransferStudents))
+    this.studentsList$ = this.store.pipe(select(selectTransferStudents));
+    this.transferedClasses$ = this.store.pipe(select(selectTransferedClasses));
 
-    this.selection = new SelectionModel<ClassModel>(true, []);
-
-    this.transferListRef = this.transferList$.subscribe((value) => {
-      this.transferClasses = value;
-    })
-
-    this.transferList$.subscribe((list: Array<ClassModel>) => {
-      if(list.length !== 0) {
+    this.transferListRef = this.transferList$.subscribe((list: Array<ClassModel>) => {
+      this.transferClasses = list;
+      if (list.length !== 0) {
         this.transitionService.getStudents(list);
       }
-      
     })
 
     this.studentsListRef = this.studentsList$.subscribe((value) => {
-      this.transferStudents = value});
-    
+      this.transferStudents = value
+    });
+
   }
 
   ngOnDestroy(): void {
     this.transferListRef.unsubscribe();
+    this.studentsListRef.unsubscribe();
   }
 
-  displayedColumns: string[] = ['select', 'name', 'number', 'button', 'newClassName'];
 
-  public selection;
-  public expandedElement = 'conversation';
 
 
   isAllSelected() {
@@ -73,24 +78,20 @@ export class NewYearComponent implements OnInit, OnDestroy {
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.transferClasses.forEach(row => this.selection.select(row));
-    console.log(this.selection);
-  }
-
   generateClassName(className): string {
     return this.transitionService.genereteNewClassName(className);
   }
 
   transferClassesFunc(classArray: Array<ClassModel>) {
-    console.log(classArray)
-    this.transitionService.createNewClass(classArray).subscribe(
-      value => console.log(value),
-      (error) => console.log(error)
-    );
+    this.transitionService.transferStudents(classArray);
+  }
+
+  transferSelectdClasses() {
+    this.transitionService.transferStudents(this.selection.selected);
+  }
+
+  transferAllClasses() {
+    this.transitionService.transferStudents(this.transferClasses);
   }
 
 }

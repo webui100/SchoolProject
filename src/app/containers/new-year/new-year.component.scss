@@ -17,6 +17,11 @@ td {
 
 .table-container {
   padding: 10px;
+  padding-top: 0;
+  margin-top: 10px;
+  position: relative;
+  max-height: 550px;
+  overflow: auto;
 }
 
 .mat-column-select {
@@ -56,3 +61,8 @@ tr.element-row:not(.expanded-row):active {
 webui-transfer-students-table {
   width: 100%;
 }
+
+.active-table {
+  height: 60vh !important;
+}
+

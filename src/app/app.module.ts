@@ -1,3 +1,4 @@
+import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
@@ -55,6 +56,7 @@ import { NewYearComponent } from './containers/new-year/new-year.component';
 import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { SortButtonComponent } from './components/sort-button/sort-button.component';
+import { TransferedClassesTableComponent } from './components/transfered-classes-table/transfered-classes-table.component';
 
 @NgModule({
   declarations: [
@@ -85,8 +87,9 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
     NewYearComponent,
     TransferStudentsTableComponent,
     TeachersContainerComponent,
-    SortButtonComponent
-
+    SortButtonComponent,
+    ClickStopPropagation,
+    TransferedClassesTableComponent
   ],
   imports: [
     ChartsModule,

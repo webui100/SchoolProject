@@ -1,14 +1,15 @@
-
 <div class="table-container">
-  <table mat-table [dataSource]="transferList$ | async" multiTemplateDataRows>
+  <table class="active-table" mat-table [dataSource]="transferList$ | async" multiTemplateDataRows>
 
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-raised-button color="accent">Перевести всі</button>
+        <button mat-raised-button color="accent" (click)="transferAllClasses()">
+          Перевести всі
+        </button>
       </th>
-      <td mat-cell *matCellDef="let element"> 
-        <button mat-raised-button color="primary"
-        (click)='transferClassesFunc([element])'>Перевести</button> 
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" click-stop-propagation
+          (click)='transferClassesFunc([element])'>Перевести</button>
       </td>
     </ng-container>
     <ng-container matColumnDef="name">
@@ -28,9 +29,9 @@
 
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()">Вибрати всі
-        </mat-checkbox>
+        <button mat-raised-button color="accent" (click)="transferSelectdClasses()">
+          Перевести вибрані
+        </button>
       </th>
       <td mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
@@ -42,14 +43,14 @@
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="5">
         <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-          <webui-transfer-students-table [studentsList]='transferStudents[element.className]' 
-          [className]='element.className'></webui-transfer-students-table>
+          <webui-transfer-students-table [studentsList]='transferStudents[element.className]'
+            [className]='element.className'></webui-transfer-students-table>
         </div>
       </td>
     </ng-container>
 
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row"
       [class.expanded-row]="expandedElement === element"
       (click)="expandedElement = expandedElement === element ? null : element">
@@ -58,3 +59,6 @@
   </table>
 
 </div>
+<webui-transfered-classes-table [transferedClasses]='transferedClasses$ | async'>
+
+</webui-transfered-classes-table>
