@@ -8,9 +8,9 @@ import { LoginComponent } from "./pages/login/login.component";
 import { AdminComponent } from './pages/admin/admin.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
-import {AdminGuard} from './services/guards/admin.guard';
-import {TeacherGuard} from './services/guards/teacher.guard';
-import {StudentGuard} from './services/guards/student.guard';
+import { AdminGuard } from './services/guards/admin.guard';
+import { TeacherGuard } from './services/guards/teacher.guard';
+import { StudentGuard } from './services/guards/student.guard';
 import { LoginGuard } from './services/guards/login.guard';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentsComponent } from "./pages/students/students.component";
@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: "",
     component: LoginComponent,
-    //canActivate: [LoginGuard]
+    canActivate: [LoginGuard]
   },
   {
     path: "login",
@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     path: "teacher",
     component: TemporaryComponent,
-    //canActivate: [TeacherGuard]
+    canActivate: [TeacherGuard]
   },
   {
     path: "students",
@@ -48,7 +48,7 @@ const routes: Routes = [
   {
     path: "admin",
     component: AdminComponent,
-    //canActivate: [AdminGuard],
+    canActivate: [AdminGuard],
     children: [
       {
         path: "",
@@ -93,5 +93,5 @@ const routes: Routes = [
   providers: [AdminGuard, TeacherGuard, StudentGuard, LoginGuard]
 })
 // @ts-ignore
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 // @ts-ignore
