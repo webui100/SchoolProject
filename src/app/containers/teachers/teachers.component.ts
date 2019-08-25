@@ -8,8 +8,7 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges,
-  ElementRef
+  SimpleChanges
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,7 +19,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { MatDialog, MatButtonToggleGroup } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dialog.component';
 
 @Component({
@@ -48,11 +47,9 @@ export class TeachersComponent implements OnInit, OnChanges {
   ];
   private expandedElement: ITeacher | null;
   private teachersList = new MatTableDataSource<ITeacher>();
-  private bindSubj = false;
-
 
   constructor(private teachServ: TeachersService,
-              public dialog: MatDialog,
+              public dialog: MatDialog
               ) {}
   @Input() teachersData: ITeacher[];
   @Output() teachersSorting = new EventEmitter();
@@ -92,14 +89,6 @@ export class TeachersComponent implements OnInit, OnChanges {
         buttonText: 'Відправити'
       }
     });
-  }
-  bindTeacher(e, id: number) {
-    e.stopPropagation();
-    this.bindSubj = !this.bindSubj;
-    this.teachServ.getTeacherBind(id);
-
-    // TODO emit bindSubj
-    // TODO check if data is empty
   }
 
   ngOnInit(): void {

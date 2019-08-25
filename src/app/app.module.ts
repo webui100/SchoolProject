@@ -84,7 +84,7 @@ import { TeacherJournalComponent } from './containers/teachers/teacher-journal/t
     TeachersContainerComponent,
     SortButtonComponent,
     ModalDialogComponent,
-    TeacherJournalComponent
+    TeacherJournalComponent,
   ],
   imports: [
     ChartsModule,
