@@ -1,44 +1,73 @@
-import { FormGroup } from '@angular/forms';
-import { NotificationService } from './notification.service';
-import { environment } from './../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { IHttpGetBindTeacher } from "./../models/HttpResponse.model";
+import { FormGroup } from "@angular/forms";
+import { NotificationService } from "./notification.service";
+import { environment } from "./../../environments/environment";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Store } from "@ngrx/store";
 import {
   teacherAction,
   addOneTeacher,
   editTeacher,
-  deleteTeacher
-} from '../store/teachers/teachers.action';
-import { Subject } from 'rxjs';
-import { IHttpGetResponse, IHttpPostPutResponse } from '../models/HttpResponse.model';
-import { ITeacher } from '../models/teacher.model';
-
-
+  deleteTeacher,
+  bindTeacher,
+  teacherID
+} from "../store/teachers/teachers.action";
+import { Subject } from "rxjs";
+import {
+  IHttpGetResponseList,
+  IHttpPostPutResponse
+} from "../models/HttpResponse.model";
+import { ITeacher } from "../models/teacher.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class TeachersService {
   public subject = new Subject<string | ArrayBuffer>();
   private BASE_URI = environment.APIEndpoint;
-  private TEACHER_URI = 'teachers/';
-  private ADMIN_URI = 'admin/';
-  private USER_URI = 'users/';
-  private CREDENTIALS_URI = 'credentials/';
+  private TEACHER_URI = "teachers/";
+  private ADMIN_URI = "admin/";
+  private USER_URI = "users/";
+  private CREDENTIALS_URI = "credentials/";
+  private JOURNALS_URI = "journals/";
+  private ACIVE_URI = "active/";
 
   constructor(
     private http: HttpClient,
     private store: Store<object>,
-    private notify: NotificationService,
+    private notify: NotificationService
   ) {}
 
   getTeachers() {
-    return this.http
-      .get(`${this.BASE_URI}${this.TEACHER_URI}`)
-      .subscribe((response: IHttpGetResponse) => {
+    return this.http.get(`${this.BASE_URI}${this.TEACHER_URI}`).subscribe(
+      (response: IHttpGetResponseList) => {
         this.store.dispatch(teacherAction({ teachersList: response.data }));
-      });
+      },
+      error => {
+        this.errorMessage(error);
+      }
+    );
+  }
+
+  getTeacherBind(teacherId: number) {
+    return this.http
+      .get(
+        `${this.BASE_URI}${this.JOURNALS_URI}${this.TEACHER_URI}${teacherId}/${this.ACIVE_URI}`
+      )
+      .subscribe(
+        (response: IHttpGetBindTeacher) => {
+          if (response.data.length > 0) {
+            this.store.dispatch(
+              bindTeacher({ bindTeacher: response.data, teacherID: teacherId })
+            );
+            this.store.dispatch(teacherID({ teacherID: teacherId }));
+          }
+        },
+        error => {
+          this.errorMessage(error);
+        }
+      );
   }
 
   editTeacher(teacherId: number, data: ITeacher) {
@@ -47,12 +76,12 @@ export class TeachersService {
         `${this.BASE_URI}${this.ADMIN_URI}${this.TEACHER_URI}${teacherId}`,
         data,
         {
-          observe: 'response'
+          observe: "response"
         }
       )
       .subscribe(
         response => {
-          this.notify.notifySuccess('Успішно редаговано');
+          this.notify.notifySuccess("Успішно редаговано");
           this.store.dispatch(
             editTeacher({ editedTeacher: response.body.data })
           );
@@ -65,14 +94,12 @@ export class TeachersService {
 
   addTeacher(data: ITeacher) {
     return this.http
-      .post<IHttpPostPutResponse>(`${this.BASE_URI}${this.TEACHER_URI}`,
-      data,
-      {
-        observe: 'response'
+      .post<IHttpPostPutResponse>(`${this.BASE_URI}${this.TEACHER_URI}`, data, {
+        observe: "response"
       })
       .subscribe(
         response => {
-          this.notify.notifySuccess('Успішно створено');
+          this.notify.notifySuccess("Успішно створено");
           this.store.dispatch(addOneTeacher({ teacher: response.body.data }));
         },
         error => {
@@ -82,50 +109,52 @@ export class TeachersService {
   }
 
   deleteTeacher(id: number) {
-    return this.http.patch(`${this.BASE_URI}${this.USER_URI}${id}`, {observe: 'response'})
-    .subscribe(
-      () => {
-        this.notify.notifySuccess('Успішно видалено');
-        this.store.dispatch(deleteTeacher({ deleteTeacher: id })
-        );
-      },
-      error => {
-        this.errorMessage(error);
-        this.notify.notifyFailure('Не вдалось видалити');
-      }
-    );
+    return this.http
+      .patch(`${this.BASE_URI}${this.USER_URI}${id}`, { observe: "response" })
+      .subscribe(
+        () => {
+          this.notify.notifySuccess("Успішно видалено");
+          this.store.dispatch(deleteTeacher({ deleteTeacher: id }));
+        },
+        error => {
+          this.errorMessage(error);
+          this.notify.notifyFailure("Не вдалось видалити");
+        }
+      );
   }
 
   sendTeachersList() {
-    return this.http.get(`${this.BASE_URI}${this.USER_URI}${this.CREDENTIALS_URI}${this.TEACHER_URI}`)
-    .subscribe(
-      () => {
-        this.notify.notifySuccess('Дані відправлено успішно');
-      },
-      error => {
-        this.errorMessage(error);
-        this.notify.notifyFailure('Не вдалось відправити дані');
-      }
-    );
+    return this.http
+      .get(
+        `${this.BASE_URI}${this.USER_URI}${this.CREDENTIALS_URI}${this.TEACHER_URI}`
+      )
+      .subscribe(
+        () => {
+          this.notify.notifySuccess("Дані відправлено успішно");
+        },
+        error => {
+          this.errorMessage(error);
+          this.notify.notifyFailure("Не вдалось відправити дані");
+        }
+      );
   }
 
   readFileImage(inputValue: HTMLInputElement) {
     const file: File = inputValue.files[0];
-    console.log(file.type.includes('image'));
-    if (file.type.includes('image') && file.size < 1000000) {
+    if (file.type.includes("image") && file.size < 1000000) {
       const reader: FileReader = new FileReader();
       reader.onloadend = () => {
         this.subject.next(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
-      this.subject.error('IncorrectFile');
+      this.subject.error("IncorrectFile");
     }
   }
 
   private errorMessage(err: any) {
     if (err.error.status.code === 400) {
-      this.notify.notifyFailure('Невірно введені дані');
+      this.notify.notifyFailure("Невірно введені дані");
       throw new Error(`Server error: ${err.error.data}`);
     } else {
       const errParse = this.notify.errorParser(err);
@@ -133,7 +162,6 @@ export class TeachersService {
       throw new Error(`Server error: ${err.error.data}`);
     }
   }
-
 
   clearForm(formName: FormGroup) {
     formName.reset();

@@ -8,7 +8,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  ElementRef
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,8 +20,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { Store } from '@ngrx/store';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatButtonToggleGroup } from '@angular/material';
 import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dialog.component';
 
 @Component({
@@ -48,14 +48,18 @@ export class TeachersComponent implements OnInit, OnChanges {
   ];
   private expandedElement: ITeacher | null;
   private teachersList = new MatTableDataSource<ITeacher>();
+  private bindSubj = false;
 
-  constructor(private teachServ: TeachersService, public dialog: MatDialog) {}
+
+  constructor(private teachServ: TeachersService,
+              public dialog: MatDialog,
+              ) {}
   @Input() teachersData: ITeacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // function for sorting, trim() remove spaces
-  private applyFilter(filterValue: string): void {
+  applyFilter(filterValue: string): void {
     this.teachersList.filter = filterValue.trim().toLowerCase();
   }
 
@@ -64,7 +68,7 @@ export class TeachersComponent implements OnInit, OnChanges {
     this.fillTable();
   }
 
-  fillTable(): void {
+  private fillTable(): void {
     this.teachersList = new MatTableDataSource<ITeacher>(this.teachersData);
     this.teachersList.paginator = this.paginator;
   }
@@ -88,6 +92,14 @@ export class TeachersComponent implements OnInit, OnChanges {
         buttonText: 'Відправити'
       }
     });
+  }
+  bindTeacher(e, id: number) {
+    e.stopPropagation();
+    this.bindSubj = !this.bindSubj;
+    this.teachServ.getTeacherBind(id);
+
+    // TODO emit bindSubj
+    // TODO check if data is empty
   }
 
   ngOnInit(): void {

@@ -1,0 +1,11 @@
+<div class="container" *ngFor="let data of bindData">
+  <div class="subject">
+    <span>Предмет: </span>
+    <span>{{data.subjectName}}</span>
+  </div>
+  <div class="class">
+    <span>Клас: </span>
+    <span>{{data.className}}</span>
+  </div>
+  <div class="empty-data" *ngIf="data === undefined"><span>Даний вчитель без роботи</span></div>
+</div>

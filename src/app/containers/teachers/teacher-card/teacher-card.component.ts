@@ -58,7 +58,6 @@ export class TeacherCardComponent implements OnInit {
     data.newPass = '';
     data.id = this.teacher.id;
     this.teachServise.editTeacher(data.id, data);
-    console.log(data.dateOfBirth);
   }
 
   ngOnInit() {

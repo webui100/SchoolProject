@@ -11,3 +11,13 @@ export interface ITeacher {
   newPass?: string;
   oldPass?: string;
 }
+
+export interface IBindTeacher {
+  id: number;
+  idSubject?: number;
+  idClass?: number;
+  subjectName?: string;
+  className?: string;
+  academicYear?: number;
+  bindTeacher;
+}

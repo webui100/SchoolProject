@@ -26,8 +26,8 @@
                 <webui-sort-button [columnName]="column" (sortOptions)="sortOptions($event)"></webui-sort-button>
             </th>
             <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} 
-                <mat-icon *ngIf="column == 'bind'">person_add</mat-icon>
-                <mat-icon *ngIf="column == 'delete'" (click)='deleteTeacher($event, teacher.id)'>delete_outline</mat-icon>
+                <mat-icon *ngIf="column == 'bind'" (click)="bindTeacher($event, teacher.id)">person_add</mat-icon>
+                <mat-icon *ngIf="column == 'delete'" (click)="deleteTeacher($event, teacher.id)">delete_outline</mat-icon>
             </td>
         </ng-container>
 
@@ -35,7 +35,8 @@
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let teacher" [attr.colspan]="columnsToDisplay.length">
                 <div class="teacher-detail" [@detailExpand]="teacher == expandedElement ? 'expanded' : 'collapsed'">
-                    <webui-teacher-card *ngIf="teacher" [teacher]="teacher"></webui-teacher-card>
+                    <webui-teacher-card [teacher]="teacher"></webui-teacher-card>
+                    <webui-teacher-journal [teacherId]="teacher.id"></webui-teacher-journal>
                 </div>
             </td>
         </ng-container>

@@ -53,6 +53,7 @@ import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { SortButtonComponent } from './components/sort-button/sort-button.component';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
+import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
     CountBarComponent,
     TeachersContainerComponent,
     SortButtonComponent,
-    ModalDialogComponent
+    ModalDialogComponent,
+    TeacherJournalComponent
   ],
   imports: [
     ChartsModule,
