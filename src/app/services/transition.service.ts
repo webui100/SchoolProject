@@ -4,7 +4,7 @@ import ClassModel from 'src/app/models/schoolclass.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { switchMap, mergeMap, reduce, map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { addTransferStudent } from '../store/newyear/newyear.actions';
@@ -101,9 +101,8 @@ export class TransitionService {
     const transferClassesRef = this.store.select(selectTransferedClasses)
       .subscribe((value) => transferedClasses = value);
 
-    console.log(oldClassArr);
-
     // get already transfered classes without students transition
+    // or classes that are going to graduate
     let existingClasses = transferedClasses.filter((existingClass: ClassModel) => {
       return !!oldClassArr.find((oldClass: ClassModel) => {
         return existingClass.className === this.genereteNewClassName(oldClass.className)
@@ -112,6 +111,9 @@ export class TransitionService {
 
     // get classes that not exist in new year
     let readyToTransferClasses = oldClassArr.filter((oldClass: ClassModel) => {
+      if (!this.genereteNewClassName(oldClass.className)) {
+        return false;
+      }
       if (existingClasses.length > 0) {
         return !!existingClasses.find((existingClass: ClassModel) => {
           return _.isEqual(existingClass, oldClass)
@@ -121,14 +123,15 @@ export class TransitionService {
       }
 
     })
-    console.log(existingClasses);
-    console.log(readyToTransferClasses);
 
-    // for classes that arent exists in new year
+    let graduatedClasses = oldClassArr.filter((oldClass: ClassModel) => {
+      return !this.genereteNewClassName(oldClass.className);
+    })
+
+    // for classes that aren't exists in new year
     if (readyToTransferClasses.length > 0) {
       this.createNewClass(readyToTransferClasses).toPromise()
         .then((newClassArray: Array<ClassModel>) => {
-          console.log(newClassArray, readyToTransferClasses);
           newClassArray.forEach((newClassItem: ClassModel) => {
             idArr.push({
               newClassId: newClassItem.id,
@@ -140,11 +143,9 @@ export class TransitionService {
           return idArr;
         })
         .then((idArr: Array<{ newClassId: number, oldClassId: number }>) => {
-          console.log(idArr);
           return this.bindStudentsToNewClass(idArr).toPromise();
         })
-        .then((value) => {
-          console.log(value);
+        .then(() => {
           this.notificationService.notifySuccess('Успішно переведено')
         })
         .then(() => {
@@ -159,36 +160,61 @@ export class TransitionService {
 
     // for classes that exists in new year
 
-    if (existingClasses.length > 0) {
-      // create array of new and old ids
-      let existingIdsArr: Array<{ newClassId: number, oldClassId: number }> = existingClasses
-        .reduce((acc, existingClass: ClassModel) => {
-          acc.push({
-            newClassId: existingClass.id,
-            oldClassId: oldClassArr.find((oldClass: ClassModel) => {
-              return this.genereteNewClassName(oldClass.className) === existingClass.className;
-            }).id
-          })
-          return acc;
-        }, []);
-
-      this.bindStudentsToNewClass(existingIdsArr).toPromise()
-        .then((value) => {
-          console.log('Existing classes transfered: ');
-          this.notificationService.notifySuccess('Успішно переведено')
-        })
-        .then(() => {
-          this.classesService.getClasses();
-        })
-        .catch((error) => {
-          this.notificationService.notifyFailure('Не вдалося перевести');
-          console.log(error);
-        })
+    if (existingClasses.length > 0 || graduatedClasses.length > 0) {
+      this.sendIdArray(oldClassArr, existingClasses, graduatedClasses);
     }
 
     transferClassesRef.unsubscribe();
 
 
+  }
+
+  // transfer students to already created classes or 
+  // transfer graduated classes
+  sendIdArray(oldClassArr: Array<ClassModel>,
+    existingClasses: Array<ClassModel>,
+    graduatedClasses: Array<ClassModel>) {
+    // create array of new and old ids
+    let idArr: Array<{ newClassId: number, oldClassId: number }>;
+    let existingIdsArr: Array<{ newClassId: number, oldClassId: number }> = [];
+    let graduatedIdsArr: Array<{ newClassId: number, oldClassId: number }> = [];
+
+    if (existingClasses.length > 0) {
+      existingIdsArr = existingClasses.reduce((acc, existingClass: ClassModel) => {
+        acc.push({
+          newClassId: existingClass.id,
+          oldClassId: oldClassArr.find((oldClass: ClassModel) => {
+            return this.genereteNewClassName(oldClass.className) === existingClass.className;
+          }).id
+        })
+        return acc;
+      }, []);
+    }
+
+    if (graduatedClasses.length > 0) {
+      graduatedIdsArr = graduatedClasses.reduce((acc, graduatedClass: ClassModel) => {
+        acc.push({
+          newClassId: 0,
+          oldClassId: graduatedClass.id
+        })
+        return acc;
+      }, [])
+    }
+
+    idArr = existingIdsArr.concat(graduatedIdsArr);
+
+
+    this.bindStudentsToNewClass(idArr).toPromise()
+      .then((value) => {
+        this.notificationService.notifySuccess('Успішно переведено')
+      })
+      .then(() => {
+        this.classesService.getClasses();
+      })
+      .catch((error) => {
+        this.notificationService.notifyFailure('Не вдалося перевести');
+        console.log(error);
+      })
   }
 }
 

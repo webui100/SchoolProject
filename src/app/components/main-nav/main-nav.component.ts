@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import links from './links';
 import { Router } from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'webui-main-nav',
@@ -30,7 +30,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
         map(result => result.matches),
         share()
       );
-    
+
     this.isHandsetRef = this.isHandset$.subscribe(isHandset => {
       this.isOpened = !isHandset;
       this.buttonOpened$.next(!this.isOpened);
@@ -51,6 +51,8 @@ export class MainNavComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public breakpointObserver: BreakpointObserver, private router:Router, private http: AuthService) {}
+  constructor(public breakpointObserver: BreakpointObserver,
+    private router: Router,
+    private http: AuthService) { }
 
 }
