@@ -1,17 +1,19 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as TeacherData from './teachers.action';
-import { Teacher } from 'src/app/models/teacher.model';
-
-
+import { ITeacher, IBindTeacher } from 'src/app/models/teacher.model';
 
 export interface State {
   teachersList: Array<object>;
   sortOptions: object;
+  bindedTeachers: IBindTeacher[];
+  teacherIDs: Array<number>;
 }
 
 export const initialState: State = {
   teachersList: null,
-  sortOptions: { direction: 'asc', column: 'firstname'}
+  sortOptions: { direction: 'asc', column: 'firstname' },
+  bindedTeachers: [],
+  teacherIDs: []
 };
 
 const reducer = createReducer(
@@ -29,7 +31,7 @@ const reducer = createReducer(
   on(TeacherData.editTeacher, (state: State, { editedTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map((teacher: Teacher) => {
+      teachersList: state.teachersList.map((teacher: ITeacher) => {
         return teacher.login === editedTeacher.login ? editedTeacher : teacher;
       })
     };
@@ -43,13 +45,21 @@ const reducer = createReducer(
   on(TeacherData.deleteTeacher, (state: State, { deleteTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map((teacher: Teacher, index: number) => {
-        if (teacher.id === deleteTeacher) {
-          state.teachersList.splice(index, 1);
-        } else {
-          return teacher;
+      teachersList: state.teachersList.map(
+        (teacher: ITeacher, index: number) => {
+          if (teacher.id === deleteTeacher && teacher !== undefined) {
+            state.teachersList.splice(index, 1);
+          } else {
+            return teacher;
+          }
         }
-      })
+      )
+    };
+  }),
+  on(TeacherData.bindTeacher, (state: State, { bindTeacher, teacherID }) => {
+    return {
+      ...state,
+      bindedTeachers: [...state.bindedTeachers, {id: teacherID, bindTeacher}]
     };
   })
 );

@@ -57,6 +57,7 @@ export class AuthService implements OnDestroy{
           this.id$.subscribe((data) => this.id = data);
           this.role$.subscribe((data) => this.role = data);
 
+
           if (this.role === 'ROLE_ADMIN') {
               this.router.navigate(['admin']);
             } else if (this.role === 'ROLE_USER') {
@@ -79,6 +80,7 @@ export class AuthService implements OnDestroy{
     localStorage.removeItem('token');
     this.router.navigate(['']);
     this.store.dispatch(login({role: null, id: null}));
+    sessionStorage.removeItem('role');
   }
 
   getToken(): string {

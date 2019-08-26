@@ -1,4 +1,4 @@
-export interface SortOptions {
+export interface ISortOptions {
     direction: string;
     column: string;
 }
