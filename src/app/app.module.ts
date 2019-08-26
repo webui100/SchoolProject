@@ -1,3 +1,4 @@
+import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
@@ -28,6 +29,7 @@ import {
 import { CustomSerializer } from './store/router.reducer';
 
 import { CurrentUserComponent } from './components/current-user/current-user.component';
+import { CurrentUserService } from './services/current-user.service';
 import { HeaderComponent } from './components/header/header.component';
 
 import { MainNavComponent } from './components/main-nav/main-nav.component';
@@ -47,11 +49,15 @@ import { StudentsComponent } from './pages/students/students.component';
 import { StudentDetailComponent } from './pages/students/student-detail/student-detail.component';
 import { AddStudentComponent } from './pages/students/add-student/add-student.component';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
+import { CdkDetailRowDirective } from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from './pages/student/student.component';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
+import { NewYearComponent } from './containers/new-year/new-year.component';
+import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { SortButtonComponent } from './components/sort-button/sort-button.component';
+import { TransferedClassesTableComponent } from './components/transfered-classes-table/transfered-classes-table.component';
+import { IsGraduationPipe } from './pipes/is-graduation.pipe';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
@@ -82,8 +88,13 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
     AddStudentComponent,
     ClassesComponent,
     CountBarComponent,
+    NewYearComponent,
+    TransferStudentsTableComponent,
     TeachersContainerComponent,
     SortButtonComponent,
+    ClickStopPropagation,
+    TransferedClassesTableComponent,
+    IsGraduationPipe,
     ModalDialogComponent,
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
@@ -91,7 +102,7 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
   imports: [
     ChartsModule,
     MatListModule,
-    MatDialogModule ,
+    MatDialogModule,
     BrowserModule,
     RouterModule,
     AppRoutingModule,
@@ -124,4 +135,4 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
   bootstrap: [AppComponent],
   entryComponents: [ModalDialogComponent, TeachersComponent],
 })
-export class AppModule {}
+export class AppModule { }

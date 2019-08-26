@@ -45,7 +45,7 @@ export class NotificationService {
       }
       switch (error.error.status.code) {
         case 400:
-          return 'Невірний логін або пароль';
+          return 'Ви ввели невірні дані';
         case 401:
           return 'Помилка авторизації';
         case 403:
