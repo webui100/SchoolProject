@@ -1,0 +1,15 @@
+<div class="button-container">
+<mat-button-toggle-group #group="matButtonToggleGroup" value="edit">
+    <mat-button-toggle value="edit" aria-label="Edit teacher mode">
+        Редагувати
+        <mat-icon>edit</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="bind" aria-label="Bind teacher mode">
+        Журнал    
+        <mat-icon>person_add</mat-icon>
+    </mat-button-toggle>
+</mat-button-toggle-group>
+</div>
+
+<webui-teacher-card [teacher]="teacher" *ngIf="group.value === 'edit'"></webui-teacher-card>
+<webui-teacher-journal [teacherId]="teacher.id" *ngIf="group.value === 'bind'"></webui-teacher-journal>

@@ -36,7 +36,14 @@ mat-icon:hover {
     font-size: 1.5rem;
     font-weight: 500;
   }
+  .header-text{
+    width: 95%;
+    align-self: center;
+  }
 }
+// .mat-column-dateOfBirth{
+//   display: none;
+// }
 
 .mat-column-expandedDetail {
   padding: 0 !important;
@@ -79,6 +86,12 @@ mat-content {
   display: flex;
   align-self: center;
   flex-direction: column;
+  margin-bottom: 4rem;
+}
+
+.send-teacher-email{
+  display: flex;
+  align-self: center;
 }
 
 table {

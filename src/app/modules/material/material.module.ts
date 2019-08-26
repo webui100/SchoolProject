@@ -23,6 +23,7 @@ import {
   MatRadioModule,
   MatExpansionModule,
   MatAutocompleteModule,
+  MatButtonToggleModule
 } from '@angular/material';
 
 const MaterialComponents = [
@@ -61,6 +62,7 @@ const MaterialComponents = [
   MatSelectModule,
   MatExpansionModule,
   MatAutocompleteModule,
+  MatButtonToggleModule
 ];
 
 @NgModule({

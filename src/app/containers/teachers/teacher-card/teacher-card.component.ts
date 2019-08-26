@@ -1,11 +1,14 @@
+import { format, addYears } from 'date-fns';
+import { Subscription, Subject } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { TeachersService } from '../../../services/teachers.service';
-import { Teacher } from '../../../models/teacher.model';
+import { ITeacher } from '../../../models/teacher.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ValidationService } from '../../../services/validation.service';
+
 @Component({
   selector: 'webui-teacher-card',
   templateUrl: './teacher-card.component.html',
@@ -17,13 +20,13 @@ import { ValidationService } from '../../../services/validation.service';
   ],
 })
 export class TeacherCardComponent implements OnInit {
-  @Input() teacher: Teacher;
+  @Input() teacher: ITeacher;
 
   private fileToUpload: string | ArrayBuffer;
   private avatarImg: string | ArrayBuffer;
-  private maxAge = this.teachServise.checkAgeDate();
+  private maxAge =  addYears(new Date(), -18); // this.teachServise.checkAgeDate();
   private editTeacher: AbstractControl;
-  private subscriptAvatar: any;
+  private subscriptAvatar: Subscription;
 
   constructor(private teachServise: TeachersService,
               private validServ: ValidationService,
@@ -41,7 +44,8 @@ export class TeacherCardComponent implements OnInit {
     },
     error => {
       this.notify.notifyFailure('Не вдалося завантажити фото');
-      throw new Error(error.message);
+      this.teachServise.subject = new Subject();
+      throw new Error(error);
     });
   }
 
@@ -49,7 +53,7 @@ export class TeacherCardComponent implements OnInit {
     event.preventDefault();
     const data = this.editTeacher.value;
     data.avatar = this.fileToUpload ? this.fileToUpload : this.teacher.avatar;
-    data.dateOfBirth = new Date(data.dateOfBirth).toISOString().slice(0, 10);
+    data.dateOfBirth = format(new Date(data.dateOfBirth), 'YYYY-MM-DD');
     data.oldPass = '';
     data.newPass = '';
     data.id = this.teacher.id;
