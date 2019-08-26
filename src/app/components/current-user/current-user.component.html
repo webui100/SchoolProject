@@ -1,7 +1,32 @@
 <div class="user-info">
-  <img [src]="_currentUser.imageTransform(user?.avatar)" alt="User avatar">
+    <div class="mask">
+        <img [src]="_currentUser.imageTransform(user.avatar)" alt="User avatar">
+    </div>
 
   <h3>{{user.firstname + ' ' + user.lastname}}</h3>
   <h4>{{_currentUser.userRole()}}</h4>
-
+<br>
+  <button mat-raised-button (click)="toggleEdit()" *ngIf='!show'>Редагувати інформацію</button>
+  <ng-container *ngIf='show'>
+      <form class="example-form">
+          <div>
+            <mat-form-field class="example-full-width">
+            <input type="password" matInput placeholder="Введіть новий пароль" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <input type="password" matInput placeholder="Повторіть новий пароль">
+          </mat-form-field>
+        </div>
+        <span class="button-container">
+          <button mat-raised-button [disabled]="true">Зберегти</button>
+        </span>
+        <span class="button-container">
+          <button mat-raised-button (click)="toggleEdit()">Відмінити</button>
+        </span>
+      </form>       
+  </ng-container>
+  <br>
+  
 </div>

@@ -55,7 +55,9 @@ export class CurrentUserService {
   }
 
   imageTransform(stringImg) {
+    if (stringImg !== null && (typeof stringImg !== 'undefined')) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(stringImg);
+    }
   }
 
 }

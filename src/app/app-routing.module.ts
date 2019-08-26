@@ -17,6 +17,8 @@ import { StudentsComponent } from "./pages/students/students.component";
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
+import { TeacherComponent } from './pages/teacher/teacher.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 
 
@@ -32,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: "teacher",
-    component: TemporaryComponent,
+    component: TeacherComponent,
     canActivate: [TeacherGuard]
   },
   {
@@ -83,6 +85,13 @@ const routes: Routes = [
         path: "new-year-transition",
         component: NewYearComponent
       },
+
+      // після цього роута, нічого не додавати!
+      {
+        path: '**',
+        component: NotFoundComponent
+      }
+
     ]
   }
 ];

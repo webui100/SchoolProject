@@ -24,6 +24,8 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
   id$: any;
   id: any;
   private timerSubscription;
+  public show: boolean = false;
+
 
   constructor(private http: HttpClient,
     private store: Store<{ user }>,
@@ -35,7 +37,7 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     this.currentUser$ = this.current.pipe(select(selectCurrentUser))
       .subscribe(
         (data) => {
-          if (data !== null) { this.user = data; }
+          if (data !== null && (typeof data !== 'undefined')) { this.user = data; }
         },
         error => console.log(error),
         () => this.currentUser$.unsubscribe());
@@ -54,5 +56,10 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.timerSubscription.unsubscribe();
   }
+
+  toggleEdit() {
+    this.show = !this.show;
+  }
+
 
 }
