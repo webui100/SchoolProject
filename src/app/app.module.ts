@@ -32,7 +32,7 @@ import { CurrentUserService } from './services/current-user.service';
 import { HeaderComponent } from './components/header/header.component';
 
 import { MainNavComponent } from './components/main-nav/main-nav.component';
-import { MatListModule } from '@angular/material';
+import { MatListModule, MatDialogModule } from '@angular/material';
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
 import { ChartsModule } from 'ng2-charts';
 import 'hammerjs';
@@ -43,16 +43,19 @@ import { TeacherCreateComponent } from './containers/teachers/teacher-create/tea
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { MaterialModule } from './modules/material/material.module';
 import { ChartComponent } from './components/chart/chart.component';
-import { AuthInterceptor } from './interseptors/http-interceptor/auth-interceptor';
+import { AuthInterceptor } from './interсeptors/http-interceptor/auth-interceptor';
 import { StudentsComponent } from './pages/students/students.component';
 import { StudentDetailComponent } from './pages/students/student-detail/student-detail.component';
 import { AddStudentComponent } from './pages/students/add-student/add-student.component';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
+import { CdkDetailRowDirective } from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from './pages/student/student.component';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { SortButtonComponent } from './components/sort-button/sort-button.component';
+import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
+import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
+import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
 
 @NgModule({
   declarations: [
@@ -81,12 +84,15 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
     ClassesComponent,
     CountBarComponent,
     TeachersContainerComponent,
-    SortButtonComponent
-
+    SortButtonComponent,
+    ModalDialogComponent,
+    TeacherJournalComponent,
+    TeacherDetailContainerComponent,
   ],
   imports: [
     ChartsModule,
     MatListModule,
+    MatDialogModule,
     BrowserModule,
     RouterModule,
     AppRoutingModule,
@@ -116,6 +122,7 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ModalDialogComponent, TeachersComponent],
 })
-export class AppModule {}
+export class AppModule { }
