@@ -27,7 +27,7 @@
                 <mat-form-field class="mat-form-field">
                   <input 
                     matInput
-                    placeholder="Назва предмету (поле є необхідним для заповнення)"
+                    placeholder="Назва предмету (поле є обов'язковим для заповнення)"
                     formControlName="subjectName" 
                     required pattern="[А-ЯІЇЄҐа-яіїєґ()' -]+">
                   <mat-error 
@@ -81,7 +81,7 @@
         <!-- Edit -->
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let subject" [attr.colspan]=2>
-                <div class="subject-detail"  
+                <div class="subject-detail" style="overflow: hidden" 
                     [@detailExpand]="subject == expandedElement ? 'expanded' : 'collapsed'">
                   <!-- <span>Not works...</span> -->
                     <mat-card class="mat-card">

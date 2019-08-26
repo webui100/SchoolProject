@@ -7,7 +7,7 @@
   background-color: #673ab7;
   width: 90%;
   color: white;
-  padding: 15px 0;
+  padding: 10px 0;
   margin: 20px auto 10px auto;
 }
 .header div {
@@ -65,10 +65,13 @@ table .mat-form-field {
   margin: 0 15px 0 0;
 }
 table .mat-card {
-  border: none;
+  border-bottom: #673ab7;
+  border-bottom-style: solid;
+  border-bottom-width: 5px; 
   width: 100%;
   border-radius: 0;
   padding: 10px 0 0 0;
+  margin-bottom: 10px;
   
 }
 .subject-detail {
@@ -82,10 +85,10 @@ td.mat-cell:first-of-type {
   width: 42%;
 }
 
-
 tr.subject-detail-row {
-  height: 0;
+  height: 0; 
 }
+
 tr.subject-row:not(.subject-expanded-row):hover {
   background: #F1F3F4;
   cursor: pointer;
