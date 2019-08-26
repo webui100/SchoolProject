@@ -9,6 +9,18 @@ $base-background: #673ab7;
   @extend %flex-center;
   flex-direction: column;
 }
+mat-icon {
+  vertical-align: middle;
+}
+mat-icon:hover {
+  cursor: pointer;
+}
+.mat-column-delete,
+.mat-column-bind{
+  width: 10%;
+  text-align: center;
+}
+
 
 .header {
   @extend %flex-center;
@@ -24,7 +36,14 @@ $base-background: #673ab7;
     font-size: 1.5rem;
     font-weight: 500;
   }
+  .header-text{
+    width: 95%;
+    align-self: center;
+  }
 }
+// .mat-column-dateOfBirth{
+//   display: none;
+// }
 
 .mat-column-expandedDetail {
   padding: 0 !important;
@@ -41,22 +60,22 @@ $base-background: #673ab7;
   font-size: 14px;
   width: 100%;
 }
-.container{
+.container {
   flex-direction: column-reverse;
   display: flex;
   align-items: center;
   width: 98%;
-  align-self: center; 
+  align-self: center;
 }
-.addTeacherButton{
+.addTeacherButton {
   margin: 0.5rem;
   margin-bottom: 2rem;
 }
-mat-content{
+mat-content {
   align-items: center;
 }
 
-.mat-accordion{
+.mat-accordion {
   align-self: center;
   margin: 0.5rem;
   width: 90%;
@@ -67,6 +86,12 @@ mat-content{
   display: flex;
   align-self: center;
   flex-direction: column;
+  margin-bottom: 4rem;
+}
+
+.send-teacher-email{
+  display: flex;
+  align-self: center;
 }
 
 table {
@@ -87,7 +112,6 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
-
 
 .teacher-detail {
   overflow: hidden;
@@ -147,16 +171,16 @@ tr.teacher-detail-row {
     padding: 1rem !important;
   }
 }
-@media only screen and (min-width: 600px){
-  .container{
+@media only screen and (min-width: 600px) {
+  .container {
     width: 90%;
     flex-direction: row;
     align-content: center;
   }
-  .addTeacherButton{
+  .addTeacherButton {
     margin: 0;
   }
-  .mat-form-field{
+  .mat-form-field {
     margin: 0.5rem;
   }
 }

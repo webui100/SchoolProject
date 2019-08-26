@@ -28,6 +28,11 @@ const links = [
     path: 'schedule',
     title: 'Розклад',
     icon: 'schedule'
+  },
+  {
+    path: 'new-year-transition',
+    title: 'Перехід на новий рік',
+    icon: 'transfer_within_a_station'
   }
 ];
 

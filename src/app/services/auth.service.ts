@@ -35,6 +35,7 @@ export class AuthService implements OnDestroy{
 
   ngOnDestroy(): void {
     this.timerTerminator$.next();
+    console.log('I\'m OnDestroy AuthService');
     this.timerTerminator$.complete();
   }
 
@@ -49,11 +50,9 @@ export class AuthService implements OnDestroy{
       })
        .subscribe(response => {
           const token = response.headers.get('Authorization');
-          const decodeToken = jwt_decode(token).Roles.authority;
-          const userId = jwt_decode(token).jti;
           localStorage.setItem('token', token);
-          this.refreshTokenTimer();
-          this.store.dispatch(login({role: decodeToken, id: userId}));
+          this.tokenizedUser();
+          // this.refreshTokenTimer();
 
           this.id$.subscribe((data) => this.id = data);
           this.role$.subscribe((data) => this.role = data);
@@ -69,6 +68,14 @@ export class AuthService implements OnDestroy{
         })}
 
 
+  tokenizedUser(): void {
+    const token = localStorage.getItem('token');
+    const userRole = jwt_decode(token).Roles.authority;
+    const userId = jwt_decode(token).jti;
+    this.store.dispatch(login({role: userRole, id: userId}));
+  }
+
+
   signOut() {
     localStorage.removeItem('token');
     this.router.navigate(['']);
@@ -80,12 +87,12 @@ export class AuthService implements OnDestroy{
     return localStorage.getItem('token');
   }
 
-  refreshTokenManual() {
+  refreshToken() {
     const tokenValid = this.isTokenValid();
     console.log(tokenValid);
     if (!tokenValid) {
       return this.http.get(this.BASE_URI + 'refresh', {observe: 'response'})
-        .pipe(tap(res => console.log(res)))
+        // .pipe(tap(res => console.log(res)))
         .subscribe(res => {
             const newToken = res.headers.get('Authorization');
             localStorage.setItem('token', newToken);
@@ -105,8 +112,8 @@ export class AuthService implements OnDestroy{
     const currentTokenExpirationDate = jwt_decode(currentToken).exp;
     const currentTime = Date.now();
     if (((currentTokenExpirationDate * 1000) - currentTime) > 3500000) {
-      console.log(currentTokenExpirationDate)
-      console.log(((currentTokenExpirationDate * 1000) - currentTime))
+      // console.log(currentTokenExpirationDate)
+      // console.log(((currentTokenExpirationDate * 1000) - currentTime))
       return true;
     }
     return false;
@@ -114,10 +121,9 @@ export class AuthService implements OnDestroy{
 
 
   refreshTokenTimer() {
-    timer(600000, 1200000).pipe(
-      takeUntil(this.timerTerminator$)).subscribe(() => {
-      return this.refreshTokenManual();
-    });
-  }
+    return timer(600000, 1200000).pipe(
+      takeUntil(this.timerTerminator$));
+    }
+
 }
 

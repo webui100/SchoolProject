@@ -1,0 +1,14 @@
+:host{
+    width: 100%;
+    justify-content: center;
+}
+.button-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem 0;
+}
+
+.mat-button-toggle{
+    width: 150px !important;
+}
