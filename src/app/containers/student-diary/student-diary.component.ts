@@ -70,34 +70,34 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
     this.destroyStream$.next();
   }
 
-  fetchDiary() {
+  fetchDiary(): void {
     this.studentDiary.fetchStudentDiary(this.dateValue);
     this.setWeekDays();
   }
 
-  setWeekDays() {
+  setWeekDays(): void {
     this.weekDays = new Array(6).fill('');
     this.weekDays.map((item, i, arr) => arr[i] = addDays(new Date(this.dateValue), i));
     this.dayNumbers = new Array(6).fill('');
     this.dayNumbers.map((item, i, arr) => arr[i] = getDate(new Date(this.weekDays[i])));
   }
 
-  selectPreviousWeek() {
+  selectPreviousWeek(): void {
     this.dateValue = subDays(new Date(this.dateValue), 7);
     this.fetchDiary();
   }
 
-  selectNextWeek() {
+  selectNextWeek(): void {
     this.dateValue = addDays(new Date(this.dateValue), 7);
     this.fetchDiary();
   }
 
-  selectCurrentWeek() {
+  selectCurrentWeek(): void {
     this.dateValue = this.getStartOfWeek();
     this.fetchDiary();
   }
 
-  selectDay() {
+  selectDay(): void {
     this.fetchDiary();
   }
 
@@ -113,23 +113,12 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
   openFile(lessonId): void {
     this.studentDiary.openHomeworkFile(lessonId)
       .subscribe(data => {
-        console.log(data);
         this.dialog.open(HomeworkDialogComponent, {
           panelClass: 'custom-dialog-container',
           width: '90vw',
-          height: '80vh',
+          height: '90vh',
           data
         });
       });
-    // const dialogRef = this.dialog.open(HomeworkDialogComponent, {
-    //   width: '90vw',
-    //   height: '80vh'
-    //   // data: {name: this.name, animal: this.animal}
-    // });
-    //
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   // this.animal = result;
-    // });
   }
 }

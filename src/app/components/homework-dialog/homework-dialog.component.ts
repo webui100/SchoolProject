@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { Lesson } from '../../models/diary.model';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
@@ -10,21 +8,43 @@ import { Lesson } from '../../models/diary.model';
   styleUrls: ['./homework-dialog.component.scss']
 })
 export class HomeworkDialogComponent implements OnInit {
-
-  attachmentUrl: any;
+  url: string;
+  fileType: string;
+  zoom = 1;
 
   constructor(
     public dialogRef: MatDialogRef<HomeworkDialogComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: Lesson
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.attachmentUrl = `data:${this.data.fileType};base64,${this.data.fileData}`;
+    this.url = `data:${this.data.fileType};base64,${this.data.fileData}`;
+    this.setFileType();
   }
 
-  showData() {
-    // console.log('dialogRef', this.dialogRef);
-    console.log('data', this.data);
+  setFileType(): void {
+    if (this.data.fileType === 'application/pdf') {
+      this.fileType = 'pdf';
+    } else if (this.data.fileType.indexOf('image') === 0) {
+      this.fileType = 'image';
+    } else {
+      this.fileType = 'unknown';
+    }
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
+
+  zoomOut(): void {
+    if (this.zoom > .3) {
+      this.zoom -= .1;
+    }
+  }
+
+  zoomIn(): void {
+    if (this.zoom < 3) {
+      this.zoom += .1;
+    }
   }
 }

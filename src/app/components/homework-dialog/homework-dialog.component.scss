@@ -1,9 +1,19 @@
-header {
+header, footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   height: 15%;
   background: #5b33a1;
+  button {
+    background-color: #cccccc;
+    margin-right: 3rem;
+    &:hover {
+      background-color: #e91e63;
+    }
+  }
 }
 
-.content {
+mat-dialog-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,9 +23,33 @@ header {
     max-width: 100%;
     max-height: 100%;
   }
+  pdf-viewer {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+  h1 {
+    color: #36266d;
+  }
 }
 
 footer {
-  height: 15%;
-  background: #5b33a1;
+  justify-content: center;
+  button {
+    margin-right: 2rem;
+    &:hover {
+      background-color: #f44336;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  button {
+    transform: scale(0.6);
+    margin-right: 1rem !important;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1rem;
+  }
 }
