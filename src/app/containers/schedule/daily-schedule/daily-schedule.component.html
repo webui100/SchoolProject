@@ -70,7 +70,8 @@
         <mat-icon class="remove">delete</mat-icon>
       </button>
       <div class="lesson-field">
-        <button mat-icon-button type="button" (click)="removeLesson(lessonNumber)" *ngIf="(lessonNumber !== 0 && 
+        <button mat-icon-button type="button" (click)="removeLesson(lessonNumber)" 
+              *ngIf="( (saturdayFirstLesson || lessonNumber !== 0) && 
                 lessonNumber !== (dailySchedule.controls.length - 1)) ||
                 lessonNumber === 7 && dailySchedule.value[lessonNumber].firstGroup">
           <mat-icon class="remove">remove</mat-icon>

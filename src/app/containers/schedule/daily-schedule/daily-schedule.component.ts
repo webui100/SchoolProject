@@ -28,6 +28,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   filteredSubjectsSecondGroup: Observable<string[]>;
 
   lessonsMaxPerDay = 8;
+  saturdayFirstLesson = false;
 
   @Input() public dailySchedule: FormArray;
   @Input() public dayName: string;
@@ -68,7 +69,6 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Method initializes the initial state of the component's template */
   buildDailySchedule() {
     if (this.dayName !== 'saturday') {
       this.dailySchedule.push(this.formBuilder.group({
@@ -100,6 +100,10 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
       }));
 
       this.setSubjectAutocompleteFirstGroup(lessonNumber + 1);
+    };
+
+    if (this.dayName === 'saturday' && this.dailySchedule.length) {
+      this.saturdayFirstLesson = true;
     }
   }
 
@@ -112,6 +116,12 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
       (lessonNumber < (this.lessonsMaxPerDay - 1) &&
         this.dailySchedule.length === this.lessonsMaxPerDay - 1)) {
       this.addLesson(this.lessonsMaxPerDay - 2);
+    };
+
+    if (this.dayName === 'saturday' &&
+          lessonNumber === 0  &&
+          !this.dailySchedule.length) {
+      this.saturdayFirstLesson = false
     }
   }
 
