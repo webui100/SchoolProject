@@ -43,8 +43,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.buildDailySchedule();
 
-    this.teachersSubscription = this.teachersTemp$.subscribe(response => {
-      const res = response.teachersList;
+    this.teachersSubscription = this.teachersTemp$.subscribe(res => {
       for (const key in res) {
         if (res.hasOwnProperty(key)) {
           const teacher = res[key];

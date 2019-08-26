@@ -244,8 +244,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   
   getTeachersList(): void {
     this.teachersSubscription = this.teachersTemp$.subscribe(response => {
-      const res = response.teachersList;
-      if (!res) {
+      if (!response) {
         this.teachersObj.getTeachers();
       }
     });
