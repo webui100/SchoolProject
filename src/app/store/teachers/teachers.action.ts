@@ -31,8 +31,3 @@ export const bindTeacher = createAction(
     '[BindTeacher] bindTeacher',
     props<{ bindTeacher: IBindTeacher[], teacherID: number}>()
 );
-
-export const teacherID = createAction(
-    '[TeacherID] teacherID',
-    props<{ teacherID: number}>()
-);

@@ -54,6 +54,7 @@ import { TeachersContainerComponent } from './components/teachers-container/teac
 import { SortButtonComponent } from './components/sort-button/sort-button.component';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
+import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { TeacherJournalComponent } from './containers/teachers/teacher-journal/t
     SortButtonComponent,
     ModalDialogComponent,
     TeacherJournalComponent,
+    TeacherDetailContainerComponent,
   ],
   imports: [
     ChartsModule,

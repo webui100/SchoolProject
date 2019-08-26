@@ -6,14 +6,14 @@ export interface State {
   teachersList: Array<object>;
   sortOptions: object;
   bindedTeachers: IBindTeacher[];
-  teacherID: number;
+  teacherIDs: Array<number>;
 }
 
 export const initialState: State = {
   teachersList: null,
   sortOptions: { direction: 'asc', column: 'firstname' },
   bindedTeachers: [],
-  teacherID: null
+  teacherIDs: []
 };
 
 const reducer = createReducer(
@@ -60,12 +60,6 @@ const reducer = createReducer(
     return {
       ...state,
       bindedTeachers: [...state.bindedTeachers, {id: teacherID, bindTeacher}]
-    };
-  }),
-  on(TeacherData.teacherID, (state: State, { teacherID }) => {
-    return {
-      ...state,
-      teacherID
     };
   })
 );
