@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -111,6 +112,7 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),

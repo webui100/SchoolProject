@@ -1,92 +1,82 @@
-<h1>Розклад уроків</h1>
-
-<form>
-  <mat-form-field>
-    <input type="text" placeholder="Семестр" matInput [formControl]="term" [matAutocomplete]="termA">
-    <mat-autocomplete #termA="matAutocomplete">
-      <mat-option *ngFor="let term of filteredTerm | async" [value]="term">
-        {{term}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field>
-    <input type="text" placeholder="Клас" matInput [formControl]="chosenClass" [matAutocomplete]="classA">
-    <mat-autocomplete #classA="matAutocomplete">
-      <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
-        {{class}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field>
-    <input type="text" placeholder="Навчальний рік" matInput [formControl]="year" [matAutocomplete]="yearA">
-    <mat-autocomplete #yearA="matAutocomplete">
-      <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
-        {{year}} - {{+year + 1}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-
-
+<div class="header">
+  <h1><i class="material-icons">schedule</i> Розклад уроків</h1>
+</div>
+<form (keydown.enter)="$event.preventDefault()">
+  <div layout="row" layout-align="start start" class="term-class-year-div">
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Клас *" matInput [formControl]="scheduleForm.get('class')"
+        [matAutocomplete]="classA">
+      <mat-autocomplete #classA="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
+          {{class.className}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Навчальний рік" matInput
+        [formControl]="scheduleForm.get('year')" readonly class="input-year">
+      <span>&ndash; &nbsp;{{scheduleForm.get('year').value + 1}}</span>
+      <!-- <mat-autocomplete #yearA="matAutocomplete" (optionSelected)="enableTermInput()">
+        <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
+          {{year}} - {{+year + 1}}
+        </mat-option>
+      </mat-autocomplete> -->
+    </mat-form-field>
+    <div class="term-div" fxFlex>
+      <mat-form-field>
+        <input type="text" placeholder="Семестр *" matInput [formControl]="scheduleForm.get('term')"
+          [matAutocomplete]="termA">
+        <mat-autocomplete #termA="matAutocomplete" (optionSelected)="addStartEndDates()">
+          <mat-option *ngFor="let term of filteredTerm | async" [value]="term">
+            {{term}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="date-div" *ngIf="showStartEndDates && scheduleForm.get('term').value">
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerStart" [formControl]="scheduleForm.get('termStartDate')"
+            [min]="defaultDates.minStart" [max]="scheduleForm.get('termEndDate').value" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <span>&mdash;</span>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerEnd" [formControl]="scheduleForm.get('termEndDate')"
+            [min]="scheduleForm.get('termStartDate').value" [max]="defaultDates.maxEnd" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEnd disabled="false" ></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
   <mat-accordion>
     <mat-expansion-panel *ngFor="let day of daysOfWeek; let i=index">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{day.value}}
         </mat-panel-title>
-        <!-- <mat-panel-description>
-          ({{day.lessons.length - 1}} уроків)
-        </mat-panel-description> -->
       </mat-expansion-panel-header>
 
-      <webui-daily-schedule 
-        *ngFor="let lesson of day.lessons"
-        [lesson]="lesson"
-        [dayOfWeek]="day.name"
-        [subjects]="subjects" 
-      >
+      <webui-daily-schedule [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)" [dayName]="day.name">
       </webui-daily-schedule>
-
-      <!-- <table mat-table [dataSource]="dataSourse" class="mat-elevation-z8">
-      <ng-container matColumnDef="col">
-        <th mat-header-cell *matHeaderCellDef> Col </th>
-        <td mat-cell *matCellDef="let data">
-          <mat-form-field>
-            <mat-label>{{data}}</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let lesson of lessons" [value]="lesson">
-                {{lesson}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="dataHeaders"></tr>
-      <tr mat-row *matRowDef="let row; columns: dataHeaders;"></tr>
-    </table> -->
-
-
-      <!-- <mat-form-field>
-      <input matInput placeholder="First name">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Age">
-    </mat-form-field> -->
     </mat-expansion-panel>
-
-    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel> -->
   </mat-accordion>
 
-  <button type="submit" (click)="onSubmit()" mat-raised-button>Submit</button>
+  <div layout="row" layout-align="space-between none">
+    <div fxFlex>
+      <button type="submit" (click)="onSubmit()" mat-raised-button [disabled]="!scheduleForm.valid">
+        Зберегти розклад</button>
+      <div *ngIf="scheduleSaved.isSaved">
+        <button (click)="restoreSavedSchedule()" mat-raised-button>Відновити збережений розклад</button>
+        <div class="schedule-time">Час збереження розкладу: {{ scheduleSaved.savingTime | date:'HH:mm'}}</div>
+      </div>
+    </div>
+    <div fxFlex>
+      <button (click)="clearSchedule()" mat-raised-button>Очистити розклад</button>
+      <div *ngIf="scheduleCleared.isCleared">
+        <button (click)="restoreClearedSchedule()" mat-raised-button>Відновити очищений розклад</button>
+        <div class="schedule-time">Час очищення розкладу: {{ scheduleCleared.clearingTime | date:'HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
 </form>

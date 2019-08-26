@@ -2,24 +2,22 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as Schedule from './schedule.actions';
 
 export interface State {
-  id: number;
-  data: Array<object>;
+  clearedData: object;
+  savedData: object;
+  data: object;
 }
 
 export const initialState: State = {
-  id: null,
+  clearedData: null,
+  savedData: null,
   data: null
 };
 
 const reducer = createReducer(
   initialState,
-  on(Schedule.getSchedule, (state, { id }) => {
-    console.log(id, state, {...state, id});
-    return ({
-    ...state,
-    id
-  });
-})
+  on(Schedule.setClearedSchedule, (state, clearedData) => ({...state, clearedData})),
+  on(Schedule.setSavedSchedule, (state, savedData) => ({...state, savedData})),
+  on(Schedule.setSchedule, (state, data ) => ({...state, data})),
 );
 
 export function scheduleReducer(state: State | undefined, action: Action) {
