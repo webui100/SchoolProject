@@ -1,6 +1,5 @@
-import { sortColumn, deleteTeacher } from 'src/app/store/teachers/teachers.action';
 import { TeachersService } from './../../services/teachers.service';
-import { Teacher } from '../../models/teacher.model';
+import { ITeacher } from '../../models/teacher.model';
 import {
   Component,
   OnInit,
@@ -20,8 +19,8 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { Store } from '@ngrx/store';
-
+import { MatDialog } from '@angular/material';
+import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dialog.component';
 
 @Component({
   selector: 'webui-teachers',
@@ -39,36 +38,57 @@ import { Store } from '@ngrx/store';
   ]
 })
 export class TeachersComponent implements OnInit, OnChanges {
-  private columnsToDisplay: string[] = ['firstname', 'lastname', 'dateOfBirth', 'bind', 'delete'];
-  private expandedElement: Teacher | null;
-  private teachersList = new MatTableDataSource<Teacher>();
-
+  private columnsToDisplay: string[] = [
+    'firstname',
+    'lastname',
+    'dateOfBirth',
+    'bind',
+    'delete'
+  ];
+  private expandedElement: ITeacher | null;
+  private teachersList = new MatTableDataSource<ITeacher>();
 
   constructor(private teachServ: TeachersService,
-              private store: Store<object>) {}
-  @Input() teachersData: Teacher[];
+              public dialog: MatDialog
+              ) {}
+  @Input() teachersData: ITeacher[];
   @Output() teachersSorting = new EventEmitter();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // function for sorting, trim() remove spaces
-  private applyFilter(filterValue: string): void {
+  applyFilter(filterValue: string): void {
     this.teachersList.filter = filterValue.trim().toLowerCase();
   }
-
 
   sortOptions(options: object): void {
     this.teachersSorting.emit(options);
     this.fillTable();
   }
 
-  deleteTeacher(e, teacherId: number): void {
-    e.stopPropagation();
-    this.teachServ.deleteTeacher(teacherId);
+  private fillTable(): void {
+    this.teachersList = new MatTableDataSource<ITeacher>(this.teachersData);
+    this.teachersList.paginator = this.paginator;
   }
 
-  fillTable(): void {
-    this.teachersList = new MatTableDataSource<Teacher>(this.teachersData);
-    this.teachersList.paginator = this.paginator;
+  deleteTeacher(e: Event, teacherId: number): void {
+    e.stopPropagation();
+    this.dialog.open(ModalDialogComponent, {
+      data: {
+        id: teacherId,
+        message: 'Видалити користувача?',
+        buttonText: 'Видалити'
+      }
+    });
+  }
+
+  sendTeacherList(): void {
+    this.dialog.open(ModalDialogComponent, {
+      data: {
+        id: null,
+        message: 'Відправити список вчителів на електронну почту?',
+        buttonText: 'Відправити'
+      }
+    });
   }
 
   ngOnInit(): void {

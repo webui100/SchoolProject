@@ -8,7 +8,7 @@
 }
 .mat-card {
   position: relative;
-  margin: 2rem;
+  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   max-width: 900px;
@@ -79,7 +79,7 @@ mat-card-actions {
 
 @media (min-width: 798px) {
   .mat-card {
-    margin: 2rem;
+    margin: 2rem auto;
     flex-direction: row;
   }
   .mat-card-header > img {

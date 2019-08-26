@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SortService } from './sort.service';
+import { TransitionService } from './transition.service';
 
-describe('SortService', () => {
+describe('TransitionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SortService = TestBed.get(SortService);
+    const service: TransitionService = TestBed.get(TransitionService);
     expect(service).toBeTruthy();
   });
 });

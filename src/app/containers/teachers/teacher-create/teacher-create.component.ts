@@ -5,6 +5,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { format, addYears } from 'date-fns';
 
 @Component({
   selector: 'webui-teacher-create',
@@ -16,32 +17,34 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
 })
-export class TeacherCreateComponent {
+export class TeacherCreateComponent implements OnInit {
   private avatarImg = '../../../assets/images/no-user-image.png';
   private subject: Subject<string | ArrayBuffer>;
-  private maxAge = this.teachServise.checkAgeDate();
+  private maxAge = addYears(new Date(), -18);
   private addTeacher: FormGroup;
 
   constructor(private teachServise: TeachersService,
               private validServ: ValidationService,
-              private formBuilder: FormBuilder) {
-                this.addTeacher = this.formBuilder.group({
-                  firstname: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
-                  lastname: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
-                  patronymic: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
-                  dateOfBirth: ['', Validators.required],
-                  email: ['', [Validators.pattern(this.validServ.emailRegExp)]],
-                  phone: ['', [Validators.pattern(this.validServ.phoneRegExp)]],
-                  login: ['', [Validators.required, Validators.pattern(this.validServ.loginRegExp)]]
-                });
-              }
+              private formBuilder: FormBuilder) {}
 
 submitAdd(event: Event): void {
     event.preventDefault();
     const data = this.addTeacher.value;
     data.avatar = '';
-    data.dateOfBirth = new Date(data.dateOfBirth).toISOString().slice(0, 10);
+    data.dateOfBirth = format(new Date(data.dateOfBirth), 'YYYY-MM-DD');
     this.teachServise.addTeacher(data);
     this.teachServise.clearForm(this.addTeacher);
+  }
+
+  ngOnInit(): void {
+    this.addTeacher = this.formBuilder.group({
+      firstname: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
+      lastname: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
+      patronymic: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
+      dateOfBirth: ['', Validators.required],
+      email: ['', [Validators.pattern(this.validServ.emailRegExp)]],
+      phone: ['', [Validators.pattern(this.validServ.phoneRegExp)]],
+      login: ['', [Validators.required, Validators.pattern(this.validServ.loginRegExp)]]
+    });
   }
 }
