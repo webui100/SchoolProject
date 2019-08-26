@@ -5,6 +5,11 @@ export const setClearedSchedule = createAction(
   props<{ clearedData: object }>()
 );
 
+export const setSavedSchedule = createAction(
+  '[Admin Schedule] Set Saved Schedule',
+  props<{ savedData: object }>()
+);
+
 export const setSchedule = createAction(
   '[Admin Schedule] Set Schedule',
   props<{ data: object }>()

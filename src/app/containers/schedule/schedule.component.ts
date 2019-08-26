@@ -10,7 +10,9 @@ import initialSchedule from './initial-schedule';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
-import { selectScheduleData, selectClearedScheduleData } from 'src/app/store/schedule/schedule.selectors';
+import { selectScheduleData,
+  selectClearedScheduleData,
+  selectSavedScheduleData } from 'src/app/store/schedule/schedule.selectors';
 import { TeachersService } from 'src/app/services/teachers.service';
 import * as ScheduleModels from 'src/app/models/schedule';
 import { MAT_DATE_FORMATS } from '@angular/material';
@@ -46,24 +48,30 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   teachersTemp$: any;
   restoredScheduleTemp$: any;
   restoredClearedScheduleTemp$: any;
+  restoredSavedScheduleTemp$: any;
   teachersSubscription;
   classesSubscription;
   subjectsSubscription;
   restoredScheduleSubscriptions;
   restoredClearedScheduleSubscriptions;
+  restoredSavedScheduleSubscriptions;
   formChangesSubscription;
   terms: string[] = ['1', '2', '1 - 2'];
   defaultDates: ScheduleModels.DafaultTermDates;
-  showStartEndDates = false;с
+  showStartEndDates = false;
   scheduleCleared = {
     isCleared: false,
     clearingTime: null
   };
+  scheduleSaved = {
+    isSaved: false,
+    savingTime: null
+  };
   classes: any = [];
-  years: number[] = [];
+  year: number;
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
-  filteredYears: Observable<string[]>;
+  // filteredYears: Observable<string[]>;
 
   constructor(private formBuilder: FormBuilder,
     private schedule: ScheduleService,
@@ -80,49 +88,29 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachers));
     this.restoredScheduleTemp$ = this.storeSchedule.pipe(select(selectScheduleData));
     this.restoredClearedScheduleTemp$ = this.storeSchedule.pipe(select(selectClearedScheduleData));
+    this.restoredSavedScheduleTemp$ = this.storeSchedule.pipe(select(selectSavedScheduleData));
   }
 
   ngOnInit() {
     this.buildScheduleForm();
 
-    this.getClassesYearsSubjectsTeachersLists();
+    this.getClassesList();
+    this.getYear();
+    this.getSubjectsList();
+    this.getTeachersList();
     
     this.setClassYearTermAutocompleteFilters();
 
-    this.restoredScheduleSubscriptions = this.restoredScheduleTemp$.subscribe(val => {
-      let isAnyLesson = false;
-      if (val) {
-        Object.keys(val.scheduleForWeek).forEach(key => {
-          for (const lesson of val.scheduleForWeek[key]) {
-            if (lesson.firstGroup) {
-              isAnyLesson = true
-            }
-          }
-        });
-      }
-      if (val && isAnyLesson) {
-        this.restoreSchedule(val, 1);
-      }
+    this.checkForScheduleRestoration();
 
-    });
-    this.restoredScheduleSubscriptions.unsubscribe();
-
-    this.restoredClearedScheduleSubscriptions = this.restoredClearedScheduleTemp$.subscribe(val => {
-      if (val) {
-        this.scheduleCleared.isCleared = true
-      };
-    });
-
-    this.formChangesSubscription = this.scheduleForm.valueChanges
-      .pipe(debounceTime(800))
-      .subscribe(() => this.schedule.setScheduleToStore(this.scheduleForm.value));
+    this.setFormChangesSubscription();
 
     // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
   }
 
   buildScheduleForm(): void {
     this.scheduleForm = this.formBuilder.group({
-      term: this.formBuilder.control({ value: '', disabled: true }, [Validators.required]),
+      term: this.formBuilder.control('', [Validators.required]),
       class: this.formBuilder.control('', [Validators.required]),
       year: this.formBuilder.control('', [Validators.required]),
       termStartDate: this.formBuilder.control(''),
@@ -161,6 +149,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     });
   }
 
+  restoreSavedSchedule(): void {
+    this.restoredSavedScheduleSubscriptions = this.restoredSavedScheduleTemp$.subscribe(val => {
+      if (val) {
+        this.restoreSchedule(val, 0)
+      };
+    });
+  }
+
   restoreSchedule(val, index: number): void {
     this.scheduleForm.get('term').patchValue(val.term || '');
     this.scheduleForm.get('class').patchValue(val.class || '');
@@ -190,10 +186,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (this.restoredClearedScheduleSubscriptions) {
       this.restoredClearedScheduleSubscriptions.unsubscribe();
     };
-    if (this.restoredScheduleSubscriptions) {
-      console.log('index - ',index)
-      // this.restoredScheduleSubscriptions.unsubscribe();
-    }
+    if (this.restoredSavedScheduleSubscriptions) {
+      this.restoredSavedScheduleSubscriptions.unsubscribe();
+    };
 
     // if (val.term) this.showStartEndDates = true
   }
@@ -208,6 +203,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.schedule.postSchedule(this.scheduleForm.value);
     this.schedule.postTeacherToJournal(this.scheduleForm.value);
+
+    this.scheduleSaved = {
+      isSaved: true,
+      savingTime: new Date()
+    };
   }
 
   ngOnDestroy(): void {
@@ -221,13 +221,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     return classItem ? classItem.className : undefined;
   }
 
-  getClassesYearsSubjectsTeachersLists(): void {
+  getSubjectsList(): void {
     this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
       if (!res) {
         this.subjectsObj.getSubjects();
       }
     });
+  }
 
+  getClassesList(): void {
     this.classesSubscription = this.classesTemp$.subscribe(res => {
       if (!res) {
         this.classesObj.getClasses();
@@ -238,17 +240,20 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         }
       }
     });
-
+  }
+  
+  getTeachersList(): void {
     this.teachersSubscription = this.teachersTemp$.subscribe(response => {
       const res = response.teachersList;
       if (!res) {
         this.teachersObj.getTeachers();
       }
     });
-    
-    if (!this.years.length) {
-      this.years = this.schedule.createYearsList();
-    }
+  }
+  
+  getYear(): void {
+      this.year = this.schedule.createYearsList();
+      this.scheduleForm.get('year').patchValue(this.year);
   }
 
   setClassYearTermAutocompleteFilters(): void {
@@ -262,11 +267,43 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       startWith(''),
       map(value => this._filterClasses(value.toString(), this.classes))
     );
-  this.filteredYears = this.scheduleForm.get('year').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(value.toString(), this.years))
-    );
+  // this.filteredYears = this.scheduleForm.get('year').valueChanges
+  //   .pipe(
+  //     startWith(''),
+  //     map(value => this._filter(value.toString(), this.years))
+  //   );
+  }
+
+  checkForScheduleRestoration() {
+    this.restoredScheduleSubscriptions = this.restoredScheduleTemp$.subscribe(val => {
+      let isAnyLesson = false;
+      if (val) {
+        Object.keys(val.scheduleForWeek).forEach(key => {
+          for (const lesson of val.scheduleForWeek[key]) {
+            if (lesson.firstGroup) {
+              isAnyLesson = true
+            }
+          }
+        });
+      }
+      if (val && isAnyLesson) {
+        this.restoreSchedule(val, 1);
+      }
+
+    });
+    this.restoredScheduleSubscriptions.unsubscribe();
+
+    this.restoredClearedScheduleSubscriptions = this.restoredClearedScheduleTemp$.subscribe(val => {
+      if (val) {
+        this.scheduleCleared.isCleared = true
+      };
+    });
+  }
+
+  setFormChangesSubscription() {
+    this.formChangesSubscription = this.scheduleForm.valueChanges
+    .pipe(debounceTime(800))
+    .subscribe(() => this.schedule.setScheduleToStore(this.scheduleForm.value));
   }
 
   private _filter(value: string, arr: any[]): string[] {
@@ -282,7 +319,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     return arr.filter(option => option.className.toLowerCase().includes(filterValue));
   }
 
-  enableTermInput(): void {
-    this.scheduleForm.get('term').enable();
-  }
+  // enableTermInput(): void {
+  //   this.scheduleForm.get('term').enable();
+  // }
 }

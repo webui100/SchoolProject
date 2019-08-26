@@ -13,13 +13,14 @@
       </mat-autocomplete>
     </mat-form-field>
     <mat-form-field fxFlex>
-      <input type="text" placeholder="Навчальний рік *" matInput [formControl]="scheduleForm.get('year')"
-        [matAutocomplete]="yearA">
-      <mat-autocomplete #yearA="matAutocomplete" (optionSelected)="enableTermInput()">
+      <input type="text" placeholder="Навчальний рік" matInput
+        [formControl]="scheduleForm.get('year')" readonly class="input-year">
+      <span>&ndash; &nbsp;{{scheduleForm.get('year').value + 1}}</span>
+      <!-- <mat-autocomplete #yearA="matAutocomplete" (optionSelected)="enableTermInput()">
         <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
           {{year}} - {{+year + 1}}
         </mat-option>
-      </mat-autocomplete>
+      </mat-autocomplete> -->
     </mat-form-field>
     <div class="term-div" fxFlex>
       <mat-form-field>
@@ -61,11 +62,21 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <button type="submit" (click)="onSubmit()" mat-raised-button [disabled]="!scheduleForm.valid">Зберегти
-    розклад</button>
-  <button (click)="clearSchedule()" mat-raised-button>Очистити розклад</button>
-  <span *ngIf="scheduleCleared.isCleared">
-    <button (click)="restoreClearedSchedule()" mat-raised-button>Відновити розклад</button>
-    Час очищення розкладу: {{ scheduleCleared.clearingTime | date:'HH:mm'}}
-  </span>
+  <div layout="row" layout-align="space-between none">
+    <div fxFlex>
+      <button type="submit" (click)="onSubmit()" mat-raised-button [disabled]="!scheduleForm.valid">
+        Зберегти розклад</button>
+      <div *ngIf="scheduleSaved.isSaved">
+        <button (click)="restoreSavedSchedule()" mat-raised-button>Відновити збережений розклад</button>
+        <div class="schedule-time">Час збереження розкладу: {{ scheduleSaved.savingTime | date:'HH:mm'}}</div>
+      </div>
+    </div>
+    <div fxFlex>
+      <button (click)="clearSchedule()" mat-raised-button>Очистити розклад</button>
+      <div *ngIf="scheduleCleared.isCleared">
+        <button (click)="restoreClearedSchedule()" mat-raised-button>Відновити очищений розклад</button>
+        <div class="schedule-time">Час очищення розкладу: {{ scheduleCleared.clearingTime | date:'HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
 </form>

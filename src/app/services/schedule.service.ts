@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import * as ScheduleModels from 'src/app/models/schedule';
 import { HttpClient } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
-import { setSchedule, setClearedSchedule } from '../store/schedule/schedule.actions';
+import { setSchedule, setClearedSchedule, setSavedSchedule } from '../store/schedule/schedule.actions';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -36,6 +36,8 @@ export class ScheduleService {
   }
 
   postSchedule(form: any) {
+    this.store.dispatch(setSavedSchedule(form));
+
     const mondaySubjects = [];
     const tuesdaySubjects = [];
     const wednesdaySubjects = [];
@@ -143,12 +145,8 @@ export class ScheduleService {
   }
 
   createYearsList() {
-    const years = [];
     this.academicYearsStart = this.currentMonth < 7 ? this.currentYear - 1 : this.currentYear;
-    for (let i = 0; i < 2; i++) {
-      years.push(this.academicYearsStart + i);
-    }
-    return years;
+    return this.academicYearsStart;
   }
 
   getDafaultDates(term: string): ScheduleModels.DafaultTermDates {
