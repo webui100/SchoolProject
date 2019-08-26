@@ -1,5 +1,6 @@
+import { IBindTeacher } from './../../models/teacher.model';
 import { createAction, props } from '@ngrx/store';
-import { Teacher } from 'src/app/models/teacher.model';
+import { ITeacher } from 'src/app/models/teacher.model';
 
 export const teacherAction = createAction(
     '[Teachers List] teachersList',
@@ -13,7 +14,7 @@ export const addOneTeacher = createAction(
 
 export const editTeacher = createAction(
     '[EditTeacher] editTeacher',
-    props<{ editedTeacher: Teacher }>()
+    props<{ editedTeacher: ITeacher }>()
 );
 
 export const sortColumn = createAction(
@@ -24,4 +25,9 @@ export const sortColumn = createAction(
 export const deleteTeacher = createAction(
     '[DeleteTeacher] deleteTeacher',
     props<{ deleteTeacher: number}>()
+);
+
+export const bindTeacher = createAction(
+    '[BindTeacher] bindTeacher',
+    props<{ bindTeacher: IBindTeacher[], teacherID: number}>()
 );

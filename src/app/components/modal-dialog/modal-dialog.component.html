@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <p>{{message}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>Скасувати</button>
+  <button mat-button (click)="submitModal()" mat-dialog-close>{{buttonText}}</button>
+</div>
