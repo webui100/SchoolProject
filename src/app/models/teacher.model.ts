@@ -21,3 +21,10 @@ export interface IBindTeacher {
   academicYear?: number;
   bindTeacher;
 }
+
+export interface IJournalBind {
+  teacherId: number;
+  classId: number;
+  subjectId: number;
+}
+

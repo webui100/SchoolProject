@@ -1,3 +1,4 @@
+import { IBindTeacher, IJournalBind } from './../models/teacher.model';
 import { IHttpGetBindTeacher } from './../models/HttpResponse.model';
 import { FormGroup } from '@angular/forms';
 import { NotificationService } from './notification.service';
@@ -31,6 +32,9 @@ export class TeachersService {
   private CREDENTIALS_URI = 'credentials/';
   private JOURNALS_URI = 'journals/';
   private ACIVE_URI = 'active/';
+  private CLASSES_URI = 'classes/';
+  private SUBJECTS_URI = 'subjects/';
+  private JOURNAL_URI = 'journal/';
 
   constructor(
     private http: HttpClient,
@@ -135,6 +139,25 @@ export class TeachersService {
           this.notify.notifyFailure('Не вдалось відправити дані');
         }
       );
+  }
+
+  teacherJournalBind(ids: IJournalBind) {
+    console.log(ids);
+    return this.http.post(
+      `${this.BASE_URI}${this.TEACHER_URI}${ids.teacherId}/${this.CLASSES_URI}${ids.classId}
+      /${this.SUBJECTS_URI}${ids.subjectId}/${this.JOURNAL_URI}`, {})
+      .subscribe(
+        () => {
+          this.notify.notifySuccess('Дані відправлено успішно');
+        },
+        error => {
+          this.errorMessage(error);
+          this.notify.notifyFailure('Не вдалось відправити дані');
+        },
+        () => {
+          console.log('Відписано');
+        }
+      )
   }
 
   readFileImage(inputValue: HTMLInputElement) {

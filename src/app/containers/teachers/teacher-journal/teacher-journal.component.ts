@@ -1,9 +1,17 @@
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { SubjectsService } from './../../../services/subjects.service';
+import { ClassesService } from 'src/app/services/classes.service';
+import ClassModel from 'src/app/models/schoolclass.model';
 import { IBindTeacher } from 'src/app/models/teacher.model';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getBindById } from 'src/app/store/teachers/teachers.selector';
+import { FormBuilder, AbstractControl } from '@angular/forms';
+import { selectAll } from 'src/app/store/subjects/subjects.selector';
+import { selectClassesList } from 'src/app/store/classes/classes.selector';
+import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'webui-teacher-journal',
@@ -13,15 +21,67 @@ import { getBindById } from 'src/app/store/teachers/teachers.selector';
 export class TeacherJournalComponent implements OnInit, OnDestroy {
   @Input() teacherId: number;
   public teacherBindData: IBindTeacher[];
-  private unsub: Subscription;
-  displayedColumns: string[] = ['subjectName', 'className'];
+  private teachersBind$: Observable<any>;
+  private subjects$: Observable<any>;
+  private classes$: Observable<any>;
+  public displayedColumns: string[] = ['subjectName', 'className'];
+  private bindTeacherJournal: AbstractControl;
+  private bindTeacherSubsc: Subscription;
+  private subjectsSubsc: Subscription;
+  private classesSubsc: Subscription;
+
   constructor(
     private store: Store<object>,
     private teachServ: TeachersService,
+    private formBuilder: FormBuilder,
+    private classServ: ClassesService,
+    private subjServ: SubjectsService
   ) {}
 
-  ngOnInit() {
-    this.unsub = this.store.select(getBindById(this.teacherId))
+  createForm(): void {
+    this.bindTeacherJournal = this.formBuilder.group({
+      subjectsControl: [''],
+      classesControl: [''],
+    });
+  }
+
+  displaySubjectName(subject: any): string | undefined {
+    return subject ? subject.subjectName : undefined;
+  }
+
+  displayClassesName(classes: any): string | undefined {
+    return classes ? classes.className : undefined;
+  }
+
+  teacherJournalBind(e: Event) {
+    e.preventDefault();
+    const formValue = this.bindTeacherJournal.value;
+    const data = {
+      teacherId: this.teacherId,
+      classId: formValue.classesControl.id,
+      subjectId: formValue.subjectsControl.subjectId,
+    };
+    this.teachServ.teacherJournalBind(data);
+  }
+
+
+
+  selectDataFromStore() {
+    this.teachersBind$ = this.store.select(getBindById(this.teacherId));
+    this.subjects$ = this.store.select(selectAll);
+    this.classes$ = this.store.select(selectClassesList)
+    .pipe(
+      map(arr => {
+      if (arr) {
+      return arr.filter((elem: ClassModel) => {
+        return elem.isActive;
+      });
+    }
+    }));
+  }
+
+  getBindingList(): void {
+    this.bindTeacherSubsc = this.teachersBind$
     .subscribe( (res: IBindTeacher) => {
       if (res !== undefined) {
         this.teacherBindData = res.bindTeacher;
@@ -32,11 +92,37 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsub.unsubscribe();
+  getClassesList() {
+    this.classesSubsc = this.classes$
+    .subscribe(response => {
+      if (!response) {
+        this.classServ.getClasses();
+      }
+    });
   }
 
+  getSubjectsList() {
+    this.subjectsSubsc = this.subjects$
+    .subscribe(response => {
+      if (!response) {
+        this.subjServ.getSubjects();
+      }
+    });
+  }
 
+  ngOnInit() {
+    this.selectDataFromStore();
+    this.createForm();
+    this.getBindingList();
+    this.getClassesList();
+    this.getSubjectsList();
+  }
+
+  ngOnDestroy(): void {
+    this.bindTeacherSubsc.unsubscribe();
+    this.classesSubsc.unsubscribe();
+    this.subjectsSubsc.unsubscribe();
+  }
 
 
 }
