@@ -65,7 +65,6 @@ const reducer = createReducer(
       ...state,
       bindedTeachers: state.bindedTeachers.map(
         (el: IBindTeacher) => {
-          console.log(el);
           if (el.id === addBindTeacher.id) {
             return el.bindTeacher.push(addBindTeacher.bindTeacher);
           }
