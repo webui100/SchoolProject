@@ -35,6 +35,7 @@ export class AuthService implements OnDestroy{
 
   ngOnDestroy(): void {
     this.timerTerminator$.next();
+    console.log('I\'m OnDestroy AuthService');
     this.timerTerminator$.complete();
   }
 
@@ -51,10 +52,11 @@ export class AuthService implements OnDestroy{
           const token = response.headers.get('Authorization');
           localStorage.setItem('token', token);
           this.tokenizedUser();
-          this.refreshTokenTimer();
+          // this.refreshTokenTimer();
 
           this.id$.subscribe((data) => this.id = data);
           this.role$.subscribe((data) => this.role = data);
+
 
           if (this.role === 'ROLE_ADMIN') {
               this.router.navigate(['admin']);
@@ -78,6 +80,7 @@ export class AuthService implements OnDestroy{
     localStorage.removeItem('token');
     this.router.navigate(['']);
     this.store.dispatch(login({role: null, id: null}));
+    sessionStorage.removeItem('role');
   }
 
   getToken(): string {
@@ -89,7 +92,7 @@ export class AuthService implements OnDestroy{
     console.log(tokenValid);
     if (!tokenValid) {
       return this.http.get(this.BASE_URI + 'refresh', {observe: 'response'})
-        .pipe(tap(res => console.log(res)))
+        // .pipe(tap(res => console.log(res)))
         .subscribe(res => {
             const newToken = res.headers.get('Authorization');
             localStorage.setItem('token', newToken);
@@ -118,10 +121,9 @@ export class AuthService implements OnDestroy{
 
 
   refreshTokenTimer() {
-    timer(600000, 1200000).pipe(
-      takeUntil(this.timerTerminator$)).subscribe(() => {
-      return this.refreshToken();
-    });
-  }
+    return timer(600000, 1200000).pipe(
+      takeUntil(this.timerTerminator$));
+    }
+
 }
 

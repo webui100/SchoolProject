@@ -48,8 +48,8 @@
           <ng-container *ngFor="let data of diary$ | async">
             <tr *ngIf="data.date[2] === dayNumbers[i]">
               <td>{{data.lessonNumber}}</td>
-              <td>{{data.subjectName}}</td>
-              <td>
+              <td class="lesson-content">{{data.subjectName}}</td>
+              <td class="lesson-content">
                 {{data.homeWork}}
                 <mat-icon
                   *ngIf="data.homeworkFileId !== null"

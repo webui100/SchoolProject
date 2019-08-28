@@ -9,4 +9,5 @@ export interface Student {
 
   login: string;
   dateOfBirth: string;
+  classId: number;
 }
