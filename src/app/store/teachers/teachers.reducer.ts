@@ -6,14 +6,12 @@ export interface State {
   teachersList: Array<object>;
   sortOptions: object;
   bindedTeachers: IBindTeacher[];
-  teacherIDs: Array<number>;
 }
 
 export const initialState: State = {
   teachersList: null,
-  sortOptions: { direction: 'asc', column: 'firstname' },
+  sortOptions: { direction: 'asc', column: 'lastname' },
   bindedTeachers: [],
-  teacherIDs: []
 };
 
 const reducer = createReducer(
@@ -60,6 +58,20 @@ const reducer = createReducer(
     return {
       ...state,
       bindedTeachers: [...state.bindedTeachers, {id: teacherID, bindTeacher}]
+    };
+  }),
+  on(TeacherData.addBindTeacher, (state: State, { addBindTeacher }) => {
+    return {
+      ...state,
+      bindedTeachers: state.bindedTeachers.map(
+        (el: IBindTeacher) => {
+          console.log(el);
+          if (el.id === addBindTeacher.id) {
+            return el.bindTeacher.push(addBindTeacher.bindTeacher);
+          }
+          return el;
+          }
+      )
     };
   })
 );

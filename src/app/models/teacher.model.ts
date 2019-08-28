@@ -24,7 +24,10 @@ export interface IBindTeacher {
 
 export interface IJournalBind {
   teacherId: number;
-  classId: number;
-  subjectId: number;
+  classId?: number;
+  subjectId?: number;
+  classData?;
+  subjectData?;
+  id?;
 }
 

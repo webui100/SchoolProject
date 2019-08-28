@@ -39,10 +39,10 @@ import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dial
 })
 export class TeachersComponent implements OnInit, OnChanges {
   private columnsToDisplay: string[] = [
-    'firstname',
     'lastname',
+    'firstname',
+    'patronymic',
     'dateOfBirth',
-    'bind',
     'delete'
   ];
   private expandedElement: ITeacher | null;
@@ -106,6 +106,8 @@ export class TeachersComponent implements OnInit, OnChanges {
     switch (header) {
       case 'firstname':
         return 'Ім\'я';
+      case 'patronymic':
+        return 'По-батькові';
       case 'lastname':
         return 'Прізвище';
       case 'dateOfBirth':

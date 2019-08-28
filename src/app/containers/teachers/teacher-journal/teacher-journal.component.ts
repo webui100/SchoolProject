@@ -58,8 +58,8 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
     const formValue = this.bindTeacherJournal.value;
     const data = {
       teacherId: this.teacherId,
-      classId: formValue.classesControl.id,
-      subjectId: formValue.subjectsControl.subjectId,
+      classData: formValue.classesControl,
+      subjectData: formValue.subjectsControl,
     };
     this.teachServ.teacherJournalBind(data);
   }

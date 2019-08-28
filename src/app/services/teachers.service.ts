@@ -1,6 +1,7 @@
+import { addBindTeacher } from './../store/teachers/teachers.action';
 import { IBindTeacher, IJournalBind } from './../models/teacher.model';
 import { IHttpGetBindTeacher } from './../models/HttpResponse.model';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { NotificationService } from './notification.service';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -11,7 +12,7 @@ import {
   addOneTeacher,
   editTeacher,
   deleteTeacher,
-  bindTeacher,
+  bindTeacher
 } from '../store/teachers/teachers.action';
 import { Subject } from 'rxjs';
 import {
@@ -142,22 +143,35 @@ export class TeachersService {
   }
 
   teacherJournalBind(ids: IJournalBind) {
-    console.log(ids);
-    return this.http.post(
-      `${this.BASE_URI}${this.TEACHER_URI}${ids.teacherId}/${this.CLASSES_URI}${ids.classId}
-      /${this.SUBJECTS_URI}${ids.subjectId}/${this.JOURNAL_URI}`, {})
+    const storeData =  {
+        id: ids.teacherId,
+        bindTeacher: {
+          subjectName: ids.subjectData.subjectName,
+          className: ids.classData.className
+      }
+    };
+
+    return this.http
+      .post(
+        `${this.BASE_URI}${this.TEACHER_URI}${ids.teacherId}/${this.CLASSES_URI}${ids.classData.id}
+      /${this.SUBJECTS_URI}${ids.subjectData.subjectId}/${this.JOURNAL_URI}`,
+        {}
+      )
       .subscribe(
         () => {
           this.notify.notifySuccess('Дані відправлено успішно');
+          this.store.dispatch(
+            addBindTeacher({addBindTeacher: storeData})
+          );
         },
         error => {
           this.errorMessage(error);
           this.notify.notifyFailure('Не вдалось відправити дані');
         },
         () => {
-          console.log('Відписано');
+          console.log('Відписано "teacherJournalBind"');
         }
-      )
+      );
   }
 
   readFileImage(inputValue: HTMLInputElement) {
@@ -182,12 +196,5 @@ export class TeachersService {
       this.notify.notifyFailure(errParse);
       throw new Error(`Server error: ${err.error.data}`);
     }
-  }
-
-  clearForm(formName: FormGroup) {
-    formName.reset();
-    Object.keys(formName.controls).forEach(key => {
-      formName.get(key).setErrors(null);
-    });
   }
 }

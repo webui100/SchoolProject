@@ -1,4 +1,3 @@
-import { IBindTeacher } from './../../models/teacher.model';
 import { createSelector } from '@ngrx/store';
 import { State as AppState } from '../index';
 import { ISortOptions } from 'src/app/models/sortOptions.model';
@@ -12,9 +11,9 @@ export const teacherBindData = (state: AppState) =>
   state.teachers.bindedTeachers;
 
 
-export const getBindById = (id: number) => createSelector(teacherBindData, (selectItem) => {
-  if (selectItem) {
-    return selectItem.find( item => {
+export const getBindById = (id: number) => createSelector(teacherBindData, (selectItems) => {
+  if (selectItems) {
+    return selectItems.find( item => {
       return item.id === id;
     });
   } else {
