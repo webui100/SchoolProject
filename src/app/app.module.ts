@@ -137,6 +137,6 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalDialogComponent, TeachersComponent],
+  entryComponents: [ModalDialogComponent, TeachersComponent, TemporaryComponent],
 })
 export class AppModule { }

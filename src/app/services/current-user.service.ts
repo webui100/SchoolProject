@@ -27,7 +27,7 @@ export class CurrentUserService {
   }
 
   getCurrentUser() {
-    if (this.role === 'ROLE_ADMIN') {
+    if (this.isAdmin()) {
       this.store.dispatch(currentUserAction({ currentUserData: AdminData.adminData }));
     } else {
       let userUri = '';
@@ -57,6 +57,14 @@ export class CurrentUserService {
   imageTransform(stringImg) {
     if (stringImg !== null && (typeof stringImg !== 'undefined')) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(stringImg);
+    }
+  }
+
+  isAdmin(): boolean {
+    if (this.role === 'ROLE_ADMIN') {
+      return true;
+    } else {
+      return false;
     }
   }
 

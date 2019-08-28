@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgModule, OnDestroy, Inject } from '@angular/core';
 import { CurrentUserService } from '../../services/current-user.service';
 import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
@@ -7,6 +7,8 @@ import { selectCurrentUser } from '../../store/current/current-user.selector';
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { TemporaryComponent } from '../temporary/temporary.component';
 
 
 
@@ -32,7 +34,8 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     private current: Store<{ currentUser }>,
     private _currentUser: CurrentUserService,
     private _authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    public dialog: MatDialog) {
 
     this.currentUser$ = this.current.pipe(select(selectCurrentUser))
       .subscribe(
@@ -61,5 +64,8 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     this.show = !this.show;
   }
 
+  openDialog(): void {
+    this.dialog.open(TemporaryComponent);
+  }
 
 }
