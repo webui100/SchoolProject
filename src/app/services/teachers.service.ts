@@ -61,11 +61,9 @@ export class TeachersService {
       )
       .subscribe(
         (response: IHttpGetBindTeacher) => {
-          if (response.data.length > 0) {
             this.store.dispatch(
-              bindTeacher({ bindTeacher: response.data, teacherID: teacherId })
+              bindTeacher({ bindTeacher: { [teacherId]: response.data } })
             );
-          }
         },
         error => {
           this.errorMessage(error);
@@ -144,8 +142,7 @@ export class TeachersService {
 
   teacherJournalBind(ids: IJournalBind) {
     const storeData =  {
-        id: ids.teacherId,
-        bindTeacher: {
+         [ids.teacherId] : {
           subjectName: ids.subjectData.subjectName,
           className: ids.classData.className
       }

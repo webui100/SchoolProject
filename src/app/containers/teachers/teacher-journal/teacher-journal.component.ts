@@ -84,7 +84,7 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
     this.bindTeacherSubsc = this.teachersBind$
     .subscribe( (res: IBindTeacher) => {
       if (res !== undefined) {
-        this.teacherBindData = res.bindTeacher;
+        this.teacherBindData = res[this.teacherId];
       } else {
         this.teachServ.getTeacherBind(this.teacherId);
         this.teacherBindData = [];

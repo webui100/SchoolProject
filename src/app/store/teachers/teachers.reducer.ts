@@ -1,6 +1,6 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import * as TeacherData from './teachers.action';
-import { ITeacher, IBindTeacher } from 'src/app/models/teacher.model';
+import { Action, createReducer, on } from "@ngrx/store";
+import * as TeacherData from "./teachers.action";
+import { ITeacher, IBindTeacher } from "src/app/models/teacher.model";
 
 export interface State {
   teachersList: Array<object>;
@@ -10,8 +10,8 @@ export interface State {
 
 export const initialState: State = {
   teachersList: null,
-  sortOptions: { direction: 'asc', column: 'lastname' },
-  bindedTeachers: [],
+  sortOptions: { direction: "asc", column: "lastname" },
+  bindedTeachers: []
 };
 
 const reducer = createReducer(
@@ -54,23 +54,23 @@ const reducer = createReducer(
       )
     };
   }),
-  on(TeacherData.bindTeacher, (state: State, { bindTeacher, teacherID }) => {
+  on(TeacherData.bindTeacher, (state: State, { bindTeacher }) => {
     return {
       ...state,
-      bindedTeachers: [...state.bindedTeachers, {id: teacherID, bindTeacher}]
+      bindedTeachers: [...state.bindedTeachers, bindTeacher]
     };
   }),
   on(TeacherData.addBindTeacher, (state: State, { addBindTeacher }) => {
     return {
       ...state,
-      bindedTeachers: state.bindedTeachers.map(
-        (el: IBindTeacher) => {
-          if (el.id === addBindTeacher.id) {
-            return el.bindTeacher.push(addBindTeacher.bindTeacher);
-          }
-          return el;
-          }
-      )
+      bindedTeachers:
+      state.bindedTeachers.map((el: IBindTeacher) => {
+        const bindId = Object.keys(addBindTeacher)[0];
+        if (el.hasOwnProperty(bindId)) {
+          return { [bindId]: [...el[bindId], addBindTeacher[bindId]] };
+        }
+        return el;
+      })
     };
   })
 );

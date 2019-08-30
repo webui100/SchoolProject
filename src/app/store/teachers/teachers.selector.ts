@@ -10,17 +10,20 @@ export const sortOptions = (state: AppState) => state.teachers.sortOptions;
 export const teacherBindData = (state: AppState) =>
   state.teachers.bindedTeachers;
 
-
-export const getBindById = (id: number) => createSelector(teacherBindData, (selectItems) => {
-  if (selectItems) {
-    return selectItems.find( item => {
-      return item.id === id;
-    });
-  } else {
-    return {};
-  }
-
-});
+export const getBindById = (id: number) =>
+  createSelector(
+    teacherBindData,
+    selectItems => {
+      if (selectItems) {
+        return selectItems.find( item => {
+          const currentId = Object.keys(item)[0];             // get object keys
+          return Number(currentId) === id;                    // cast to number
+        });
+      } else {
+        return {};
+      }
+    }
+  );
 
 export const teachersSortByName = createSelector(
   selectTeachers,
