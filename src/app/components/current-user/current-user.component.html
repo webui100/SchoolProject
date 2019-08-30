@@ -1,9 +1,11 @@
 <div class="user-info">
     <div class="mask">
-        <img [src]="_currentUser.imageTransform(user.avatar)" alt="User avatar">
+        <img src={{img}}  alt="User avatar">
+        <!-- <p>{{img}}</p> -->
     </div>
 
-  <h3>{{user.firstname + ' ' + user.lastname}}</h3>
+  <h3>{{(currentUser$ | async)?.firstname}} {{(currentUser$ | async)?.lastname}}</h3>
+  <p>{{(currentUser$ | async)?.login}}</p>
   <h4>{{_currentUser.userRole()}}</h4>
   <br>
     <div *ngIf = "!_currentUser.isAdmin()">

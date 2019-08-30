@@ -4,11 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
 import { selectId, selectRole } from '../../store/login/login.selectors';
 import { selectCurrentUser } from '../../store/current/current-user.selector';
-import { tap } from 'rxjs/operators';
+import { tap, take, first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { TemporaryComponent } from '../temporary/temporary.component';
+import { Observable, Subject } from 'rxjs';
 
 
 
@@ -19,7 +19,7 @@ import { TemporaryComponent } from '../temporary/temporary.component';
 })
 export class CurrentUserComponent implements OnInit, OnDestroy {
 
-  currentUser$: any;
+  currentUser$: Observable<any>;
   user = {};
   role$: any;
   role: any;
@@ -27,26 +27,25 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
   id: any;
   private timerSubscription;
   public show: boolean = false;
+  public img: string;
+  private imgSubscription: any;
 
 
-  constructor(private http: HttpClient,
-    private store: Store<{ user }>,
-    private current: Store<{ currentUser }>,
-    private _currentUser: CurrentUserService,
-    private _authService: AuthService,
-    private router: Router,
-    public dialog: MatDialog) {
+  constructor(private store: Store<{ user }>,
+              private current: Store<{ currentUser }>,
+              private _currentUser: CurrentUserService,
+              private _authService: AuthService,
+              public dialog: MatDialog) {
 
-    this.currentUser$ = this.current.pipe(select(selectCurrentUser))
-      .subscribe(
-        (data) => {
-          if (data !== null && (typeof data !== 'undefined')) { this.user = data; }
-        },
-        error => console.log(error),
-        () => this.currentUser$.unsubscribe());
+    this.currentUser$ = this.current.pipe(select(selectCurrentUser));
+    // ,tap((res) => console.log(res)));
 
-    this.role$ = this.store.pipe(select(selectRole)).subscribe((data) => this.role = data);
-    this.id$ = this.store.pipe(select(selectId)).subscribe((data) => this.id = data);
+    this.imgSubscription = this.currentUser$
+      .subscribe(data => { if (data !== null ) {return this.img = data.avatar; } },
+                    error => console.log(error));
+
+    this.role$ = this.store.select(selectRole).subscribe((data) => this.role = data);
+    this.id$ = this.store.select(selectId).subscribe((data) => this.id = data);
   }
 
   ngOnInit() {
@@ -58,10 +57,7 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.timerSubscription.unsubscribe();
-  }
-
-  toggleEdit() {
-    this.show = !this.show;
+    this.imgSubscription.unsubscribe();
   }
 
   openDialog(): void {
