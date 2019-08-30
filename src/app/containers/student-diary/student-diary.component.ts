@@ -58,7 +58,7 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
     return setDate(today, getDate(today) - weekDaysPassed);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     registerLocaleData(localeUk);
     this.dateAdapter.setLocale('uk');
     this.dateAdapter.getFirstDayOfWeek = () => 1;
@@ -66,7 +66,7 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
     this.setWeekDays();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyStream$.next();
   }
 

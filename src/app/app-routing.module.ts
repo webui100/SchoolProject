@@ -8,6 +8,7 @@ import { LoginComponent } from "./pages/login/login.component";
 import { AdminComponent } from './pages/admin/admin.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
+import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
 import { AdminGuard } from './services/guards/admin.guard';
 import { TeacherGuard } from './services/guards/teacher.guard';
 import { StudentGuard } from './services/guards/student.guard';
@@ -17,7 +18,6 @@ import { StudentsComponent } from "./pages/students/students.component";
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
-
 
 
 const routes: Routes = [
@@ -53,6 +53,10 @@ const routes: Routes = [
         path: 'diary',
         component: StudentDiaryComponent
       },
+      {
+        path: 'profile',
+        component: StudentProfileComponent
+      }
     ]
   },
   {

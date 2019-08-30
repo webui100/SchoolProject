@@ -5,4 +5,3 @@ export const fetchDiary = createAction(
   '[Student Diary] Fetch',
   props<{ lessons: Lesson[] }>()
 );
-
