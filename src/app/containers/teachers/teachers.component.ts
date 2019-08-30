@@ -42,7 +42,6 @@ export class TeachersComponent implements OnInit, OnChanges {
     'lastname',
     'firstname',
     'patronymic',
-    'dateOfBirth',
     'delete'
   ];
   private expandedElement: ITeacher | null;
@@ -110,8 +109,6 @@ export class TeachersComponent implements OnInit, OnChanges {
         return 'По-батькові';
       case 'lastname':
         return 'Прізвище';
-      case 'dateOfBirth':
-        return 'Дата народження';
     }
   }
 }

@@ -15,12 +15,10 @@ mat-icon {
 mat-icon:hover {
   cursor: pointer;
 }
-.mat-column-delete,
-.mat-column-bind{
-  width: 10%;
+.mat-column-delete {
+  width: 5%;
   text-align: center;
 }
-
 
 .header {
   @extend %flex-center;
@@ -36,14 +34,11 @@ mat-icon:hover {
     font-size: 1.5rem;
     font-weight: 500;
   }
-  .header-text{
+  .header-text {
     width: 95%;
     align-self: center;
   }
 }
-// .mat-column-dateOfBirth{
-//   display: none;
-// }
 
 .mat-column-expandedDetail {
   padding: 0 !important;
@@ -51,14 +46,14 @@ mat-icon:hover {
 
 .mat-form-field {
   display: flex;
-  width: 300px !important;
+  min-width: 300px !important;
   align-self: center;
   justify-self: center;
   margin: 0.2rem;
   font-size: 1rem;
-  justify-content: center;
+  justify-content: center !important;
+  align-items: center;
   font-size: 14px;
-  width: 100%;
 }
 .container {
   flex-direction: column-reverse;
@@ -89,23 +84,32 @@ mat-content {
   margin-bottom: 4rem;
 }
 
-.send-teacher-email{
-  display: flex;
+.send-teacher-email {
   align-self: center;
+  min-width: 30px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 table {
   width: 100%;
 
-  .teacher-row,
-  th {
-    width: 25%;
-  }
   .teacher-row:hover {
     background-color: #e8e8e8;
   }
   td {
     font-size: 12px;
+  }
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type,
+  th.mat-header-cell:last-of-type {
+    padding-right: 8px;
+  }
+
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type,
+  th.mat-header-cell:first-of-type {
+    padding-left: 8px;
   }
 }
 
@@ -155,6 +159,7 @@ tr.teacher-detail-row {
   }
   td,
   th {
+    width: 30%;
     padding: 1rem;
   }
   td {
@@ -170,8 +175,7 @@ tr.teacher-detail-row {
   .mat-header-cell {
     padding: 1rem !important;
   }
-}
-@media only screen and (min-width: 600px) {
+
   .container {
     width: 90%;
     flex-direction: row;
@@ -182,5 +186,19 @@ tr.teacher-detail-row {
   }
   .mat-form-field {
     margin: 0.5rem;
+    width: 90%;
+  }
+
+
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type,
+  th.mat-header-cell:last-of-type {
+    padding-right: 24px !important;
+  }
+
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type,
+  th.mat-header-cell:first-of-type {
+    padding-left: 24px !important;
   }
 }
