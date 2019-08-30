@@ -1,0 +1,44 @@
+<mat-sidenav-container class="sidenav-container">
+        <mat-sidenav class="sidenav" fixedInViewport
+            [mode]="(isHandset$ | async) ? 'over' : 'side'"
+            [(opened)]="isOpened">
+      
+          <mat-toolbar>Меню</mat-toolbar>
+          <mat-nav-list>
+            <a *ngFor="let link of linksSet" [routerLink]="link.path" mat-list-item routerLinkActive="active"
+               (click)="closeOnLink()">
+              <i class="material-icons">
+                {{link.icon}}
+              </i>
+              {{link.title}}</a>
+          </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <mat-drawer #sideNav mode="side" opened="false" [position]="sidenavPosition">
+            <div id="user-info-sidebar">
+            <button mat-fab (click)="sideNav.toggle()" class="back-button" color="primary">
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+              <webui-current-user></webui-current-user>
+            <div>
+              <button (click)="http.signOut()" mat-raised-button color="primary"><mat-icon>exit_to_app</mat-icon> Вихід</button>
+            </div>
+            </div>
+          </mat-drawer>
+          <mat-toolbar color="primary">
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="isOpened = true"
+              *ngIf="isHandset$ | async">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <mat-toolbar color="primary" class="button-container">
+              <button (click)="sideNav.toggle()" mat-fab color="grey"><mat-icon>person</mat-icon></button>
+            </mat-toolbar>
+          </mat-toolbar>
+          <ng-content></ng-content>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+      

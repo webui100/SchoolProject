@@ -1,0 +1,30 @@
+.main-container {
+    width: 100%;
+  }
+  .header {
+    display: flex;
+    justify-content: center;
+    background-color: #673ab7;
+    width: 90%;
+    color: white;
+    padding: 10px 0;
+    margin: 20px auto 10px auto;
+  }
+  .header div {
+    padding: 6px;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  //-----------------------
+  .filter-container {
+    margin: 10px auto 0 auto;
+    width: 90%;
+  }
+  
+  .filter-container .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  //----------------------------
