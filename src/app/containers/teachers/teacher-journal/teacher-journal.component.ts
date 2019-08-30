@@ -4,13 +4,13 @@ import { ClassesService } from 'src/app/services/classes.service';
 import ClassModel from 'src/app/models/schoolclass.model';
 import { IBindTeacher } from 'src/app/models/teacher.model';
 import { TeachersService } from 'src/app/services/teachers.service';
-import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getBindById } from 'src/app/store/teachers/teachers.selector';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 import { selectAll } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList } from 'src/app/store/classes/classes.selector';
-import { map, startWith } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({

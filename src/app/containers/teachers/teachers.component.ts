@@ -99,16 +99,4 @@ export class TeachersComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.fillTable();
   }
-
-  // switcher for table header with UA text
-  private dataHeader(header: string) {
-    switch (header) {
-      case 'firstname':
-        return 'Ім\'я';
-      case 'patronymic':
-        return 'По-батькові';
-      case 'lastname':
-        return 'Прізвище';
-    }
-  }
 }
