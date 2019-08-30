@@ -1,7 +1,7 @@
 import { addBindTeacher } from './../store/teachers/teachers.action';
 import { IBindTeacher, IJournalBind } from './../models/teacher.model';
 import { IHttpGetBindTeacher } from './../models/HttpResponse.model';
-import { FormGroup, NgForm } from '@angular/forms';
+import { FormGroup, NgForm, AbstractControl } from '@angular/forms';
 import { NotificationService } from './notification.service';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -20,6 +20,8 @@ import {
   IHttpPostPutResponse
 } from '../models/HttpResponse.model';
 import { ITeacher } from '../models/teacher.model';
+import { startWith, map } from 'rxjs/operators';
+import { IOptionsFilter } from '../models/optionsFilter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -151,22 +153,17 @@ export class TeachersService {
     return this.http
       .post(
         `${this.BASE_URI}${this.TEACHER_URI}${ids.teacherId}/${this.CLASSES_URI}${ids.classData.id}
-      /${this.SUBJECTS_URI}${ids.subjectData.subjectId}/${this.JOURNAL_URI}`,
+        /${this.SUBJECTS_URI}${ids.subjectData.subjectId}/${this.JOURNAL_URI}`,
         {}
       )
       .subscribe(
         () => {
           this.notify.notifySuccess('Дані відправлено успішно');
-          this.store.dispatch(
-            addBindTeacher({addBindTeacher: storeData})
-          );
+          this.store.dispatch(addBindTeacher({addBindTeacher: storeData}));
         },
         error => {
           this.errorMessage(error);
           this.notify.notifyFailure('Не вдалось відправити дані');
-        },
-        () => {
-          console.log('Відписано "teacherJournalBind"');
         }
       );
   }
@@ -182,6 +179,21 @@ export class TeachersService {
     } else {
       this.subject.error('IncorrectFile');
     }
+  }
+
+  private filter(value: any, arr: string[], property: string): string[] {
+    const filterValue = value.toLowerCase();
+    return arr.filter(option => {
+      return option[property].toLowerCase().includes(filterValue);
+    });
+  }
+
+  //  IOptionsFilter = { controlName: string, objProp: string, varName: string }
+  public autocompleteFilter(data: any[], formControlers: AbstractControl, optionsString: IOptionsFilter) {
+    return formControlers.get(optionsString.controlName).valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.filter(value.toString(), data, optionsString.objProp )));
   }
 
   private errorMessage(err: any) {

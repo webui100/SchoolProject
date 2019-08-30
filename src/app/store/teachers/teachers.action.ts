@@ -29,11 +29,11 @@ export const deleteTeacher = createAction(
 
 export const bindTeacher = createAction(
     '[BindTeacher] bindTeacher',
-    props<{ bindTeacher: any}>()
+    props<{ bindTeacher: object}>()
 );
 
 export const addBindTeacher = createAction(
     '[AddBindTeacher] addBindTeacher',
-    props <{ addBindTeacher: any }>()
+    props <{ addBindTeacher: object }>()
 );
 

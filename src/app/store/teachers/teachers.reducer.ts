@@ -1,6 +1,6 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import * as TeacherData from "./teachers.action";
-import { ITeacher, IBindTeacher } from "src/app/models/teacher.model";
+import { Action, createReducer, on } from '@ngrx/store';
+import * as TeacherData from './teachers.action';
+import { ITeacher, IBindTeacher } from 'src/app/models/teacher.model';
 
 export interface State {
   teachersList: Array<object>;
@@ -10,7 +10,7 @@ export interface State {
 
 export const initialState: State = {
   teachersList: null,
-  sortOptions: { direction: "asc", column: "lastname" },
+  sortOptions: { direction: 'asc', column: 'lastname' },
   bindedTeachers: []
 };
 

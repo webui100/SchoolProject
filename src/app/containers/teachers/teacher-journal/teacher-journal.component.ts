@@ -10,7 +10,7 @@ import { getBindById } from 'src/app/store/teachers/teachers.selector';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 import { selectAll } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList } from 'src/app/store/classes/classes.selector';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -29,6 +29,7 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
   private bindTeacherSubsc: Subscription;
   private subjectsSubsc: Subscription;
   private classesSubsc: Subscription;
+  private filteredSubject$;
 
   constructor(
     private store: Store<object>,
@@ -66,7 +67,7 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
 
 
 
-  selectDataFromStore() {
+  selectDataFromStore(): void {
     this.teachersBind$ = this.store.select(getBindById(this.teacherId));
     this.subjects$ = this.store.select(selectAll);
     this.classes$ = this.store.select(selectClassesList)
@@ -97,6 +98,13 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
     .subscribe(response => {
       if (!response) {
         this.classServ.getClasses();
+      } else {
+        this.classes$ = this.teachServ
+          .autocompleteFilter(response, this.bindTeacherJournal,
+          {
+            controlName: 'classesControl',
+            objProp: 'className'
+          });
       }
     });
   }
@@ -106,6 +114,13 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
     .subscribe(response => {
       if (!response) {
         this.subjServ.getSubjects();
+      } else {
+        this.subjects$ = this.teachServ
+          .autocompleteFilter(response, this.bindTeacherJournal,
+          {
+            controlName: 'subjectsControl',
+            objProp: 'subjectName'
+          });
       }
     });
   }
