@@ -3,15 +3,20 @@
 </div>
 <form (keydown.enter)="$event.preventDefault()">
   <div layout="row" layout-align="start start" class="term-class-year-div">
-    <mat-form-field fxFlex>
-      <input type="text" placeholder="Клас *" matInput [formControl]="scheduleForm.get('class')"
-        [matAutocomplete]="classA">
-      <mat-autocomplete #classA="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
-          {{class.className}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <div fxFlex>
+      <mat-form-field>
+        <input type="text" placeholder="Клас *" matInput [formControl]="scheduleForm.get('class')"
+          [matAutocomplete]="classA">
+        <mat-autocomplete #classA="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let class of filteredClasses | async" [value]="class">
+            {{class.className}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="error-message" *ngIf="!(isClassValid || scheduleForm.get('class').valid)">
+        Виберіть клас зі списку
+      </div>
+    </div>
     <mat-form-field fxFlex>
       <input type="text" placeholder="Навчальний рік" matInput
         [formControl]="scheduleForm.get('year')" readonly class="input-year">
@@ -47,6 +52,9 @@
           <mat-datepicker #pickerEnd disabled="false" ></mat-datepicker>
         </mat-form-field>
       </div>
+      <div class="error-message" *ngIf="!(isTermValid || scheduleForm.get('term').valid)">
+          Виберіть семестр зі списку
+        </div>
     </div>
   </div>
   <mat-accordion>
@@ -55,16 +63,24 @@
         <mat-panel-title>
           {{day.value}}
         </mat-panel-title>
+        <mat-panel-description
+          *ngIf="!(isDayValid[day.name] || scheduleForm.get('scheduleForWeek').get(day.name).valid)"
+          class="error-message">
+          Перевірте тут коректність заповнення полів
+        </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <webui-daily-schedule [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)" [dayName]="day.name">
+      <webui-daily-schedule
+        [dailySchedule]="scheduleForm.get('scheduleForWeek').get(day.name)"
+        [dayName]="day.name">
       </webui-daily-schedule>
     </mat-expansion-panel>
   </mat-accordion>
 
   <div layout="row" layout-align="space-between none">
     <div fxFlex>
-      <button type="submit" (click)="onSubmit()" mat-raised-button [disabled]="!scheduleForm.valid">
+       <!-- [disabled]="!scheduleForm.valid" -->
+      <button type="submit" (click)="onSubmit()" mat-raised-button>
         Зберегти розклад</button>
       <div *ngIf="scheduleSaved.isSaved">
         <button (click)="restoreSavedSchedule()" mat-raised-button>Відновити збережений розклад</button>

@@ -15,7 +15,9 @@ import { selectScheduleData,
   selectSavedScheduleData } from 'src/app/store/schedule/schedule.selectors';
 import { TeachersService } from 'src/app/services/teachers.service';
 import * as ScheduleModels from 'src/app/models/schedule';
-import { MAT_DATE_FORMATS } from '@angular/material';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material';
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { listValidation } from './validators.directive';
 
 export const MY_FORMATS = {
   parse: {
@@ -34,6 +36,9 @@ export const MY_FORMATS = {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
@@ -69,11 +74,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   };
   classes: any = [];
   year: number;
+  isClassValid = true;
+  isTermValid = true;
+  isDayValid = {};
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
   // filteredYears: Observable<string[]>;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private schedule: ScheduleService,
     private subjectsObj: SubjectsService,
     private classesObj: ClassesService,
@@ -92,7 +101,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.buildScheduleForm();
+    this.scheduleForm = this.schedule.buildScheduleForm(this.terms, this.classes);
 
     this.getClassesList();
     this.getYear();
@@ -105,25 +114,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     this.setFormChangesSubscription();
 
-    // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
-  }
+    initialSchedule.forEach(day => this.isDayValid[day.name] = true);
 
-  buildScheduleForm(): void {
-    this.scheduleForm = this.formBuilder.group({
-      term: this.formBuilder.control('', [Validators.required]),
-      class: this.formBuilder.control('', [Validators.required]),
-      year: this.formBuilder.control('', [Validators.required]),
-      termStartDate: this.formBuilder.control(''),
-      termEndDate: this.formBuilder.control(''),
-      scheduleForWeek: this.formBuilder.group({
-        monday: this.formBuilder.array([]),
-        tuesday: this.formBuilder.array([]),
-        wednesday: this.formBuilder.array([]),
-        thursday: this.formBuilder.array([]),
-        friday: this.formBuilder.array([]),
-        saturday: this.formBuilder.array([]),
-      }),
-    });
+    // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
   }
 
   clearSchedule(): void {
@@ -183,6 +176,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    if (val.term) {
+      this.defaultDates = this.schedule.getDafaultDates(this.scheduleForm.get('term').value);
+      this.showStartEndDates = true;
+    }
+
     if (this.restoredClearedScheduleSubscriptions) {
       this.restoredClearedScheduleSubscriptions.unsubscribe();
     };
@@ -201,13 +200,25 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.schedule.postSchedule(this.scheduleForm.value);
-    this.schedule.postTeacherToJournal(this.scheduleForm.value);
+    if (this.scheduleForm.valid) {
+      this.schedule.postSchedule(this.scheduleForm.value);
+      this.schedule.postTeacherToJournal(this.scheduleForm.value);
+  
+      this.scheduleSaved = {
+        isSaved: true,
+        savingTime: new Date()
+      };
+    } else {
+      this.chechForValidity()
+    }
+  }
 
-    this.scheduleSaved = {
-      isSaved: true,
-      savingTime: new Date()
-    };
+  chechForValidity() {
+    this.isClassValid = this.scheduleForm.get('class').valid ? true : false;
+    this.isTermValid = this.scheduleForm.get('term').valid ? true : false;
+    Object.keys(this.isDayValid).forEach(day => {
+      this.isDayValid[day] = this.scheduleForm.get('scheduleForWeek').get(day).valid ? true : false;
+    })
   }
 
   ngOnDestroy(): void {
@@ -251,7 +262,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   
   getYear(): void {
-      this.year = this.schedule.createYearsList();
+      this.year = this.schedule.createYear();
       this.scheduleForm.get('year').patchValue(this.year);
   }
 

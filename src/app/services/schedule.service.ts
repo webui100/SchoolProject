@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
 import { setSchedule, setClearedSchedule, setSavedSchedule } from '../store/schedule/schedule.actions';
 import { NotificationService } from './notification.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { listValidation } from 'src/app/containers/schedule/validators.directive';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,9 @@ export class ScheduleService {
   academicYearsStart: number;
   firstTermMinStart: Date;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
     private notify: NotificationService,
     private store: Store<{ schedule }>) { }
 
@@ -144,7 +148,7 @@ export class ScheduleService {
       });
   }
 
-  createYearsList() {
+  createYear() {
     this.academicYearsStart = this.currentMonth < 7 ? this.currentYear - 1 : this.currentYear;
     return this.academicYearsStart;
   }
@@ -198,4 +202,23 @@ export class ScheduleService {
     };
     return defaultDates;
   }
+
+  buildScheduleForm(terms, classes) {
+    return this.formBuilder.group({
+      term: this.formBuilder.control('', [Validators.required, listValidation(terms)]),
+      class: this.formBuilder.control('', [Validators.required, listValidation(classes)]),
+      year: this.formBuilder.control(''),
+      termStartDate: this.formBuilder.control(''),
+      termEndDate: this.formBuilder.control(''),
+      scheduleForWeek: this.formBuilder.group({
+        monday: this.formBuilder.array([]),
+        tuesday: this.formBuilder.array([]),
+        wednesday: this.formBuilder.array([]),
+        thursday: this.formBuilder.array([]),
+        friday: this.formBuilder.array([]),
+        saturday: this.formBuilder.array([]),
+      }),
+    });
+  }
 }
+

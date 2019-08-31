@@ -5,6 +5,7 @@ import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { listValidation } from 'src/app/containers/schedule/validators.directive';
 
 @Component({
   selector: 'webui-daily-schedule',
@@ -32,6 +33,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
 
   @Input() public dailySchedule: FormArray;
   @Input() public dayName: string;
+  // @Input() public isDayValid: object;
 
   constructor(private formBuilder: FormBuilder,
     private storeSubjects: Store<{ subjects }>,
@@ -71,17 +73,17 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   buildDailySchedule() {
     if (this.dayName !== 'saturday') {
       this.dailySchedule.push(this.formBuilder.group({
-        firstGroup: this.formBuilder.control('', [Validators.required]),
-        secondGroup: this.formBuilder.control(''),
-        firstGroupTeacher: this.formBuilder.control(''),
-        secondGroupTeacher: this.formBuilder.control('')
+        firstGroup: this.formBuilder.control('', [Validators.required, listValidation(this.subjects)]),
+        secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        firstGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)]),
+        secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
     } else {
       this.dailySchedule.push(this.formBuilder.group({
-        firstGroup: this.formBuilder.control(''),
-        secondGroup: this.formBuilder.control(''),
-        firstGroupTeacher: this.formBuilder.control(''),
-        secondGroupTeacher: this.formBuilder.control('')
+        firstGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        firstGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)]),
+        secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
     }
 
@@ -92,10 +94,10 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
       this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
-        firstGroup: this.formBuilder.control(''),
-        secondGroup: this.formBuilder.control(''),
-        firstGroupTeacher: this.formBuilder.control(''),
-        secondGroupTeacher: this.formBuilder.control('')
+        firstGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        firstGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)]),
+        secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
 
       this.setSubjectAutocompleteFirstGroup(lessonNumber + 1);
