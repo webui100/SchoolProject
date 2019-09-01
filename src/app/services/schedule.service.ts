@@ -7,6 +7,9 @@ import { setSchedule, setClearedSchedule, setSavedSchedule } from '../store/sche
 import { NotificationService } from './notification.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { listValidation } from 'src/app/containers/schedule/validators.directive';
+import { Subscription } from 'rxjs';
+import { selectTeachers } from '../store/teachers/teachers.selector';
+import { selectAllSubjects } from '../store/subjects/subjects.selector';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +23,54 @@ export class ScheduleService {
   academicYearsStart: number;
   firstTermMinStart: Date;
 
+  teachersTemp$: any;
+  subjectsTemp$: any;
+  subjectsSubscription: Subscription;
+  teachersSubscription: Subscription;
+
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private notify: NotificationService,
-    private store: Store<{ schedule }>) { }
+    private store: Store<{ schedule }>,
+    private storeSubjects: Store<{ subjects }>,
+    private storeTeachers: Store<{ teachers }>) {
+    this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachers));
+    this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
+  }
 
   // getSchedule(classId) {
   //   return this.http.get(`${this.BASE_URI}classes/${classId}/schedule`)
   //     .subscribe(res => this.store.dispatch(getSchedule(classId)));
   // }
+
+  getSubjects() {
+    const subjects = [];
+    this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
+      for (const key in res) {
+        if (res.hasOwnProperty(key)) {
+          subjects.push(res[key]);
+        }
+      }
+    });
+    return subjects
+  }
+
+  getTeachers() {
+    const teachers = [];
+    this.teachersSubscription = this.teachersTemp$.subscribe(res => {
+      for (const key in res) {
+        if (res.hasOwnProperty(key)) {
+          const teacher = res[key];
+          teachers.push({
+            fullName: `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`,
+            id: teacher.id
+          });
+        }
+      }
+    });
+    return teachers
+  }
 
   setScheduleToStore(form: any) {
     this.store.dispatch(setSchedule(form))
@@ -200,6 +241,9 @@ export class ScheduleService {
       minStart: this.firstTermMinStart,
       maxEnd: new Date(this.academicYearsStart + 1, 6, 31)
     };
+    if (defaultDates.minStart > defaultDates.start) {
+      defaultDates.start = defaultDates.minStart
+    }
     return defaultDates;
   }
 

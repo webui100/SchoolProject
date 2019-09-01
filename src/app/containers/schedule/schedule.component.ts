@@ -7,6 +7,7 @@ import { startWith, map, debounceTime } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import initialSchedule from './initial-schedule';
+import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
@@ -17,6 +18,8 @@ import { TeachersService } from 'src/app/services/teachers.service';
 import * as ScheduleModels from 'src/app/models/schedule';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { listValidation } from 'src/app/containers/schedule/validators.directive';
+
 
 export const MY_FORMATS = {
   parse: {
@@ -35,6 +38,7 @@ export const MY_FORMATS = {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
   providers: [
+    DailyScheduleComponent,
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
@@ -83,6 +87,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private schedule: ScheduleService,
+    private dailySchedule: DailyScheduleComponent,
     private subjectsObj: SubjectsService,
     private classesObj: ClassesService,
     private teachersObj: TeachersService,
@@ -150,6 +155,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   restoreSchedule(val, index: number): void {
+    const subjects = this.schedule.getSubjects();
+    const teachers = this.schedule.getTeachers();
+    
     this.scheduleForm.get('term').patchValue(val.term || '');
     this.scheduleForm.get('class').patchValue(val.class || '');
     this.scheduleForm.get('year').patchValue(val.year || '');
@@ -158,21 +166,21 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     Object.keys(this.scheduleForm.get('scheduleForWeek').value).forEach(day => {
       (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).clear();
       for (let i = 0; i < val.scheduleForWeek[day].length - index; i++) {
-        if (day !== 'saturday') {
+        if (day !== 'saturday' && i === 0) {
           (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).push(this.formBuilder.group({
-            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup, [Validators.required]),
-            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher),
-            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup),
-            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher)
+            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup, [Validators.required, listValidation(subjects)]),
+            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher,[listValidation(teachers)]),
+            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup,[listValidation(subjects)]),
+            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher,[listValidation(teachers)])
           }));
         } else {
           (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).push(this.formBuilder.group({
-            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup),
-            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher),
-            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup),
-            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher)
+            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup,[listValidation(subjects)]),
+            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher,[listValidation(teachers)]),
+            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup,[listValidation(subjects)]),
+            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher,[listValidation(teachers)])
           }));
-        }
+        };
       }
     });
 
@@ -208,7 +216,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         savingTime: new Date()
       };
     } else {
-      this.chechForValidity()
+      this.chechForValidity();
     }
   }
 
