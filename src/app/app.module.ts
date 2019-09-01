@@ -50,8 +50,7 @@ import { StudentsComponent } from './pages/students/students.component';
 import { StudentDetailComponent } from './pages/students/student-detail/student-detail.component';
 import { AddStudentComponent } from './pages/students/add-student/add-student.component';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import { CdkDetailRowDirective } from './containers/subjects/cdk-detail-row.directive';
-import { StudentComponent } from './pages/student/student.component';
+import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { NewYearComponent } from './containers/new-year/new-year.component';
 import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
@@ -63,6 +62,10 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
 import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
+import { TeacherComponent } from './pages/teacher/teacher.component';
+import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
+import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+
 
 @NgModule({
   declarations: [
@@ -82,7 +85,6 @@ import { NewYearControllComponent } from './components/new-year-controll/new-yea
     HeaderComponent,
     ChartComponent,
     SubjectsComponent,
-    CdkDetailRowDirective,
     StudentsComponent,
     StudentDetailComponent,
     AddStudentComponent,
@@ -101,6 +103,9 @@ import { NewYearControllComponent } from './components/new-year-controll/new-yea
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
     NewYearControllComponent,
+    TeacherComponent,
+    TeacherNavComponent,
+    TeacherSubjectsComponent,
   ],
   imports: [
     ChartsModule,
