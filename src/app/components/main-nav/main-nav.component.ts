@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, share } from 'rxjs/operators';
@@ -13,6 +13,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MainNavComponent implements OnInit, OnDestroy {
 
+  @Input()
+
   public isOpened = true;
   public linksSet = links;
   public handsetSubject$: BehaviorSubject<boolean> = new BehaviorSubject(
@@ -20,6 +22,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public buttonOpened$: BehaviorSubject<boolean> = new BehaviorSubject(
     this.breakpointObserver.isMatched(Breakpoints.Handset));
   private sidenavPosition = 'end';
+  
 
   isHandset$: Observable<boolean>;
   isHandsetRef: Subscription;

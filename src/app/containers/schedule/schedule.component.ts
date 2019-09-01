@@ -4,9 +4,10 @@ import { Store, select } from '@ngrx/store';
 import { SubjectsService } from 'src/app/services/subjects.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { startWith, map, debounceTime } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import initialSchedule from './initial-schedule';
+import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
@@ -15,7 +16,10 @@ import { selectScheduleData,
   selectSavedScheduleData } from 'src/app/store/schedule/schedule.selectors';
 import { TeachersService } from 'src/app/services/teachers.service';
 import * as ScheduleModels from 'src/app/models/schedule';
-import { MAT_DATE_FORMATS } from '@angular/material';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material';
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { listValidation } from 'src/app/containers/schedule/validators.directive';
+
 
 export const MY_FORMATS = {
   parse: {
@@ -34,6 +38,10 @@ export const MY_FORMATS = {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
   providers: [
+    DailyScheduleComponent,
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
@@ -49,13 +57,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   restoredScheduleTemp$: any;
   restoredClearedScheduleTemp$: any;
   restoredSavedScheduleTemp$: any;
-  teachersSubscription;
-  classesSubscription;
-  subjectsSubscription;
-  restoredScheduleSubscriptions;
-  restoredClearedScheduleSubscriptions;
-  restoredSavedScheduleSubscriptions;
-  formChangesSubscription;
+  teachersSubscription: Subscription;
+  classesSubscription: Subscription;
+  subjectsSubscription: Subscription;
+  restoredScheduleSubscriptions: Subscription;
+  restoredClearedScheduleSubscriptions: Subscription;
+  restoredSavedScheduleSubscriptions: Subscription;
+  formChangesSubscription: Subscription;
   terms: string[] = ['1', '2', '1 - 2'];
   defaultDates: ScheduleModels.DafaultTermDates;
   showStartEndDates = false;
@@ -69,12 +77,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   };
   classes: any = [];
   year: number;
+  isClassValid = true;
+  isTermValid = true;
+  isDayValid = {};
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
   // filteredYears: Observable<string[]>;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private schedule: ScheduleService,
+    private dailySchedule: DailyScheduleComponent,
     private subjectsObj: SubjectsService,
     private classesObj: ClassesService,
     private teachersObj: TeachersService,
@@ -92,7 +105,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.buildScheduleForm();
+    this.scheduleForm = this.schedule.buildScheduleForm(this.terms, this.classes);
 
     this.getClassesList();
     this.getYear();
@@ -105,25 +118,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     this.setFormChangesSubscription();
 
-    // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
-  }
+    initialSchedule.forEach(day => this.isDayValid[day.name] = true);
 
-  buildScheduleForm(): void {
-    this.scheduleForm = this.formBuilder.group({
-      term: this.formBuilder.control('', [Validators.required]),
-      class: this.formBuilder.control('', [Validators.required]),
-      year: this.formBuilder.control('', [Validators.required]),
-      termStartDate: this.formBuilder.control(''),
-      termEndDate: this.formBuilder.control(''),
-      scheduleForWeek: this.formBuilder.group({
-        monday: this.formBuilder.array([]),
-        tuesday: this.formBuilder.array([]),
-        wednesday: this.formBuilder.array([]),
-        thursday: this.formBuilder.array([]),
-        friday: this.formBuilder.array([]),
-        saturday: this.formBuilder.array([]),
-      }),
-    });
+    // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
   }
 
   clearSchedule(): void {
@@ -158,6 +155,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   restoreSchedule(val, index: number): void {
+    const subjects = this.schedule.getSubjects();
+    const teachers = this.schedule.getTeachers();
+    
     this.scheduleForm.get('term').patchValue(val.term || '');
     this.scheduleForm.get('class').patchValue(val.class || '');
     this.scheduleForm.get('year').patchValue(val.year || '');
@@ -166,23 +166,29 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     Object.keys(this.scheduleForm.get('scheduleForWeek').value).forEach(day => {
       (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).clear();
       for (let i = 0; i < val.scheduleForWeek[day].length - index; i++) {
-        if (day !== 'saturday') {
+        if (day !== 'saturday' && i === 0) {
           (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).push(this.formBuilder.group({
-            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup, [Validators.required]),
-            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher),
-            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup),
-            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher)
+            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup, [Validators.required, listValidation(subjects)]),
+            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher,[listValidation(teachers)]),
+            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup,[listValidation(subjects)]),
+            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher,[listValidation(teachers)])
           }));
         } else {
           (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).push(this.formBuilder.group({
-            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup),
-            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher),
-            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup),
-            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher)
+            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup,[listValidation(subjects)]),
+            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher,[listValidation(teachers)]),
+            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup,[listValidation(subjects)]),
+            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher,[listValidation(teachers)])
           }));
-        }
+        };
       }
     });
+
+    if (val.term) {
+      this.defaultDates = this.schedule.getDafaultDates(this.scheduleForm.get('term').value);
+      this.showStartEndDates = true;
+    }
+
     if (this.restoredClearedScheduleSubscriptions) {
       this.restoredClearedScheduleSubscriptions.unsubscribe();
     };
@@ -201,13 +207,25 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.schedule.postSchedule(this.scheduleForm.value);
-    this.schedule.postTeacherToJournal(this.scheduleForm.value);
+    if (this.scheduleForm.valid) {
+      this.schedule.postSchedule(this.scheduleForm.value);
+      this.schedule.postTeacherToJournal(this.scheduleForm.value);
+  
+      this.scheduleSaved = {
+        isSaved: true,
+        savingTime: new Date()
+      };
+    } else {
+      this.chechForValidity();
+    }
+  }
 
-    this.scheduleSaved = {
-      isSaved: true,
-      savingTime: new Date()
-    };
+  chechForValidity() {
+    this.isClassValid = this.scheduleForm.get('class').valid ? true : false;
+    this.isTermValid = this.scheduleForm.get('term').valid ? true : false;
+    Object.keys(this.isDayValid).forEach(day => {
+      this.isDayValid[day] = this.scheduleForm.get('scheduleForWeek').get(day).valid ? true : false;
+    })
   }
 
   ngOnDestroy(): void {
@@ -251,7 +269,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   
   getYear(): void {
-      this.year = this.schedule.createYearsList();
+      this.year = this.schedule.createYear();
       this.scheduleForm.get('year').patchValue(this.year);
   }
 

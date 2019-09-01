@@ -23,7 +23,7 @@
           </mat-autocomplete>
         </mat-form-field>
         <button mat-icon-button type="button" (click)="addTeacherToLesson(lessonNumber, 'first')"
-          *ngIf="lesson.get('firstGroup').value && !firstGroupTeachersVisible[lessonNumber]">
+          *ngIf="lesson.get('firstGroup').value && lesson.get('firstGroup').valid && !firstGroupTeachersVisible[lessonNumber]">
           <mat-icon class="add">person_add</mat-icon>
         </button>
         <button mat-icon-button type="button" (click)="removeTeacher(lessonNumber, 'first')"
@@ -52,7 +52,7 @@
           </mat-autocomplete>
         </mat-form-field>
         <button mat-icon-button type="button" (click)="addTeacherToLesson(lessonNumber, 'second')"
-          *ngIf="lesson.get('secondGroup').value && !secondGroupTeachersVisible[lessonNumber]">
+          *ngIf="lesson.get('secondGroup').value && lesson.get('secondGroup').valid && !secondGroupTeachersVisible[lessonNumber]">
           <mat-icon class="add">person_add</mat-icon>
         </button>
         <button mat-icon-button type="button" (click)="removeTeacher(lessonNumber, 'second')"
@@ -62,7 +62,8 @@
       </div>
 
       <button mat-icon-button type="button" (click)="addSecondGroup(lessonNumber)"
-        *ngIf="!secondGroupVisible[lessonNumber] && lesson.get('firstGroup').value">
+        *ngIf="!secondGroupVisible[lessonNumber] && lesson.get('firstGroup').valid
+                && lesson.get('firstGroup').value">
         <mat-icon class="add">add_box</mat-icon>
       </button>
       <button mat-icon-button type="button" (click)="removeSecondGroup(lessonNumber)"

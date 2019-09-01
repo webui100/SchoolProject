@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { from, Observable } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { addTransferStudent } from '../store/newyear/newyear.actions';
 import { Store } from '@ngrx/store';
@@ -33,7 +33,7 @@ export class TransitionService {
         return this.dispatchStudents(classObj.id)
       })
     );
-    return setStudentsObs.subscribe();
+    return setStudentsObs;
   }
 
   // Creates new className based on previous name
@@ -94,11 +94,11 @@ export class TransitionService {
     );
   }
 
-  transferStudents(oldClassArr: Array<ClassModel>) {
+  transferStudents(oldClassArr: Array<ClassModel>, studingYear: number) {
 
     const idArr: Array<{ newClassId: number, oldClassId: number }> = [];
     let transferedClasses = [];
-    const transferClassesRef = this.store.select(selectTransferedClasses)
+    const transferClassesRef = this.store.select(selectTransferedClasses, { year: studingYear })
       .subscribe((value) => transferedClasses = value);
 
     // get already transfered classes without students transition
