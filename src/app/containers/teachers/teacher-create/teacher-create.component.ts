@@ -1,7 +1,7 @@
 import { ValidationService } from '../../../services/validation.service';
 import { TeachersService } from '../../../services/teachers.service';
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -33,7 +33,7 @@ submitAdd(event: Event): void {
     data.avatar = '';
     data.dateOfBirth = format(new Date(data.dateOfBirth), 'YYYY-MM-DD');
     this.teachServise.addTeacher(data);
-    this.teachServise.clearForm(this.addTeacher);
+    this.addTeacher.reset();
   }
 
   ngOnInit(): void {

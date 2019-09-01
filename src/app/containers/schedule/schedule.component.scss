@@ -13,7 +13,6 @@ h1 {
     text-align: center;
     font-size: 1.5em;
     font-weight: 400;
-    // margin: 20px;
 }
 
 mat-expansion-panel {
@@ -22,6 +21,12 @@ mat-expansion-panel {
 
 mat-panel-title {
     width: 0;
+}
+
+.error-message {
+    font-size: 11px;
+    color: rgba(255, 0, 0, 0.6);
+    margin: 5px;
 }
 
 mat-form-field {

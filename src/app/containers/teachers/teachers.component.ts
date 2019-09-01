@@ -39,10 +39,9 @@ import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dial
 })
 export class TeachersComponent implements OnInit, OnChanges {
   private columnsToDisplay: string[] = [
-    'firstname',
     'lastname',
-    'dateOfBirth',
-    'bind',
+    'firstname',
+    'patronymic',
     'delete'
   ];
   private expandedElement: ITeacher | null;
@@ -99,17 +98,5 @@ export class TeachersComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.fillTable();
-  }
-
-  // switcher for table header with UA text
-  private dataHeader(header: string) {
-    switch (header) {
-      case 'firstname':
-        return 'Ім\'я';
-      case 'lastname':
-        return 'Прізвище';
-      case 'dateOfBirth':
-        return 'Дата народження';
-    }
   }
 }

@@ -1,7 +1,15 @@
-<div class="user-info">
-  <img [src]="_currentUser.imageTransform(user?.avatar)" alt="User avatar">
-
-  <h3>{{user.firstname + ' ' + user.lastname}}</h3>
-  <h4>{{_currentUser.userRole()}}</h4>
-
-</div>
+<ng-container *ngIf="currentUser$ | async as currentUserData">
+  <div class="user-info">
+    <div class="mask">
+        <img src={{currentUserData.avatar}}  alt="User avatar">
+    </div>
+    <h3>{{currentUserData.firstname}} {{currentUserData.lastname}}</h3>
+    <p>{{currentUserData.login}}</p>
+    <h4>{{_currentUser.userRole()}}</h4>
+    <br>
+      <div *ngIf = "!_currentUser.isAdmin()">
+        <button mat-raised-button (click)="openDialog()">Редагувати профіль</button>
+      </div>
+    <br>  
+  </div>
+</ng-container>
