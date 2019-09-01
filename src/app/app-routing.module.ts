@@ -86,14 +86,14 @@ const routes: Routes = [
         component: NewYearComponent
       },
 
-      // після цього роута, нічого не додавати!
-      {
-        path: '**',
-        component: NotFoundComponent
-      }
-
     ]
+  },
+  // після цього роута, нічого не додавати!
+  {
+    path: '**',
+    component: NotFoundComponent
   }
+
 ];
 
 @NgModule({
