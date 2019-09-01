@@ -1,5 +1,5 @@
 <div class="div-table mat-elevation-z8">
-  <webui-add-student></webui-add-student>
+  <webui-create-student></webui-create-student>
   <mat-form-field>
     <input
       matInput
@@ -9,7 +9,7 @@
   </mat-form-field>
   <table
     mat-table
-    [dataSource]="dataSource"
+    [dataSource]="data"
     multiTemplateDataRows
     class="mat-elevation-z8"
     matSort
@@ -37,7 +37,7 @@
             element == expandedElement ? 'expanded' : 'collapsed'
           "
         >
-          <webui-student-detail [student]="element"></webui-student-detail>
+          <webui-update-student [student]="element"></webui-update-student>
         </div>
       </td>
     </ng-container>

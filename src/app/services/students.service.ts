@@ -4,18 +4,21 @@ import { Observable } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 import {
   getStudentsAction,
-  addStudentsAction,
+  createStudentsAction,
   updateStudentsAction
 } from "../store/students/students.action";
 import { Store } from "@ngrx/store";
 import { environment } from "../../environments/environment";
 import { NotificationService } from "./notification.service";
+import { renameKeys } from "../utilities/data-normalize-utils";
 @Injectable({
   providedIn: "root"
 })
 export class StudentsService {
   BASE_URL = environment.APIEndpoint;
-  public observable;
+  //Back end bug
+  //In response sends invalid keys
+  private newKeys = { firstName: "firstname", lastName: "lastname" };
 
   constructor(
     private http: HttpClient,
@@ -27,30 +30,19 @@ export class StudentsService {
     return this.http
       .get(`${this.BASE_URL}students/classes/${id}`)
       .subscribe(res => {
-        this.store.dispatch(getStudentsAction({ students: res["data"] }));
+        if (res["status"].code == 200) {
+          this.store.dispatch(getStudentsAction({ students: res["data"] }));
+        } else {
+          this.notify.notifyFailure(
+            `Помилка завантаження учнів. Статус: ${res["status"].code}`
+          );
+        }
       });
   }
-
-  //Converts to ISO format and adds HOURS difference
-  generateDate(formName, propName) {
-    const date = new Date(formName.get(propName).value);
-    date.setHours(date.getHours() + 10);
-    return date.toISOString().slice(0, 10);
-  }
-  //Encrypts img to BASE64
-  encImage(event) {
-    const reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    this.observable = new Observable(subscriber => {
-      reader.onloadend = e => {
-        subscriber.next(reader.result);
-      };
-    });
-  }
   //updates student data
-  updateStudentData(data) {
+  updateStudentData(data, id) {
     return this.http
-      .put(`${this.BASE_URL}admin/students/${data.id}`, data, {
+      .put(`${this.BASE_URL}admin/students/${id}`, data, {
         headers: new HttpHeaders({
           "Content-Type": "application/json",
           Accept: "application/json, text/plain, */*",
@@ -61,7 +53,11 @@ export class StudentsService {
       .subscribe(res => {
         if (res.status == 200) {
           this.notify.notifySuccess("Учень редагований");
-          this.store.dispatch(updateStudentsAction({ editedStudent: data }));
+          this.store.dispatch(
+            updateStudentsAction({
+              editedStudent: renameKeys(this.newKeys, res.body["data"])
+            })
+          );
         } else {
           this.notify.notifyFailure(
             `Помилка редагування. Статус: ${res.status}`
@@ -69,8 +65,8 @@ export class StudentsService {
         }
       });
   }
-  //Adds student
-  addStudent(data) {
+  //Creates student
+  createStudent(data) {
     return this.http
       .post(`${this.BASE_URL}students`, data, {
         observe: "response"
@@ -78,7 +74,11 @@ export class StudentsService {
       .subscribe(res => {
         if (res.status == 200) {
           this.notify.notifySuccess("Учень доданий");
-          this.store.dispatch(addStudentsAction({ addedStudent: data }));
+          this.store.dispatch(
+            createStudentsAction({
+              createdStudent: renameKeys(this.newKeys, res.body["data"])
+            })
+          );
         } else {
           this.notify.notifyFailure(`Помилка додавання. Статус: ${res.status}`);
         }

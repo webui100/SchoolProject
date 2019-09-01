@@ -18,10 +18,10 @@ const StudentsReducer = createReducer(
     ...state,
     students
   })),
-  on(GetStudents.addStudentsAction, (state, { addedStudent }) => {
+  on(GetStudents.createStudentsAction, (state, { createdStudent }) => {
     return {
       ...state,
-      students: [...state.students, addedStudent]
+      students: [...state.students, createdStudent]
     };
   }),
   on(GetStudents.updateStudentsAction, (state, { editedStudent }) => {
