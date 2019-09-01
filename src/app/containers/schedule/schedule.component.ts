@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { SubjectsService } from 'src/app/services/subjects.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { startWith, map, debounceTime } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import initialSchedule from './initial-schedule';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
@@ -17,7 +17,6 @@ import { TeachersService } from 'src/app/services/teachers.service';
 import * as ScheduleModels from 'src/app/models/schedule';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-import { listValidation } from './validators.directive';
 
 export const MY_FORMATS = {
   parse: {
@@ -54,13 +53,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   restoredScheduleTemp$: any;
   restoredClearedScheduleTemp$: any;
   restoredSavedScheduleTemp$: any;
-  teachersSubscription;
-  classesSubscription;
-  subjectsSubscription;
-  restoredScheduleSubscriptions;
-  restoredClearedScheduleSubscriptions;
-  restoredSavedScheduleSubscriptions;
-  formChangesSubscription;
+  teachersSubscription: Subscription;
+  classesSubscription: Subscription;
+  subjectsSubscription: Subscription;
+  restoredScheduleSubscriptions: Subscription;
+  restoredClearedScheduleSubscriptions: Subscription;
+  restoredSavedScheduleSubscriptions: Subscription;
+  formChangesSubscription: Subscription;
   terms: string[] = ['1', '2', '1 - 2'];
   defaultDates: ScheduleModels.DafaultTermDates;
   showStartEndDates = false;

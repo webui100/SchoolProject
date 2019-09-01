@@ -90,7 +90,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
       this.setSubjectAutocompleteFirstGroup(0);
   }
 
-  addLesson(lessonNumber) {
+  addLesson(lessonNumber: number) {
     if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
       this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
@@ -108,7 +108,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeLesson(lessonNumber) {
+  removeLesson(lessonNumber: number) {
     this.dailySchedule.removeAt(lessonNumber);
     this.removeSecondGroup(lessonNumber);
     this.removeTeacher(lessonNumber, 'first');
@@ -132,11 +132,14 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     this.setSubjectAutocompleteSecondGroup(lessonNumber);
   }
 
-  removeSecondGroup(lessonNumber) { // онулювати значення "предмет" 2-ї групи
+  removeSecondGroup(lessonNumber: number) {
     this.secondGroupVisible[lessonNumber] = false;
+    this.secondGroupTeachersVisible[lessonNumber] = false;
+    this.dailySchedule.at(lessonNumber).get('secondGroup').patchValue('');
+    this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');
   }
 
-  addTeacherToLesson(lessonNumber, group: string) {
+  addTeacherToLesson(lessonNumber: number, group: string) {
     if (group === 'first') {
       this.firstGroupTeachersVisible[lessonNumber] = true;
       this.setTeacherAutocompleteFirstGroup(lessonNumber);
@@ -147,9 +150,15 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeTeacher(lessonNumber, group: string) { // онулювати значення "вчитель"
-    if (group === 'first') { this.firstGroupTeachersVisible[lessonNumber] = false; }
-    if (group === 'second') { this.secondGroupTeachersVisible[lessonNumber] = false; }
+  removeTeacher(lessonNumber: number, group: string) {
+    if (group === 'first') {
+      this.firstGroupTeachersVisible[lessonNumber] = false;
+      this.dailySchedule.at(lessonNumber).get('firstGroupTeacher').patchValue('');
+    }
+    if (group === 'second') {
+      this.secondGroupTeachersVisible[lessonNumber] = false;
+      this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');    
+    }
   }
 
   setTeacherAutocompleteFirstGroup(lessonNumber: number) {
