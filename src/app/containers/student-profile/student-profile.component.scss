@@ -1,0 +1,58 @@
+mat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+  padding: 1rem;
+  max-width: 700px;
+  mat-card-header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    img {
+      width: 200px;
+      height: 200px;
+      margin-top: 16px;
+    }
+  }
+  mat-card-content {
+    justify-content: center;
+    form {
+      text-align: center;
+      mat-form-field {
+        max-width: 180px;
+        margin: 1rem;
+        font-size: 15px;
+      }
+      .confirm-password {
+        position: relative;
+        left: 212px;
+        bottom: 34px;
+        margin-bottom: 0;
+      }
+      mat-card-actions {
+        padding: 0;
+        button {
+          background-color: #6f33b5;
+          color: #fff;
+          width: 10rem;
+        }
+      }
+    }
+  }
+
+}
+
+
+@media screen and (max-width: 699px) {
+  mat-form-field {
+    margin: 0 1rem !important;
+  }
+  .confirm-password {
+    position: static !important;
+  }
+  mat-card-actions {
+    margin-top: 1rem;
+    padding: 8px 0 !important;
+  }
+}

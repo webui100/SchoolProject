@@ -10,6 +10,7 @@ import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
 import { HomeworkDialogComponent } from '../../components/homework-dialog/homework-dialog.component';
 import { StudentDiaryService } from '../../services/student-diary.service';
+import { StudentProfileService } from '../../services/student-profile.service';
 import { selectLessons } from '../../store/diary/diary.selectors';
 import { Lesson } from '../../models/diary.model';
 
@@ -31,12 +32,12 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
 
   constructor(
     private studentDiary: StudentDiaryService,
+    private studentProfile: StudentProfileService,
     private store: Store<{ diary }>,
     private dateAdapter: DateAdapter<Date>,
     public dialog: MatDialog
   ) {
     this.diary$ = this.store.pipe(select(selectLessons));
-
     this.store.pipe(select(selectLessons))
       .pipe(takeUntil(this.destroyStream$))
       .subscribe(lessons => {
@@ -50,6 +51,7 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
           });
         }
       });
+    this.studentProfile.fetchProfile();
   }
 
   getStartOfWeek() {
@@ -116,7 +118,7 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
         this.dialog.open(HomeworkDialogComponent, {
           panelClass: 'custom-dialog-container',
           width: '90vw',
-          height: '90vh',
+          height: '80vh',
           data
         });
       });

@@ -51,20 +51,22 @@
               <td class="lesson-content">{{data.subjectName}}</td>
               <td class="lesson-content">
                 {{data.homeWork}}
-                <mat-icon
-                  *ngIf="data.homeworkFileId !== null"
-                  (click)="downloadFile(data.lessonId)"
-                  title="Завантажити"
-                >
-                  save_alt
-                </mat-icon>
-                <mat-icon
-                  *ngIf="data.homeworkFileId !== null"
-                  (click)="openFile(data.lessonId)"
-                  title="Переглянути"
-                >
-                  zoom_in
-                </mat-icon>
+                <div>
+                  <mat-icon
+                    *ngIf="data.homeworkFileId !== null"
+                    (click)="downloadFile(data.lessonId)"
+                    title="Завантажити"
+                  >
+                    save_alt
+                  </mat-icon>
+                  <mat-icon
+                    *ngIf="data.homeworkFileId !== null"
+                    (click)="openFile(data.lessonId)"
+                    title="Переглянути"
+                  >
+                    zoom_in
+                  </mat-icon>
+                </div>
               </td>
               <td>{{data.mark > 0 ? data.mark : null}}</td>
               <td>{{data.note}}</td>
