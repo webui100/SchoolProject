@@ -1,15 +1,19 @@
 import { Student } from 'src/app/models/students';
 import * as NewYearActions from './newyear.actions';
 import { Action, createReducer, on } from '@ngrx/store';
-import * as lodash from 'lodash'; 
+import * as lodash from 'lodash';
 
 
 export interface State {
   transferStudents: Array<Student>;
+  year: number;
+  isWithStudents: boolean;
 }
 
 export const initialState: State = {
-  transferStudents: []
+  transferStudents: [],
+  year: new Date(Date.now()).getFullYear() - 1,
+  isWithStudents: false
 }
 
 const reducer = createReducer(
@@ -18,6 +22,18 @@ const reducer = createReducer(
     return {
       ...state,
       transferStudents: addDistinct(state.transferStudents, students)
+    }
+  }),
+  on(NewYearActions.setYear, (state, { year }) => {
+    return {
+      ...state,
+      year
+    }
+  }),
+  on(NewYearActions.changeOnlyWithStudents, (state, { isWithStudents }) => {
+    return {
+      ...state,
+      isWithStudents: !state.isWithStudents
     }
   })
 );
