@@ -83,6 +83,7 @@ export class AuthService implements OnDestroy{
     localStorage.removeItem('token');
     this.router.navigate(['']);
     this.store.dispatch(login({role: null, id: null}));
+    sessionStorage.removeItem('role');
   }
 
   getToken(): string {

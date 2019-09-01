@@ -19,7 +19,7 @@ import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-
+import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
 
 
 const routes: Routes = [
@@ -35,7 +35,30 @@ const routes: Routes = [
   {
     path: "teacher",
     component: TeacherComponent,
-    canActivate: [TeacherGuard]
+    canActivate: [TeacherGuard],
+    children: [
+      {
+        path: "",
+        redirectTo: "home",
+        pathMatch: "full"
+      },
+      {
+        path: "home",
+        component: TemporaryComponent
+      },
+      {
+        path: "journal",
+        component: TeacherSubjectsComponent
+      },
+      {
+        path: "statistics",
+        component: TemporaryComponent
+      },
+      {
+        path: "profile",
+        component: TemporaryComponent
+      }
+    ]
   },
   {
     path: "students",

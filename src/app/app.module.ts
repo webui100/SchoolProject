@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,8 +50,7 @@ import { StudentsComponent } from './pages/students/students.component';
 import { StudentDetailComponent } from './pages/students/student-detail/student-detail.component';
 import { AddStudentComponent } from './pages/students/add-student/add-student.component';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import { CdkDetailRowDirective } from './containers/subjects/cdk-detail-row.directive';
-import { StudentComponent } from './pages/student/student.component';
+import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { NewYearComponent } from './containers/new-year/new-year.component';
 import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
@@ -63,6 +63,12 @@ import { TeacherJournalComponent } from './containers/teachers/teacher-journal/t
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
+import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
+import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { NewYearPipe } from './pipes/new-year.pipe';
+import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
+
 
 @NgModule({
   declarations: [
@@ -82,7 +88,6 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     HeaderComponent,
     ChartComponent,
     SubjectsComponent,
-    CdkDetailRowDirective,
     StudentsComponent,
     StudentDetailComponent,
     AddStudentComponent,
@@ -102,6 +107,12 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     TeacherDetailContainerComponent,
     TeacherComponent,
     NotFoundComponent,
+    NewYearControllComponent,
+    TeacherComponent,
+    TeacherNavComponent,
+    TeacherSubjectsComponent,
+    NewYearPipe,
+    LocaleHeaderPipe,
   ],
   imports: [
     ChartsModule,
@@ -115,6 +126,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),

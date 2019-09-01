@@ -22,7 +22,7 @@
 <div class="mat-elevation-z5 table-container">
     <table mat-table [dataSource]="teachersList" multiTemplateDataRows class="mat-elevation-z8">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell *matHeaderCellDef>{{dataHeader(column)}}
+            <th mat-header-cell *matHeaderCellDef>{{column | localeHeader}}
                 <webui-sort-button [columnName]="column" (sortOptions)="sortOptions($event)"></webui-sort-button>
             </th>
             <td mat-cell *matCellDef="let teacher"> {{teacher[column]}} 
@@ -30,13 +30,11 @@
             </td>
         </ng-container>
 
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <!-- Expanded Content Column  -->
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let teacher" [attr.colspan]="columnsToDisplay.length">
                 <div class="teacher-detail" [@detailExpand]="teacher == expandedElement ? 'expanded' : 'collapsed'">
                     <webui-teacher-detail-container [teacher]="teacher"></webui-teacher-detail-container>
-                    <!-- <webui-teacher-card [teacher]="teacher"></webui-teacher-card>
-                    <webui-teacher-journal [teacherId]="teacher.id" ></webui-teacher-journal> -->
                 </div>
             </td>
         </ng-container>

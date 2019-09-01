@@ -1,81 +1,27 @@
 const initialSchedule = [
     {
         name: 'monday',
-        value: 'Понеділок',
-        lessons: [
-            {
-                number: 1,
-                subject1: '',
-                subject2: '',
-                teacher1: '',
-                teacher2: ''
-            }
-        ]
+        value: 'Понеділок *'
     },
     {
         name: 'tuesday',
-        value: 'Вівторок',
-        lessons: [
-            {
-                number: 1,
-                subject1: '',
-                subject2: '',
-                teacher1: '',
-                teacher2: ''
-            }
-        ]
+        value: 'Вівторок *'
     },
     {
         name: 'wednesday',
-        value: 'Середа',
-        lessons: [
-            {
-                number: 1,
-                subject1: '',
-                subject2: '',
-                teacher1: '',
-                teacher2: ''
-            }
-        ]
+        value: 'Середа *'
     },
     {
-        name: 'thutrsday',
-        value: 'Четвер',
-        lessons: [
-            {
-                number: 1,
-                subject1: '',
-                subject2: '',
-                teacher1: '',
-                teacher2: ''
-            }
-        ]
+        name: 'thursday',
+        value: 'Четвер *'
     },
     {
         name: 'friday',
-        value: "П'ятниця",
-        lessons: [
-            {
-                number: 1,
-                subject1: '',
-                subject2: '',
-                teacher1: '',
-                teacher2: ''
-            }
-        ]
+        value: "П'ятниця *"
     },
     {
         name: 'saturday',
-        value: 'Субота',
-        lessons: [
-            {
-                number: 1,
-                subject1: '',
-                subject2: '',
-                teacher1: '',
-                teacher2: ''
-            }
-        ]
+        value: 'Субота'
     }
 ];
 
