@@ -64,6 +64,7 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-
     TeacherComponent,
     TeacherNavComponent,
     TeacherSubjectsComponent,
+    LocaleHeaderPipe,
   ],
   imports: [
     ChartsModule,
