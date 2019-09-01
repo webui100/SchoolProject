@@ -12,7 +12,7 @@ export class TeacherGuard implements CanActivate{
       this._authService.tokenizedUser();
       return true;
     } else {
-      this._route.navigate(['']);
+      this._route.navigate(['/']);
       return false;
     }
   }

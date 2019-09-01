@@ -61,8 +61,9 @@ import { IsGraduationPipe } from './pipes/is-graduation.pipe';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
-import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
@@ -104,6 +105,8 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
     ModalDialogComponent,
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
+    TeacherComponent,
+    NotFoundComponent,
     NewYearControllComponent,
     TeacherComponent,
     TeacherNavComponent,
@@ -146,6 +149,6 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalDialogComponent, TeachersComponent],
+  entryComponents: [ModalDialogComponent, TeachersComponent, TemporaryComponent],
 })
 export class AppModule { }
