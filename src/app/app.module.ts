@@ -65,6 +65,7 @@ import { NewYearControllComponent } from './components/new-year-controll/new-yea
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { NewYearPipe } from './pipes/new-year.pipe';
 
 
 @NgModule({
@@ -106,6 +107,7 @@ import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-
     TeacherComponent,
     TeacherNavComponent,
     TeacherSubjectsComponent,
+    NewYearPipe,
   ],
   imports: [
     ChartsModule,

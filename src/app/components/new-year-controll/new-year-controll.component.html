@@ -3,7 +3,7 @@
     <mat-label>Виберіть рік</mat-label>
     <mat-select [value]="currentYear" (selectionChange)="setYear($event.value)">
       <mat-option *ngFor="let year of sortedClassesYear" [value]="year">
-        {{year}}
+        {{year | newYear}}
       </mat-option>
     </mat-select>
   </mat-form-field>
