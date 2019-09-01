@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
-import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
-import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { listValidation } from 'src/app/containers/schedule/validators.directive';
+import { ScheduleService } from 'src/app/services/schedule.service';
 
 @Component({
   selector: 'webui-daily-schedule',
@@ -18,10 +17,6 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
 
   teachers: object[] = [];
   subjects: object[] = [];
-  teachersTemp$: any;
-  subjectsTemp$: any;
-  subjectsSubscription;
-  teachersSubscription;
   filteredTeachersFirstGroup: Observable<string[]>;
   filteredTeachersSecondGroup: Observable<string[]>;
   filteredSubjectsFirstGroup: Observable<string[]>;
@@ -33,35 +28,15 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   @Input() public dailySchedule: FormArray;
   @Input() public dayName: string;
 
-  constructor(private formBuilder: FormBuilder,
-    private storeSubjects: Store<{ subjects }>,
-    private storeTeachers: Store<{ teachers }>) {
-    this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachers));
-    this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private schedule: ScheduleService) {}
 
   ngOnInit() {
     this.buildDailySchedule();
 
-    this.teachersSubscription = this.teachersTemp$.subscribe(res => {
-      for (const key in res) {
-        if (res.hasOwnProperty(key)) {
-          const teacher = res[key];
-          this.teachers.push({
-            fullName: `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`,
-            id: teacher.id
-          });
-        }
-      }
-    });
-
-    this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
-      for (const key in res) {
-        if (res.hasOwnProperty(key)) {
-          this.subjects.push(res[key]);
-        }
-      }
-    });
+    this.subjects = this.schedule.getSubjects();
+    this.teachers = this.schedule.getTeachers();
 
     for (let i = 0; i < this.lessonsMaxPerDay; i++) {
       this.secondGroupVisible.push(false);
@@ -71,31 +46,63 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   buildDailySchedule() {
     if (this.dayName !== 'saturday') {
       this.dailySchedule.push(this.formBuilder.group({
-        firstGroup: this.formBuilder.control('', [Validators.required]),
-        secondGroup: this.formBuilder.control(''),
-        firstGroupTeacher: this.formBuilder.control(''),
-        secondGroupTeacher: this.formBuilder.control('')
+        firstGroup: this.formBuilder.control('', [Validators.required, listValidation(this.subjects)]),
+        secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        firstGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)]),
+        secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
     } else {
       this.dailySchedule.push(this.formBuilder.group({
-        firstGroup: this.formBuilder.control(''),
-        secondGroup: this.formBuilder.control(''),
-        firstGroupTeacher: this.formBuilder.control(''),
-        secondGroupTeacher: this.formBuilder.control('')
+        firstGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        firstGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)]),
+        secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
     }
 
       this.setSubjectAutocompleteFirstGroup(0);
   }
 
-  addLesson(lessonNumber) {
+  setSubjectsValidators() {
+    for (let i=0; i < this.dailySchedule.length; i++) {
+      if (i === 0) {
+        this.dailySchedule.at(i).get('firstGroup').setValidators([Validators.required, listValidation(this.subjects)]);
+      }
+      this.dailySchedule.at(i).get('firstGroup').setValidators([listValidation(this.subjects)]);
+      this.dailySchedule.at(i).get('secondGroup').setValidators([listValidation(this.subjects)]);
+    }
+  }
+
+  setTeachersValidators() {
+    for (let i=0; i < this.dailySchedule.length; i++) {
+      if (this.dailySchedule.at(i).get('firstGroupTeacher')) {
+        this.dailySchedule.at(i).get('firstGroupTeacher').setValidators([listValidation(this.teachers)]);
+      }
+      if (this.dailySchedule.at(i).get('secondGroupTeacher')) {
+        this.dailySchedule.at(i).get('secondGroupTeacher').setValidators([listValidation(this.teachers)]);
+      }
+    }
+  }
+
+  checkForValidationSetting() {
+    if (this.subjects.length) {
+      this.setSubjectsValidators()
+    }
+    if (this.teachers.length) {
+      this.setTeachersValidators()
+    }
+  }
+
+  addLesson(lessonNumber: number) {
+    this.checkForValidationSetting()
+
     if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
       this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
-        firstGroup: this.formBuilder.control(''),
-        secondGroup: this.formBuilder.control(''),
-        firstGroupTeacher: this.formBuilder.control(''),
-        secondGroupTeacher: this.formBuilder.control('')
+        firstGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
+        firstGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)]),
+        secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
 
       this.setSubjectAutocompleteFirstGroup(lessonNumber + 1);
@@ -104,9 +111,10 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     if (this.dayName === 'saturday' && this.dailySchedule.length) {
       this.saturdayFirstLesson = true;
     }
+
   }
 
-  removeLesson(lessonNumber) {
+  removeLesson(lessonNumber: number) {
     this.dailySchedule.removeAt(lessonNumber);
     this.removeSecondGroup(lessonNumber);
     this.removeTeacher(lessonNumber, 'first');
@@ -130,11 +138,14 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     this.setSubjectAutocompleteSecondGroup(lessonNumber);
   }
 
-  removeSecondGroup(lessonNumber) { // онулювати значення "предмет" 2-ї групи
+  removeSecondGroup(lessonNumber: number) {
     this.secondGroupVisible[lessonNumber] = false;
+    this.secondGroupTeachersVisible[lessonNumber] = false;
+    this.dailySchedule.at(lessonNumber).get('secondGroup').patchValue('');
+    this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');
   }
 
-  addTeacherToLesson(lessonNumber, group: string) {
+  addTeacherToLesson(lessonNumber: number, group: string) {
     if (group === 'first') {
       this.firstGroupTeachersVisible[lessonNumber] = true;
       this.setTeacherAutocompleteFirstGroup(lessonNumber);
@@ -145,9 +156,15 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeTeacher(lessonNumber, group: string) { // онулювати значення "вчитель"
-    if (group === 'first') { this.firstGroupTeachersVisible[lessonNumber] = false; }
-    if (group === 'second') { this.secondGroupTeachersVisible[lessonNumber] = false; }
+  removeTeacher(lessonNumber: number, group: string) {
+    if (group === 'first') {
+      this.firstGroupTeachersVisible[lessonNumber] = false;
+      this.dailySchedule.at(lessonNumber).get('firstGroupTeacher').patchValue('');
+    }
+    if (group === 'second') {
+      this.secondGroupTeachersVisible[lessonNumber] = false;
+      this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');    
+    }
   }
 
   setTeacherAutocompleteFirstGroup(lessonNumber: number) {
@@ -201,7 +218,5 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.teachersSubscription.unsubscribe();
-    this.subjectsSubscription.unsubscribe();
   }
 }
