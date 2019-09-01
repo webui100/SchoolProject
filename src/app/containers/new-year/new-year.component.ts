@@ -36,6 +36,7 @@ export class NewYearComponent implements OnInit, OnDestroy {
   public transferList$: Observable<Array<object>>;
   public studentsList$: Observable<object>;
   // classes that can be transfered
+  // ts ignore
   public transferClasses: Array<ClassModel> = [];
   // students from classes that can be transfered
   public transferStudents;
@@ -52,6 +53,7 @@ export class NewYearComponent implements OnInit, OnDestroy {
   public yearSubject$: BehaviorSubject<number>;
   public isWithStudentsSubject$: Subject<boolean>;
   public transferClassesData: MatTableDataSource<any>;
+  public isLoaded = false;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   ngOnInit() {
@@ -73,6 +75,7 @@ export class NewYearComponent implements OnInit, OnDestroy {
         let ref = this.transitionService.getStudents(list).subscribe();
         ref.unsubscribe();
       }
+      this.isLoaded = true;
       this.transferClasses = list;
       this.transferClassesData = new MatTableDataSource(list);
       this.transferClassesData.paginator = this.paginator;
@@ -123,10 +126,6 @@ export class NewYearComponent implements OnInit, OnDestroy {
 
   transferAllClasses(studingYear: number) {
     this.transitionService.transferStudents(this.transferClasses, studingYear);
-  }
-
-  isWithStudents(withStudents: boolean) {
-
   }
 
 }
