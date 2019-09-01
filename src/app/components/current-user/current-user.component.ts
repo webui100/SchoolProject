@@ -1,10 +1,8 @@
 import { Component, OnInit, NgModule, OnDestroy, Inject } from '@angular/core';
 import { CurrentUserService } from '../../services/current-user.service';
-import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
 import { selectId, selectRole } from '../../store/login/login.selectors';
 import { selectCurrentUser } from '../../store/current/current-user.selector';
-import { tap, take, first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material';
 import { TemporaryComponent } from '../temporary/temporary.component';
@@ -27,9 +25,6 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
   id: any;
   private timerSubscription;
   public show: boolean = false;
-  public img: string;
-  private imgSubscription: any;
-
 
   constructor(private store: Store<{ user }>,
               private current: Store<{ currentUser }>,
@@ -38,11 +33,6 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
               public dialog: MatDialog) {
 
     this.currentUser$ = this.current.pipe(select(selectCurrentUser));
-    // ,tap((res) => console.log(res)));
-
-    this.imgSubscription = this.currentUser$
-      .subscribe(data => { if (data !== null ) {return this.img = data.avatar; } },
-                    error => console.log(error));
 
     this.role$ = this.store.select(selectRole).subscribe((data) => this.role = data);
     this.id$ = this.store.select(selectId).subscribe((data) => this.id = data);
@@ -57,7 +47,6 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.timerSubscription.unsubscribe();
-    this.imgSubscription.unsubscribe();
   }
 
   openDialog(): void {
