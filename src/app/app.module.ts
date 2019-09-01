@@ -62,6 +62,7 @@ import { IsGraduationPipe } from './pipes/is-graduation.pipe';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
     ModalDialogComponent,
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
+    NewYearControllComponent,
   ],
   imports: [
     ChartsModule,
