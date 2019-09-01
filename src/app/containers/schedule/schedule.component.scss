@@ -1,6 +1,18 @@
+.header {
+    display: flex;
+    justify-content: center;
+    background-color: #673ab7;
+    width: 90%;
+    color: white;
+    padding: 0.6rem 0;
+    margin: 15px auto;
+    
+  }
+
 h1 {
     text-align: center;
-    margin: 20px;
+    font-size: 1.5em;
+    font-weight: 400;
 }
 
 mat-expansion-panel {
@@ -11,6 +23,44 @@ mat-panel-title {
     width: 0;
 }
 
+.error-message {
+    font-size: 11px;
+    color: rgba(255, 0, 0, 0.6);
+    margin: 5px;
+}
+
 mat-form-field {
     margin: 5px;
+}
+
+.term-class-year-div {
+    margin-bottom: 10px;
+
+    .input-year {
+        width: 3em;
+    }
+}
+
+.term-div {
+    display: inline-block;
+}
+
+.date-div {
+    font-size: 12px;
+    color: #aaa;
+    margin: 0 10px 10px 10px;
+
+    mat-form-field {
+        width: 6em;
+    }
+}
+
+button {
+    margin-top: 10px;
+}
+
+.schedule-time {
+    font-size: 12px;
+    color: #aaa;
+    margin: 10px;
 }

@@ -2,8 +2,22 @@ mat-form-field {
     margin: 5px;
 }
 
+.lesson-div {
+    background-color: #f8f8f8;
+    margin-bottom: 3px;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: #eee 0px 0px 2px 1px;
+}
+
+.lesson-info-div {
+    display: inline-block;
+}
+
 .lesson-field {
     display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #eee;
 }
 
 .remove {

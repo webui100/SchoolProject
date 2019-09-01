@@ -1,22 +1,24 @@
+import { NewYearComponent } from './containers/new-year/new-year.component';
 import { ScheduleComponent } from "./containers/schedule/schedule.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
 import { LoginComponent } from "./pages/login/login.component";
-import { TeachersComponent } from "./containers/teachers/teachers.component";
 import { AdminComponent } from './pages/admin/admin.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
-import {AdminGuard} from './services/guards/admin.guard';
-import {TeacherGuard} from './services/guards/teacher.guard';
-import {StudentGuard} from './services/guards/student.guard';
+import { AdminGuard } from './services/guards/admin.guard';
+import { TeacherGuard } from './services/guards/teacher.guard';
+import { StudentGuard } from './services/guards/student.guard';
 import { LoginGuard } from './services/guards/login.guard';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentsComponent } from "./pages/students/students.component";
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
-
+import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
+import { TeacherComponent } from "./pages/teacher/teacher.component";
+import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
 
 
 const routes: Routes = [
@@ -31,8 +33,31 @@ const routes: Routes = [
   },
   {
     path: "teacher",
-    component: TemporaryComponent,
-    canActivate: [TeacherGuard]
+    component: TeacherComponent,
+    canActivate: [TeacherGuard],
+    children: [
+      {
+        path: "",
+        redirectTo: "home",
+        pathMatch: "full"
+      },
+      {
+        path: "home",
+        component: TemporaryComponent
+      },
+      {
+        path: "journal",
+        component: TeacherSubjectsComponent
+      },
+      {
+        path: "statistics",
+        component: TemporaryComponent
+      },
+      {
+        path: "profile",
+        component: TemporaryComponent
+      }
+    ]
   },
   {
     path: "students",
@@ -64,7 +89,7 @@ const routes: Routes = [
       },
       {
         path: "teachers",
-        component: TeachersComponent
+        component: TeachersContainerComponent
       },
       {
         path: 'subjects',
@@ -77,7 +102,11 @@ const routes: Routes = [
       {
         path: "classes",
         component: ClassesComponent
-      }
+      },
+      {
+        path: "new-year-transition",
+        component: NewYearComponent
+      },
     ]
   }
 ];
@@ -88,5 +117,5 @@ const routes: Routes = [
   providers: [AdminGuard, TeacherGuard, StudentGuard, LoginGuard]
 })
 // @ts-ignore
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 // @ts-ignore
