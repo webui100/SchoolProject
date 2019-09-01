@@ -33,7 +33,6 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
 
   @Input() public dailySchedule: FormArray;
   @Input() public dayName: string;
-  // @Input() public isDayValid: object;
 
   constructor(private formBuilder: FormBuilder,
     private storeSubjects: Store<{ subjects }>,

@@ -1,5 +1,7 @@
+import { addBindTeacher } from './../store/teachers/teachers.action';
+import { IBindTeacher, IJournalBind } from './../models/teacher.model';
 import { IHttpGetBindTeacher } from './../models/HttpResponse.model';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, NgForm, AbstractControl } from '@angular/forms';
 import { NotificationService } from './notification.service';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -10,7 +12,7 @@ import {
   addOneTeacher,
   editTeacher,
   deleteTeacher,
-  bindTeacher,
+  bindTeacher
 } from '../store/teachers/teachers.action';
 import { Subject } from 'rxjs';
 import {
@@ -18,6 +20,8 @@ import {
   IHttpPostPutResponse
 } from '../models/HttpResponse.model';
 import { ITeacher } from '../models/teacher.model';
+import { startWith, map } from 'rxjs/operators';
+import { IOptionsFilter } from '../models/optionsFilter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +35,9 @@ export class TeachersService {
   private CREDENTIALS_URI = 'credentials/';
   private JOURNALS_URI = 'journals/';
   private ACIVE_URI = 'active/';
+  private CLASSES_URI = 'classes/';
+  private SUBJECTS_URI = 'subjects/';
+  private JOURNAL_URI = 'journal/';
 
   constructor(
     private http: HttpClient,
@@ -56,11 +63,9 @@ export class TeachersService {
       )
       .subscribe(
         (response: IHttpGetBindTeacher) => {
-          if (response.data.length > 0) {
             this.store.dispatch(
-              bindTeacher({ bindTeacher: response.data, teacherID: teacherId })
+              bindTeacher({ bindTeacher: { [teacherId]: response.data } })
             );
-          }
         },
         error => {
           this.errorMessage(error);
@@ -137,6 +142,32 @@ export class TeachersService {
       );
   }
 
+  teacherJournalBind(ids: IJournalBind) {
+    const storeData =  {
+         [ids.teacherId] : {
+          subjectName: ids.subjectData.subjectName,
+          className: ids.classData.className
+      }
+    };
+
+    return this.http
+      .post(
+        `${this.BASE_URI}${this.TEACHER_URI}${ids.teacherId}/${this.CLASSES_URI}${ids.classData.id}
+        /${this.SUBJECTS_URI}${ids.subjectData.subjectId}/${this.JOURNAL_URI}`,
+        {}
+      )
+      .subscribe(
+        () => {
+          this.notify.notifySuccess('Дані відправлено успішно');
+          this.store.dispatch(addBindTeacher({addBindTeacher: storeData}));
+        },
+        error => {
+          this.errorMessage(error);
+          this.notify.notifyFailure('Не вдалось відправити дані');
+        }
+      );
+  }
+
   readFileImage(inputValue: HTMLInputElement) {
     const file: File = inputValue.files[0];
     if (file.type.includes('image') && file.size < 1000000) {
@@ -150,6 +181,21 @@ export class TeachersService {
     }
   }
 
+  private filter(value: any, arr: string[], property: string): string[] {
+    const filterValue = value.toLowerCase();
+    return arr.filter(option => {
+      return option[property].toLowerCase().includes(filterValue);
+    });
+  }
+
+  //  IOptionsFilter = { controlName: string, objProp: string, varName: string }
+  public autocompleteFilter(data: any[], formControlers: AbstractControl, optionsString: IOptionsFilter) {
+    return formControlers.get(optionsString.controlName).valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.filter(value.toString(), data, optionsString.objProp )));
+  }
+
   private errorMessage(err: any) {
     if (err.error.status.code === 400) {
       this.notify.notifyFailure('Невірно введені дані');
@@ -159,12 +205,5 @@ export class TeachersService {
       this.notify.notifyFailure(errParse);
       throw new Error(`Server error: ${err.error.data}`);
     }
-  }
-
-  clearForm(formName: FormGroup) {
-    formName.reset();
-    Object.keys(formName.controls).forEach(key => {
-      formName.get(key).setErrors(null);
-    });
   }
 }
