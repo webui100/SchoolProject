@@ -6,7 +6,7 @@ import { selectCurrentUser } from '../../store/current/current-user.selector';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material';
 import { TemporaryComponent } from '../temporary/temporary.component';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 

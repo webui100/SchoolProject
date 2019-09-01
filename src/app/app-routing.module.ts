@@ -13,7 +13,7 @@ import { TeacherGuard } from './services/guards/teacher.guard';
 import { StudentGuard } from './services/guards/student.guard';
 import { LoginGuard } from './services/guards/login.guard';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import { StudentsComponent } from "./pages/students/students.component";
+import { StudentsComponent } from './pages/students/students.component';
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
