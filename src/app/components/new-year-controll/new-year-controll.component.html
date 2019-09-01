@@ -1,0 +1,11 @@
+<div class="controll-panel">
+  <mat-form-field>
+    <mat-label>Виберіть рік</mat-label>
+    <mat-select [value]="currentYear" (selectionChange)="setYear($event.value)">
+      <mat-option *ngFor="let year of sortedClassesYear" [value]="year">
+        {{year | newYear}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-checkbox (change)="changeOnlyWithStudents($event.value)">Тільки з учнями</mat-checkbox>
+</div>

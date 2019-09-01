@@ -18,7 +18,7 @@
 
         <ng-container matColumnDef="classYear">
           <th mat-header-cell *matHeaderCellDef> Рік навчання </th>
-          <td mat-cell *matCellDef="let element"> {{element.classYear}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.classYear | newYear}} </td>
         </ng-container>
 
         <ng-container matColumnDef="numOfStudents">
