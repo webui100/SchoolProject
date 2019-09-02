@@ -51,6 +51,7 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import {CdkDetailRowDirective} from './containers/subjects/cdk-detail-row.directive';
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { CountBarComponent } from './components/count-bar/count-bar.component';
     StudentComponent,
     AddStudentComponent,
     ClassesComponent,
-    CountBarComponent
+    CountBarComponent,
+
 
   ],
   imports: [
@@ -91,6 +93,7 @@ import { CountBarComponent } from './components/count-bar/count-bar.component';
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    MatTabsModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
