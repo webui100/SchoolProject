@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, OnDestroy, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, NgModule, OnDestroy, Inject } from '@angular/core';
 import { CurrentUserService } from '../../services/current-user.service';
 import { select, Store } from '@ngrx/store';
 import { selectId, selectRole } from '../../store/login/login.selectors';

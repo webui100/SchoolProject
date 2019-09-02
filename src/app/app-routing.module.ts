@@ -20,6 +20,8 @@ import { TeachersContainerComponent } from './components/teachers-container/teac
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -44,11 +46,11 @@ const routes: Routes = [
       },
       {
         path: "home",
-        component: TemporaryComponent
+        component: TeacherSubjectsComponent
       },
       {
         path: "journal",
-        component: TeacherSubjectsComponent
+        component: TeacherJournalsComponent
       },
       {
         path: "statistics",
