@@ -64,10 +64,11 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
@@ -110,11 +111,12 @@ import { StudentProfileComponent } from './containers/student-profile/student-pr
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
     TeacherComponent,
+    TeacherNavComponent,
+    TeacherSubjectsComponent,
+    TeacherJournalsComponent,
     NotFoundComponent,
     NewYearControllComponent,
     TeacherComponent,
-    TeacherNavComponent,
-    TeacherSubjectsComponent,
     NewYearPipe,
     LocaleHeaderPipe,
     StudentProfileComponent

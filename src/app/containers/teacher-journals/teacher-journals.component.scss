@@ -18,16 +18,6 @@
     font-weight: 500;
   }
   //-----------------------
-  .filter-container {
-    margin: 10px auto 0 auto;
-    width: 90%;
-  }
-  
-  .filter-container .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  //----------------------------
   .table-container {
     display: flex;
     flex-direction: column;
@@ -43,16 +33,16 @@
     margin: 0 15px 0 0;
   }
   table .mat-card {
-    border-bottom: #673ab7;
-    border-bottom-style: solid;
-    border-bottom-width: 5px; 
-    width: 100%;
+    width: 50%;
     border-radius: 0;
-    padding: 10px 0 0 0;
+    padding: 10px auto 10px auto;
     margin-bottom: 10px;
-    
+    background-color:#FAFAFA;
   }
-  .subject-detail {
+  .mat-card div{
+    text-align: center;
+  }
+  .journal-detail {
     overflow: hidden;
     display: flex;
     width: 100%;
@@ -63,16 +53,16 @@
     width: 42%;
   }
   
-  tr.subject-detail-row {
+  tr.journal-detail-row {
     height: 0; 
   }
   
-  tr.subject-row:not(.subject-expanded-row):hover {
+  tr.journal-row:not(.journal-expanded-row):hover {
     background: #F1F3F4;
     cursor: pointer;
   }
   
-  .subject-row td {
+  .journal-row td {
     border-bottom-width: 0;
   }
   
