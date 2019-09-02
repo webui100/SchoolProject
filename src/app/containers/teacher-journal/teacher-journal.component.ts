@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { SubjectsService } from './../../../services/subjects.service';
+import { SubjectsService } from '../../services/subjects.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import ClassModel from 'src/app/models/schoolclass.model';
 import { IBindTeacher } from 'src/app/models/teacher.model';

@@ -1,4 +1,4 @@
-import { TeachersService } from './../../services/teachers.service';
+import { TeachersService } from '../../services/teachers.service';
 import { ITeacher } from '../../models/teacher.model';
 import {
   Component,

@@ -1,4 +1,4 @@
-import { ITeacher } from './../../../models/teacher.model';
+import { ITeacher } from '../../../models/teacher.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

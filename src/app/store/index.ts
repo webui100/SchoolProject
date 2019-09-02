@@ -1,9 +1,5 @@
-// import { State } from './index';
 import {
-  ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';

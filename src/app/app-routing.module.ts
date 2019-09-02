@@ -16,7 +16,7 @@ import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentsComponent } from "./pages/students/students.component";
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
-import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
+import { TeachersContainerComponent } from './containers/teachers-container/teachers-container.component';
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
 
