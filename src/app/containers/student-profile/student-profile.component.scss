@@ -1,10 +1,11 @@
-mat-card {
+mat-dialog-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 1rem;
-  padding: 1rem;
   max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: -24px;
   mat-card-header {
     display: flex;
     flex-direction: column;
@@ -12,7 +13,7 @@ mat-card {
     img {
       width: 200px;
       height: 200px;
-      margin-top: 16px;
+      margin-top: 2.5rem;
     }
   }
   mat-card-content {
@@ -40,11 +41,9 @@ mat-card {
       }
     }
   }
-
 }
 
-
-@media screen and (max-width: 699px) {
+@media screen and (max-width: 1024px) {
   mat-form-field {
     margin: 0 1rem !important;
   }

@@ -5,7 +5,7 @@ import { selectId, selectRole } from '../../store/login/login.selectors';
 import { selectCurrentUser } from '../../store/current/current-user.selector';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material';
-import { TemporaryComponent } from '../temporary/temporary.component';
+import { StudentProfileComponent } from '../../containers/student-profile/student-profile.component';
 import { Observable } from 'rxjs';
 
 
@@ -50,7 +50,7 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    this.dialog.open(TemporaryComponent);
+    this.dialog.open(StudentProfileComponent);
   }
 
 }

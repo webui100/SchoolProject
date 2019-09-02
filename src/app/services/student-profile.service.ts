@@ -6,6 +6,7 @@ import * as jwt_decode from 'jwt-decode';
 
 import { environment } from '../../environments/environment';
 import { fetchStudentProfile } from '../store/profile/profile.actions';
+import { currentUserAction } from '../store/current/current-user.action';
 
 
 @Injectable({
@@ -53,6 +54,7 @@ export class StudentProfileService {
       })
       .subscribe((response: any) => {
         this.store.dispatch(fetchStudentProfile({ student: response.body.data }));
+        this.store.dispatch(currentUserAction({ currentUserData: response.body.data }));
       });
   }
 

@@ -1,6 +1,8 @@
 export interface Student {
   firstname: string;
+  firstName?: string;
   lastname: string;
+  lastName?: string;
   patronymic: string;
   classe: string | null;
   classId: number;

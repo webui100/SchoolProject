@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./homework-dialog.component.scss']
 })
 export class HomeworkDialogComponent implements OnInit {
+
   url: string;
   fileType: string;
   zoom = 1;
@@ -17,7 +18,7 @@ export class HomeworkDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.url = `data:${this.data.fileType};base64,${this.data.fileData}`;
     this.setFileType();
   }

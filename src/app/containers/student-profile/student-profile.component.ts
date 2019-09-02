@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialogRef } from '@angular/material/dialog';
 import { format, subYears } from 'date-fns';
 
-import { StudentProfileService } from '../../services/student-profile.service';
-import { selectStudentProfile } from '../../store/profile/profile.selectors';
 import { Student } from '../../models/profile.model';
+import { StudentProfileService } from '../../services/student-profile.service';
+import { ValidationService } from '../../services/validation.service';
+import { selectStudentProfile } from '../../store/profile/profile.selectors';
 
 @Component({
   selector: 'webui-student-profile',
@@ -20,16 +22,19 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   private profile: AbstractControl;
   private maxDate = subYears(new Date(), 6);
   private avatar: string | ArrayBuffer;
-  private subscriptAvatar: Subscription;
+  private avatar$: Subscription;
   private fileToUpload: string | ArrayBuffer;
   private destroyStream$ = new Subject<void>();
 
   constructor(
     private studentProfile: StudentProfileService,
+    private validationService: ValidationService,
     private store: Store<{ profile }>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<StudentProfileComponent>
   ) {
     this.store.pipe(select(selectStudentProfile))
+      .pipe(takeUntil(this.destroyStream$))
       .subscribe(student => this.student = student);
   }
 
@@ -46,24 +51,28 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
   fetchProfile(): void {
     this.profile = this.formBuilder.group({
-      firstname: [this.student.firstname, [Validators.required]],
-      lastname: [this.student.lastname, [Validators.required]],
-      patronymic: [this.student.patronymic, [Validators.required]],
-      dateOfBirth: [this.student.dateOfBirth, Validators.required],
-      email: [this.student.email],
-      phone: [this.student.phone],
+      firstname: [(this.student.firstname
+        ? this.student.firstname
+        : this.student.firstName)],
+      lastname: [(this.student.lastname
+        ? this.student.lastname
+        : this.student.lastName)],
+      patronymic: [this.student.patronymic],
       login: [this.student.login],
-      oldPass: [''],
+      dateOfBirth: [this.student.dateOfBirth, [Validators.required]],
+      email: [this.student.email, [Validators.pattern(this.validationService.emailRegExp)]],
+      phone: [this.student.phone, [Validators.pattern(this.validationService.phoneRegExp)]],
+      oldPass: ['', [Validators.pattern(this.validationService.passwordRegExp)]],
       newPass: ['']
     });
   }
 
   changeAvatar(event): void {
     this.studentProfile.readImage(event.target);
-    this.subscriptAvatar = this.studentProfile.subject.subscribe(response => {
+    this.avatar$ = this.studentProfile.subject.subscribe(response => {
       this.avatar = response;
       this.fileToUpload = response;
-      this.subscriptAvatar.unsubscribe();
+      this.avatar$.unsubscribe();
     });
   }
 
@@ -72,5 +81,6 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     profile.avatar = this.fileToUpload ? this.fileToUpload : this.student.avatar;
     profile.dateOfBirth = format(new Date(profile.dateOfBirth), 'YYYY-MM-DD');
     this.studentProfile.editProfile(profile);
+    this.dialogRef.close();
   }
 }

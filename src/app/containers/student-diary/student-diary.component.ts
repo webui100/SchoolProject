@@ -9,10 +9,10 @@ import localeUk from '@angular/common/locales/uk';
 import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
 import { HomeworkDialogComponent } from '../../components/homework-dialog/homework-dialog.component';
+import { Lesson } from '../../models/diary.model';
 import { StudentDiaryService } from '../../services/student-diary.service';
 import { StudentProfileService } from '../../services/student-profile.service';
 import { selectLessons } from '../../store/diary/diary.selectors';
-import { Lesson } from '../../models/diary.model';
 
 
 @Component({
@@ -22,13 +22,14 @@ import { Lesson } from '../../models/diary.model';
   providers: [{provide: LOCALE_ID, useValue: 'uk'}]
 })
 export class StudentDiaryComponent implements OnInit, OnDestroy {
-  diary$: Observable<Lesson[]>;
-  destroyStream$ = new Subject<void>();
-  dateValue = this.getStartOfWeek();
-  weekDays: Date[];
-  dayNumbers: number[];
-  showDiary?: boolean;
-  availableDays?: number[];
+
+  private diary$: Observable<Lesson[]>;
+  private destroyStream$ = new Subject<void>();
+  private dateValue = this.getStartOfWeek();
+  private weekDays: Date[];
+  public dayNumbers: number[];
+  private showDiary?: boolean;
+  private  availableDays?: number[];
 
   constructor(
     private studentDiary: StudentDiaryService,

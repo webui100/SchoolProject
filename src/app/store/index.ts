@@ -44,6 +44,7 @@ export interface State {
   teachers: TeachersState;
   subjects: SubjectsState;
   diary: DiaryState;
+  profile: ProfileState;
   chart: ChartState;
   currentUser: currentUserState;
   router: RouterReducerState<RouterStateUrl>;
