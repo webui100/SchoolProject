@@ -65,6 +65,10 @@ import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
 import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
+import { NewYearPipe } from './pipes/new-year.pipe';
+import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 
 
 @NgModule({
@@ -106,6 +110,11 @@ import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-
     TeacherNavComponent,
     TeacherSubjectsComponent,
     TeacherJournalsComponent,
+    NotFoundComponent,
+    NewYearControllComponent,
+    TeacherComponent,
+    NewYearPipe,
+    LocaleHeaderPipe,
   ],
   imports: [
     ChartsModule,
@@ -142,6 +151,6 @@ import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalDialogComponent, TeachersComponent],
+  entryComponents: [ModalDialogComponent, TeachersComponent, TemporaryComponent],
 })
 export class AppModule { }

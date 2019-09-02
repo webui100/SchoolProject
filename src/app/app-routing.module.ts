@@ -13,13 +13,14 @@ import { TeacherGuard } from './services/guards/teacher.guard';
 import { StudentGuard } from './services/guards/student.guard';
 import { LoginGuard } from './services/guards/login.guard';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
-import { StudentsComponent } from "./pages/students/students.component";
+import { StudentsComponent } from './pages/students/students.component';
 import { StudentComponent } from './pages/student/student.component';
 import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
 import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -108,8 +109,15 @@ const routes: Routes = [
         path: "new-year-transition",
         component: NewYearComponent
       },
+
     ]
+  },
+  // після цього роута, нічого не додавати!
+  {
+    path: '**',
+    component: NotFoundComponent
   }
+
 ];
 
 @NgModule({

@@ -15,13 +15,13 @@
     <form [formGroup]="addTeacher" (ngSubmit)="submitAdd($event)">
         <mat-card-content>
             <mat-form-field class="add-input">
-                <input matInput placeholder="Ім'я" formControlName="firstname" #name required>
-                <mat-error *ngIf="this.addTeacher.get('firstname').invalid">Укр. символи, з великої літери</mat-error>
+                <input matInput placeholder="Прізвище" formControlName="lastname" #surname required>
+                <mat-error *ngIf="this.addTeacher.get('lastname').invalid">Укр. символи, з великої літери</mat-error>
             </mat-form-field>
 
             <mat-form-field class="add-input">
-                <input matInput placeholder="Прізвище" formControlName="lastname" #surname required>
-                <mat-error *ngIf="this.addTeacher.get('lastname').invalid">Укр. символи, з великої літери</mat-error>
+                <input matInput placeholder="Ім'я" formControlName="firstname" #name required>
+                <mat-error *ngIf="this.addTeacher.get('firstname').invalid">Укр. символи, з великої літери</mat-error>
             </mat-form-field>
 
             <mat-form-field class="add-input">

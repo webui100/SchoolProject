@@ -1,4 +1,4 @@
-import { State } from './index';
+// import { State } from './index';
 import {
   ActionReducer,
   ActionReducerMap,
@@ -42,7 +42,7 @@ import {
   State as StudentsState
 } from './students/students.reducer';
 import { classesReducer, State as ClassesState } from './classes/classes.reducer';
-import { newYearReducer, State as NewYearState} from './newyear/newyear.reducer';
+import { newYearReducer, State as NewYearState } from './newyear/newyear.reducer';
 
 export interface State {
   user: LoginState;
