@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from "@ngrx/store";
-import * as Form from "./form.actions";
+import * as Avatar from "./avatar.actions";
 import { state } from "@angular/animations";
 
 export interface State {
@@ -10,14 +10,14 @@ export const initialState: State = {
   avatar: null
 };
 
-const FormReducer = createReducer(
+const AvatarReducer = createReducer(
   initialState,
-  on(Form.getAvatarAction, (state, { avatar }) => ({
+  on(Avatar.getAvatarAction, (state, { avatar }) => ({
     ...state,
     avatar
   }))
 );
 
-export function formReducer(state: State | undefined, action: Action) {
-  return FormReducer(state, action);
+export function avatarReducer(state: State | undefined, action: Action) {
+  return AvatarReducer(state, action);
 }

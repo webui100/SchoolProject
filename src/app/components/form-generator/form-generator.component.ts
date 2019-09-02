@@ -10,7 +10,7 @@ import { NgForm, FormGroup } from "@angular/forms";
 import { FormService } from "../../services/form.service";
 
 import { Store, select } from "@ngrx/store";
-import { selectAvatar } from "../../store/form/form.selectors";
+import { selectAvatar } from "../../store/avatar/avatar.selectors";
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter
@@ -75,6 +75,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     if (this.doReset) {
       formToReset.resetForm();
       this.form.reset();
+      this.avatar = "../../../assets/images/no-user-image.png";
     }
   }
 

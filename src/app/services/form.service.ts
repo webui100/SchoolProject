@@ -3,10 +3,10 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ValidationService } from "../services/validation.service";
 import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
 import { format, compareAsc } from "date-fns";
-import { getAvatarAction } from "../store/form/form.actions";
-import { Store } from "@ngrx/store";
+import { getAvatarAction } from "../store/avatar/avatar.actions";
 import { environment } from "../../environments/environment";
 import { NotificationService } from "./notification.service";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root"
@@ -16,14 +16,13 @@ export class FormService {
   constructor(
     private formValidation: ValidationService,
     private http: HttpClient,
-    private store: Store<{ students }>,
-    private notify: NotificationService
+    private notify: NotificationService,
+    private store: Store<{ students }>
   ) {}
 
   formatDateToValidString(date) {
     return format(date, "YYYY-MM-DD");
   }
-
   loadAvatar(e): void {
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
@@ -31,8 +30,9 @@ export class FormService {
       this.store.dispatch(getAvatarAction({ avatar: reader.result }));
     };
   }
+
   setValuesToForm(initialValues: Object, form: FormGroup): FormGroup {
-    Object.keys(form.value).map(controlName => {
+    Object.keys(form.value).forEach(controlName => {
       form.controls[controlName].patchValue(initialValues[controlName]);
     });
     return form;

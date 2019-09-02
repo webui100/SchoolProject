@@ -1,10 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-
-import { ErrorStateMatcher } from "@angular/material/core";
 import { FormPattern } from "../../../form-data/create-student";
 import { StudentsService } from "../../../services/students.service";
-
-import { Student } from "../../../models/students";
 
 @Component({
   selector: "webui-create-student",
@@ -25,6 +21,7 @@ export class CreateStudentComponent implements OnInit {
     };
     data = { ...data, ...$event };
     this.studentsService.createStudent(data);
+    console.log(data);
   }
 
   ngOnInit() {}

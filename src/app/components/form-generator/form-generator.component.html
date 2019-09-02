@@ -6,17 +6,25 @@
   <!-- #formDirective="ngForm" -->
   <ng-template ngFor let-input [ngForOf]="formPattern">
     <ng-container [ngSwitch]="input.controlType">
-      <!-- handling text type inputs -->
       <ng-template [ngSwitchCase]="'file'">
-        <img class="avatar" src="{{ avatar }}" alt="avatar" />
-        <div class="form-group">
-          <input
-            [type]="input.valueType"
-            [name]="input.controlName"
-            [formControlName]="input.controlName"
-            (change)="onSelectAvatar($event)"
-          />
+        <div
+          class="avatar"
+          [style.background-image]="'url(' + avatar + ')'"
+          alt="avatar"
+          (click)="fileInput.click()"
+        >
+          <div class="avatar-hover">
+            <img src="../../../assets/images/photo-camera.png" alt="" />
+          </div>
         </div>
+        <input
+          #fileInput
+          [type]="input.valueType"
+          [name]="input.controlName"
+          [formControlName]="input.controlName"
+          (change)="onSelectAvatar($event)"
+          [hidden]="true"
+        />
       </ng-template>
       <ng-template [ngSwitchCase]="'text'">
         <div class="form-group">
@@ -35,8 +43,8 @@
         </div>
       </ng-template>
       <ng-template [ngSwitchCase]="'date'">
-        <mat-card-actions>
-          <div class="form-group">
+        <div class="form-group">
+          <mat-card-actions>
             <mat-form-field>
               <input
                 matInput
@@ -59,8 +67,8 @@
                 input.validation.err
               }}</mat-error>
             </mat-form-field>
-          </div>
-        </mat-card-actions>
+          </mat-card-actions>
+        </div>
       </ng-template>
     </ng-container>
   </ng-template>

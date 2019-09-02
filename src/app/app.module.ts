@@ -64,6 +64,7 @@ import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
 import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
 import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
+import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { FormGeneratorComponent } from "./components/form-generator/form-generat
     TeacherDetailContainerComponent,
     TeacherComponent,
     TeacherNavComponent,
-    TeacherSubjectsComponent
+    TeacherSubjectsComponent,
+    UrlSanitizerPipe
   ],
   imports: [
     ChartsModule,

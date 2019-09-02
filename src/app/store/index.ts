@@ -40,7 +40,7 @@ import {
   newYearReducer,
   State as NewYearState
 } from "./newyear/newyear.reducer";
-import { formReducer, State as FormState } from "./form/form.reducer";
+import { avatarReducer, State as FormState } from "./avatar/avatar.reducer";
 
 export interface State {
   user: LoginState;
@@ -71,7 +71,7 @@ export const reducers: ActionReducerMap<any> = {
   students: studentsReducer,
   classes: classesReducer,
   newYear: newYearReducer,
-  avatar: formReducer
+  avatar: avatarReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
