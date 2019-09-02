@@ -64,6 +64,7 @@ import { TeacherDetailContainerComponent } from './containers/teachers/teacher-d
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-
     TeacherComponent,
     TeacherNavComponent,
     TeacherSubjectsComponent,
+    TeacherJournalsComponent,
   ],
   imports: [
     ChartsModule,

@@ -19,6 +19,7 @@ import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
 
 
 const routes: Routes = [
@@ -43,11 +44,11 @@ const routes: Routes = [
       },
       {
         path: "home",
-        component: TemporaryComponent
+        component: TeacherSubjectsComponent
       },
       {
         path: "journal",
-        component: TeacherSubjectsComponent
+        component: TeacherJournalsComponent
       },
       {
         path: "statistics",
