@@ -26,7 +26,8 @@ import {
   MAT_DATE_LOCALE,
   DateAdapter,
   MAT_DATE_FORMATS,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatDialogModule
 } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
@@ -66,7 +67,8 @@ const MaterialComponents = [
   MatSelectModule,
   MatExpansionModule,
   MatAutocompleteModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatDialogModule
 ];
 
 @NgModule({

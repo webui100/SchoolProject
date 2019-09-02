@@ -14,7 +14,8 @@ import {
   scheduleReducer,
   State as ScheduleState
 } from './schedule/schedule.reducer'; // +
-import { diaryReducer, State as DiaryState } from './diary/diary.reducer';
+import { diaryReducer, DiaryState } from './diary/diary.reducer';
+import { profileReducer, ProfileState } from './profile/profile.reducer';
 import { chartReducer, State as ChartState } from './chart/chart.reducer';
 import {
   teachersDataReducer,
@@ -53,6 +54,7 @@ export interface State {
   teacherSubjects: TeacherSubjectsState;
   teacherJournals: TeacherJournalsState;
   diary: DiaryState;
+  profile: ProfileState;
   chart: ChartState;
   currentUser: currentUserState;
   router: RouterReducerState<RouterStateUrl>;
@@ -73,6 +75,7 @@ export const reducers: ActionReducerMap<any> = {
   teacherSubjects: teacherSubjectsDataReducer,
   teacherJournals: teacherJournalsDataReducer,
   diary: diaryReducer,
+  profile: profileReducer,
   students: studentsReducer,
   classes: classesReducer,
   newYear: newYearReducer

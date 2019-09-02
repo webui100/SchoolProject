@@ -8,7 +8,7 @@
     <h4>{{_currentUser.userRole()}}</h4>
     <br>
       <div *ngIf = "!_currentUser.isAdmin()">
-        <button mat-raised-button (click)="openDialog($event)">Редагувати профіль</button>
+        <button mat-stroked-button (click)="openDialog()">Редагувати профіль</button>
       </div>
     <br>  
   </div>
