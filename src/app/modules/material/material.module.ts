@@ -27,9 +27,11 @@ import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MatButtonToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+
 
 const MaterialComponents = [
   MatSelectModule,
@@ -68,7 +70,8 @@ const MaterialComponents = [
   MatExpansionModule,
   MatAutocompleteModule,
   MatButtonToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({
@@ -80,4 +83,4 @@ const MaterialComponents = [
     // { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ]
 })
-export class MaterialModule {}
+export class MaterialModule { }
