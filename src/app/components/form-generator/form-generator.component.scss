@@ -2,9 +2,20 @@ form {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
+  justify-content: center;
 }
-
+.image-block {
+  width: 100%;
+  background-color: rgba(45, 52, 54, 1);
+  display: flex;
+  justify-content: center;
+  padding: 1% 0;
+}
+.form-group {
+  margin: 1% 2%;
+  display: flex;
+  justify-content: center;
+}
 .avatar,
 .avatar-hover {
   height: 150px;
@@ -13,6 +24,7 @@ form {
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 50%;
+  cursor: pointer;
 }
 .avatar {
   position: relative;
@@ -30,7 +42,7 @@ form {
   top: 0;
   right: 0;
   visibility: hidden;
-  background: rgba(52, 73, 94, 0.5);
+  background: rgba(116, 185, 255, 0.5);
   img {
     width: 35%;
     height: 35%;
@@ -38,22 +50,13 @@ form {
 }
 
 button {
-  border: none;
-  background: #404040;
-  color: #ffffff;
-  font-weight: 100;
-  padding: 20px;
-  text-transform: uppercase;
-  border-radius: 6px;
-  display: inline-block;
-  transition: all 0.3s ease 0s;
-  &:hover {
-    color: #404040;
-    font-weight: 700;
-    letter-spacing: 3px;
-    background: none;
-    -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
-    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
-    transition: all 0.3s ease 0s;
+  cursor: pointer;
+  width: 100%;
+  background-color: rgba(45, 52, 54, 1);
+  color: white;
+  height: 40px;
+  &:disabled {
+    background-color: rgba(223, 230, 233, 1);
+    cursor: not-allowed;
   }
 }

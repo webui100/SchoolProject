@@ -56,17 +56,6 @@ export const FormPattern: Array<Object> = [
     }
   },
   {
-    controlName: "dateOfBirth",
-    controlType: "date",
-    valueType: "text",
-    placeholder: "Дата народження*",
-    validation: {
-      required: true,
-      type: false,
-      err: "Дата народження. Обов'язкове поле!"
-    }
-  },
-  {
     controlName: "phone",
     controlType: "text",
     valueType: "text",
@@ -86,6 +75,17 @@ export const FormPattern: Array<Object> = [
       required: false,
       type: "emailRegExp",
       err: "Формат example@gmail.com"
+    }
+  },
+  {
+    controlName: "dateOfBirth",
+    controlType: "date",
+    valueType: "text",
+    placeholder: "Дата народження*",
+    validation: {
+      required: true,
+      type: false,
+      err: "Дата народження. Обов'язкове поле!"
     }
   }
 ];

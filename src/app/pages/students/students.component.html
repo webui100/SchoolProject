@@ -1,12 +1,18 @@
-<div class="div-table mat-elevation-z8">
+<div class="heading">
+  <div class="students-heading"><h3>Список учнів</h3></div>
+  <div class="search">
+    <mat-form-field>
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Знайти учня"
+      />
+    </mat-form-field>
+  </div>
   <webui-create-student></webui-create-student>
-  <mat-form-field>
-    <input
-      matInput
-      (keyup)="applyFilter($event.target.value)"
-      placeholder="Знайти учня"
-    />
-  </mat-form-field>
+</div>
+
+<div class="div-table mat-elevation-z8">
   <table
     mat-table
     [dataSource]="data"
