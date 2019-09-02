@@ -36,6 +36,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "ng2-charts": "^2.3.0",
+    "ng2-pdf-viewer": "^5.3.4",
     "ngx-toastr": "^10.0.4",
     "randomcolor": "^0.5.4",
     "rxjs": "~6.4.0",

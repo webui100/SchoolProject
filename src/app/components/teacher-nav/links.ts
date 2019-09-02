@@ -12,12 +12,12 @@ const links = [
   {
     path: 'statistics',
     title: 'Статистика',
-    icon: 'book'
+    icon: 'label'
   },
   {
     path: 'profile',
     title: 'Профіль',
-    icon: 'book'
+    icon: 'label'
   }
 ];
 

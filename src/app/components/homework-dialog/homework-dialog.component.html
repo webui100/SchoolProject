@@ -1,0 +1,20 @@
+<header>
+  <button mat-fab title="Закрити" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</header>
+
+<mat-dialog-content>
+  <img *ngIf="fileType === 'image'" [src]="url" alt="">
+  <pdf-viewer *ngIf="fileType === 'pdf'" [src]="url" [zoom]="zoom"></pdf-viewer>
+  <h1 *ngIf="fileType === 'unknown'">Файл не доступний для перегляду</h1>
+</mat-dialog-content>
+
+<footer>
+  <button *ngIf="fileType === 'pdf'" mat-fab title="Зменшити" (click)="zoomOut()">
+    <mat-icon>zoom_out</mat-icon>
+  </button>
+  <button *ngIf="fileType === 'pdf'" mat-fab title="Збільшити" (click)="zoomIn()">
+    <mat-icon>zoom_in</mat-icon>
+  </button>
+</footer>

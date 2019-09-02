@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -52,6 +53,7 @@ import { AddStudentComponent } from './pages/students/add-student/add-student.co
 import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from './components/count-bar/count-bar.component';
+import { HomeworkDialogComponent } from './components/homework-dialog/homework-dialog.component';
 import { NewYearComponent } from './containers/new-year/new-year.component';
 import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
 import { TeachersContainerComponent } from './components/teachers-container/teachers-container.component';
@@ -62,12 +64,14 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
 import { TeacherJournalComponent } from './containers/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teachers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
+import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
 
 
 @NgModule({
@@ -95,6 +99,7 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
     AddStudentComponent,
     ClassesComponent,
     CountBarComponent,
+    HomeworkDialogComponent,
     NewYearComponent,
     TransferStudentsTableComponent,
     TeachersContainerComponent,
@@ -111,8 +116,13 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
     TeacherComponent,
     TeacherNavComponent,
     TeacherSubjectsComponent,
+    TeacherJournalsComponent,
+    NotFoundComponent,
+    NewYearControllComponent,
+    TeacherComponent,
     NewYearPipe,
     LocaleHeaderPipe,
+    StudentProfileComponent
   ],
   imports: [
     ChartsModule,
@@ -125,6 +135,7 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    PdfViewerModule,
     MaterialModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
@@ -149,6 +160,11 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalDialogComponent, TeachersComponent, TemporaryComponent],
+  entryComponents: [
+    ModalDialogComponent,
+    TeachersComponent,
+    TemporaryComponent,
+    HomeworkDialogComponent
+  ]
 })
 export class AppModule { }
