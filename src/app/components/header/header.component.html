@@ -4,7 +4,7 @@
         <button mat-fab (click)="sideNav.toggle()" class="back-button" color="primary">
           <mat-icon>arrow_right_alt</mat-icon>
         </button>
-        <webui-current-user></webui-current-user>
+        <webui-current-user (close)="sideNav.toggle()"></webui-current-user>
         <div>
           <button (click)="http.signOut()" mat-raised-button color="primary"><mat-icon>exit_to_app</mat-icon> Вихід</button>
         </div>
