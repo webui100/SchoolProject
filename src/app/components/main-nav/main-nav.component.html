@@ -12,8 +12,7 @@
         {{link.title}}</a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-drawer #sideNav mode="side" opened="false" [position]="sidenavPosition">
+    <mat-sidenav #sideNav mode="over" [position]="sidenavPosition" fixedInViewport = "false">
       <div id="user-info-sidebar">
         <button mat-fab (click)="sideNav.toggle()" class="back-button" color="primary">
           <mat-icon>arrow_right_alt</mat-icon>
@@ -25,17 +24,16 @@
           </button>
         </div>
       </div>
-    </mat-drawer>
+    </mat-sidenav>
     <mat-toolbar color="primary">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="isOpened = true" *ngIf="!isOpened">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <mat-toolbar color="primary" class="button-container">
-        <button (click)="sideNav.toggle()" mat-fab color="grey">
-          <mat-icon>person</mat-icon>
-        </button>
-      </mat-toolbar>
+          <button class="current-user-icon" (click)="sideNav.toggle()" mat-fab color="grey">
+            <mat-icon>person</mat-icon>
+          </button>
+        </mat-toolbar>
     </mat-toolbar>
     <ng-content></ng-content>
-  </mat-sidenav-content>
 </mat-sidenav-container>

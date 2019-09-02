@@ -8,7 +8,7 @@ import {AuthService} from "../../services/auth.service";
 })
 export class HeaderComponent implements OnInit {
 
-  private sidenavPosition = "end";
+  private sidenavPosition = 'end';
 
   constructor(private http: AuthService) { }
 
