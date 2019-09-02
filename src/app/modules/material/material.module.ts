@@ -23,7 +23,12 @@ import {
   MatRadioModule,
   MatExpansionModule,
   MatAutocompleteModule,
-  MatButtonToggleModule
+  MAT_DATE_LOCALE,
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MatButtonToggleModule,
+  MatDialogModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -65,6 +70,8 @@ export const MaterialComponents = [
   MatAutocompleteModule,
   MatButtonToggleModule,
   ReactiveFormsModule,
+  MatDialogModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({
@@ -72,4 +79,4 @@ export const MaterialComponents = [
   exports: [MaterialComponents],
   providers: []
 })
-export class MaterialModule {}
+export class MaterialModule { }

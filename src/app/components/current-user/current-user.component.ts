@@ -1,11 +1,11 @@
-import { Component, OnInit, NgModule, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, NgModule, OnDestroy, Inject, EventEmitter, Output } from '@angular/core';
 import { CurrentUserService } from '../../services/current-user.service';
 import { select, Store } from '@ngrx/store';
 import { selectId, selectRole } from '../../store/login/login.selectors';
 import { selectCurrentUser } from '../../store/current/current-user.selector';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material';
-import { TemporaryComponent } from '../temporary/temporary.component';
+import { StudentProfileComponent } from '../../containers/student-profile/student-profile.component';
 import { Observable } from 'rxjs';
 
 
@@ -25,6 +25,7 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
   id: any;
   private timerSubscription;
   public show: boolean = false;
+  @Output() close: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   constructor(private store: Store<{ user }>,
               private current: Store<{ currentUser }>,
@@ -49,8 +50,10 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     this.timerSubscription.unsubscribe();
   }
 
-  openDialog(): void {
-    this.dialog.open(TemporaryComponent);
+  openDialog($event): void {
+    this.close.emit($event);
+    this.dialog.open(StudentProfileComponent);
   }
+
 
 }

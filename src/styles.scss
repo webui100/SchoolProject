@@ -55,3 +55,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 100%;
 }
 
+.custom-dialog-container .mat-dialog-container {
+  padding: 0;
+  overflow: hidden;
+}
