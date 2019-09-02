@@ -26,6 +26,14 @@ import {
   State as SubjectsState
 } from './subjects/subjects.reducer';
 import {
+  teacherSubjectsDataReducer,
+  State as TeacherSubjectsState
+} from './teacher-subjects/teacher-subjects.reducer';
+import {
+  teacherJournalsDataReducer,
+  State as TeacherJournalsState
+} from './teacher-journals/teacher-journals.reducer';
+import {
   studentsReducer,
   State as StudentsState
 } from './students/students.reducer';
@@ -38,6 +46,8 @@ export interface State {
   schedule: ScheduleState;
   teachers: TeachersState;
   subjects: SubjectsState;
+  teacherSubjects: TeacherSubjectsState;
+  teacherJournals: TeacherJournalsState;
   diary: DiaryState;
   chart: ChartState;
   currentUser: currentUserState;
@@ -56,6 +66,8 @@ export const reducers: ActionReducerMap<any> = {
   currentUser: currentUserReducer,
   router: routerReducer,
   subjects: subjectsDataReducer,
+  teacherSubjects: teacherSubjectsDataReducer,
+  teacherJournals: teacherJournalsDataReducer,
   diary: diaryReducer,
   students: studentsReducer,
   classes: classesReducer,

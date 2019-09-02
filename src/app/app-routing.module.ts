@@ -2,7 +2,7 @@ import { NewYearComponent } from './containers/new-year/new-year.component';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NotFoundComponent } from 'src/app/pages/not-found/not-found.component';
+
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -19,6 +19,8 @@ import { ClassesComponent } from './containers/classes/classes.component';
 import { TeachersContainerComponent } from './containers/teachers-container/teachers-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -43,11 +45,11 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        component: TemporaryComponent
+        component: TeacherSubjectsComponent
       },
       {
         path: 'journal',
-        component: TeacherSubjectsComponent
+        component: TeacherJournalsComponent
       },
       {
         path: 'statistics',
