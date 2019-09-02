@@ -43,8 +43,8 @@ export class TeacherJournalsComponent implements OnInit {
     }
   }
 
-  ngOnInit(){    
+  ngOnInit(){
     this.getJournals();
-  } 
+  }
 
 }

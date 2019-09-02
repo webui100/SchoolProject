@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'localeHeader'
 })
 export class LocaleHeaderPipe implements PipeTransform {
-  transform(value: string): any {
+  transform(value: string): string {
     switch (value) {
       case 'firstname':
         return 'Ім\'я';

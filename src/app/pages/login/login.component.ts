@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  error: string;
+  private error: string;
 
   constructor(private auth: AuthService) {
   }
