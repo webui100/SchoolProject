@@ -1,4 +1,55 @@
+form {
+  width: 100vw;
+}
+.avatar,
+.avatar-hover {
+  height: 150px;
+  width: 150px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+}
 .avatar {
-  max-width: 150px;
-  max-height: 150px;
+  position: relative;
+  &:hover {
+    .avatar-hover {
+      visibility: visible;
+    }
+  }
+}
+.avatar-hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+  background: rgba(52, 73, 94, 0.5);
+  img {
+    width: 35%;
+    height: 35%;
+  }
+}
+
+button {
+  border: none;
+  background: #404040;
+  color: #ffffff;
+  font-weight: 100;
+  padding: 20px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  &:hover {
+    color: #404040;
+    font-weight: 700;
+    letter-spacing: 3px;
+    background: none;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    transition: all 0.3s ease 0s;
+  }
 }
