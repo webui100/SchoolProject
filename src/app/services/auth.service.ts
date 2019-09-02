@@ -11,6 +11,7 @@ import { takeUntil, tap} from 'rxjs/operators';
 
 import {timer} from 'rxjs/internal/observable/timer';
 import {Subject} from 'rxjs/internal/Subject';
+import { Logout } from '../store/logout.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +83,8 @@ export class AuthService implements OnDestroy{
   signOut() {
     localStorage.removeItem('token');
     this.router.navigate(['']);
-    this.store.dispatch(login({role: null, id: null}));
+    this.store.dispatch(new Logout());
+    // this.store.dispatch(login({role: null, id: null}));
     sessionStorage.removeItem('role');
   }
 

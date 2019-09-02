@@ -71,6 +71,7 @@ import { NewYearControllComponent } from './components/new-year-controll/new-yea
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+import { clearState } from './store/logout.reducer';
 
 
 @NgModule({
@@ -140,13 +141,15 @@ import { StudentProfileComponent } from './containers/student-profile/student-pr
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
-    StoreModule.forRoot(reducers, {
-      metaReducers
+    StoreModule.forRoot(reducers, { metaReducers: [clearState] }
+      // {
+      // metaReducerss
       // runtimeChecks: {
       //   strictStateImmutability: true,
       //   strictActionImmutability: true
       // }
-    }),
+    // }
+    ),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

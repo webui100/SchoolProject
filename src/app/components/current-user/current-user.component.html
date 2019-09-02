@@ -7,8 +7,8 @@
     <p>{{currentUserData.login}}</p>
     <h4>{{_currentUser.userRole()}}</h4>
     <br>
-      <!-- <div *ngIf = "!_currentUser.isAdmin()"> -->
-        <div *ngIf = "_currentUser.isStudent()"> 
+      <div *ngIf = "!_currentUser.isAdmin()">
+        <!-- <div *ngIf = "_currentUser.isStudent()">  -->
         <button mat-raised-button (click)="openDialog($event)">Редагувати профіль</button>
       </div>
     <br>  
