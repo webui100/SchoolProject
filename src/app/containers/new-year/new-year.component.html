@@ -1,28 +1,45 @@
 <div class="table-container">
-  <table class="active-table" mat-table [dataSource]="transferList$ | async" multiTemplateDataRows>
+  <webui-new-year-controll [classesYears]="classesYears$ | async" (emitYear)="yearSubject$.next($event)"
+    [currentYear]="year" (emitWithStudents)="isWithStudentsSubject$.next($event)">
+  </webui-new-year-controll>
+
+  <table class="active-table" mat-table [dataSource]="transferClassesData" multiTemplateDataRows
+    *ngIf="transferClassesData.filteredData.length > 0; else noClasses">
 
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-raised-button color="accent" (click)="transferAllClasses()">
+        <button mat-raised-button color="accent" (click)="transferAllClasses(yearSubject$.value)">
           Перевести всі
         </button>
       </th>
       <td mat-cell *matCellDef="let element">
         <button mat-raised-button color="primary" click-stop-propagation
-          (click)='transferClassesFunc([element])'>Перевести</button>
+          (click)="transferClassesFunc([element], yearSubject$.value)">
+          Перевести
+        </button>
       </td>
     </ng-container>
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Клас </th>
-      <td mat-cell *matCellDef="let element"> {{element.className}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        Клас
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.className}}
+      </td>
     </ng-container>
     <ng-container matColumnDef="number">
-      <th mat-header-cell *matHeaderCellDef> Кількість учнів </th>
-      <td mat-cell *matCellDef="let element"> {{element.numOfStudents}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        Кількість учнів
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.numOfStudents}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="newClassName">
-      <th mat-header-cell *matHeaderCellDef> Новий клас </th>
+      <th mat-header-cell *matHeaderCellDef>
+        Новий клас
+      </th>
       <td mat-cell *matCellDef="let element">
         {{generateClassName(element.className) | isGraduation}}
       </td>
@@ -30,7 +47,7 @@
 
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-raised-button color="accent" (click)="transferSelectdClasses()">
+        <button mat-raised-button color="accent" (click)="transferSelectdClasses(yearSubject$.value)">
           Перевести вибрані
         </button>
       </th>
@@ -50,16 +67,25 @@
       </td>
     </ng-container>
 
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row"
-      [class.expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-    </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    <tbody>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row"
+        [class.expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </tbody>
   </table>
+  <mat-paginator [pageSizeOptions]="[8, 20, 40]" showFirstLastButtons></mat-paginator>
 
 </div>
+
+<ng-template #noClasses>
+  <mat-spinner class="new-year-spinner" *ngIf="isLoading; else noClassesTitle"></mat-spinner>
+  <ng-template #noClassesTitle>
+    <div class="info-title">В цьому році відсутні класи для переведення</div>
+  </ng-template>
+</ng-template>
 <webui-transfered-classes-table [transferedClasses]='transferedClasses$ | async'>
 
 </webui-transfered-classes-table>

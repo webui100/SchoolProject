@@ -12,3 +12,7 @@ export const updateStudentsAction = createAction(
   "[Students Page] UpdateStudent",
   props<{ editedStudent: any }>()
 );
+export const deleteStudentAction = createAction(
+  "[Students Page] DeleteStudent",
+  props<{ deleteStudent: number }>()
+);

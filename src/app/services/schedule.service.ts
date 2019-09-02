@@ -5,6 +5,11 @@ import { HttpClient } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
 import { setSchedule, setClearedSchedule, setSavedSchedule } from '../store/schedule/schedule.actions';
 import { NotificationService } from './notification.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { listValidation } from 'src/app/containers/schedule/validators.directive';
+import { Subscription } from 'rxjs';
+import { selectTeachers } from '../store/teachers/teachers.selector';
+import { selectAllSubjects } from '../store/subjects/subjects.selector';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +23,54 @@ export class ScheduleService {
   academicYearsStart: number;
   firstTermMinStart: Date;
 
-  constructor(private http: HttpClient,
+  teachersTemp$: any;
+  subjectsTemp$: any;
+  subjectsSubscription: Subscription;
+  teachersSubscription: Subscription;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
     private notify: NotificationService,
-    private store: Store<{ schedule }>) { }
+    private store: Store<{ schedule }>,
+    private storeSubjects: Store<{ subjects }>,
+    private storeTeachers: Store<{ teachers }>) {
+    this.teachersTemp$ = this.storeTeachers.pipe(select(selectTeachers));
+    this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
+  }
 
   // getSchedule(classId) {
   //   return this.http.get(`${this.BASE_URI}classes/${classId}/schedule`)
   //     .subscribe(res => this.store.dispatch(getSchedule(classId)));
   // }
+
+  getSubjects() {
+    const subjects = [];
+    this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
+      for (const key in res) {
+        if (res.hasOwnProperty(key)) {
+          subjects.push(res[key]);
+        }
+      }
+    });
+    return subjects
+  }
+
+  getTeachers() {
+    const teachers = [];
+    this.teachersSubscription = this.teachersTemp$.subscribe(res => {
+      for (const key in res) {
+        if (res.hasOwnProperty(key)) {
+          const teacher = res[key];
+          teachers.push({
+            fullName: `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`,
+            id: teacher.id
+          });
+        }
+      }
+    });
+    return teachers
+  }
 
   setScheduleToStore(form: any) {
     this.store.dispatch(setSchedule(form))
@@ -122,7 +167,7 @@ export class ScheduleService {
     const uniqueTeacherSubjectsArray = [...uniqueTeacherSubjects];
     const classId = form.class.id;
     for (let i = 0; i < uniqueTeacherSubjectsArray.length; i++) {
-      const teacherId = parseInt((uniqueTeacherSubjectsArray[i]as string).slice(uniqueTeacherSubjectsArray[i].indexOf('-') + 1));
+      const teacherId = parseInt((uniqueTeacherSubjectsArray[i]as string).slice((uniqueTeacherSubjectsArray[i] as string).indexOf('-') + 1));
       const subjectId = parseInt(uniqueTeacherSubjectsArray[i]as string);
       this.postRequestTeacherToJournal(teacherId, classId, subjectId);
     }
@@ -144,7 +189,7 @@ export class ScheduleService {
       });
   }
 
-  createYearsList() {
+  createYear() {
     this.academicYearsStart = this.currentMonth < 7 ? this.currentYear - 1 : this.currentYear;
     return this.academicYearsStart;
   }
@@ -196,6 +241,28 @@ export class ScheduleService {
       minStart: this.firstTermMinStart,
       maxEnd: new Date(this.academicYearsStart + 1, 6, 31)
     };
+    if (defaultDates.minStart > defaultDates.start) {
+      defaultDates.start = defaultDates.minStart
+    }
     return defaultDates;
   }
+
+  buildScheduleForm(terms, classes) {
+    return this.formBuilder.group({
+      term: this.formBuilder.control('', [Validators.required, listValidation(terms)]),
+      class: this.formBuilder.control('', [Validators.required, listValidation(classes)]),
+      year: this.formBuilder.control(''),
+      termStartDate: this.formBuilder.control(''),
+      termEndDate: this.formBuilder.control(''),
+      scheduleForWeek: this.formBuilder.group({
+        monday: this.formBuilder.array([]),
+        tuesday: this.formBuilder.array([]),
+        wednesday: this.formBuilder.array([]),
+        thursday: this.formBuilder.array([]),
+        friday: this.formBuilder.array([]),
+        saturday: this.formBuilder.array([]),
+      }),
+    });
+  }
 }
+

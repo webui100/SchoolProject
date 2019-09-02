@@ -5,8 +5,7 @@ import {selectId, selectRole} from '../store/login/login.selectors';
 import {environment} from '../../environments/environment';
 import {every, flatMap, map, switchMap, tap} from 'rxjs/operators';
 import {currentUserAction} from '../store/current/current-user.action';
-import {DomSanitizer} from '@angular/platform-browser';
-import * as AdminData from './../models/admin-data';
+import { adminData } from './../models/admin-data';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +20,14 @@ export class CurrentUserService {
 
   constructor(private http: HttpClient,
               private store: Store<{ user }>,
-              private sanitizer: DomSanitizer) {
-    this.role$ = this.store.pipe(select(selectRole)).subscribe((data) => this.role = data);
-    this.id$ = this.store.pipe(select(selectId)).subscribe((data) => this.id = data);
+              ) {
+    this.role$ = this.store.select(selectRole).subscribe((data) => this.role = data);
+    this.id$ = this.store.select(selectId).subscribe((data) => this.id = data);
   }
 
   getCurrentUser() {
-    if (this.role === 'ROLE_ADMIN') {
-      this.store.dispatch(currentUserAction({ currentUserData: AdminData.adminData }));
+    if (this.isAdmin()) {
+      this.store.dispatch(currentUserAction({ currentUserData: adminData }));
     } else {
       let userUri = '';
       if (this.role === 'ROLE_TEACHER') {
@@ -54,8 +53,21 @@ export class CurrentUserService {
     }
   }
 
-  imageTransform(stringImg) {
-      return this.sanitizer.bypassSecurityTrustResourceUrl(stringImg);
+  isAdmin(): boolean {
+    if (this.role === 'ROLE_ADMIN') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // temporary func
+  isStudent():boolean {
+    if (this.role === 'ROLE_USER') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

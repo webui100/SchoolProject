@@ -1,0 +1,60 @@
+:host {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+table {
+  max-width: 900px;
+  width: 100%;
+  margin: 1rem 0;
+  position: relative;
+  padding-top: 10px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background-color: #673ab7;
+  }
+}
+form {
+  max-width: 900px;
+  width: 100%;
+  background-color: #f8f8f8;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
+
+mat-form-field {
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  margin-left: 10px;
+
+  & > button:enabled {
+    background-color: #673ab7;
+    color: white !important;
+  }
+}
+
+
+@media (min-width: 798px) {
+  form {
+    flex-direction: row;
+  }
+
+}

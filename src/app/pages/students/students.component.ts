@@ -37,7 +37,7 @@ import {
 export class StudentsComponent implements OnInit {
   private data: MatTableDataSource<Object>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private columnsToDisplay = ["lastname", "firstname", "patronymic"];
+  private columnsToDisplay = ["lastname", "firstname", "patronymic", "delete"];
 
   private expandedElement: Student | null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -49,16 +49,7 @@ export class StudentsComponent implements OnInit {
       this.data.paginator.firstPage();
     }
   }
-  dataHeader(header) {
-    switch (header) {
-      case "firstname":
-        return "Ім'я";
-      case "lastname":
-        return "Прізвище";
-      case "patronymic":
-        return "По-батькові";
-    }
-  }
+
   constructor(
     private studentsService: StudentsService,
     private store: Store<{ students }>
@@ -74,6 +65,9 @@ export class StudentsComponent implements OnInit {
         this.data.sort = this.sort;
       }
     });
+  }
+  private onDelete(id: number) {
+    this.studentsService.deleteStudent(id);
   }
   ngOnInit() {
     this.loadStudents();

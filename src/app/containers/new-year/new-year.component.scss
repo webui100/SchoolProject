@@ -1,3 +1,5 @@
+$base-background: #673ab7;
+
 table {
   width: 100%;
 }
@@ -20,7 +22,6 @@ td {
   padding-top: 0;
   margin-top: 10px;
   position: relative;
-  max-height: 550px;
   overflow: auto;
 }
 
@@ -62,7 +63,15 @@ webui-transfer-students-table {
   width: 100%;
 }
 
-.active-table {
-  height: 60vh !important;
+.info-title {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $base-background;
+  color: white;
 }
 
+.new-year-spinner {
+  margin: 1rem auto;
+}

@@ -9,11 +9,12 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { PdfViewerModule } from "ng2-pdf-viewer";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./pages/login/login.component";
 
-import { TeachersComponent } from "./containers/teachers/teachers.component";
+import { TeachersComponent } from "./components/teachers/teachers.component";
 import { AdminComponent } from "./pages/admin/admin.component";
 
 import { reducers, metaReducers } from "./store";
@@ -29,7 +30,6 @@ import {
 import { CustomSerializer } from "./store/router.reducer";
 
 import { CurrentUserComponent } from "./components/current-user/current-user.component";
-import { CurrentUserService } from "./services/current-user.service";
 import { HeaderComponent } from "./components/header/header.component";
 
 import { MainNavComponent } from "./components/main-nav/main-nav.component";
@@ -37,10 +37,10 @@ import { MatListModule, MatDialogModule } from "@angular/material";
 import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
 import { ChartsModule } from "ng2-charts";
 import "hammerjs";
-import { TeacherCardComponent } from "./containers/teachers/teacher-card/teacher-card.component";
+import { TeacherCardComponent } from "./components/teachers/teacher-card/teacher-card.component";
 import { ErrorService } from "./services/error.service";
 import { StudentDiaryComponent } from "./containers/student-diary/student-diary.component";
-import { TeacherCreateComponent } from "./containers/teachers/teacher-create/teacher-create.component";
+import { TeacherCreateComponent } from "./components/teachers/teacher-create/teacher-create.component";
 import { TemporaryComponent } from "./components/temporary/temporary.component";
 import { MaterialModule } from "./modules/material/material.module";
 import { ChartComponent } from "./components/chart/chart.component";
@@ -51,18 +51,25 @@ import { CreateStudentComponent } from "./pages/students/create-student/create-s
 import { SubjectsComponent } from "./containers/subjects/subjects.component";
 import { StudentComponent } from "./pages/student/student.component";
 import { CountBarComponent } from "./components/count-bar/count-bar.component";
+import { HomeworkDialogComponent } from "./components/homework-dialog/homework-dialog.component";
 import { NewYearComponent } from "./containers/new-year/new-year.component";
 import { TransferStudentsTableComponent } from "./components/transfer-students-table/transfer-students-table.component";
-import { TeachersContainerComponent } from "./components/teachers-container/teachers-container.component";
+import { TeachersContainerComponent } from "./containers/teachers-container/teachers-container.component";
 import { SortButtonComponent } from "./components/sort-button/sort-button.component";
 import { TransferedClassesTableComponent } from "./components/transfered-classes-table/transfered-classes-table.component";
 import { IsGraduationPipe } from "./pipes/is-graduation.pipe";
 import { ModalDialogComponent } from "./components/modal-dialog/modal-dialog.component";
-import { TeacherJournalComponent } from "./containers/teachers/teacher-journal/teacher-journal.component";
-import { TeacherDetailContainerComponent } from "./containers/teachers/teacher-detail-container/teacher-detail-container.component";
+import { TeacherJournalComponent } from "./containers/teacher-journal/teacher-journal.component";
+import { TeacherDetailContainerComponent } from "./components/teachers/teacher-detail-container/teacher-detail-container.component";
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
 import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
+import { TeacherJournalsComponent } from "./containers/teacher-journals/teacher-journals.component";
+import { NotFoundComponent } from "./pages/not-found/not-found.component";
+import { NewYearControllComponent } from "./components/new-year-controll/new-year-controll.component";
+import { NewYearPipe } from "./pipes/new-year.pipe";
+import { LocaleHeaderPipe } from "./pipes/locale-header.pipe";
+import { StudentProfileComponent } from "./containers/student-profile/student-profile.component";
 import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
 import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
 
@@ -91,6 +98,7 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
     FormGeneratorComponent,
     ClassesComponent,
     CountBarComponent,
+    HomeworkDialogComponent,
     NewYearComponent,
     TransferStudentsTableComponent,
     TeachersContainerComponent,
@@ -102,9 +110,19 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
     TeacherComponent,
+    NotFoundComponent,
+    NewYearControllComponent,
+    TeacherComponent,
     TeacherNavComponent,
     TeacherSubjectsComponent,
-    UrlSanitizerPipe
+    UrlSanitizerPipe,
+    TeacherJournalsComponent,
+    NotFoundComponent,
+    NewYearControllComponent,
+    TeacherComponent,
+    NewYearPipe,
+    LocaleHeaderPipe,
+    StudentProfileComponent
   ],
   imports: [
     ChartsModule,
@@ -117,6 +135,7 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    PdfViewerModule,
     MaterialModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
@@ -141,6 +160,11 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalDialogComponent, TeachersComponent]
+  entryComponents: [
+    ModalDialogComponent,
+    TeachersComponent,
+    TemporaryComponent,
+    HomeworkDialogComponent
+  ]
 })
 export class AppModule {}

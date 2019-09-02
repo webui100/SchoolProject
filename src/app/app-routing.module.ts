@@ -8,18 +8,20 @@ import { LoginComponent } from "./pages/login/login.component";
 import { AdminComponent } from "./pages/admin/admin.component";
 import { TemporaryComponent } from "./components/temporary/temporary.component";
 import { StudentDiaryComponent } from "./containers/student-diary/student-diary.component";
+import { StudentProfileComponent } from "./containers/student-profile/student-profile.component";
 import { AdminGuard } from "./services/guards/admin.guard";
 import { TeacherGuard } from "./services/guards/teacher.guard";
 import { StudentGuard } from "./services/guards/student.guard";
 import { LoginGuard } from "./services/guards/login.guard";
 import { SubjectsComponent } from "./containers/subjects/subjects.component";
 import { StudentsComponent } from "./pages/students/students.component";
-import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
 import { StudentComponent } from "./pages/student/student.component";
 import { ClassesComponent } from "./containers/classes/classes.component";
-import { TeachersContainerComponent } from "./components/teachers-container/teachers-container.component";
+import { TeachersContainerComponent } from "./containers/teachers-container/teachers-container.component";
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
+import { TeacherJournalsComponent } from "./containers/teacher-journals/teacher-journals.component";
+import { NotFoundComponent } from "./pages/not-found/not-found.component";
 
 const routes: Routes = [
   {
@@ -43,11 +45,11 @@ const routes: Routes = [
       },
       {
         path: "home",
-        component: TemporaryComponent
+        component: TeacherSubjectsComponent
       },
       {
         path: "journal",
-        component: TeacherSubjectsComponent
+        component: TeacherJournalsComponent
       },
       {
         path: "statistics",
@@ -67,7 +69,21 @@ const routes: Routes = [
     path: "student",
     component: StudentComponent,
     canActivate: [StudentGuard],
-    children: [{ path: "diary", component: StudentDiaryComponent }]
+    children: [
+      {
+        path: "",
+        redirectTo: "diary",
+        pathMatch: "full"
+      },
+      {
+        path: "diary",
+        component: StudentDiaryComponent
+      },
+      {
+        path: "profile",
+        component: StudentProfileComponent
+      }
+    ]
   },
   {
     path: "admin",
@@ -108,6 +124,11 @@ const routes: Routes = [
         component: NewYearComponent
       }
     ]
+  },
+  // після цього роута, нічого не додавати!
+  {
+    path: "**",
+    component: NotFoundComponent
   }
 ];
 

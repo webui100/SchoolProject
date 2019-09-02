@@ -5,12 +5,17 @@ import { map, tap, catchError } from "rxjs/operators";
 import {
   getStudentsAction,
   createStudentsAction,
-  updateStudentsAction
+  updateStudentsAction,
+  deleteStudentAction
 } from "../store/students/students.action";
 import { Store } from "@ngrx/store";
 import { environment } from "../../environments/environment";
 import { NotificationService } from "./notification.service";
 import { renameKeys } from "../utilities/data-normalize-utils";
+interface Ihttp {
+  data: Object;
+  status;
+}
 @Injectable({
   providedIn: "root"
 })
@@ -28,13 +33,13 @@ export class StudentsService {
   //Gets all students from class (id paramether)
   getStudents(id) {
     return this.http
-      .get(`${this.BASE_URL}students/classes/${id}`)
+      .get<Ihttp>(`${this.BASE_URL}students/classes/${id}`)
       .subscribe(res => {
         if (res["status"].code == 200) {
-          this.store.dispatch(getStudentsAction({ students: res["data"] }));
+          this.store.dispatch(getStudentsAction({ students: res.data }));
         } else {
           this.notify.notifyFailure(
-            `Помилка завантаження учнів. Статус: ${res["status"].code}`
+            `Помилка завантаження учнів. Статус: ${res.status.code}`
           );
         }
       });
@@ -42,7 +47,7 @@ export class StudentsService {
   //updates student data
   updateStudentData(data, id) {
     return this.http
-      .put(`${this.BASE_URL}admin/students/${id}`, data, {
+      .put<Ihttp>(`${this.BASE_URL}admin/students/${id}`, data, {
         headers: new HttpHeaders({
           "Content-Type": "application/json",
           Accept: "application/json, text/plain, */*",
@@ -55,7 +60,7 @@ export class StudentsService {
           this.notify.notifySuccess("Учень редагований");
           this.store.dispatch(
             updateStudentsAction({
-              editedStudent: renameKeys(this.newKeys, res.body["data"])
+              editedStudent: renameKeys(this.newKeys, res.body.data)
             })
           );
         } else {
@@ -68,7 +73,7 @@ export class StudentsService {
   //Creates student
   createStudent(data) {
     return this.http
-      .post(`${this.BASE_URL}students`, data, {
+      .post<Ihttp>(`${this.BASE_URL}students`, data, {
         observe: "response"
       })
       .subscribe(res => {
@@ -76,12 +81,21 @@ export class StudentsService {
           this.notify.notifySuccess("Учень доданий");
           this.store.dispatch(
             createStudentsAction({
-              createdStudent: renameKeys(this.newKeys, res.body["data"])
+              createdStudent: renameKeys(this.newKeys, res.body.data)
             })
           );
         } else {
           this.notify.notifyFailure(`Помилка додавання. Статус: ${res.status}`);
         }
+      });
+  }
+  deleteStudent(id) {
+    return this.http
+      .patch<Ihttp>(`${this.BASE_URL}users/${id}`, { observe: "response" })
+      .subscribe(res => {
+        this.notify.notifySuccess("Успішно видалено");
+        this.store.dispatch(deleteStudentAction({ deleteStudent: id }));
+        this.getStudents(17);
       });
   }
 }

@@ -9,6 +9,12 @@
 table {
   width: 100%;
 }
+mat-icon {
+  cursor: pointer;
+  &:hover {
+    color: #d63031;
+  }
+}
 .search {
   height: 50px;
   width: 100%;

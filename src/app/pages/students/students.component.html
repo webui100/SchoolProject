@@ -25,9 +25,16 @@
       *ngFor="let column of columnsToDisplay"
     >
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ dataHeader(column) }}
+        {{ column | localeHeader }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element[column] }}
+        <mat-icon
+          *ngIf="column == 'delete'"
+          (click)="onDelete(element.id); $event.stopPropagation()"
+          >delete_outline</mat-icon
+        >
+      </td>
     </ng-container>
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
