@@ -61,4 +61,13 @@ export class CurrentUserService {
     }
   }
 
+  // temporary func
+  isStudent():boolean {
+    if (this.role === 'ROLE_USER') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
