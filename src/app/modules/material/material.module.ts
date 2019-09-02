@@ -23,14 +23,11 @@ import {
   MatRadioModule,
   MatExpansionModule,
   MatAutocompleteModule,
-  MAT_DATE_LOCALE,
-  DateAdapter,
-  MAT_DATE_FORMATS,
   MatButtonToggleModule
 } from '@angular/material';
-import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { ReactiveFormsModule } from '@angular/forms';
 
-const MaterialComponents = [
+export const MaterialComponents = [
   MatSelectModule,
   MatOptionModule,
   MatFormFieldModule,
@@ -66,16 +63,13 @@ const MaterialComponents = [
   MatSelectModule,
   MatExpansionModule,
   MatAutocompleteModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  ReactiveFormsModule,
 ];
 
 @NgModule({
   imports: [MaterialComponents],
   exports: [MaterialComponents],
-  providers: [
-    // { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    // { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    // { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ]
+  providers: []
 })
 export class MaterialModule {}

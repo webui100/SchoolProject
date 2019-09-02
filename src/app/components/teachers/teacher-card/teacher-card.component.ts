@@ -25,13 +25,13 @@ export class TeacherCardComponent implements OnInit {
   private fileToUpload: string | ArrayBuffer;
   private avatarImg: string | ArrayBuffer;
   private maxAge =  addYears(new Date(), -18); // this.teachServise.checkAgeDate();
-  private editTeacher: AbstractControl;
+  public editTeacher;
   private subscriptAvatar: Subscription;
 
-  constructor(private teachServise: TeachersService,
-              private validServ: ValidationService,
-              private formBuilder: FormBuilder,
-              private notify: NotificationService) {
+  constructor(private teachServise?: TeachersService,
+              private validServ?: ValidationService,
+              private formBuilder?: FormBuilder,
+              private notify?: NotificationService) {
               }
 
   handleFileInput(event: any): void {
