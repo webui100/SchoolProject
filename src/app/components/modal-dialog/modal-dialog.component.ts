@@ -1,5 +1,5 @@
 import { TeachersService } from './../../services/teachers.service';
-import { TeachersComponent } from './../../containers/teachers/teachers.component';
+import { TeachersComponent } from '../teachers/teachers.component';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 

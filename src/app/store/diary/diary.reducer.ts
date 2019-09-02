@@ -1,23 +1,23 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { fetchDiary } from './diary.actions';
-import { Diary } from '../../models/diary.model';
+import { Lesson } from '../../models/diary.model';
 
-export interface State {
-  diary: Diary;
+export interface DiaryState {
+  lessons: Lesson[];
 }
 
-export const initialState: State = {
-  diary: null
+export const initialState: DiaryState = {
+  lessons: null
 };
 
 const reducer = createReducer(
   initialState,
-  on(fetchDiary, (state, { diary }) => ({
+  on(fetchDiary, (state, { lessons }) => ({
     ...state,
-    diary
+    lessons
   }))
 );
 
-export function diaryReducer(state: State | undefined, action: Action) {
+export function diaryReducer(state: DiaryState | undefined, action: Action) {
   return reducer(state, action);
 }

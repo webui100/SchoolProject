@@ -1,13 +1,18 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, LOCALE_ID } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DateAdapter } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 
+import { HomeworkDialogComponent } from '../../components/homework-dialog/homework-dialog.component';
+import { Lesson } from '../../models/diary.model';
 import { StudentDiaryService } from '../../services/student-diary.service';
-import { selectDiary } from '../../store/diary/diary.selectors';
-import { Diary } from '../../models/diary.model';
+import { StudentProfileService } from '../../services/student-profile.service';
+import { selectLessons } from '../../store/diary/diary.selectors';
 
 
 @Component({
@@ -16,31 +21,38 @@ import { Diary } from '../../models/diary.model';
   styleUrls: ['./student-diary.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'uk'}]
 })
-export class StudentDiaryComponent implements OnInit {
-  diary?: Diary;
-  dateValue = this.getStartOfWeek();
-  weekDays: Date[];
-  dayNumbers: number[];
-  showDiary: boolean;
-  availableDays?: number[];
+export class StudentDiaryComponent implements OnInit, OnDestroy {
+
+  private diary$: Observable<Lesson[]>;
+  private destroyStream$ = new Subject<void>();
+  private dateValue = this.getStartOfWeek();
+  private weekDays: Date[];
+  public dayNumbers: number[];
+  private showDiary?: boolean;
+  private  availableDays?: number[];
 
   constructor(
     private studentDiary: StudentDiaryService,
+    private studentProfile: StudentProfileService,
     private store: Store<{ diary }>,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    public dialog: MatDialog
   ) {
-    this.store.pipe(select(selectDiary)).subscribe(data => {
-      this.diary = data.diary;
-      this.showDiary = data.diary && !!this.diary.data.length;
-      if (data.diary) {
-        this.availableDays = [];
-        this.diary.data.map(item => {
-          if (!this.availableDays.includes(item.date[2])) {
-            this.availableDays.push(item.date[2]);
-          }
-        });
-      }
-    });
+    this.diary$ = this.store.pipe(select(selectLessons));
+    this.store.pipe(select(selectLessons))
+      .pipe(takeUntil(this.destroyStream$))
+      .subscribe(lessons => {
+        this.showDiary = !!(lessons && lessons.length);
+        if (lessons) {
+          this.availableDays = [];
+          lessons.map(lesson => {
+            if (!this.availableDays.includes(lesson.date[2])) {
+              this.availableDays.push(lesson.date[2]);
+            }
+          });
+        }
+      });
+    this.studentProfile.fetchProfile();
   }
 
   getStartOfWeek() {
@@ -49,7 +61,7 @@ export class StudentDiaryComponent implements OnInit {
     return setDate(today, getDate(today) - weekDaysPassed);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     registerLocaleData(localeUk);
     this.dateAdapter.setLocale('uk');
     this.dateAdapter.getFirstDayOfWeek = () => 1;
@@ -57,34 +69,38 @@ export class StudentDiaryComponent implements OnInit {
     this.setWeekDays();
   }
 
-  fetchDiary() {
+  ngOnDestroy(): void {
+    this.destroyStream$.next();
+  }
+
+  fetchDiary(): void {
     this.studentDiary.fetchStudentDiary(this.dateValue);
     this.setWeekDays();
   }
 
-  setWeekDays() {
+  setWeekDays(): void {
     this.weekDays = new Array(6).fill('');
     this.weekDays.map((item, i, arr) => arr[i] = addDays(new Date(this.dateValue), i));
     this.dayNumbers = new Array(6).fill('');
     this.dayNumbers.map((item, i, arr) => arr[i] = getDate(new Date(this.weekDays[i])));
   }
 
-  selectPreviousWeek() {
+  selectPreviousWeek(): void {
     this.dateValue = subDays(new Date(this.dateValue), 7);
     this.fetchDiary();
   }
 
-  selectNextWeek() {
+  selectNextWeek(): void {
     this.dateValue = addDays(new Date(this.dateValue), 7);
     this.fetchDiary();
   }
 
-  selectCurrentWeek() {
+  selectCurrentWeek(): void {
     this.dateValue = this.getStartOfWeek();
     this.fetchDiary();
   }
 
-  selectDay() {
+  selectDay(): void {
     this.fetchDiary();
   }
 
@@ -93,7 +109,19 @@ export class StudentDiaryComponent implements OnInit {
     return day === 1;
   }
 
-  downloadFile(lessonId) {
-    this.studentDiary.fetchHomeworkFile(lessonId);
+  downloadFile(lessonId): void {
+    this.studentDiary.downloadHomeworkFile(lessonId);
+  }
+
+  openFile(lessonId): void {
+    this.studentDiary.openHomeworkFile(lessonId)
+      .subscribe(data => {
+        this.dialog.open(HomeworkDialogComponent, {
+          panelClass: 'custom-dialog-container',
+          width: '90vw',
+          height: '80vh',
+          data
+        });
+      });
   }
 }
