@@ -1,15 +1,49 @@
-mat-table {
-    display: flex;
-    flex-direction: column;
+.mainExpansion{
+    max-width: 90%;
+    margin: 15px auto;
+  }
+
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: #673ab7;
+  width: 90%;
+  color: white;
+  padding: 1rem 0;
+  align-self: center;
+  margin-top: 1rem;
+  text-align: center;
+  margin: 15px auto;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
 }
 
-mat-table .mat-header-row,
-mat-table .mat-row{
-display: flex;
-flex-direction: row;
+table {
+  width: 100%;
 }
 
-mat-table .mat-header-row > .mat-header-cell, 
-mat-table .mat-row > .mat-cell{
-flex: 1 1 auto;
+tr.detail-row {
+  height: 0;
 }
+
+tr.class-row:not(.expanded-row):hover {
+  background: #683ab756;
+}
+
+.class-row td {
+  border-bottom-width: 0;
+  width: 33%
+}
+
+.class-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.class-description {
+  padding: 16px;
+}
+// -------------------------------------------------------------testing exp table

@@ -50,6 +50,7 @@ import { UpdateStudentComponent } from "./pages/students/update-student/update-s
 import { CreateStudentComponent } from "./pages/students/create-student/create-student.component";
 import { SubjectsComponent } from "./containers/subjects/subjects.component";
 import { StudentComponent } from "./pages/student/student.component";
+import { MatTabsModule } from '@angular/material/tabs';
 import { CountBarComponent } from "./components/count-bar/count-bar.component";
 import { HomeworkDialogComponent } from "./components/homework-dialog/homework-dialog.component";
 import { NewYearComponent } from "./containers/new-year/new-year.component";
@@ -137,6 +138,7 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
+    MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
