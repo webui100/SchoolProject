@@ -6,9 +6,9 @@ import { Store, select } from "@ngrx/store";
 import { MatTableDataSource } from '@angular/material';
 
 @Component({
-  selector: 'webui-teacher-subjects',
-  templateUrl: './teacher-subjects.component.html',
-  styleUrls: ['./teacher-subjects.component.scss']
+  selector: "webui-teacher-subjects",
+  templateUrl: "./teacher-subjects.component.html",
+  styleUrls: ["./teacher-subjects.component.scss"]
 })
 
 export class TeacherSubjectsComponent implements OnInit {

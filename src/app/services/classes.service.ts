@@ -1,11 +1,10 @@
 import { NotificationService } from './notification.service';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Observer, Subject } from 'rxjs';
 import { getClassAction } from  '../store/classes/classes.action';
-
 
 @Injectable({
   providedIn: 'root'
