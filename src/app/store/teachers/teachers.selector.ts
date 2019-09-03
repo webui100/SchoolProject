@@ -30,12 +30,8 @@ export const teachersSortByName = createSelector(
   sortOptions,
   (state: ITeacher[], options: ISortOptions) => {
     if (state !== null || undefined) {
-      const filtered = state.filter((el, index) => {
-        if (el !== undefined) {
-          return el;
-        } else {
-          state.splice(index, 1);
-        }
+      const filtered = state.filter((el) => {
+        return el !== undefined;
       });
 
       filtered.sort((a: any, b: any): number => {
