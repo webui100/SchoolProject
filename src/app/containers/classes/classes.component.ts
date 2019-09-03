@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { selectClassesList } from 'src/app/store/classes/classes.selector';
+import { selectClassesAll } from 'src/app/store/classes/classes.selector';
 import { Store, select } from '@ngrx/store';
 import { ClassesService } from '../../services/classes.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -27,7 +27,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
     private classesService: ClassesService,
     private store: Store<{}>,
   ) {
-    this.classes$ = this.store.pipe(select(selectClassesList));
+    this.classes$ = this.store.pipe(select(selectClassesAll));
   }
 
   displayedColumns: string[] = [
