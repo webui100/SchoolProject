@@ -71,6 +71,7 @@ import { NewYearControllComponent } from './components/new-year-controll/new-yea
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+import { TeacherJournalContainerComponent } from './containers/teacher-journal-container/teacher-journal-container.component';
 
 
 @NgModule({
@@ -121,7 +122,8 @@ import { StudentProfileComponent } from './containers/student-profile/student-pr
     TeacherComponent,
     NewYearPipe,
     LocaleHeaderPipe,
-    StudentProfileComponent
+    StudentProfileComponent,
+    TeacherJournalContainerComponent
   ],
   imports: [
     ChartsModule,

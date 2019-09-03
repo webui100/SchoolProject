@@ -3,6 +3,8 @@ import { TeacherCardComponent } from './teacher-card.component';
 import { MaterialComponents } from 'src/app/modules/material/material.module';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { TestStore } from '@testing/utils';
 
 describe('TeacherCardComponent', () => {
   let component: TeacherCardComponent;
@@ -12,8 +14,10 @@ describe('TeacherCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialComponents,
-                HttpClientTestingModule],
+      imports: [
+                MaterialComponents,
+                HttpClientTestingModule
+               ],
       declarations: [ TeacherCardComponent ]
     })
     .compileComponents();
@@ -21,9 +25,9 @@ describe('TeacherCardComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TeacherCardComponent);
+    component = fixture.componentInstance;
     httpClient = TestBed.get(HttpClient);
     httpTestingController = TestBed.get(HttpTestingController);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
