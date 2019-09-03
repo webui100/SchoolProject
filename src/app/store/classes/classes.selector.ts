@@ -4,13 +4,12 @@ import { State as AppState } from '../index';
 import { State as ClassesState } from './classes.reducer';
 
 export const selectClasses = (appState: AppState) => appState.classes;
-export const selectList = (classesState: ClassesState) => classesState.classesList;
+
 export const selectData = (classesState: ClassesState) => groupByStatus(classesState.classesList);
 
 export const selectClassesList = createSelector(
     selectClasses,
-    selectData,
-    selectList
+    selectData
   );
 // Group on active/nonActive
 function groupByStatus(classList){
