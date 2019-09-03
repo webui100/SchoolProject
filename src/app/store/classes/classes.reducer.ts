@@ -1,6 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as ClassData from './classes.action';
-import { map } from 'rxjs/operators';
 
 export interface State {
   classesList: Array<object>;

@@ -22,17 +22,16 @@ import { ScheduleComponent } from './containers/schedule/schedule.component';
 import { DailyScheduleComponent } from './containers/schedule/daily-schedule/daily-schedule.component';
 import { ClassesComponent } from './containers/classes/classes.component';
 
-
 import {
   NavigationActionTiming,
   RouterStateSerializer,
   StoreRouterConnectingModule
 } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router.reducer';
-
+import 'hammerjs';
+import { TeacherJournalContainerComponent } from './containers/teacher-journal-container/teacher-journal-container.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { HeaderComponent } from './components/header/header.component';
-
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { MatListModule, MatDialogModule } from '@angular/material';
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
@@ -47,10 +46,11 @@ import { MaterialModule } from './modules/material/material.module';
 import { ChartComponent } from './components/chart/chart.component';
 import { AuthInterceptor } from './interсeptors/http-interceptor/auth-interceptor';
 import { StudentsComponent } from './pages/students/students.component';
-import { StudentDetailComponent } from './pages/students/student-detail/student-detail.component';
-import { AddStudentComponent } from './pages/students/add-student/add-student.component';
+import { UpdateStudentComponent } from './pages/students/update-student/update-student.component';
+import { CreateStudentComponent } from './pages/students/create-student/create-student.component';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentComponent } from './pages/student/student.component';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { HomeworkDialogComponent } from './components/homework-dialog/homework-dialog.component';
 import { NewYearComponent } from './containers/new-year/new-year.component';
@@ -71,8 +71,8 @@ import { NewYearControllComponent } from './components/new-year-controll/new-yea
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
-import { TeacherJournalContainerComponent } from './containers/teacher-journal-container/teacher-journal-container.component';
-
+import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
+import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 
 @NgModule({
   declarations: [
@@ -93,10 +93,10 @@ import { TeacherJournalContainerComponent } from './containers/teacher-journal-c
     ChartComponent,
     SubjectsComponent,
     StudentsComponent,
-    StudentDetailComponent,
-    AddStudentComponent,
+    CreateStudentComponent,
+    UpdateStudentComponent,
     StudentComponent,
-    AddStudentComponent,
+    FormGeneratorComponent,
     ClassesComponent,
     CountBarComponent,
     HomeworkDialogComponent,
@@ -116,6 +116,7 @@ import { TeacherJournalContainerComponent } from './containers/teacher-journal-c
     TeacherComponent,
     TeacherNavComponent,
     TeacherSubjectsComponent,
+    UrlSanitizerPipe,
     TeacherJournalsComponent,
     NotFoundComponent,
     NewYearControllComponent,
@@ -138,6 +139,7 @@ import { TeacherJournalContainerComponent } from './containers/teacher-journal-c
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
+    MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
@@ -168,4 +170,4 @@ import { TeacherJournalContainerComponent } from './containers/teacher-journal-c
     HomeworkDialogComponent
   ]
 })
-export class AppModule { }
+export class AppModule {}

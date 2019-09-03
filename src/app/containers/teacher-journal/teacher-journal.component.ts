@@ -4,7 +4,7 @@ import { ClassesService } from 'src/app/services/classes.service';
 import ClassModel from 'src/app/models/schoolclass.model';
 import { IBindTeacher } from 'src/app/models/teacher.model';
 import { TeachersService } from 'src/app/services/teachers.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getBindById } from 'src/app/store/teachers/teachers.selector';
 import { FormBuilder, AbstractControl } from '@angular/forms';
@@ -20,6 +20,8 @@ import { Subscription } from 'rxjs';
 })
 export class TeacherJournalComponent implements OnInit, OnDestroy {
   @Input() teacherId: number;
+  @Output() data;
+
   public teacherBindData: IBindTeacher[];
   private teachersBind$: Observable<any>;
   private subjects$: Observable<any>;
