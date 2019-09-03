@@ -7,15 +7,15 @@ export interface RouterStateUrl {
   params: Params;
 }
 
-export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl>{
+export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
-    const {url, root:{queryParams}} = routerState;
+    const {url, root: {queryParams}} = routerState;
     let state: ActivatedRouteSnapshot = routerState.root;
-    while (state.firstChild){
+    while (state.firstChild) {
       state = state.firstChild;
     }
     const {params} = state;
-      return {url, queryParams, params};
+    return {url, queryParams, params};
   }
 
 }

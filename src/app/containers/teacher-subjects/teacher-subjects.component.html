@@ -1,18 +1,28 @@
 <div class="main-container">
+  <!-- Header -->
+  <div class="header mat-elevation-z5">
+    <div><h3>Перелік предметів, які Ви викладаєте:</h3></div>
+  </div>
 
-    <!-- Header -->
-    <div class="header mat-elevation-z5">
-        <img src="../../../assets/images/298731-64.png" alt="" width="40px">
-        <div><h3> Список доступних предметів </h3></div>
-    </div>
-    
-    <!-- Filter -->
-    <div class="filter-container">
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
-        </mat-form-field>
-    </div> 
+  <!-- Table -->
+  <div class="table-container mat-elevation-z2">
+    <table mat-table [dataSource]="teacherSubjectsList">
+      <!-- Name Column -->
+      <ng-container matColumnDef="subjectName">
+        <th mat-header-cell *matHeaderCellDef>Назва предмету</th>
+        <td mat-cell *matCellDef="let subject">{{ subject.subjectName }}</td>
+      </ng-container>
 
-    <!-- Table -->
-      
-</div>  
+      <!-- Info Column -->
+      <ng-container matColumnDef="subjectDescription">
+        <th mat-header-cell *matHeaderCellDef>Додаткова інформація</th>
+        <td mat-cell *matCellDef="let subject">
+          {{ subject.subjectDescription }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
+</div>
