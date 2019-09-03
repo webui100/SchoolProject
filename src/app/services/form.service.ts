@@ -35,6 +35,7 @@ export class FormService {
     Object.keys(form.value).forEach(controlName => {
       form.controls[controlName].patchValue(initialValues[controlName]);
     });
+
     return form;
   }
 
