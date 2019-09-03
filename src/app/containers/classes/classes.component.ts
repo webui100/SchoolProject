@@ -86,12 +86,13 @@ export class ClassesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // get data from endpoint
-    this.classesService.getClasses();
     this.classesSubscription = this.classes$.subscribe(classesList => {
       this.activeUniqueClassList = classesList.activeUniqueClassList;
       this.nonActiveUniqueClassList = classesList.nonActiveUniqueClassList;
     })
+    // get data from endpoint
+    this.classesService.getClasses();
+    
   }
   ngOnDestroy(): void {
     this.classesSubscription.unsubscribe();

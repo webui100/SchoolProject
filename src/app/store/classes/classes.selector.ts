@@ -4,21 +4,22 @@ import { State as AppState } from '../index';
 import { State as ClassesState } from './classes.reducer';
 
 export const selectClasses = (appState: AppState) => appState.classes;
-
+export const selectList = (classesState: ClassesState) => classesState.classesList;
 export const selectData = (classesState: ClassesState) => groupByStatus(classesState.classesList);
 
 export const selectClassesList = createSelector(
     selectClasses,
-    selectData
+    selectData,
+    selectList
   );
-
+// Group on active/nonActive
 function groupByStatus(classList){
   const groupedClasses = {
     activeUniqueClassList: new Map(),
     nonActiveUniqueClassList: new Map()
    } 
     classList.forEach(schoolClass => {
-      const uniqueClassName = getUniqueClassNames(schoolClass);
+      const uniqueClassName = extractClassNumber(schoolClass);
       if (schoolClass.isActive) {
         groupedClasses.activeUniqueClassList.has(uniqueClassName) ?
         groupedClasses.activeUniqueClassList.get(uniqueClassName).push(schoolClass) :
@@ -32,8 +33,8 @@ function groupByStatus(classList){
     });
     return groupedClasses;
   }
-// made in oder to get class name with brackets -  "4(8)" 
-function getUniqueClassNames(schoolClass){
+
+  function extractClassNumber(schoolClass){
     let indexOfDash = schoolClass['className'].indexOf('-');
     if (schoolClass['className'].includes('(')) {
       return schoolClass['className'].substring(0, indexOfDash) + ")"
