@@ -27,12 +27,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .error {
   @extend %notification;
-  background-color: red;
+  background-color: #b22222;
 }
 
 .success {
   @extend %notification;
-  background-color: limegreen;
+  background-color: #5cac2d;
 }
 
 .failure {
@@ -48,4 +48,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     opacity: 1;
   }
 
+}
+
+.mat-drawer {
+  width: 330px;
+  height: 100%;
+}
+
+.custom-dialog-container .mat-dialog-container {
+  padding: 0;
+  overflow: hidden;
 }

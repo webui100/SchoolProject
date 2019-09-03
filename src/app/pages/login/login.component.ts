@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  error: string;
+  private error: string;
 
   constructor(private auth: AuthService) {
   }
@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
 
     const data: { username: string, password: string } = {
-      password: this.login.get('username').value,
-      username: this.login.get('password').value
+      password: this.login.get('password').value,
+      username: this.login.get('username').value
     };
 
     if (this.login.valid) {

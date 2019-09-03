@@ -1,0 +1,20 @@
+.expansion-container {
+  margin: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+td, th {
+  text-align: center !important;
+  width: calc(100% / 6) !important;
+}
+
+th {
+  font-size: .9rem;
+}
+
+td {
+  font-size: .8rem;
+}

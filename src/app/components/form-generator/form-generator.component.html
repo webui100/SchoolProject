@@ -1,0 +1,78 @@
+<form
+  [formGroup]="form"
+  (submit)="onSubmit(resetValidation)"
+  #resetValidation="ngForm"
+>
+  <!-- #formDirective="ngForm" -->
+  <ng-template ngFor let-input [ngForOf]="formPattern">
+    <ng-container [ngSwitch]="input.controlType">
+      <ng-template [ngSwitchCase]="'file'">
+        <div class="image-block">
+        <div
+          class="avatar"
+          [style.background-image]="'url(' + avatar + ')'"
+          alt="avatar"
+          (click)="fileInput.click()"
+        >
+          <div class="avatar-hover">
+            <img src="../../../assets/images/photo-camera.png" alt="" />
+          </div>
+        </div>
+        <input
+          #fileInput
+          [type]="input.valueType"
+          [name]="input.controlName"
+          [formControlName]="input.controlName"
+          (change)="onSelectAvatar($event)"
+          [hidden]="true"
+        />
+      </div>
+      </ng-template>
+      <ng-template [ngSwitchCase]="'text'">
+        <div class="form-group">
+          <mat-form-field>
+            <input
+              matInput
+              [formControlName]="input.controlName"
+              [type]="input.valueType"
+              [name]="input.controlName"
+              [placeholder]="input.placeholder"
+            />
+            <mat-error *ngIf="this.form.get(input.controlName).invalid">{{
+              input.validation.err
+            }}</mat-error>
+          </mat-form-field>
+        </div>
+      </ng-template>
+      <ng-template [ngSwitchCase]="'date'">
+        <div class="form-group">
+          <mat-card-actions>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [formControlName]="input.controlName"
+                [type]="input.valueType"
+                [name]="input.controlName"
+                [placeholder]="input.placeholder"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker
+                #picker
+                startView="year"
+                [startAt]="startDate"
+              ></mat-datepicker>
+              <mat-error *ngIf="this.form.get(input.controlName).invalid">{{
+                input.validation.err
+              }}</mat-error>
+            </mat-form-field>
+          </mat-card-actions>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+  <button type="submit" [disabled]="form.invalid">Зберегти</button>
+</form>

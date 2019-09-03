@@ -1,15 +1,21 @@
+<div class="heading">
+  <div class="students-heading"><h3>Список учнів</h3></div>
+  <div class="search">
+    <mat-form-field>
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Знайти учня"
+      />
+    </mat-form-field>
+  </div>
+  <webui-create-student></webui-create-student>
+</div>
+
 <div class="div-table mat-elevation-z8">
-  <webui-add-student></webui-add-student>
-  <mat-form-field>
-    <input
-      matInput
-      (keyup)="applyFilter($event.target.value)"
-      placeholder="Знайти учня"
-    />
-  </mat-form-field>
   <table
     mat-table
-    [dataSource]="dataSource"
+    [dataSource]="data"
     multiTemplateDataRows
     class="mat-elevation-z8"
     matSort
@@ -19,9 +25,16 @@
       *ngFor="let column of columnsToDisplay"
     >
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ dataHeader(column) }}
+        {{ column | localeHeader }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element[column] }}
+        <mat-icon
+          *ngIf="column == 'delete'"
+          (click)="onDelete(element.id); $event.stopPropagation()"
+          >delete_outline</mat-icon
+        >
+      </td>
     </ng-container>
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
@@ -37,7 +50,7 @@
             element == expandedElement ? 'expanded' : 'collapsed'
           "
         >
-          <webui-student-detail [student]="element"></webui-student-detail>
+          <webui-update-student [student]="element"></webui-update-student>
         </div>
       </td>
     </ng-container>

@@ -1,0 +1,63 @@
+form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.image-block {
+  width: 100%;
+  background-color: rgba(45, 52, 54, 1);
+  display: flex;
+  justify-content: center;
+  padding: 1% 0;
+}
+.form-group {
+  margin: 1% 2%;
+  display: flex;
+  justify-content: center;
+}
+.avatar,
+.avatar-hover {
+  height: 150px;
+  width: 150px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.avatar {
+  position: relative;
+  &:hover {
+    .avatar-hover {
+      visibility: visible;
+    }
+  }
+}
+.avatar-hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+  background: rgba(116, 185, 255, 0.5);
+  img {
+    width: 35%;
+    height: 35%;
+  }
+}
+
+button {
+  cursor: pointer;
+  width: 100%;
+  background-color: rgba(45, 52, 54, 1);
+  color: white;
+  height: 40px;
+  &:disabled {
+    background-color: rgba(223, 230, 233, 1);
+    cursor: not-allowed;
+  }
+  margin-bottom: 0.4%;
+}

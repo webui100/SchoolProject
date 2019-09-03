@@ -1,22 +1,20 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav-content>
-    <mat-drawer #sideNav mode="side" opened="false" [position]="sidenavPosition">
+    <mat-sidenav #sideNav mode="over" opened="false" [position]="sidenavPosition">
       <div id="user-info-sidebar">
         <button mat-fab (click)="sideNav.toggle()" class="back-button" color="primary">
           <mat-icon>arrow_right_alt</mat-icon>
         </button>
-        <webui-current-user></webui-current-user>
+        <webui-current-user (close)="sideNav.toggle()"></webui-current-user>
         <div>
           <button (click)="http.signOut()" mat-raised-button color="primary"><mat-icon>exit_to_app</mat-icon> Вихід</button>
         </div>
       </div>
-    </mat-drawer>
+    </mat-sidenav>
     <mat-toolbar color="primary">
       <mat-toolbar color="primary" class="button-container">
-        <button (click)="sideNav.toggle()" mat-fab color="grey"><mat-icon>person</mat-icon></button>
+        <button class='current-user-icon' (click)="sideNav.toggle()" mat-fab color="grey"><mat-icon>person</mat-icon></button>
       </mat-toolbar>
     </mat-toolbar>
     <ng-content></ng-content>
-  </mat-sidenav-content>
 </mat-sidenav-container>
 

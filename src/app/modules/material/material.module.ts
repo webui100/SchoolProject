@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import {
   MatFormFieldModule,
   MatInputModule,
@@ -23,9 +23,16 @@ import {
   MatRadioModule,
   MatExpansionModule,
   MatAutocompleteModule,
-} from '@angular/material';
+  MAT_DATE_LOCALE,
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MatButtonToggleModule,
+  MatDialogModule,
+  MatProgressSpinnerModule
+} from "@angular/material";
+import { ReactiveFormsModule } from "@angular/forms";
 
-const MaterialComponents = [
+export const MaterialComponents = [
   MatSelectModule,
   MatOptionModule,
   MatFormFieldModule,
@@ -61,10 +68,15 @@ const MaterialComponents = [
   MatSelectModule,
   MatExpansionModule,
   MatAutocompleteModule,
+  MatButtonToggleModule,
+  ReactiveFormsModule,
+  MatDialogModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({
   imports: [MaterialComponents],
-  exports: [MaterialComponents]
+  exports: [MaterialComponents],
+  providers: []
 })
 export class MaterialModule {}

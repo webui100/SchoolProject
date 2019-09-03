@@ -35,7 +35,7 @@ export class AuthService implements OnDestroy{
 
   ngOnDestroy(): void {
     this.timerTerminator$.next();
-    console.log('I\'m OnDestroy AuthService');
+    // console.log('I\'m OnDestroy AuthService');
     this.timerTerminator$.complete();
   }
 
@@ -57,13 +57,7 @@ export class AuthService implements OnDestroy{
           this.id$.subscribe((data) => this.id = data);
           this.role$.subscribe((data) => this.role = data);
 
-          if (this.role === 'ROLE_ADMIN') {
-              this.router.navigate(['admin']);
-            } else if (this.role === 'ROLE_USER') {
-              this.router.navigate(['student']);
-            } else if (this.role === 'ROLE_TEACHER') {
-              this.router.navigate(['teacher']);
-            }
+          this.moveUserToPage();
         })}
 
 
@@ -74,11 +68,22 @@ export class AuthService implements OnDestroy{
     this.store.dispatch(login({role: userRole, id: userId}));
   }
 
+  moveUserToPage() {
+    if (this.role === 'ROLE_ADMIN') {
+      this.router.navigate(['admin']);
+    } else if (this.role === 'ROLE_USER') {
+      this.router.navigate(['student']);
+    } else if (this.role === 'ROLE_TEACHER') {
+      this.router.navigate(['teacher']);
+    }
+  }
+
 
   signOut() {
     localStorage.removeItem('token');
     this.router.navigate(['']);
     this.store.dispatch(login({role: null, id: null}));
+    sessionStorage.removeItem('role');
   }
 
   getToken(): string {

@@ -1,0 +1,77 @@
+$base-background: #673ab7;
+
+table {
+  width: 100%;
+}
+
+td, th {
+  text-align: center !important;
+  width: calc(100% / 6) !important;
+}
+
+th {
+  font-size: .9rem;
+}
+
+td {
+  font-size: .8rem;
+}
+
+.table-container {
+  padding: 10px;
+  padding-top: 0;
+  margin-top: 10px;
+  position: relative;
+  overflow: auto;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row{
+  transition: .3s;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: rgb(238, 238, 238);
+  cursor: pointer;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+webui-transfer-students-table {
+  width: 100%;
+}
+
+.info-title {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $base-background;
+  color: white;
+}
+
+.new-year-spinner {
+  margin: 1rem auto;
+}
