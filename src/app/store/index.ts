@@ -32,14 +32,6 @@ import {
   State as TeacherJournalsState
 } from "./teacher-journals/teacher-journals.reducer";
 import {
-  teacherSubjectsDataReducer,
-  State as TeacherSubjectsState
-} from './teacher-subjects/teacher-subjects.reducer';
-import {
-  teacherJournalsDataReducer,
-  State as TeacherJournalsState
-} from './teacher-journals/teacher-journals.reducer';
-import {
   studentsReducer,
   State as StudentsState
 } from "./students/students.reducer";
