@@ -14,8 +14,16 @@
     <div class="card-container">
       <mat-card class="counting">
         <mat-card-title>{{title}}</mat-card-title>
-        <mat-card-content>{{obs}}</mat-card-content>
+        <mat-card-content>
+          <span *ngIf="obs; else spinner">{{obs}}</span>
+        </mat-card-content>
       </mat-card>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner class="count-bar-spinner"></mat-spinner>
   </div>
 </ng-template>

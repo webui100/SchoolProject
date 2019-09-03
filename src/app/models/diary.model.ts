@@ -1,12 +1,20 @@
-export interface Diary {
+export interface Lesson {
+  date: [number, number, number];
+  homeWork: string;
+  homeworkFileId: number | null;
+  lessonId: number;
+  lessonNumber: number;
+  mark: number;
+  note: string;
+  subjectName: string;
+}
+
+export interface HomeworkFile {
   data: {
-    date: [number, number, number];
-    homeWork: string;
-    homeworkFileId: number | null;
-    lessonId: number;
-    lessonNumber: number;
-    mark: number;
-    note: string;
-    subjectName: string;
-  }[];
+    fileData: string;
+    fileName: string;
+    fileType: string;
+    homework: string;
+    idLesson: number;
+  };
 }

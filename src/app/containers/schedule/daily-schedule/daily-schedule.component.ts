@@ -121,7 +121,8 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     this.removeTeacher(lessonNumber, 'second');
     if (lessonNumber === (this.lessonsMaxPerDay - 1) ||
       (lessonNumber < (this.lessonsMaxPerDay - 1) &&
-        this.dailySchedule.length === this.lessonsMaxPerDay - 1)) {
+        this.dailySchedule.length === this.lessonsMaxPerDay - 1 &&
+        this.dailySchedule.at(this.lessonsMaxPerDay - 2).get('firstGroup').value )) {
       this.addLesson(this.lessonsMaxPerDay - 2);
     };
 
@@ -141,8 +142,8 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   removeSecondGroup(lessonNumber: number) {
     this.secondGroupVisible[lessonNumber] = false;
     this.secondGroupTeachersVisible[lessonNumber] = false;
-    this.dailySchedule.at(lessonNumber).get('secondGroup').patchValue('');
-    this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');
+    if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('secondGroup').patchValue('');
+    if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');
   }
 
   addTeacherToLesson(lessonNumber: number, group: string) {
@@ -159,11 +160,11 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   removeTeacher(lessonNumber: number, group: string) {
     if (group === 'first') {
       this.firstGroupTeachersVisible[lessonNumber] = false;
-      this.dailySchedule.at(lessonNumber).get('firstGroupTeacher').patchValue('');
+      if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('firstGroupTeacher').patchValue('');
     }
     if (group === 'second') {
       this.secondGroupTeachersVisible[lessonNumber] = false;
-      this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');    
+      if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');    
     }
   }
 

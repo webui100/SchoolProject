@@ -1,0 +1,19 @@
+<div class="example-container">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Додати учня
+        </mat-panel-title>
+        <mat-panel-description>
+          +
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <webui-form-generator
+        [formPattern]="data"
+        (formValuesEvent)="receiveMessage($event)"
+        [doReset]="true"
+      ></webui-form-generator>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

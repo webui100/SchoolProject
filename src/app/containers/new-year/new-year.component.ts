@@ -53,7 +53,7 @@ export class NewYearComponent implements OnInit, OnDestroy {
   public yearSubject$: BehaviorSubject<number>;
   public isWithStudentsSubject$: Subject<boolean>;
   public transferClassesData: MatTableDataSource<any>;
-  public isLoaded = false;
+  public isLoading = true;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   ngOnInit() {
@@ -75,11 +75,13 @@ export class NewYearComponent implements OnInit, OnDestroy {
         let ref = this.transitionService.getStudents(list).subscribe();
         ref.unsubscribe();
       }
-      this.isLoaded = true;
       this.transferClasses = list;
       this.transferClassesData = new MatTableDataSource(list);
       this.transferClassesData.paginator = this.paginator;
+      this.isLoading = false;
     })
+
+    this.isLoading = true;
 
 
     this.yearRef = this.yearSubject$.subscribe((year: number) => {

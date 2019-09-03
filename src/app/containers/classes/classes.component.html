@@ -1,61 +1,77 @@
+<div class="header mat-elevation-z5">
+    <h3>Список класів</h3>
+</div>
+
 <mat-accordion>
-    <mat-expansion-panel hideToggle class="activeclasses">
+    <mat-expansion-panel hideToggle class="mainExpansion">
         <mat-expansion-panel-header>
-            <mat-panel-title>Активні класи</mat-panel-title>
+            <mat-panel-title>Активні класи</mat-panel-title>    
         </mat-expansion-panel-header>
-        <mat-expansion-panel *ngFor="let activeClass of activeUniqueClassList | keyvalue" hideToggle class="groupofclasses" >
-            <mat-expansion-panel-header>
-                <mat-panel-title>{{activeClass.key}}</mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-table [dataSource]="activeClass.value">
-                
-                <ng-container matColumnDef="className">
-                    <th mat-header-cell *matHeaderCellDef> Клас </th>
-                    <td mat-cell *matCellDef="let element"> {{element.className}} </td>
-                </ng-container>
-                <ng-container matColumnDef="classYear">
-                    <th mat-header-cell *matHeaderCellDef> Рік </th>
-                    <td mat-cell *matCellDef="let element"> {{element.classYear}} </td>
-                </ng-container>
-                <ng-container matColumnDef="numOfStudents">
-                    <th mat-header-cell *matHeaderCellDef> Кількість учнів </th>
-                    <td mat-cell *matCellDef="let element"> {{element.numOfStudents}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </mat-table>
-        </mat-expansion-panel>
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let activeClass of activeUniqueClassList | keyvalue: sortKeys" hideToggle
+                class="groupofclasses">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{activeClass.key}}</mat-panel-title>
+                </mat-expansion-panel-header>
+                <table mat-table [dataSource]="activeClass.value" multiTemplateDataRows>
+                    <ng-container matColumnDef="{{actClass}}" *ngFor="let actClass of displayedColumns">
+                        <th mat-header-cell *matHeaderCellDef> {{classTableHead(actClass)}} </th>
+                        <td mat-cell *matCellDef="let class"> {{class[actClass]}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let class" [attr.colspan]="displayedColumns.length">
+                            <div class="class-detail"
+                                [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
+                                <div class="class-description">
+                                    {{class.numOfStudents}}
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let currentClass; columns: displayedColumns;" class="class-row"
+                        [class.expanded-row]="expandedElement === currentClass"
+                        (click)="expandedElement = expandedElement === currentClass ? null : currentClass">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+                </table>
+            </mat-expansion-panel>
+        </mat-accordion>
     </mat-expansion-panel>
-</mat-accordion>
 
-<mat-accordion>
-        <mat-expansion-panel hideToggle class="activeclasses">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Неактивні класи</mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-expansion-panel *ngFor="let nonActiveClass of nonActiveUniqueClassList | keyvalue" hideToggle class="groupofclasses" >
+    <mat-expansion-panel hideToggle class="mainExpansion">
+        <mat-expansion-panel-header>
+            <mat-panel-title>Неактивні класи</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let nonActiveClass of nonActiveUniqueClassList | keyvalue: sortKeys" hideToggle
+                class="groupofclasses">
                 <mat-expansion-panel-header>
                     <mat-panel-title>{{nonActiveClass.key}}</mat-panel-title>
                 </mat-expansion-panel-header>
-                <mat-table [dataSource]="nonActiveClass.value">
-                    
-                    <ng-container matColumnDef="className">
-                        <th mat-header-cell *matHeaderCellDef> Клас </th>
-                        <td mat-cell *matCellDef="let element"> {{element.className}} </td>
+                <table mat-table [dataSource]="nonActiveClass.value" multiTemplateDataRows>
+                    <ng-container matColumnDef="{{nonActClass}}" *ngFor="let nonActClass of displayedColumns">
+                        <th mat-header-cell *matHeaderCellDef> {{nonActClass}} </th>
+                        <td mat-cell *matCellDef="let class"> {{class[nonActClass]}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="classYear">
-                        <th mat-header-cell *matHeaderCellDef> Рік </th>
-                        <td mat-cell *matCellDef="let element"> {{element.classYear}} </td>
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let class" [attr.colspan]="displayedColumns.length">
+                            <div class="class-detail"
+                                [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
+                                <div class="class-description">
+                                    {{class.numOfStudents}}
+                                </div>
+                            </div>
+                        </td>
                     </ng-container>
-                    <ng-container matColumnDef="numOfStudents">
-                        <th mat-header-cell *matHeaderCellDef> Кількість учнів </th>
-                        <td mat-cell *matCellDef="let element"> {{element.numOfStudents}} </td>
-                    </ng-container>
-    
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </mat-table>
+                    <tr mat-row *matRowDef="let currentClass; columns: displayedColumns;" class="class-row"
+                        [class.expanded-row]="expandedElement === currentClass"
+                        (click)="expandedElement = expandedElement === currentClass ? null : currentClass">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+                </table>
             </mat-expansion-panel>
-        </mat-expansion-panel>
-    </mat-accordion>
+        </mat-accordion>
+    </mat-expansion-panel>
+</mat-accordion>

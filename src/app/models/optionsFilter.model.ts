@@ -1,4 +1,4 @@
 export interface IOptionsFilter {
-    controlName: string;
-    objProp: string;
+  controlName: string;
+  objProp: string;
 }

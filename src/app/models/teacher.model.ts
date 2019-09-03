@@ -30,4 +30,3 @@ export interface IJournalBind {
   subjectData?;
   id?;
 }
-
