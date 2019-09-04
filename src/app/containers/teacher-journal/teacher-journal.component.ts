@@ -10,8 +10,8 @@ import { getBindById } from 'src/app/store/teachers/teachers.selector';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 import { selectAll } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList } from 'src/app/store/classes/classes.selector';
-import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subscription, Subject } from 'rxjs';
 
 @Component({
   selector: 'webui-teacher-journal',
@@ -22,16 +22,14 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
   @Input() teacherId: number;
   @Output() data;
 
+
+  private subject = new Subject();
   public teacherBindData: IBindTeacher[];
   private teachersBind$: Observable<any>;
   private subjects$: Observable<any>;
   private classes$: Observable<any>;
   public displayedColumns: string[] = ['subjectName', 'className'];
   private bindTeacherJournal: AbstractControl;
-  private bindTeacherSubsc: Subscription;
-  private subjectsSubsc: Subscription;
-  private classesSubsc: Subscription;
-  private filteredSubject$;
 
   constructor(
     private store: Store<object>,
@@ -70,10 +68,11 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
 
 
   selectDataFromStore(): void {
-    this.teachersBind$ = this.store.select(getBindById(this.teacherId));
-    this.subjects$ = this.store.select(selectAll);
+    this.teachersBind$ = this.store.select(getBindById(this.teacherId)).pipe(takeUntil(this.subject));
+    this.subjects$ = this.store.select(selectAll).pipe(takeUntil(this.subject));
     this.classes$ = this.store.select(selectClassesList)
     .pipe(
+      takeUntil(this.subject),
       map(arr => {
       if (arr) {
       return arr.filter((elem: ClassModel) => {
@@ -84,7 +83,7 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
   }
 
   getBindingList(): void {
-    this.bindTeacherSubsc = this.teachersBind$
+    this.teachersBind$.pipe(takeUntil(this.subject))
     .subscribe( (res: IBindTeacher) => {
       if (res !== undefined) {
         this.teacherBindData = res[this.teacherId];
@@ -96,7 +95,7 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
   }
 
   getClassesList() {
-    this.classesSubsc = this.classes$
+    this.classes$.pipe(takeUntil(this.subject))
     .subscribe(response => {
       if (!response) {
         this.classServ.getClasses();
@@ -112,7 +111,7 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
   }
 
   getSubjectsList() {
-    this.subjectsSubsc = this.subjects$
+   this.subjects$.pipe(takeUntil(this.subject))
     .subscribe(response => {
       if (!response) {
         this.subjServ.getSubjects();
@@ -136,9 +135,8 @@ export class TeacherJournalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.bindTeacherSubsc.unsubscribe();
-    this.classesSubsc.unsubscribe();
-    this.subjectsSubsc.unsubscribe();
+    this.subject.next();
+    this.subject.complete();
   }
 
 

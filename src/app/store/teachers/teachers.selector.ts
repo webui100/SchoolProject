@@ -30,9 +30,7 @@ export const teachersSortByName = createSelector(
   sortOptions,
   (state: ITeacher[], options: ISortOptions) => {
     if (state !== null || undefined) {
-      const filtered = state.filter((el) => {
-        return el !== undefined;
-      });
+      const filtered = state;
 
       filtered.sort((a: any, b: any): number => {
         return a[options.column].localeCompare(b[options.column]);
