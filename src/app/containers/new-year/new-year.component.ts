@@ -9,8 +9,8 @@ import { Store, select } from '@ngrx/store'
 import { SelectionModel } from '@angular/cdk/collections';
 import ClassModel from 'src/app/models/schoolclass.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Observable, Subscription, BehaviorSubject, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, Subscription, BehaviorSubject, Subject, ReplaySubject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import * as NewYearActions from '../../store/newyear/newyear.actions';
 
@@ -40,10 +40,7 @@ export class NewYearComponent implements OnInit, OnDestroy {
   public transferClasses: Array<ClassModel> = [];
   // students from classes that can be transfered
   public transferStudents;
-  private transferListRef: Subscription;
-  private studentsListRef: Subscription;
-  private yearRef: Subscription;
-  private isWithStudentsRef: Subscription;
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   // already transfered classes
   public transferedClasses$: Observable<Array<ClassModel>>;
   displayedColumns: string[] = ['select', 'name', 'number', 'button', 'newClassName'];
@@ -62,15 +59,24 @@ export class NewYearComponent implements OnInit, OnDestroy {
     this.yearSubject$ = new BehaviorSubject(this.year);
     this.isWithStudentsSubject$ = new Subject();
 
-    this.transferList$ = this.store.pipe(select(selectTransferClasses));
+    this.transferList$ = this.store.pipe(
+      select(selectTransferClasses),
+      takeUntil(this.destroy$));
 
-    this.studentsList$ = this.store.pipe(select(selectTransferStudents));
+    this.studentsList$ = this.store.pipe(
+      select(selectTransferStudents),
+      takeUntil(this.destroy$));
 
-    this.transferedClasses$ = this.store.pipe(select(selectTransferedClasses));
+    this.transferedClasses$ = this.store.pipe(
+      select(selectTransferedClasses),
+      takeUntil(this.destroy$)
+    );
 
-    this.classesYears$ = this.store.pipe(select(selectClassesYears));
+    this.classesYears$ = this.store.pipe(
+      select(selectClassesYears),
+      takeUntil(this.destroy$));
 
-    this.transferListRef = this.transferList$.subscribe((list: Array<ClassModel>) => {
+    this.transferList$.subscribe((list: Array<ClassModel>) => {
       if (list.length > 0) {
         let ref = this.transitionService.getStudents(list).subscribe();
         ref.unsubscribe();
@@ -84,27 +90,31 @@ export class NewYearComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
 
-    this.yearRef = this.yearSubject$.subscribe((year: number) => {
+    this.yearSubject$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((year: number) => {
       this.store.dispatch(NewYearActions.setYear({ year }));
       let ref = this.transitionService.getStudents(this.transferClasses).subscribe();
       ref.unsubscribe();
     })
 
-    this.isWithStudentsRef = this.isWithStudentsSubject$.subscribe((isWithStudents: boolean) => {
+    this.isWithStudentsSubject$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((isWithStudents: boolean) => {
       this.store.dispatch(NewYearActions.changeOnlyWithStudents({ isWithStudents }));
     })
 
-    this.studentsListRef = this.studentsList$.subscribe((value) => {
+    this.studentsList$.subscribe((value) => {
       this.transferStudents = value
     });
 
   }
 
   ngOnDestroy(): void {
-    this.transferListRef.unsubscribe();
-    this.studentsListRef.unsubscribe();
-    this.yearRef.unsubscribe();
-    this.isWithStudentsRef.unsubscribe();
+    this.destroy$.next(true);
+
+    this.destroy$.unsubscribe();
+
   }
 
 
