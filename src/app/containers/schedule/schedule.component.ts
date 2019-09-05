@@ -3,17 +3,18 @@ import { ScheduleService } from 'src/app/services/schedule.service';
 import { Store, select } from '@ngrx/store';
 import { SubjectsService } from 'src/app/services/subjects.service';
 import { ClassesService } from 'src/app/services/classes.service';
-import { startWith, map, debounceTime } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import initialSchedule from './initial-schedule';
-import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { selectAll as selectAllSubjects } from 'src/app/store/subjects/subjects.selector';
 import { selectClassesList as selectAllClasses } from 'src/app/store/classes/classes.selector';
 import { selectTeachers } from 'src/app/store/teachers/teachers.selector';
-import { selectScheduleData,
+import {
+  selectScheduleData,
   selectClearedScheduleData,
-  selectSavedScheduleData } from 'src/app/store/schedule/schedule.selectors';
+  selectSavedScheduleData
+} from 'src/app/store/schedule/schedule.selectors';
 import { TeachersService } from 'src/app/services/teachers.service';
 import * as ScheduleModels from 'src/app/models/schedule';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material';
@@ -38,10 +39,9 @@ export const MY_FORMATS = {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
   providers: [
-    DailyScheduleComponent,
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
@@ -63,7 +63,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   restoredScheduleSubscriptions: Subscription;
   restoredClearedScheduleSubscriptions: Subscription;
   restoredSavedScheduleSubscriptions: Subscription;
-  formChangesSubscription: Subscription;
   terms: string[] = ['1', '2', '1 - 2'];
   defaultDates: ScheduleModels.DafaultTermDates;
   showStartEndDates = false;
@@ -82,12 +81,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isDayValid = {};
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
-  // filteredYears: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
     private schedule: ScheduleService,
-    private dailySchedule: DailyScheduleComponent,
     private subjectsObj: SubjectsService,
     private classesObj: ClassesService,
     private teachersObj: TeachersService,
@@ -111,31 +108,27 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.getYear();
     this.getSubjectsList();
     this.getTeachersList();
-    
+
     this.setClassYearTermAutocompleteFilters();
 
     this.checkForScheduleRestoration();
 
-    this.setFormChangesSubscription();
-
     initialSchedule.forEach(day => this.isDayValid[day.name] = true);
-
-    // this.schedule.getSchedule(this.scheduleForm.get('class').value.id);
   }
 
   clearSchedule(): void {
-    this.schedule.setClearedScheduleToStore(this.scheduleForm.value);
+    this.scheduleCleared = {
+      isCleared: true,
+      clearingTime: new Date()
+    };
+
+    this.schedule.setClearedScheduleToStore(this.scheduleForm.value, this.scheduleCleared);
 
     Object.keys((this.scheduleForm.get('scheduleForWeek') as FormGroup).controls).forEach(key => {
       while ((this.scheduleForm.get('scheduleForWeek').get(key) as FormArray).length > 1) {
         (this.scheduleForm.get('scheduleForWeek').get(key) as FormArray).removeAt(0);
       }
     });
-
-    this.scheduleCleared = {
-      isCleared: true,
-      clearingTime: new Date()
-    };
   }
 
   restoreClearedSchedule(): void {
@@ -157,28 +150,28 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   restoreSchedule(val, index: number): void {
     const subjects = this.schedule.getSubjects();
     const teachers = this.schedule.getTeachers();
-    
+
     this.scheduleForm.get('term').patchValue(val.term || '');
     this.scheduleForm.get('class').patchValue(val.class || '');
     this.scheduleForm.get('year').patchValue(val.year || '');
     this.scheduleForm.get('termStartDate').patchValue(val.termStartDate || '');
     this.scheduleForm.get('termEndDate').patchValue(val.termEndDate || '');
     Object.keys(this.scheduleForm.get('scheduleForWeek').value).forEach(day => {
-      (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).clear();
+      (this.scheduleForm.get('scheduleForWeek').get(day) as FormArray).clear();
       for (let i = 0; i < val.scheduleForWeek[day].length - index; i++) {
         if (day !== 'saturday' && i === 0) {
-          (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).push(this.formBuilder.group({
+          (this.scheduleForm.get('scheduleForWeek').get(day) as FormArray).push(this.formBuilder.group({
             firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup, [Validators.required, listValidation(subjects)]),
-            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher,[listValidation(teachers)]),
-            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup,[listValidation(subjects)]),
-            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher,[listValidation(teachers)])
+            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher, [listValidation(teachers)]),
+            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup, [listValidation(subjects)]),
+            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher, [listValidation(teachers)])
           }));
         } else {
-          (this.scheduleForm.get('scheduleForWeek').get(day)as FormArray).push(this.formBuilder.group({
-            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup,[listValidation(subjects)]),
-            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher,[listValidation(teachers)]),
-            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup,[listValidation(subjects)]),
-            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher,[listValidation(teachers)])
+          (this.scheduleForm.get('scheduleForWeek').get(day) as FormArray).push(this.formBuilder.group({
+            firstGroup: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroup, [listValidation(subjects)]),
+            firstGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].firstGroupTeacher, [listValidation(teachers)]),
+            secondGroup: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroup, [listValidation(subjects)]),
+            secondGroupTeacher: this.formBuilder.control(val.scheduleForWeek[day][i].secondGroupTeacher, [listValidation(teachers)])
           }));
         };
       }
@@ -195,8 +188,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (this.restoredSavedScheduleSubscriptions) {
       this.restoredSavedScheduleSubscriptions.unsubscribe();
     };
-
-    // if (val.term) this.showStartEndDates = true
   }
 
   addStartEndDates(): void {
@@ -208,13 +199,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.scheduleForm.valid) {
-      this.schedule.postSchedule(this.scheduleForm.value);
-      this.schedule.postTeacherToJournal(this.scheduleForm.value);
-  
       this.scheduleSaved = {
         isSaved: true,
         savingTime: new Date()
       };
+
+      this.schedule.postSchedule(this.scheduleForm.value, this.scheduleSaved);
+      this.schedule.postTeacherToJournal(this.scheduleForm.value);
     } else {
       this.chechForValidity();
     }
@@ -229,10 +220,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.schedule.setScheduleToStore(
+      this.scheduleForm.value,
+      this.scheduleSaved,
+      this.scheduleCleared
+    )
     this.teachersSubscription.unsubscribe();
     this.classesSubscription.unsubscribe();
     this.subjectsSubscription.unsubscribe();
-    this.formChangesSubscription.unsubscribe();
   }
 
   displayFn(classItem?: any): string | undefined {
@@ -259,7 +254,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   getTeachersList(): void {
     this.teachersSubscription = this.teachersTemp$.subscribe(response => {
       if (!response) {
@@ -267,34 +262,38 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   getYear(): void {
-      this.year = this.schedule.createYear();
-      this.scheduleForm.get('year').patchValue(this.year);
+    this.year = this.schedule.createYear();
+    this.scheduleForm.get('year').patchValue(this.year);
   }
 
   setClassYearTermAutocompleteFilters(): void {
     this.filteredTerm = this.scheduleForm.get('term').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(value, this.terms))
-    );
-  this.filteredClasses = this.scheduleForm.get('class').valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterClasses(value.toString(), this.classes))
-    );
-  // this.filteredYears = this.scheduleForm.get('year').valueChanges
-  //   .pipe(
-  //     startWith(''),
-  //     map(value => this._filter(value.toString(), this.years))
-  //   );
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, this.terms))
+      );
+    this.filteredClasses = this.scheduleForm.get('class').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterClasses(value.toString(), this.classes))
+      );
   }
 
   checkForScheduleRestoration() {
     this.restoredScheduleSubscriptions = this.restoredScheduleTemp$.subscribe(val => {
       let isAnyLesson = false;
       if (val) {
+        this.scheduleCleared = {
+          isCleared: val.scheduleCleared.isCleared,
+          clearingTime: val.scheduleCleared.clearingTime,
+        };
+        this.scheduleSaved = {
+          isSaved: val.scheduleSaved.isSaved,
+          savingTime: val.scheduleSaved.savingTime
+        };
+
         Object.keys(val.scheduleForWeek).forEach(key => {
           for (const lesson of val.scheduleForWeek[key]) {
             if (lesson.firstGroup) {
@@ -317,12 +316,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     });
   }
 
-  setFormChangesSubscription() {
-    this.formChangesSubscription = this.scheduleForm.valueChanges
-    .pipe(debounceTime(800))
-    .subscribe(() => this.schedule.setScheduleToStore(this.scheduleForm.value));
-  }
-
   private _filter(value: string, arr: any[]): string[] {
     const filterValue = value.toLowerCase();
     if (typeof (arr[0]) === 'number') {
@@ -335,8 +328,4 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     const filterValue = value.toLowerCase();
     return arr.filter(option => option.className.toLowerCase().includes(filterValue));
   }
-
-  // enableTermInput(): void {
-  //   this.scheduleForm.get('term').enable();
-  // }
 }

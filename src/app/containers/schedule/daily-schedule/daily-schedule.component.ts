@@ -44,7 +44,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   }
 
   buildDailySchedule() {
-    if (this.dayName !== 'saturday') {
+    if (this.dayName !== 'saturday' && !this.dailySchedule.length) {
       this.dailySchedule.push(this.formBuilder.group({
         firstGroup: this.formBuilder.control('', [Validators.required, listValidation(this.subjects)]),
         secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
@@ -63,6 +63,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
       this.setSubjectAutocompleteFirstGroup(0);
   }
 
+  //???
   setSubjectsValidators() {
     for (let i=0; i < this.dailySchedule.length; i++) {
       if (i === 0) {
@@ -73,6 +74,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
+  //???
   setTeachersValidators() {
     for (let i=0; i < this.dailySchedule.length; i++) {
       if (this.dailySchedule.at(i).get('firstGroupTeacher')) {
@@ -84,6 +86,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
+  //???
   checkForValidationSetting() {
     if (this.subjects.length) {
       this.setSubjectsValidators()
