@@ -33,7 +33,7 @@ import { CurrentUserComponent } from "./components/current-user/current-user.com
 import { HeaderComponent } from "./components/header/header.component";
 
 import { MainNavComponent } from "./components/main-nav/main-nav.component";
-import { MatListModule, MatDialogModule } from "@angular/material";
+import { MatListModule, MatDialogModule, MatPaginatorIntl } from "@angular/material";
 import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
 import { ChartsModule } from "ng2-charts";
 import "hammerjs";
@@ -73,6 +73,7 @@ import { LocaleHeaderPipe } from "./pipes/locale-header.pipe";
 import { StudentProfileComponent } from "./containers/student-profile/student-profile.component";
 import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
 import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
+import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
 
 @NgModule({
   declarations: [
@@ -159,7 +160,8 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -169,4 +171,4 @@ import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
     HomeworkDialogComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }

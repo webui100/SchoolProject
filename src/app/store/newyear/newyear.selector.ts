@@ -18,18 +18,16 @@ export const selectTransferClasses = createSelector(
       return []
     }
     return classes
-      .filter((item: ClassModel) => item.isActive !== false)
-      .filter((item: ClassModel) => item.classYear === year)
-      .filter((item: ClassModel) => validateClassName(item.className))
+      .filter((item: ClassModel) => {
+        return (item.isActive !== false) &&
+          (item.classYear === year) &&
+          (validateClassName(item.className)) &&
+          (isWithStudents ? (item.numOfStudents !== 0) : true)
+      })
       .sort((item1: ClassModel, item2: ClassModel) => {
         const item1ClassNumber = +item1.className.split(/[-(]/)[0];
         const item2ClassNumber = +item2.className.split(/[-(]/)[0];
         return item1ClassNumber - item2ClassNumber;
-      })
-      .filter((item: ClassModel) => {
-        if (isWithStudents) {
-          return (item.numOfStudents !== 0)
-        } else return true;
       })
   }
 )
