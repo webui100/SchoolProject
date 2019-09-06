@@ -13,7 +13,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
 import { TeachersComponent } from './components/teachers/teachers.component';
 import { AdminComponent } from './pages/admin/admin.component';
 
@@ -139,7 +139,7 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     StoreModule.forRoot(reducers, {
-      metaReducers
+      metaReducers: [storageSyncMetaReducer]
       // runtimeChecks: {
       //   strictStateImmutability: true,
       //   strictActionImmutability: true
