@@ -55,10 +55,14 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
 
   onSelectAvatar(e) {
     this.formService.loadAvatar(e);
-    const observable = this.store.pipe(select(selectAvatar));
-    observable.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
-      this.avatar = data.avatar;
-    });
+    this.store
+      .pipe(
+        select(selectAvatar),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(data => {
+        this.avatar = data.avatar;
+      });
   }
 
   onSubmit(formToReset: NgForm) {
