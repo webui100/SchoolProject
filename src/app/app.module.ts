@@ -1,26 +1,26 @@
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { ClickStopPropagation } from "./directives/click-stop-propagation.directive";
-import { NgModule, ErrorHandler } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { environment } from "../environments/environment";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { StoreModule } from "@ngrx/store";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { PdfViewerModule } from "ng2-pdf-viewer";
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-import { LoginComponent } from "./pages/login/login.component";
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './pages/login/login.component';
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
+import { TeachersComponent } from './components/teachers/teachers.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
-import { TeachersComponent } from "./components/teachers/teachers.component";
-import { AdminComponent } from "./pages/admin/admin.component";
-
-import { reducers, metaReducers } from "./store";
-import { ScheduleComponent } from "./containers/schedule/schedule.component";
-import { DailyScheduleComponent } from "./containers/schedule/daily-schedule/daily-schedule.component";
-import { ClassesComponent } from "./containers/classes/classes.component";
+import { reducers, metaReducers } from './store';
+import { ScheduleComponent } from './containers/schedule/schedule.component';
+import { DailyScheduleComponent } from './containers/schedule/daily-schedule/daily-schedule.component';
+import { ClassesComponent } from './containers/classes/classes.component';
 
 import {
   NavigationActionTiming,
@@ -60,8 +60,8 @@ import { SortButtonComponent } from "./components/sort-button/sort-button.compon
 import { TransferedClassesTableComponent } from "./components/transfered-classes-table/transfered-classes-table.component";
 import { IsGraduationPipe } from "./pipes/is-graduation.pipe";
 import { ModalDialogComponent } from "./components/modal-dialog/modal-dialog.component";
-import { TeacherJournalComponent } from "./containers/teacher-journal/teacher-journal.component";
-import { TeacherDetailContainerComponent } from "./components/teachers/teacher-detail-container/teacher-detail-container.component";
+import { TeacherJournalComponent } from './components/teachers/teacher-journal/teacher-journal.component';
+import { TeacherDetailContainerComponent } from './containers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
 import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
@@ -112,19 +112,15 @@ import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
     TeacherJournalComponent,
     TeacherDetailContainerComponent,
     TeacherComponent,
-    NotFoundComponent,
-    NewYearControllComponent,
-    TeacherComponent,
     TeacherNavComponent,
-    TeacherSubjectsComponent,
-    UrlSanitizerPipe,
     TeacherJournalsComponent,
     NotFoundComponent,
     NewYearControllComponent,
-    TeacherComponent,
+    TeacherSubjectsComponent,
+    UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
-    StudentProfileComponent
+    StudentProfileComponent,
   ],
   imports: [
     ChartsModule,
@@ -145,7 +141,7 @@ import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     StoreModule.forRoot(reducers, {
-      metaReducers
+      metaReducers: [storageSyncMetaReducer]
       // runtimeChecks: {
       //   strictStateImmutability: true,
       //   strictActionImmutability: true

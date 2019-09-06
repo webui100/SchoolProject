@@ -32,9 +32,9 @@
 
         <!-- Expanded Content Column  -->
         <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let teacher" [attr.colspan]="columnsToDisplay.length">
+            <td mat-cell *matCellDef="let teacher" [attr.colspan]="columnsToDisplay.length" >
                 <div class="teacher-detail" [@detailExpand]="teacher == expandedElement ? 'expanded' : 'collapsed'">
-                    <webui-teacher-detail-container [teacher]="teacher"></webui-teacher-detail-container>
+                    <webui-teacher-detail-container [teacher]="teacher" *ngIf="teacher == expandedElement"></webui-teacher-detail-container>
                 </div>
             </td>
         </ng-container>
