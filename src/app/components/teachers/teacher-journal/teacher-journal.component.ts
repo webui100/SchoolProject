@@ -80,15 +80,9 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if (!this.bindData.classList) {
-      this.getList.emit('class');
-    }
-    if (!this.bindData.subjectList) {
-      this.getList.emit('subject');
-    }
-    if (!this.bindData.journalList) {
-      this.getList.emit('journal');
-    }
+    if (!this.bindData.classList) { this.getList.emit('class'); }
+    if (!this.bindData.subjectList) { this.getList.emit('subject'); }
+    if (!this.bindData.journalList) { this.getList.emit('journal'); }
   }
 
   ngOnChanges(): void {
