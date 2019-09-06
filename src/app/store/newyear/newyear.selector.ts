@@ -59,8 +59,10 @@ export const selectTransferedClasses = createSelector(
     }
     return classes
       //.filter((item: ClassModel) => item.isActive !== false)
-      .filter((item: ClassModel) => item.classYear === year + 1)
-      .filter((item: ClassModel) => validateClassName(item.className))
+      .filter((item: ClassModel) => {
+        return (item.classYear === year + 1) &&
+          (validateClassName(item.className))
+      })
       // .filter((item: ClassModel) => item.numOfStudents !== 0)
       .sort((item1: ClassModel, item2: ClassModel) => {
         const item1ClassNumber = +item1.className.split(/[-(]/)[0];
