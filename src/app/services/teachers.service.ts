@@ -57,7 +57,6 @@ export class TeachersService {
   }
 
   getTeacherBind(teacherId: number) {
-    console.log(teacherId);
     return this.http
       .get(
         `${this.BASE_URI}${this.JOURNALS_URI}${this.TEACHER_URI}${teacherId}/${this.ACIVE_URI}`

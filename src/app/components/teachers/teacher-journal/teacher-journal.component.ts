@@ -46,7 +46,7 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
     e.preventDefault();
     const formValue = this.bindTeacherJournal.value;
     const data = {
-      teacherId: this.bindData,
+      teacherId: this.bindData.teacherId,
       classData: formValue.classesControl,
       subjectData: formValue.subjectsControl,
     };

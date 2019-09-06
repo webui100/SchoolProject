@@ -27,7 +27,7 @@ export class TeacherDetailContainerComponent implements OnInit {
   }
 
   getData(value: any) {
-    if (typeof String) {
+    if (typeof value === 'string') {
     switch (value) {
       case 'class':
         this.classServ.getClasses();
