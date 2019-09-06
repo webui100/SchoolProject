@@ -33,8 +33,7 @@ export const teachersSortByName =  createSelector(
   selectTeachers,
   ({column, direction}: ISortOptions, state: ITeacher[]) => {
     if (state) {
-      const filtered = [...state];
-      filtered.sort((a: object, b: object): number => {
+      const filtered = [...state].sort((a: object, b: object): number => {
         return a[column].localeCompare(b[column]);
       });
       if (direction === 'desc') {

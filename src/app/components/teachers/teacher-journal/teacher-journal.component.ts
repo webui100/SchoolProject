@@ -9,6 +9,7 @@ import {
   OnChanges,
 } from '@angular/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'webui-teacher-journal',
@@ -20,8 +21,8 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
   @Output() getList = new EventEmitter();
 
   public teacherBindData: IBindTeacher[];
-  public classes$;
-  public subjects$;
+  public classes$: Observable<string[]>;
+  public subjects$: Observable<string[]>;
   public displayedColumns: string[] = ['subjectName', 'className'];
   private bindTeacherJournal: AbstractControl;
 
@@ -53,15 +54,15 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
     this.getList.emit(data);
   }
 
-  getBindingList(): void {
+  getBindingList(): IBindTeacher[] {
     if (this.bindData.journalList) {
-        this.teacherBindData = this.bindData.journalList[this.bindData.teacherId];
+       return this.bindData.journalList[this.bindData.teacherId];
     }
   }
 
-  getSubjectsList() {
+  getSubjectsList(): Observable<string[]> {
     if (this.bindData.subjectList) {
-      this.subjects$ = this.teachServ
+     return this.teachServ
         .autocompleteFilter(this.bindData.subjectList, this.bindTeacherJournal, {
           controlName: 'subjectsControl',
           objProp: 'subjectName'
@@ -69,9 +70,9 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
     }
   }
 
-  getClassesList() {
+  getClassesList(): Observable<string[]> {
     if (this.bindData.classList) {
-      this.classes$ = this.teachServ
+      return this.teachServ
         .autocompleteFilter(this.bindData.classList, this.bindTeacherJournal, {
           controlName: 'classesControl',
           objProp: 'className'
@@ -86,8 +87,8 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.getBindingList();
-    this.getClassesList();
-    this.getSubjectsList();
+   this.teacherBindData = this.getBindingList();
+   this.classes$ = this.getClassesList();
+   this.subjects$ = this.getSubjectsList();
   }
 }
