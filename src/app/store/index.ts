@@ -3,6 +3,7 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { environment } from '../../environments/environment';
 import { loginReducer, State as LoginState } from './login/login.reducer';
 import { errorReducer, State as ErrorState } from './error/error.reducer';
+import { storeFreeze } from 'ngrx-store-freeze';
 import {
   scheduleReducer,
   State as ScheduleState
@@ -64,7 +65,7 @@ export interface State {
   avatar: FormState;
 }
 
-export const reducers: ActionReducerMap<any> = {
+export const reducers: ActionReducerMap<State> = {
   user: loginReducer,
   errors: errorReducer,
   schedule: scheduleReducer,
@@ -84,5 +85,5 @@ export const reducers: ActionReducerMap<any> = {
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? []
+  ? [storeFreeze]
   : [];

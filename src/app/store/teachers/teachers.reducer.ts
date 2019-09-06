@@ -68,6 +68,6 @@ const reducer = createReducer(
   })
 );
 
-export function teachersDataReducer(state: State | undefined, action: Action) {
+export function teachersDataReducer(state: State | undefined, action: Action): State {
   return reducer(state, action);
 }

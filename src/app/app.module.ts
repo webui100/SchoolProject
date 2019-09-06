@@ -29,7 +29,6 @@ import {
 } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router.reducer';
 import 'hammerjs';
-import { TeacherJournalContainerComponent } from './containers/teacher-journal-container/teacher-journal-container.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
@@ -60,8 +59,8 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
 import { TransferedClassesTableComponent } from './components/transfered-classes-table/transfered-classes-table.component';
 import { IsGraduationPipe } from './pipes/is-graduation.pipe';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
-import { TeacherJournalComponent } from './containers/teacher-journal/teacher-journal.component';
-import { TeacherDetailContainerComponent } from './components/teachers/teacher-detail-container/teacher-detail-container.component';
+import { TeacherJournalComponent } from './components/teachers/teacher-journal/teacher-journal.component';
+import { TeacherDetailContainerComponent } from './containers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
 import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
@@ -124,7 +123,6 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
     NewYearPipe,
     LocaleHeaderPipe,
     StudentProfileComponent,
-    TeacherJournalContainerComponent
   ],
   imports: [
     ChartsModule,
