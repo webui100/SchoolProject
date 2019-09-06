@@ -89,13 +89,14 @@ export class StudentsService {
         }
       });
   }
+  //delete student
   deleteStudent(id) {
     return this.http
       .patch<Ihttp>(`${this.BASE_URL}users/${id}`, { observe: "response" })
       .subscribe(res => {
-        this.notify.notifySuccess("Успішно видалено");
-        this.store.dispatch(deleteStudentAction({ deleteStudent: id }));
+        // this.store.dispatch(deleteStudentAction({ deleteStudent: id }));
         this.getStudents(17);
+        this.notify.notifySuccess("Успішно видалено");
       });
   }
 }
