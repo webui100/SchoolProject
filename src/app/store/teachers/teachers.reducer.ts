@@ -1,6 +1,6 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import * as TeacherData from "./teachers.action";
-import { ITeacher, IBindTeacher } from "src/app/models/teacher.model";
+import { Action, createReducer, on } from '@ngrx/store';
+import * as TeacherData from './teachers.action';
+import { ITeacher, IBindTeacher } from 'src/app/models/teacher.model';
 
 export interface State {
   teachersList: Array<object>;
@@ -10,7 +10,7 @@ export interface State {
 
 export const initialState: State = {
   teachersList: null,
-  sortOptions: { direction: "asc", column: "lastname" },
+  sortOptions: { direction: 'asc', column: 'lastname' },
   bindedTeachers: []
 };
 
@@ -43,14 +43,8 @@ const reducer = createReducer(
   on(TeacherData.deleteTeacher, (state: State, { deleteTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map(
-        (teacher: ITeacher, index: number) => {
-          if (teacher.id === deleteTeacher && teacher !== undefined) {
-            state.teachersList.splice(index, 1);
-          } else {
-            return teacher;
-          }
-        }
+      teachersList: state.teachersList.filter(
+        (teacher: ITeacher) =>  teacher.id !== deleteTeacher
       )
     };
   }),
@@ -74,6 +68,6 @@ const reducer = createReducer(
   })
 );
 
-export function teachersDataReducer(state: State | undefined, action: Action) {
+export function teachersDataReducer(state: State | undefined, action: Action): State {
   return reducer(state, action);
 }
