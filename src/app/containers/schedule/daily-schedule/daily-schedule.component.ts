@@ -33,10 +33,10 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     private schedule: ScheduleService) {}
 
   ngOnInit() {
-    this.buildDailySchedule();
-
     this.subjects = this.schedule.getSubjects();
     this.teachers = this.schedule.getTeachers();
+
+    this.buildDailySchedule();
 
     for (let i = 0; i < this.lessonsMaxPerDay; i++) {
       this.secondGroupVisible.push(false);
@@ -59,46 +59,11 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
         secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
     }
-
-      this.setSubjectAutocompleteFirstGroup(0);
-  }
-
-  //???
-  setSubjectsValidators() {
-    for (let i=0; i < this.dailySchedule.length; i++) {
-      if (i === 0) {
-        this.dailySchedule.at(i).get('firstGroup').setValidators([Validators.required, listValidation(this.subjects)]);
-      }
-      this.dailySchedule.at(i).get('firstGroup').setValidators([listValidation(this.subjects)]);
-      this.dailySchedule.at(i).get('secondGroup').setValidators([listValidation(this.subjects)]);
-    }
-  }
-
-  //???
-  setTeachersValidators() {
-    for (let i=0; i < this.dailySchedule.length; i++) {
-      if (this.dailySchedule.at(i).get('firstGroupTeacher')) {
-        this.dailySchedule.at(i).get('firstGroupTeacher').setValidators([listValidation(this.teachers)]);
-      }
-      if (this.dailySchedule.at(i).get('secondGroupTeacher')) {
-        this.dailySchedule.at(i).get('secondGroupTeacher').setValidators([listValidation(this.teachers)]);
-      }
-    }
-  }
-
-  //???
-  checkForValidationSetting() {
-    if (this.subjects.length) {
-      this.setSubjectsValidators()
-    }
-    if (this.teachers.length) {
-      this.setTeachersValidators()
-    }
+    
+    this.setSubjectAutocompleteFirstGroup(0);
   }
 
   addLesson(lessonNumber: number) {
-    this.checkForValidationSetting()
-
     if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
       this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
@@ -114,7 +79,6 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     if (this.dayName === 'saturday' && this.dailySchedule.length) {
       this.saturdayFirstLesson = true;
     }
-
   }
 
   removeLesson(lessonNumber: number) {

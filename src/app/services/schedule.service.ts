@@ -166,6 +166,7 @@ export class ScheduleService {
     for (let i = 0; i < uniqueTeacherSubjectsArray.length; i++) {
       const teacherId = parseInt((uniqueTeacherSubjectsArray[i]as string).slice((uniqueTeacherSubjectsArray[i] as string).indexOf('-') + 1));
       const subjectId = parseInt(uniqueTeacherSubjectsArray[i]as string);
+
       this.postRequestTeacherToJournal(teacherId, classId, subjectId);
     }
   }
@@ -262,4 +263,3 @@ export class ScheduleService {
     });
   }
 }
-

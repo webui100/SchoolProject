@@ -81,6 +81,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isDayValid = {};
   filteredTerm: Observable<string[]>;
   filteredClasses: Observable<string[]>;
+  scheduleReady = false;
+  subjectsReady = false;
+  classesReady = false;
+  teachersReady = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -102,18 +106,29 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.scheduleForm = this.schedule.buildScheduleForm(this.terms, this.classes);
-
+    
     this.getClassesList();
-    this.getYear();
     this.getSubjectsList();
     this.getTeachersList();
-
-    this.setClassYearTermAutocompleteFilters();
-
-    this.checkForScheduleRestoration();
+    
+    this.checkForScheduleReady()
 
     initialSchedule.forEach(day => this.isDayValid[day.name] = true);
+  }
+
+  checkForScheduleReady() {
+    if (this.classesReady && this.subjectsReady && this.teachersReady) {
+      this.scheduleReady = true;
+
+      this.scheduleForm = this.schedule.buildScheduleForm(this.terms, this.classes);
+      this.getYear();
+
+      this.setClassYearTermAutocompleteFilters();
+
+      this.checkForScheduleRestoration();
+    }else {
+      setTimeout(() => {this.checkForScheduleReady()}, 200)
+    }
   }
 
   clearSchedule(): void {
@@ -238,6 +253,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
       if (!res) {
         this.subjectsObj.getSubjects();
+      }else {
+        this.subjectsReady = true
       }
     });
   }
@@ -246,6 +263,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.classesSubscription = this.classesTemp$.subscribe(res => {
       if (!res) {
         this.classesObj.getClasses();
+      }else {
+        this.classesReady = true;
       }
       for (const item in res) {
         if (res[item].isActive) {
@@ -259,6 +278,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.teachersSubscription = this.teachersTemp$.subscribe(response => {
       if (!response) {
         this.teachersObj.getTeachers();
+      }else {
+        this.teachersReady = true
       }
     });
   }
