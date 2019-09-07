@@ -3,8 +3,8 @@
 </div>
 <div *ngIf="scheduleReady; else spinner">
   <form (keydown.enter)="$event.preventDefault()">
-    <div layout="row" layout-align="start start" class="term-class-year-div">
-      <div fxFlex>
+    <div class="term-class-year-div">
+      <div class="term-class-year-item">
         <mat-form-field>
           <input type="text" placeholder="Клас *" matInput [formControl]="scheduleForm.get('class')"
             [matAutocomplete]="classA">
@@ -18,17 +18,12 @@
           Виберіть клас зі списку
         </div>
       </div>
-      <mat-form-field fxFlex>
+      <mat-form-field class="term-class-year-item">
         <input type="text" placeholder="Навчальний рік" matInput
           [formControl]="scheduleForm.get('year')" readonly class="input-year">
         <span>&ndash; &nbsp;{{scheduleForm.get('year').value + 1}}</span>
-        <!-- <mat-autocomplete #yearA="matAutocomplete" (optionSelected)="enableTermInput()">
-          <mat-option *ngFor="let year of filteredYears | async" [value]="year + ' - ' + (+year + +1)">
-            {{year}} - {{+year + 1}}
-          </mat-option>
-        </mat-autocomplete> -->
       </mat-form-field>
-      <div class="term-div" fxFlex>
+      <div class="term-div term-class-year-item">
         <mat-form-field>
           <input type="text" placeholder="Семестр *" matInput [formControl]="scheduleForm.get('term')"
             [matAutocomplete]="termA">
@@ -80,7 +75,6 @@
 
     <div layout="row" layout-align="space-between none">
       <div fxFlex>
-        <!-- [disabled]="!scheduleForm.valid" -->
         <button type="submit" (click)="onSubmit()" mat-raised-button>
           Зберегти розклад</button>
         <div *ngIf="scheduleSaved.isSaved">

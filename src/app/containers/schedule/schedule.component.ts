@@ -233,18 +233,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isDayValid[day] = this.scheduleForm.get('scheduleForWeek').get(day).valid ? true : false;
     })
   }
-
-  ngOnDestroy(): void {
-    this.schedule.setScheduleToStore(
-      this.scheduleForm.value,
-      this.scheduleSaved,
-      this.scheduleCleared
-    )
-    this.teachersSubscription.unsubscribe();
-    this.classesSubscription.unsubscribe();
-    this.subjectsSubscription.unsubscribe();
-  }
-
+  
   displayFn(classItem?: any): string | undefined {
     return classItem ? classItem.className : undefined;
   }
@@ -273,7 +262,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  
   getTeachersList(): void {
     this.teachersSubscription = this.teachersTemp$.subscribe(response => {
       if (!response) {
@@ -283,24 +272,24 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  
   getYear(): void {
     this.year = this.schedule.createYear();
     this.scheduleForm.get('year').patchValue(this.year);
   }
-
+  
   setClassYearTermAutocompleteFilters(): void {
     this.filteredTerm = this.scheduleForm.get('term').valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value, this.terms))
       );
-    this.filteredClasses = this.scheduleForm.get('class').valueChanges
+      this.filteredClasses = this.scheduleForm.get('class').valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterClasses(value.toString(), this.classes))
       );
-  }
+    }
 
   checkForScheduleRestoration() {
     this.restoredScheduleSubscriptions = this.restoredScheduleTemp$.subscribe(val => {
@@ -329,14 +318,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     });
     this.restoredScheduleSubscriptions.unsubscribe();
-
+    
     this.restoredClearedScheduleSubscriptions = this.restoredClearedScheduleTemp$.subscribe(val => {
       if (val) {
         this.scheduleCleared.isCleared = true
       };
     });
   }
-
+  
   private _filter(value: string, arr: any[]): string[] {
     const filterValue = value.toLowerCase();
     if (typeof (arr[0]) === 'number') {
@@ -348,5 +337,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   private _filterClasses(value: string, arr: any[]): string[] {
     const filterValue = value.toLowerCase();
     return arr.filter(option => option.className.toLowerCase().includes(filterValue));
+  }
+
+  ngOnDestroy(): void {
+    this.schedule.setScheduleToStore(
+      this.scheduleForm.value,
+      this.scheduleSaved,
+      this.scheduleCleared
+    )
+    this.teachersSubscription.unsubscribe();
+    this.classesSubscription.unsubscribe();
+    this.subjectsSubscription.unsubscribe();
   }
 }
