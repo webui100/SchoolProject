@@ -12,4 +12,4 @@
 </div>
 
 <webui-teacher-card [teacher]="teacher" *ngIf="group.value === 'edit'"></webui-teacher-card>
-<webui-teacher-journal [teacherId]="teacher.id" *ngIf="group.value === 'bind'"></webui-teacher-journal>
+<webui-teacher-journal [bindData]="fullData | async" (getList)="getData($event)" *ngIf="group.value === 'bind'"></webui-teacher-journal>

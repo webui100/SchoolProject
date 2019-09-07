@@ -1,4 +1,3 @@
-import { IBindTeacher } from './../../models/teacher.model';
 import { createAction, props } from '@ngrx/store';
 import { ITeacher } from 'src/app/models/teacher.model';
 

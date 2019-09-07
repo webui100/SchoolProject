@@ -1,6 +1,6 @@
 import { Student } from "../../models/students";
 import { StudentsService } from "../../services/students.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -15,6 +15,8 @@ import {
   transition,
   trigger
 } from "@angular/animations";
+
+import { filter } from "rxjs/operators";
 
 /**
  * @title Table with expandable rows
@@ -34,7 +36,7 @@ import {
     ])
   ]
 })
-export class StudentsComponent implements OnInit {
+export class StudentsComponent implements OnInit, OnDestroy {
   private data: MatTableDataSource<Object>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private columnsToDisplay = ["lastname", "firstname", "patronymic", "delete"];
@@ -55,23 +57,29 @@ export class StudentsComponent implements OnInit {
     private store: Store<{ students }>
   ) {}
   private loadStudents() {
-    const observable = this.store.pipe(select(selectStudentsData));
-    observable.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
-      if (!data.students) {
-        this.studentsService.getStudents(17);
-      } else {
-        this.data = new MatTableDataSource(data.students);
-        this.data.paginator = this.paginator;
-        this.data.sort = this.sort;
-      }
-    });
+    this.store
+      .pipe(
+        select(selectStudentsData),
+        filter(val => val != null && val != undefined),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(data => {
+        if (!data.students) {
+          this.studentsService.getStudents(17);
+        } else {
+          this.data = new MatTableDataSource(data.students);
+          this.data.paginator = this.paginator;
+          this.data.sort = this.sort;
+        }
+      });
   }
-  private onDelete(id: number) {
+  onDelete(id: number) {
     this.studentsService.deleteStudent(id);
   }
   ngOnInit() {
     this.loadStudents();
   }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
