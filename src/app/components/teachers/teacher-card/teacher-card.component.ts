@@ -8,6 +8,7 @@ import { Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ValidationService } from '../../../services/validation.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-teacher-card',
@@ -26,7 +27,6 @@ export class TeacherCardComponent implements OnInit {
   private avatarImg: string | ArrayBuffer;
   private maxAge =  addYears(new Date(), -18); // this.teachServise.checkAgeDate();
   public editTeacher;
-  private subscriptAvatar: Subscription;
 
   constructor(private teachServise?: TeachersService,
               private validServ?: ValidationService,
@@ -36,17 +36,19 @@ export class TeacherCardComponent implements OnInit {
 
   handleFileInput(event: any): void {
     this.teachServise.readFileImage(event.target);
-    this.subscriptAvatar = this.teachServise.subject.subscribe(
+    this.teachServise.subject
+    .pipe(take(1))
+    .subscribe(
     response => {
       this.avatarImg = response;
       this.fileToUpload = response;
-      this.subscriptAvatar.unsubscribe();
     },
     error => {
       this.notify.notifyFailure('Не вдалося завантажити фото');
       this.teachServise.subject = new Subject();
       throw new Error(error);
-    });
+    },
+    () => console.log('complete'));
   }
 
   submitEdit(event: Event): void {
