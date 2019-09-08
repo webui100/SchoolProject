@@ -64,8 +64,8 @@ import { TeacherJournalComponent } from "./containers/teacher-journal/teacher-jo
 import { TeacherDetailContainerComponent } from "./components/teachers/teacher-detail-container/teacher-detail-container.component";
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
-import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
-import { TeacherJournalsComponent } from "./containers/teacher-journals/teacher-journals.component";
+import { TeacherSubjectsComponent } from "./containers/teacher-panel-subjects/teacher-panel-subjects.component";
+import { TeacherJournalsComponent } from "./containers/teacher-panel-journals/teacher-panel-journals.component";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { NewYearControllComponent } from "./components/new-year-controll/new-year-controll.component";
 import { NewYearPipe } from "./pipes/new-year.pipe";
