@@ -29,7 +29,7 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
   private weekDays: Date[];
   public dayNumbers: number[];
   private showDiary?: boolean;
-  private  availableDays?: number[];
+  private availableDays?: number[];
 
   constructor(
     private studentDiary: StudentDiaryService,
@@ -44,6 +44,7 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
       .subscribe(lessons => {
         this.showDiary = !!(lessons && lessons.length);
         if (lessons) {
+          this.setWeekDays();
           this.availableDays = [];
           lessons.map(lesson => {
             if (!this.availableDays.includes(lesson.date[2])) {
@@ -75,7 +76,6 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
 
   fetchDiary(): void {
     this.studentDiary.fetchStudentDiary(this.dateValue);
-    this.setWeekDays();
   }
 
   setWeekDays(): void {

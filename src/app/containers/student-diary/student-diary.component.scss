@@ -13,8 +13,10 @@
   .diary {
     padding: 1rem 1rem .5rem;
     mat-card {
-      margin-bottom: 1.2rem;
+      margin-bottom: 2rem;
       padding: 0;
+      border-radius: 15px;
+      overflow: hidden;
       mat-card-title {
         padding: .8rem 0 0 .8rem;
       }
@@ -28,7 +30,7 @@
         }
         td {
           padding: .5rem;
-          background: #eaeaea;
+          background: #f0f0f0;
           text-align: center;
           mat-icon {
             vertical-align: middle;
