@@ -4,7 +4,7 @@ import {
   selectTransferedClasses, selectClassesYears
 } from './../../store/newyear/newyear.selector';
 import { ClassesService } from './../../services/classes.service';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store'
 import { SelectionModel } from '@angular/cdk/collections';
 import ClassModel from 'src/app/models/schoolclass.model';
@@ -18,6 +18,7 @@ import * as NewYearActions from '../../store/newyear/newyear.actions';
   selector: 'webui-new-year',
   templateUrl: './new-year.component.html',
   styleUrls: ['./new-year.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),

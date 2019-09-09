@@ -1,0 +1,15 @@
+<div class="error-container">
+  <div class="error-top-row">
+    <div class="error-message">{{message}}</div>
+    <button mat-button (click)="showDetails()" *ngIf="buttonSwitcher === 'details'; else closeBtn">
+      {{"Деталі" | uppercase}}
+    </button>
+  </div>
+  <ng-template [ngIf]="isInfoShown">
+    <div class="error-info">{{error.message}}</div>
+  </ng-template>
+</div>
+
+<ng-template #closeBtn>
+  <button mat-button (click)="closeNotification()">{{"Закрити" | uppercase}}</button>
+</ng-template>

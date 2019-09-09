@@ -74,6 +74,7 @@ import { StudentProfileComponent } from "./containers/student-profile/student-pr
 import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
 import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
 import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
+import { CustomErrorComponent } from './components/custom-error/custom-error.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
     NewYearPipe,
     LocaleHeaderPipe,
     StudentProfileComponent,
+    CustomErrorComponent,
   ],
   imports: [
     ChartsModule,
@@ -164,7 +166,8 @@ import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
     ModalDialogComponent,
     TeachersComponent,
     TemporaryComponent,
-    HomeworkDialogComponent
+    HomeworkDialogComponent,
+    CustomErrorComponent
   ]
 })
 export class AppModule { }

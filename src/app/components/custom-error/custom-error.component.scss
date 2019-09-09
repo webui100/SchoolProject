@@ -1,0 +1,20 @@
+.error-container {
+  position: absolute;
+  bottom: 30px;
+  background-color: #b22222;
+  color: white;
+  padding: 15px;
+  width: 400px;
+  left: calc(50vw - 200px);
+  border-radius: 8px;
+}
+
+.noDisplay {
+  display: none;
+}
+
+.error-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
