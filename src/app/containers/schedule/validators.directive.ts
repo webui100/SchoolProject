@@ -5,7 +5,7 @@ export function listValidation(list): ValidatorFn {
       let matched = false;
       if (control.value) {
         for (let item of list) {
-          if (control.value === item) {
+          if (JSON.stringify(control.value) === JSON.stringify(item)) {
             matched = true;
           }
         }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import {
   MatFormFieldModule,
   MatInputModule,
@@ -29,8 +29,8 @@ import {
   MatButtonToggleModule,
   MatDialogModule,
   MatProgressSpinnerModule
-} from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+} from "@angular/material";
+import { ReactiveFormsModule } from "@angular/forms";
 
 export const MaterialComponents = [
   MatSelectModule,
@@ -71,7 +71,7 @@ export const MaterialComponents = [
   MatButtonToggleModule,
   ReactiveFormsModule,
   MatDialogModule,
-  MatProgressSpinnerModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({
@@ -79,4 +79,4 @@ export const MaterialComponents = [
   exports: [MaterialComponents],
   providers: []
 })
-export class MaterialModule { }
+export class MaterialModule {}

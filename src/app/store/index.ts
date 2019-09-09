@@ -1,11 +1,9 @@
-import {
-  ActionReducerMap,
-  MetaReducer
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { environment } from '../../environments/environment';
 import { loginReducer, State as LoginState } from './login/login.reducer';
 import { errorReducer, State as ErrorState } from './error/error.reducer';
+import { storeFreeze } from 'ngrx-store-freeze';
 import {
   scheduleReducer,
   State as ScheduleState
@@ -27,19 +25,22 @@ import {
   State as SubjectsState
 } from './subjects/subjects.reducer';
 import {
-  teacherSubjectsDataReducer,
-  State as TeacherSubjectsState
-} from './teacher-subjects/teacher-subjects.reducer';
-import {
-  teacherJournalsDataReducer,
-  State as TeacherJournalsState
-} from './teacher-journals/teacher-journals.reducer';
+  dataForTeacherReducer,
+  TeacherPanelState
+} from "./teacher-panel/teacher-panel.reducer";
 import {
   studentsReducer,
   State as StudentsState
 } from './students/students.reducer';
-import { classesReducer, State as ClassesState } from './classes/classes.reducer';
-import { newYearReducer, State as NewYearState } from './newyear/newyear.reducer';
+import {
+  classesReducer,
+  State as ClassesState
+} from './classes/classes.reducer';
+import {
+  newYearReducer,
+  State as NewYearState
+} from './newyear/newyear.reducer';
+import { avatarReducer, State as FormState } from './avatar/avatar.reducer';
 
 export interface State {
   user: LoginState;
@@ -47,8 +48,7 @@ export interface State {
   schedule: ScheduleState;
   teachers: TeachersState;
   subjects: SubjectsState;
-  teacherSubjects: TeacherSubjectsState;
-  teacherJournals: TeacherJournalsState;
+  teacherPanel: TeacherPanelState;
   diary: DiaryState;
   profile: ProfileState;
   chart: ChartState;
@@ -57,9 +57,10 @@ export interface State {
   students: StudentsState;
   classes: ClassesState;
   newYear: NewYearState;
+  avatar: FormState;
 }
 
-export const reducers: ActionReducerMap<any> = {
+export const reducers: ActionReducerMap<State> = {
   user: loginReducer,
   errors: errorReducer,
   schedule: scheduleReducer,
@@ -68,15 +69,15 @@ export const reducers: ActionReducerMap<any> = {
   currentUser: currentUserReducer,
   router: routerReducer,
   subjects: subjectsDataReducer,
-  teacherSubjects: teacherSubjectsDataReducer,
-  teacherJournals: teacherJournalsDataReducer,
+  teacherPanel: dataForTeacherReducer,
   diary: diaryReducer,
   profile: profileReducer,
   students: studentsReducer,
   classes: classesReducer,
-  newYear: newYearReducer
+  newYear: newYearReducer,
+  avatar: avatarReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? []
+  ? [storeFreeze]
   : [];

@@ -1,12 +1,13 @@
 import { Student } from "../../models/students";
 import { StudentsService } from "../../services/students.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Store, select } from "@ngrx/store";
 import { selectStudentsData } from "../../store/students/students.selector";
-
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import {
   animate,
   state,
@@ -14,6 +15,8 @@ import {
   transition,
   trigger
 } from "@angular/animations";
+
+import { filter } from "rxjs/operators";
 
 /**
  * @title Table with expandable rows
@@ -33,52 +36,52 @@ import {
     ])
   ]
 })
-export class StudentsComponent implements OnInit {
-  dataSource: MatTableDataSource<Student>;
-  students$;
-  columnsToDisplay = ["firstname", "lastname", "patronymic"];
-  checkData;
-  expandedElement: Student | null;
+export class StudentsComponent implements OnInit, OnDestroy {
+  private data: MatTableDataSource<Object>;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private columnsToDisplay = ["lastname", "firstname", "patronymic", "delete"];
+
+  private expandedElement: Student | null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  dataHeader(header) {
-    switch (header) {
-      case "firstname":
-        return "Ім'я";
-      case "lastname":
-        return "Прізвище";
-      case "patronymic":
-        return "По-батькові";
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
+
+    if (this.data.paginator) {
+      this.data.paginator.firstPage();
     }
   }
+
   constructor(
     private studentsService: StudentsService,
     private store: Store<{ students }>
-  ) {
-    this.students$ = this.store.pipe(select(selectStudentsData));
+  ) {}
+  private loadStudents() {
+    this.store
+      .pipe(
+        select(selectStudentsData),
+        filter(val => val != null && val != undefined),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(data => {
+        if (!data.students) {
+          this.studentsService.getStudents(17);
+        } else {
+          this.data = new MatTableDataSource(data.students);
+          this.data.paginator = this.paginator;
+          this.data.sort = this.sort;
+        }
+      });
   }
-  loadStudents() {
-    this.students$.subscribe(data => {
-      this.checkData = data.students;
-      this.dataSource = new MatTableDataSource(this.checkData);
-      if (this.checkData) {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
-    });
-    if (!this.checkData) {
-      this.studentsService.getStudents(17);
-    }
+  onDelete(id: number) {
+    this.studentsService.deleteStudent(id);
   }
   ngOnInit() {
     this.loadStudents();
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

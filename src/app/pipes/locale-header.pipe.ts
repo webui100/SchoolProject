@@ -14,5 +14,4 @@ export class LocaleHeaderPipe implements PipeTransform {
         return 'Прізвище';
     }
   }
-
 }

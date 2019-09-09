@@ -13,13 +13,13 @@ export interface ITeacher {
 }
 
 export interface IBindTeacher {
-  id: number;
+  id?: number;
   idSubject?: number;
   idClass?: number;
   subjectName?: string;
   className?: string;
   academicYear?: number;
-  bindTeacher;
+  bindTeacher?;
 }
 
 export interface IJournalBind {
@@ -30,4 +30,3 @@ export interface IJournalBind {
   subjectData?;
   id?;
 }
-

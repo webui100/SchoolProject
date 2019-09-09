@@ -43,14 +43,8 @@ const reducer = createReducer(
   on(TeacherData.deleteTeacher, (state: State, { deleteTeacher }) => {
     return {
       ...state,
-      teachersList: state.teachersList.map(
-        (teacher: ITeacher, index: number) => {
-          if (teacher.id === deleteTeacher && teacher !== undefined) {
-            state.teachersList.splice(index, 1);
-          } else {
-            return teacher;
-          }
-        }
+      teachersList: state.teachersList.filter(
+        (teacher: ITeacher) =>  teacher.id !== deleteTeacher
       )
     };
   }),
@@ -63,8 +57,7 @@ const reducer = createReducer(
   on(TeacherData.addBindTeacher, (state: State, { addBindTeacher }) => {
     return {
       ...state,
-      bindedTeachers:
-      state.bindedTeachers.map((el: IBindTeacher) => {
+      bindedTeachers: state.bindedTeachers.map((el: IBindTeacher) => {
         const bindId = Object.keys(addBindTeacher)[0];
         if (el.hasOwnProperty(bindId)) {
           return { [bindId]: [...el[bindId], addBindTeacher[bindId]] };
@@ -75,6 +68,6 @@ const reducer = createReducer(
   })
 );
 
-export function teachersDataReducer(state: State | undefined, action: Action) {
+export function teachersDataReducer(state: State | undefined, action: Action): State {
   return reducer(state, action);
 }
