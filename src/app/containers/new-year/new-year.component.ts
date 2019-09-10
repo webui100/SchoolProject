@@ -100,7 +100,6 @@ export class NewYearComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((year: number) => {
       this.store.dispatch(NewYearActions.setYear({ year }));
-      console.log(year);
       this.transitionService.getStudents(this.transferClasses).pipe(
         takeUntil(this.destroy$)
       )
@@ -120,7 +119,6 @@ export class NewYearComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("destroyed");
     this.destroy$.next(true);
 
     this.destroy$.unsubscribe();

@@ -23,7 +23,6 @@ export class TransitionService {
   public transitionStudents: Array<Student> = [];
 
   dispatchStudents(classId) {
-    console.log(classId);
     this.http.get(`${environment.APIEndpoint}students/classes/${classId}`)
       .subscribe((res) => {
         this.store.dispatch(addTransferStudent({ students: res["data"] }))
