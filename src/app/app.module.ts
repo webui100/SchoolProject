@@ -1,3 +1,5 @@
+import { TeacherJournalsComponent } from './containers/teacher-panel-journals/teacher-panel-journals.component';
+import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -16,12 +18,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { storageSyncMetaReducer } from 'ngrx-store-persist';
 import { TeachersComponent } from './components/teachers/teachers.component';
 import { AdminComponent } from './pages/admin/admin.component';
-
 import { reducers, metaReducers } from './store';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
 import { DailyScheduleComponent } from './containers/schedule/daily-schedule/daily-schedule.component';
 import { ClassesComponent } from './containers/classes/classes.component';
-
 import {
   NavigationActionTiming,
   RouterStateSerializer,
@@ -119,6 +119,9 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     LocaleHeaderPipe,
     StudentProfileComponent,
     CustomErrorComponent,
+    TeacherSubjectsComponent,
+    TeacherJournalComponent,
+    TeacherJournalsComponent
   ],
   imports: [
     ChartsModule,
