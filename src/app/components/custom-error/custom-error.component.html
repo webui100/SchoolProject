@@ -1,0 +1,24 @@
+<div class="error-container">
+  <div class="error-top-row">
+    <div class="error-message">{{message}}</div>
+    <div class="buttons">
+      <button mat-mini-fab color="accent" class="details-btn" (click)="showDetails()"
+        *ngIf="buttonSwitcher === 'details'; else closeBtn">
+        <i class="material-icons">
+          info
+        </i>
+      </button>
+      <button mat-mini-fab color="warn" class="close-btn" (click)="closeNotification()">
+        <i class="material-icons">
+          close
+        </i>
+      </button>
+    </div>
+  </div>
+  <ng-template [ngIf]="isInfoShown">
+    <div class="error-info">{{error.message}}</div>
+  </ng-template>
+</div>
+
+<ng-template #closeBtn>
+</ng-template>

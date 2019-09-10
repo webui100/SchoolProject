@@ -13,14 +13,18 @@ export const initialState: State = {
 
 const reducer = createReducer(
   initialState,
-  on(ErrorActions.setErrorAction, (state, { error }) => ({
-    ...state,
-    errors: [...state.errors, error]
-  })),
-  on(ErrorActions.removeErrorAction, (state, {error}) => ({
-    ...state,
-    errors: state.errors.filter(item => item !== error)
-  }))
+  on(ErrorActions.setErrorAction, (state, { error }) => {
+    return {
+      ...state,
+      errors: [...state.errors, error]
+    }
+  }),
+  on(ErrorActions.removeErrorAction, (state, { error }) => {
+    return {
+      ...state,
+      errors: state.errors.filter(item => item !== error)
+    }
+  })
 );
 
 export function errorReducer(state: State | undefined, action: Action) {

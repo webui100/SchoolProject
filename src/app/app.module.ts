@@ -1,3 +1,4 @@
+import { TeacherJournalsComponent } from './containers/teacher-panel-journals/teacher-panel-journals.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -13,27 +14,25 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
 import { TeachersComponent } from './components/teachers/teachers.component';
 import { AdminComponent } from './pages/admin/admin.component';
-
 import { reducers, metaReducers } from './store';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
 import { DailyScheduleComponent } from './containers/schedule/daily-schedule/daily-schedule.component';
 import { ClassesComponent } from './containers/classes/classes.component';
-
 import {
   NavigationActionTiming,
   RouterStateSerializer,
   StoreRouterConnectingModule
 } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router.reducer';
-import 'hammerjs';
-import { TeacherJournalContainerComponent } from './containers/teacher-journal-container/teacher-journal-container.component';
+
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { HeaderComponent } from './components/header/header.component';
+import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component'
 import { MainNavComponent } from './components/main-nav/main-nav.component';
-import { MatListModule, MatDialogModule } from '@angular/material';
+import { MatListModule, MatDialogModule, MatPaginatorIntl } from '@angular/material';
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
 import { ChartsModule } from 'ng2-charts';
 import 'hammerjs';
@@ -60,12 +59,10 @@ import { SortButtonComponent } from './components/sort-button/sort-button.compon
 import { TransferedClassesTableComponent } from './components/transfered-classes-table/transfered-classes-table.component';
 import { IsGraduationPipe } from './pipes/is-graduation.pipe';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
-import { TeacherJournalComponent } from './containers/teacher-journal/teacher-journal.component';
-import { TeacherDetailContainerComponent } from './components/teachers/teacher-detail-container/teacher-detail-container.component';
+import { TeacherJournalComponent } from './components/teachers/teacher-journal/teacher-journal.component';
+import { TeacherDetailContainerComponent } from './containers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from './pages/teacher/teacher.component';
 import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
-import { TeacherSubjectsComponent } from './containers/teacher-subjects/teacher-subjects.component';
-import { TeacherJournalsComponent } from './containers/teacher-journals/teacher-journals.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
@@ -73,6 +70,8 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
+import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
+import { CustomErrorComponent } from './components/custom-error/custom-error.component';
 
 @NgModule({
   declarations: [
@@ -112,15 +111,16 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
     TeacherDetailContainerComponent,
     TeacherComponent,
     TeacherNavComponent,
-    TeacherJournalsComponent,
     NotFoundComponent,
     NewYearControllComponent,
-    TeacherSubjectsComponent,
     UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
     StudentProfileComponent,
-    TeacherJournalContainerComponent
+    CustomErrorComponent,
+    TeacherSubjectsComponent,
+    TeacherJournalComponent,
+    TeacherJournalsComponent
   ],
   imports: [
     ChartsModule,
@@ -141,7 +141,7 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     StoreModule.forRoot(reducers, {
-      metaReducers
+      metaReducers: [storageSyncMetaReducer]
       // runtimeChecks: {
       //   strictStateImmutability: true,
       //   strictActionImmutability: true
@@ -156,14 +156,16 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     ModalDialogComponent,
     TeachersComponent,
     TemporaryComponent,
-    HomeworkDialogComponent
+    HomeworkDialogComponent,
+    CustomErrorComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }

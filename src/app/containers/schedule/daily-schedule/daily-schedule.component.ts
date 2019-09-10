@@ -33,10 +33,10 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     private schedule: ScheduleService) {}
 
   ngOnInit() {
-    this.buildDailySchedule();
-
     this.subjects = this.schedule.getSubjects();
     this.teachers = this.schedule.getTeachers();
+
+    this.buildDailySchedule();
 
     for (let i = 0; i < this.lessonsMaxPerDay; i++) {
       this.secondGroupVisible.push(false);
@@ -44,7 +44,7 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   }
 
   buildDailySchedule() {
-    if (this.dayName !== 'saturday') {
+    if (this.dayName !== 'saturday' && !this.dailySchedule.length) {
       this.dailySchedule.push(this.formBuilder.group({
         firstGroup: this.formBuilder.control('', [Validators.required, listValidation(this.subjects)]),
         secondGroup: this.formBuilder.control('', [listValidation(this.subjects)]),
@@ -59,43 +59,11 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
         secondGroupTeacher: this.formBuilder.control('', [listValidation(this.teachers)])
       }));
     }
-
-      this.setSubjectAutocompleteFirstGroup(0);
-  }
-
-  setSubjectsValidators() {
-    for (let i=0; i < this.dailySchedule.length; i++) {
-      if (i === 0) {
-        this.dailySchedule.at(i).get('firstGroup').setValidators([Validators.required, listValidation(this.subjects)]);
-      }
-      this.dailySchedule.at(i).get('firstGroup').setValidators([listValidation(this.subjects)]);
-      this.dailySchedule.at(i).get('secondGroup').setValidators([listValidation(this.subjects)]);
-    }
-  }
-
-  setTeachersValidators() {
-    for (let i=0; i < this.dailySchedule.length; i++) {
-      if (this.dailySchedule.at(i).get('firstGroupTeacher')) {
-        this.dailySchedule.at(i).get('firstGroupTeacher').setValidators([listValidation(this.teachers)]);
-      }
-      if (this.dailySchedule.at(i).get('secondGroupTeacher')) {
-        this.dailySchedule.at(i).get('secondGroupTeacher').setValidators([listValidation(this.teachers)]);
-      }
-    }
-  }
-
-  checkForValidationSetting() {
-    if (this.subjects.length) {
-      this.setSubjectsValidators()
-    }
-    if (this.teachers.length) {
-      this.setTeachersValidators()
-    }
+    
+    this.setSubjectAutocompleteFirstGroup(0);
   }
 
   addLesson(lessonNumber: number) {
-    this.checkForValidationSetting()
-
     if (lessonNumber < (this.lessonsMaxPerDay - 1) &&
       this.dailySchedule.length === lessonNumber + 1) {
       this.dailySchedule.push(this.formBuilder.group({
@@ -111,7 +79,6 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     if (this.dayName === 'saturday' && this.dailySchedule.length) {
       this.saturdayFirstLesson = true;
     }
-
   }
 
   removeLesson(lessonNumber: number) {
@@ -121,7 +88,8 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
     this.removeTeacher(lessonNumber, 'second');
     if (lessonNumber === (this.lessonsMaxPerDay - 1) ||
       (lessonNumber < (this.lessonsMaxPerDay - 1) &&
-        this.dailySchedule.length === this.lessonsMaxPerDay - 1)) {
+        this.dailySchedule.length === this.lessonsMaxPerDay - 1 &&
+        this.dailySchedule.at(this.lessonsMaxPerDay - 2).get('firstGroup').value )) {
       this.addLesson(this.lessonsMaxPerDay - 2);
     };
 
@@ -141,8 +109,8 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   removeSecondGroup(lessonNumber: number) {
     this.secondGroupVisible[lessonNumber] = false;
     this.secondGroupTeachersVisible[lessonNumber] = false;
-    this.dailySchedule.at(lessonNumber).get('secondGroup').patchValue('');
-    this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');
+    if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('secondGroup').patchValue('');
+    if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');
   }
 
   addTeacherToLesson(lessonNumber: number, group: string) {
@@ -159,11 +127,11 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
   removeTeacher(lessonNumber: number, group: string) {
     if (group === 'first') {
       this.firstGroupTeachersVisible[lessonNumber] = false;
-      this.dailySchedule.at(lessonNumber).get('firstGroupTeacher').patchValue('');
+      if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('firstGroupTeacher').patchValue('');
     }
     if (group === 'second') {
       this.secondGroupTeachersVisible[lessonNumber] = false;
-      this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');    
+      if (this.dailySchedule.at(lessonNumber)) this.dailySchedule.at(lessonNumber).get('secondGroupTeacher').patchValue('');    
     }
   }
 
