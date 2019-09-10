@@ -64,8 +64,6 @@ import { TeacherJournalComponent } from './components/teachers/teacher-journal/t
 import { TeacherDetailContainerComponent } from './containers/teacher-detail-container/teacher-detail-container.component';
 import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
-import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
-import { TeacherJournalsComponent } from "./containers/teacher-journals/teacher-journals.component";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { NewYearControllComponent } from "./components/new-year-controll/new-year-controll.component";
 import { NewYearPipe } from "./pipes/new-year.pipe";
@@ -114,10 +112,8 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     TeacherDetailContainerComponent,
     TeacherComponent,
     TeacherNavComponent,
-    TeacherJournalsComponent,
     NotFoundComponent,
     NewYearControllComponent,
-    TeacherSubjectsComponent,
     UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
