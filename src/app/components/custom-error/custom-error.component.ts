@@ -25,7 +25,7 @@ export class CustomErrorComponent implements OnInit, OnDestroy {
           this.componentRef.changeDetectorRef.detectChanges();
         } catch (e) { };
       }
-    }, 4000);
+    }, 5000);
   }
 
   ngOnDestroy() {
@@ -43,7 +43,7 @@ export class CustomErrorComponent implements OnInit, OnDestroy {
           this.componentRef.changeDetectorRef.detectChanges();
         } catch (e) { };
       }
-    }, 4000);
+    }, 6000);
   }
 
   closeNotification() {

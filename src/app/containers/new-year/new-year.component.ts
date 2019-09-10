@@ -1,7 +1,8 @@
 import { TransitionService } from 'src/app/services/transition.service';
 import {
   selectTransferClasses, selectTransferStudents,
-  selectTransferedClasses, selectClassesYears
+  selectTransferedClasses, selectClassesYears,
+  selectAllTransferStudents
 } from './../../store/newyear/newyear.selector';
 import { ClassesService } from './../../services/classes.service';
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
@@ -10,9 +11,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import ClassModel from 'src/app/models/schoolclass.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable, Subscription, BehaviorSubject, Subject, ReplaySubject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, map } from 'rxjs/operators';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import * as NewYearActions from '../../store/newyear/newyear.actions';
+import { Student } from 'src/app/models/profile.model';
 
 @Component({
   selector: 'webui-new-year',
@@ -77,11 +79,14 @@ export class NewYearComponent implements OnInit, OnDestroy {
       select(selectClassesYears),
       takeUntil(this.destroy$));
 
+    this.store.pipe(
+      select(selectAllTransferStudents),
+      takeUntil(this.destroy$)
+    ).subscribe((students: []) => {
+      this.transitionService.setTransferStudents(students);
+    });
+
     this.transferList$.subscribe((list: Array<ClassModel>) => {
-      if (list.length > 0) {
-        let ref = this.transitionService.getStudents(list).subscribe();
-        ref.unsubscribe();
-      }
       this.transferClasses = list;
       this.transferClassesData = new MatTableDataSource(list);
       this.transferClassesData.paginator = this.paginator;
@@ -95,8 +100,11 @@ export class NewYearComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((year: number) => {
       this.store.dispatch(NewYearActions.setYear({ year }));
-      let ref = this.transitionService.getStudents(this.transferClasses).subscribe();
-      ref.unsubscribe();
+      console.log(year);
+      this.transitionService.getStudents(this.transferClasses).pipe(
+        takeUntil(this.destroy$)
+      )
+        .subscribe();
     })
 
     this.isWithStudentsSubject$.pipe(
@@ -106,12 +114,13 @@ export class NewYearComponent implements OnInit, OnDestroy {
     })
 
     this.studentsList$.subscribe((value) => {
-      this.transferStudents = value
+      this.transferStudents = value;
     });
 
   }
 
   ngOnDestroy(): void {
+    console.log("destroyed");
     this.destroy$.next(true);
 
     this.destroy$.unsubscribe();

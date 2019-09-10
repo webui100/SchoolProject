@@ -4,9 +4,12 @@
   background-color: #b22222;
   color: white;
   padding: 15px;
+  padding-left: 25px;
   width: 400px;
   left: calc(50vw - 200px);
   border-radius: 8px;
+  transition: .3s;
+  animation: .4s getin;
 }
 
 .noDisplay {
@@ -17,4 +20,34 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+}
+
+%btns {
+  transition: .3s;
+  color: white;
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    transform: scale(1.05)
+  }
+}
+
+.details-btn, .close-btn {
+  @extend %btns;
+}
+
+.buttons {
+  display: flex;
+}
+
+@keyframes getin {
+  from{
+    transform: scale(.5)
+  };
+  to {
+    transform: scale(1);
+  }
 }

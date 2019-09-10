@@ -87,6 +87,13 @@ export const selectClassesYears = createSelector(
   }
 )
 
+export const selectAllTransferStudents = createSelector(
+  selectStudents,
+  (students) => {
+    return students;
+  }
+)
+
 function validateClassName(className: string): boolean {
   const simpleClassName = /^\d+[-][А-ЩЬЮЯҐЄІЇа-щьюяґєії]/i;
   const complexClassName = /^\d+[(]\d+[-][А-ЩЬЮЯҐЄІЇа-щьюяґєії][)]/i;

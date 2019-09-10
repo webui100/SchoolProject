@@ -24,8 +24,7 @@ export class ErrorService implements ErrorHandler {
       store.dispatch(ErrorActions.setErrorAction({ error }));
       notify.showError(notify.errorParser(error), error);
     } else {
-      // tslint:disable-next-line: no-console
-      console.error(error);
+      notify.showError(notify.errorParser(error), error);
     }
     errorStoreRef.unsubscribe();
 
