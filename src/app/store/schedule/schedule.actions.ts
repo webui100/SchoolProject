@@ -7,7 +7,7 @@ export const setClearedSchedule = createAction(
 
 export const setSavedSchedule = createAction(
   '[Admin Schedule] Set Saved Schedule',
-  props<{ savedData: object }>()
+  props<{ savedData: object, scheduleSaved: object }>()
 );
 
 export const setSchedule = createAction(
