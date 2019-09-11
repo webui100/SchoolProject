@@ -10,6 +10,7 @@ import { listValidation } from 'src/app/containers/schedule/validators.directive
 import { Subscription } from 'rxjs';
 import { selectTeachers } from '../store/teachers/teachers.selector';
 import { selectAllSubjects } from '../store/subjects/subjects.selector';
+// import { TeachersService } from './teachers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class ScheduleService {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private notify: NotificationService,
+    // private teachersService: TeachersService,
     private store: Store<{ schedule }>,
     private storeSubjects: Store<{ subjects }>,
     private storeTeachers: Store<{ teachers }>) {
@@ -167,6 +169,7 @@ export class ScheduleService {
       const teacherId = parseInt((uniqueTeacherSubjectsArray[i]as string).slice((uniqueTeacherSubjectsArray[i] as string).indexOf('-') + 1));
       const subjectId = parseInt(uniqueTeacherSubjectsArray[i]as string);
 
+      // this.teachersService.teacherJournalBind({teacherId, classId, subjectId})
       this.postRequestTeacherToJournal(teacherId, classId, subjectId);
     }
   }
