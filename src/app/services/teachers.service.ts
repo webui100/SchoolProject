@@ -1,10 +1,10 @@
 import { addBindTeacher } from './../store/teachers/teachers.action';
-import { IBindTeacher, IJournalBind } from './../models/teacher.model';
+import { IJournalBind } from './../models/teacher.model';
 import { IHttpGetBindTeacher } from './../models/HttpResponse.model';
-import { FormGroup, NgForm, AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { NotificationService } from './notification.service';
 import { environment } from './../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {

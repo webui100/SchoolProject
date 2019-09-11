@@ -73,6 +73,10 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
+import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
+import { MarkComponentComponent } from './components/mark-component/mark-component.component';
+import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
+import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +125,11 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
-    TeacherJournalsComponent
+    TeacherJournalsComponent,
+    MarkControllerComponent,
+    MarkComponentComponent,
+    AddMarkComponent,
+    EditMarkComponent
   ],
   imports: [
     ChartsModule,

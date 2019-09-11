@@ -1,133 +1,138 @@
-import { NewYearComponent } from "./containers/new-year/new-year.component";
-import { ScheduleComponent } from "./containers/schedule/schedule.component";
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { NewYearComponent } from './containers/new-year/new-year.component';
+import { ScheduleComponent } from './containers/schedule/schedule.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
-import { LoginComponent } from "./pages/login/login.component";
-import { AdminComponent } from "./pages/admin/admin.component";
-import { TemporaryComponent } from "./components/temporary/temporary.component";
-import { StudentDiaryComponent } from "./containers/student-diary/student-diary.component";
-import { StudentProfileComponent } from "./containers/student-profile/student-profile.component";
-import { AdminGuard } from "./services/guards/admin.guard";
-import { TeacherGuard } from "./services/guards/teacher.guard";
-import { StudentGuard } from "./services/guards/student.guard";
-import { LoginGuard } from "./services/guards/login.guard";
-import { SubjectsComponent } from "./containers/subjects/subjects.component";
-import { StudentsComponent } from "./pages/students/students.component";
-import { StudentComponent } from "./pages/student/student.component";
-import { ClassesComponent } from "./containers/classes/classes.component";
-import { TeachersContainerComponent } from "./containers/teachers-container/teachers-container.component";
-import { TeacherComponent } from "./pages/teacher/teacher.component";
-import { TeacherSubjectsComponent } from "./containers/teacher-panel-subjects/teacher-panel-subjects.component";
-import { TeacherJournalsComponent } from "./containers/teacher-panel-journals/teacher-panel-journals.component";
-import { NotFoundComponent } from "./pages/not-found/not-found.component";
+import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { TemporaryComponent } from './components/temporary/temporary.component';
+import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
+import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+import { AdminGuard } from './services/guards/admin.guard';
+import { TeacherGuard } from './services/guards/teacher.guard';
+import { StudentGuard } from './services/guards/student.guard';
+import { LoginGuard } from './services/guards/login.guard';
+import { SubjectsComponent } from './containers/subjects/subjects.component';
+import { StudentsComponent } from './pages/students/students.component';
+import { StudentComponent } from './pages/student/student.component';
+import { ClassesComponent } from './containers/classes/classes.component';
+import { TeachersContainerComponent } from './containers/teachers-container/teachers-container.component';
+import { TeacherComponent } from './pages/teacher/teacher.component';
+import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component';
+import { TeacherJournalsComponent } from './containers/teacher-panel-journals/teacher-panel-journals.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component'
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: LoginComponent,
     canActivate: [LoginGuard]
   },
   {
-    path: "login",
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: "teacher",
+    path: 'teacher',
     component: TeacherComponent,
     canActivate: [TeacherGuard],
     children: [
       {
-        path: "",
-        redirectTo: "home",
-        pathMatch: "full"
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
       },
       {
-        path: "home",
+        path: 'home',
         component: TeacherSubjectsComponent
       },
       {
-        path: "journal",
+        path: 'journal',
         component: TeacherJournalsComponent
       },
       {
-        path: "statistics",
+        path: 'statistics',
         component: TemporaryComponent
       },
       {
-        path: "profile",
+        path: 'profile',
         component: TemporaryComponent
       }
     ]
   },
   {
-    path: "students",
+    path: 'students',
     component: StudentsComponent
   },
   {
-    path: "student",
+    path: 'student',
     component: StudentComponent,
     canActivate: [StudentGuard],
     children: [
       {
-        path: "",
-        redirectTo: "diary",
-        pathMatch: "full"
+        path: '',
+        redirectTo: 'diary',
+        pathMatch: 'full'
       },
       {
-        path: "diary",
+        path: 'diary',
         component: StudentDiaryComponent
       },
       {
-        path: "profile",
+        path: 'profile',
         component: StudentProfileComponent
       }
     ]
   },
   {
-    path: "admin",
+    path: 'admin',
     component: AdminComponent,
     canActivate: [AdminGuard],
     children: [
       {
-        path: "",
-        redirectTo: "home",
-        pathMatch: "full"
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
       },
       {
-        path: "home",
+        path: 'home',
         component: AdminPanelComponent
       },
       {
-        path: "pupils",
+        path: 'pupils',
         component: StudentsComponent
       },
       {
-        path: "teachers",
+        path: 'teachers',
         component: TeachersContainerComponent
       },
       {
-        path: "subjects",
+        path: 'subjects',
         component: SubjectsComponent
       },
       {
-        path: "schedule",
+        path: 'schedule',
         component: ScheduleComponent
       },
       {
-        path: "classes",
+        path: 'classes',
         component: ClassesComponent
       },
       {
-        path: "new-year-transition",
+        path: 'mark-controller',
+        component: MarkControllerComponent
+      },
+      {
+        path: 'new-year-transition',
         component: NewYearComponent
       }
     ]
   },
   // після цього роута, нічого не додавати!
   {
-    path: "**",
+    path: '**',
     component: NotFoundComponent
   }
 ];
