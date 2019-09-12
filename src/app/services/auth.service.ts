@@ -1,6 +1,6 @@
 import { environment } from '../../environments/environment';
 import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router } from '@angular/router';
 import * as jwt_decode from '../../../node_modules/jwt-decode';
 
@@ -36,7 +36,6 @@ export class AuthService implements OnDestroy{
 
   ngOnDestroy(): void {
     this.timerTerminator$.next();
-    // console.log('I\'m OnDestroy AuthService');
     this.timerTerminator$.complete();
   }
 
@@ -51,19 +50,17 @@ export class AuthService implements OnDestroy{
       })
        .subscribe(response => {
           const token = response.headers.get('Authorization');
-          localStorage.setItem('token', token);
+          this.setToken(token);
           this.tokenizedUser();
-          // this.refreshTokenTimer();
 
           this.id$.subscribe((data) => this.id = data);
           this.role$.subscribe((data) => this.role = data);
-
           this.moveUserToPage();
         })}
 
 
   tokenizedUser(): void {
-    const token = localStorage.getItem('token');
+    const token = this.getToken();
     const userRole = jwt_decode(token).Roles.authority;
     const userId = jwt_decode(token).jti;
     this.store.dispatch(login({role: userRole, id: userId}));
@@ -81,26 +78,27 @@ export class AuthService implements OnDestroy{
 
 
   signOut() {
-    localStorage.removeItem('token');
+    sessionStorage.clear();
     this.router.navigate(['']);
     this.store.dispatch(new Logout());
-    // this.store.dispatch(login({role: null, id: null}));
-    sessionStorage.removeItem('role');
   }
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
+  }
+
+  setToken(token): void {
+    sessionStorage.setItem('token', token);
   }
 
   refreshToken() {
     const tokenValid = this.isTokenValid();
-    console.log(tokenValid);
+    // console.log(tokenValid);
     if (!tokenValid) {
       return this.http.get(this.BASE_URI + 'refresh', {observe: 'response'})
-        // .pipe(tap(res => console.log(res)))
         .subscribe(res => {
             const newToken = res.headers.get('Authorization');
-            localStorage.setItem('token', newToken);
+            this.setToken(newToken);
             console.log('token refreshed');
           }, err => console.log(err + 'Your token is still old =)')
         );
@@ -109,16 +107,14 @@ export class AuthService implements OnDestroy{
 
 
   loggedIn() {
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('token');
   }
 
   isTokenValid(): boolean {
-    const currentToken = localStorage.getItem('token');
+    const currentToken = this.getToken();
     const currentTokenExpirationDate = jwt_decode(currentToken).exp;
     const currentTime = Date.now();
     if (((currentTokenExpirationDate * 1000) - currentTime) > 3500000) {
-      // console.log(currentTokenExpirationDate)
-      // console.log(((currentTokenExpirationDate * 1000) - currentTime))
       return true;
     }
     return false;
@@ -129,6 +125,5 @@ export class AuthService implements OnDestroy{
     return timer(600000, 1200000).pipe(
       takeUntil(this.timerTerminator$));
     }
-
 }
 
