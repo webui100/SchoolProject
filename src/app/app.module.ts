@@ -73,18 +73,15 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
-<<<<<<< HEAD
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
 import { MarkComponentComponent } from './components/mark-component/mark-component.component';
 import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
 import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
 import { DisabledMarksComponent } from './components/mark-component/disabled-marks/disabled-marks.component';
-=======
 import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 
->>>>>>> init
 
 @NgModule({
   declarations: [
