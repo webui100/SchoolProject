@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscription, ReplaySubject } from 'rxjs';
+import { map, share, takeUntil } from 'rxjs/operators';
 import links from './links';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -13,8 +13,6 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MainNavComponent implements OnInit, OnDestroy {
 
-  @Input()
-
   public isOpened = true;
   public linksSet = links;
   public handsetSubject$: BehaviorSubject<boolean> = new BehaviorSubject(
@@ -22,19 +20,20 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public buttonOpened$: BehaviorSubject<boolean> = new BehaviorSubject(
     this.breakpointObserver.isMatched(Breakpoints.Handset));
   private sidenavPosition = 'end';
-  
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
+
 
   isHandset$: Observable<boolean>;
-  isHandsetRef: Subscription;
 
   ngOnInit() {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
       .pipe(
         map(result => result.matches),
-        share()
+        share(),
+        takeUntil(this.destroy$)
       );
 
-    this.isHandsetRef = this.isHandset$.subscribe(isHandset => {
+    this.isHandset$.subscribe(isHandset => {
       this.isOpened = !isHandset;
       this.buttonOpened$.next(!this.isOpened);
       this.handsetSubject$.next(isHandset);
@@ -43,9 +42,9 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.buttonOpened$.unsubscribe();
-    this.isHandsetRef.unsubscribe();
-    this.buttonOpened$.unsubscribe();
+    this.destroy$.next(true);
+
+    this.destroy$.unsubscribe();
   }
 
   closeOnLink() {

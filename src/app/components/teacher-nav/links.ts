@@ -13,11 +13,6 @@ const links = [
     path: 'statistics',
     title: 'Статистика',
     icon: 'label'
-  },
-  {
-    path: 'profile',
-    title: 'Профіль',
-    icon: 'label'
   }
 ];
 

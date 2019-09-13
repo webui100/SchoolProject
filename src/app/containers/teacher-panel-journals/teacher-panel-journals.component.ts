@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { TeacherJournal } from '../../models/teacher-journals';
-import { TeacherJournalsService } from '../../services/teacher-journals.service';
-import { selectAll } from "../../store/teacher-journals/teacher-journals.selector";
+import { TeacherJournals } from '../../models/teacher-panel.model';
+import { TeacherPanelService } from '../../services/teacher-panel.service';
+import { selectAllJournals } from "../../store/teacher-panel/teacher-panel.selector";
 import { Store, select } from "@ngrx/store";
 import { MatTableDataSource } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'webui-teacher-journals',
-  templateUrl: './teacher-journals.component.html',
-  styleUrls: ['./teacher-journals.component.scss'],
+  selector: 'webui-teacher-panel-journals',
+  templateUrl: './teacher-panel-journals.component.html',
+  styleUrls: ['./teacher-panel-journals.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -19,24 +19,24 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
 })
 export class TeacherJournalsComponent implements OnInit { 
-  private data$: any;
-  data: TeacherJournal[];
+  private observable$: any;
+  data: TeacherJournals[];
 
   constructor(
-    private teacherJournals: TeacherJournalsService,
-    private store: Store<{ teacherJournals }>) {
-      this.data$ = this.store.pipe(select(selectAll));
+    private teacherJournals: TeacherPanelService,
+    private store: Store<{ teacherPanel }>) {
+      this.observable$ = this.store.pipe(select(selectAllJournals));
     };
     private columnsToDisplay: string[] = ['subjectName', 'className', 'academicYear'];
-    private expandedElement: TeacherJournal | null;
+    private expandedElement: TeacherJournals | null;
     private teacherJournalsList: any;
 
 
-  // Get journals
+  // Get journals for teacher
   getJournals(): void {
-    this.data$.subscribe(response => {
+    this.observable$.subscribe(response => {
     this.data = response;
-    this.teacherJournalsList = new MatTableDataSource<TeacherJournal>(this.data);
+    this.teacherJournalsList = new MatTableDataSource<TeacherJournals>(this.data);
     });
     if (!this.data) {
       this.teacherJournals.getTeacherJournalsService();

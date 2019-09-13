@@ -18,8 +18,8 @@ import { StudentComponent } from "./pages/student/student.component";
 import { ClassesComponent } from "./containers/classes/classes.component";
 import { TeachersContainerComponent } from "./containers/teachers-container/teachers-container.component";
 import { TeacherComponent } from "./pages/teacher/teacher.component";
-import { TeacherSubjectsComponent } from "./containers/teacher-subjects/teacher-subjects.component";
-import { TeacherJournalsComponent } from "./containers/teacher-journals/teacher-journals.component";
+import { TeacherSubjectsComponent } from "./containers/teacher-panel-subjects/teacher-panel-subjects.component";
+import { TeacherJournalsComponent } from "./containers/teacher-panel-journals/teacher-panel-journals.component";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
 
 const routes: Routes = [

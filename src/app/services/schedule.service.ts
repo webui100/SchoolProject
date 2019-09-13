@@ -39,11 +39,6 @@ export class ScheduleService {
     this.subjectsTemp$ = this.storeSubjects.pipe(select(selectAllSubjects));
   }
 
-  // getSchedule(classId) {
-  //   return this.http.get(`${this.BASE_URI}classes/${classId}/schedule`)
-  //     .subscribe(res => this.store.dispatch(getSchedule(classId)));
-  // }
-
   getSubjects() {
     const subjects = [];
     this.subjectsSubscription = this.subjectsTemp$.subscribe(res => {
@@ -72,15 +67,19 @@ export class ScheduleService {
     return teachers
   }
 
-  setScheduleToStore(form: any) {
+  setScheduleToStore(form: any, scheduleSaved: {}, scheduleCleared: {}) {
+    form.scheduleSaved = scheduleSaved;
+    form.scheduleCleared = scheduleCleared;
     this.store.dispatch(setSchedule(form))
   }
 
-  setClearedScheduleToStore(form: any) {
+  setClearedScheduleToStore(form: any, scheduleCleared: {}) {
+    form.scheduleCleared = scheduleCleared;
     this.store.dispatch(setClearedSchedule(form))
   }
 
-  postSchedule(form: any) {
+  postSchedule(form: any, savedSchedule: {}) {
+    form.savedSchedule = savedSchedule;
     this.store.dispatch(setSavedSchedule(form));
 
     const mondaySubjects = [];
@@ -132,7 +131,6 @@ export class ScheduleService {
       tuesdaySubjects: daysSubjects.tuesdaySubjects,
       wednesdaySubjects: daysSubjects.wednesdaySubjects
     };
-    console.log(scheduleObject);
 
     return this.http
       .post(`${this.BASE_URI}classes/${form.class.id}/schedule`, scheduleObject, {
@@ -141,7 +139,6 @@ export class ScheduleService {
       .subscribe(res => {
         if (res.status === 200 || res.status === 201) {
           this.notify.notifySuccess('Розклад доданий');
-          // this.store.dispatch(addStudentsAction({ addedStudent: data }));
         } else {
           this.notify.notifyFailure(`Помилка додавання розкладу. Статус: ${res.status}`);
         }
@@ -169,6 +166,7 @@ export class ScheduleService {
     for (let i = 0; i < uniqueTeacherSubjectsArray.length; i++) {
       const teacherId = parseInt((uniqueTeacherSubjectsArray[i]as string).slice((uniqueTeacherSubjectsArray[i] as string).indexOf('-') + 1));
       const subjectId = parseInt(uniqueTeacherSubjectsArray[i]as string);
+
       this.postRequestTeacherToJournal(teacherId, classId, subjectId);
     }
   }
@@ -265,4 +263,3 @@ export class ScheduleService {
     });
   }
 }
-

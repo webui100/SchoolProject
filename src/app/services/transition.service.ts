@@ -4,12 +4,13 @@ import ClassModel from 'src/app/models/schoolclass.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, filter, switchMap } from 'rxjs/operators';
 import { from, Observable, Subject } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { addTransferStudent } from '../store/newyear/newyear.actions';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
+import { Student } from '../models/students';
 
 @Injectable({
   providedIn: 'root'
@@ -19,19 +20,20 @@ export class TransitionService {
   constructor(private http: HttpClient, private notificationService: NotificationService,
     private classesService: ClassesService, private store: Store<{ newYear }>, ) { }
 
-  dispatchStudents(id: number) {
-    return this.http
-      .get(`${environment.APIEndpoint}students/classes/${id}`)
-      .subscribe(res => {
-        this.store.dispatch(addTransferStudent({ students: res["data"] }));
+  public transitionStudents: Array<Student> = [];
+
+  dispatchStudents(classId) {
+    this.http.get(`${environment.APIEndpoint}students/classes/${classId}`)
+      .subscribe((res) => {
+        this.store.dispatch(addTransferStudent({ students: res["data"] }))
       });
   }
 
   getStudents(classesList: Array<ClassModel>) {
     const setStudentsObs: Observable<any> = from(classesList).pipe(
-      map((classObj: ClassModel) => {
-        return this.dispatchStudents(classObj.id)
-      })
+      filter((classObj: ClassModel) => classObj.numOfStudents !== 0),
+      map((classObj: ClassModel) => classObj.id),
+      map((classId: number) => this.dispatchStudents(classId))
     );
     return setStudentsObs;
   }
@@ -205,7 +207,7 @@ export class TransitionService {
 
 
     this.bindStudentsToNewClass(idArr).toPromise()
-      .then((value) => {
+      .then(() => {
         this.notificationService.notifySuccess('Успішно переведено')
       })
       .then(() => {
@@ -215,6 +217,10 @@ export class TransitionService {
         this.notificationService.notifyFailure('Не вдалося перевести');
         console.log(error);
       })
+  }
+
+  setTransferStudents(value) {
+    this.transitionStudents = value;
   }
 }
 
