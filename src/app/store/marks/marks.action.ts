@@ -6,3 +6,14 @@ export const marksListAction = createAction(
     '[Marks List] marksList',
     props<{ marksList: IMarkType[]}>()
 );
+
+export const markTypeAdd = createAction(
+    '[Add Mark] Add Mark',
+    props<{ addMark: IMarkType}>()
+);
+
+export const markTypeEdit = createAction(
+    '[Edit Mark] Edit Mark',
+    props<{ editMark: IMarkType}>()
+);
+

@@ -77,6 +77,7 @@ import { MarkControllerComponent } from './containers/mark-controller/mark-contr
 import { MarkComponentComponent } from './components/mark-component/mark-component.component';
 import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
 import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
+import { DisabledMarksComponent } from './components/mark-component/disabled-marks/disabled-marks.component';
 
 @NgModule({
   declarations: [
@@ -129,7 +130,8 @@ import { EditMarkComponent } from './components/mark-component/edit-mark/edit-ma
     MarkControllerComponent,
     MarkComponentComponent,
     AddMarkComponent,
-    EditMarkComponent
+    EditMarkComponent,
+    DisabledMarksComponent
   ],
   imports: [
     ChartsModule,

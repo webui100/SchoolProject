@@ -21,7 +21,10 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class MarkComponentComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input() marksData: IMarkType[];
+  @Input() marksDisabled: IMarkType[];
+  @Output() editMark = new EventEmitter();
   @Output() getMarks = new EventEmitter();
+  @Output() createMark = new EventEmitter();
 
   private marksList;
   public expandedElement: IMarkType[] | null;
@@ -35,6 +38,14 @@ export class MarkComponentComponent implements OnInit, OnChanges {
   private fillTable(): void {
     this.marksList = new MatTableDataSource<IMarkType>(this.marksData);
     this.marksList.paginator = this.paginator;
+  }
+
+  postMark(data) {
+    this.createMark.emit(data);
+  }
+
+  putMark(data) {
+    this.editMark.emit(data);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -28,6 +28,7 @@ mat-icon:hover {
   align-self: center;
   margin: 0.5rem;
   width: 100%;
+  margin-bottom: 3rem;
 }
 
 .header {
@@ -54,6 +55,7 @@ mat-icon:hover {
   display: flex;
   align-self: center;
   flex-direction: column;
+  margin-bottom: 4rem;
 }
 table {
   width: 100%;
@@ -79,10 +81,8 @@ tr.mark-detail-row {
 }
 
 @media only screen and (min-width: 600px) {
-  .table-container {
-    width: 90%;
-  }
   .mat-accordion {
     width: 90%;
   }
+
 }

@@ -7,7 +7,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  marksList: []
+  marksList: [],
 };
 
 const reducer = createReducer(
@@ -15,6 +15,16 @@ const reducer = createReducer(
   on(MarksData.marksListAction, (state: State, { marksList }) => ({
     ...state,
     marksList
+  })),
+  on(MarksData.markTypeAdd, (state: State, { addMark }) => ({
+    ...state,
+    marksList: [...state.marksList, addMark ]
+  })),
+  on(MarksData.markTypeEdit, (state: State, { editMark }) => ({
+    ...state,
+    marksList: state.marksList.map( mark => {
+      return mark.id === editMark.id ? editMark : mark;
+    })
   }))
 );
 

@@ -1,3 +1,4 @@
+import { ITeacher } from 'src/app/models/teacher.model';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -11,7 +12,7 @@ import { sortColumn } from 'src/app/store/teachers/teachers.action';
   styleUrls: ['./teachers-container.component.scss']
 })
 export class TeachersContainerComponent implements OnInit {
-  private teachersList$: Observable<object[]>;
+  private teachersList$: Observable<ITeacher[]>;
 
   constructor(private store: Store<object>) {}
 
