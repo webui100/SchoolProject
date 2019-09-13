@@ -1,1 +1,19 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+:host {
+  --main-color: #ff6f61;
+  --light-color: #f4d8e2;
+  --dark-color: #ffbe62;
+  --font-color: black;
+  --accent-color: #65f1ff;
+  --alternative-accent-color: #007c7c;
+  --contrast-font-color: #ced6e0;
+}
+
+// "main-color": "	#dfe4ea",
+//   "light-color": "#ffffff",
+//   "dark-color": "#2f3542",
+//   "font-color": "black",
+//   "contrast-font-color": "#ced6e0",
+//   "accent-color": "#ff6348",
+//   "alternative-accent-color": "#ff7f50"

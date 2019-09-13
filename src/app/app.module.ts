@@ -73,6 +73,8 @@ import { FormGeneratorComponent } from "./components/form-generator/form-generat
 import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
 import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
+import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +123,9 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
-    TeacherJournalsComponent
+    TeacherJournalsComponent,
+    ThemeButtonComponent,
+    ThemePickerComponent
   ],
   imports: [
     ChartsModule,
@@ -166,7 +170,8 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     TeachersComponent,
     TemporaryComponent,
     HomeworkDialogComponent,
-    CustomErrorComponent
+    CustomErrorComponent,
+    ThemePickerComponent
   ]
 })
 export class AppModule { }

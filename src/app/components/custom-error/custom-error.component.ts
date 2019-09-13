@@ -37,12 +37,10 @@ export class CustomErrorComponent implements OnInit, OnDestroy {
     this.buttonSwitcher = 'close';
     this.componentRef.changeDetectorRef.detectChanges();
     setTimeout(() => {
-      if (this.buttonSwitcher === 'details') {
-        this.componentRef.destroy();
-        try {
-          this.componentRef.changeDetectorRef.detectChanges();
-        } catch (e) { };
-      }
+      this.componentRef.destroy();
+      try {
+        this.componentRef.changeDetectorRef.detectChanges();
+      } catch (e) { };
     }, 6000);
   }
 
