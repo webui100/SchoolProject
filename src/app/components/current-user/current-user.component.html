@@ -1,16 +1,15 @@
 <ng-container *ngIf="currentUser$ | async as currentUserData">
   <div class="user-info">
     <div class="mask">
-        <img src={{currentUserData.avatar}}  alt="User avatar">
+      <img src={{currentUserData.avatar}}  alt="User avatar">
     </div>
     <h3>{{currentUserData.firstname || currentUserData.firstName }} {{currentUserData.lastname || currentUserData.lastName}}</h3>
     <p>{{currentUserData.login}}</p>
     <h4>{{_currentUser.userRole()}}</h4>
     <br>
-      <!-- <div *ngIf = "!_currentUser.isAdmin()"> -->
-        <div *ngIf = "_currentUser.isStudent()"> 
-        <button mat-raised-button (click)="openDialog($event)">Редагувати профіль</button>
-      </div>
-    <br>  
+    <div *ngIf = "!_currentUser.isAdmin()">
+      <button mat-raised-button (click)="openDialog($event)">Редагувати профіль</button>
+    </div>
+    <br>
   </div>
 </ng-container>
