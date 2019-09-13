@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { reduce } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-new-year-controll',
