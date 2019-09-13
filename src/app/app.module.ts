@@ -72,6 +72,9 @@ import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
+import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import {MatMenuModule} from '@angular/material/menu';
+import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +122,8 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
     NewYearPipe,
     LocaleHeaderPipe,
     StudentProfileComponent,
+    TeacherChartComponent,
+    TeacherPanelStatisticsComponent,
   ],
   imports: [
     ChartsModule,
@@ -133,6 +138,7 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
+    MatMenuModule,
     MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({

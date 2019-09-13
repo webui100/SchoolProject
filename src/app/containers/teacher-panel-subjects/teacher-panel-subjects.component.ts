@@ -24,7 +24,7 @@ export class TeacherSubjectsComponent implements OnInit {
       private teacherSubjectsList: any;
 
 
-    // Get subjects for teacher
+    // Get subjects   
     getSubjects(): void {
       this.observable$.subscribe(response => {
       this.data = response;
