@@ -23,9 +23,9 @@ import { DailyScheduleComponent } from './containers/schedule/daily-schedule/dai
 import { ClassesComponent } from './containers/classes/classes.component';
 import {
   NavigationActionTiming,
-  RouterStateSerializer,
-  StoreRouterConnectingModule
-} from '@ngrx/router-store';
+   RouterStateSerializer,
+   StoreRouterConnectingModule
+  } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router.reducer';
 import 'hammerjs';
 
@@ -68,16 +68,23 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
-import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
+<<<<<<< HEAD
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
 import { MarkComponentComponent } from './components/mark-component/mark-component.component';
 import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
 import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
 import { DisabledMarksComponent } from './components/mark-component/disabled-marks/disabled-marks.component';
+=======
+import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
+
+>>>>>>> init
 
 @NgModule({
   declarations: [
@@ -122,7 +129,9 @@ import { DisabledMarksComponent } from './components/mark-component/disabled-mar
     UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
-    StudentProfileComponent,
+    UserProfileComponent,
+    TeacherChartComponent,
+    TeacherPanelStatisticsComponent,
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
@@ -146,6 +155,7 @@ import { DisabledMarksComponent } from './components/mark-component/disabled-mar
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
+    MatMenuModule,
     MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
@@ -176,6 +186,7 @@ import { DisabledMarksComponent } from './components/mark-component/disabled-mar
     TeachersComponent,
     TemporaryComponent,
     HomeworkDialogComponent,
+    UserProfileComponent,
     CustomErrorComponent
   ]
 })

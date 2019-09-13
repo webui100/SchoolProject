@@ -2,10 +2,10 @@ import { Component, OnInit, NgModule, OnDestroy, Inject, EventEmitter, Output } 
 import { CurrentUserService } from '../../services/current-user.service';
 import { select, Store } from '@ngrx/store';
 import { selectId, selectRole } from '../../store/login/login.selectors';
-import { selectCurrentUser } from '../../store/current/current-user.selector';
+import { selectCurrentUser } from '../../store/current-user/current-user.selector';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material';
-import { StudentProfileComponent } from '../../containers/student-profile/student-profile.component';
+import { UserProfileComponent } from '../../containers/user-profile/user-profile.component';
 import { Observable } from 'rxjs';
 
 
@@ -52,7 +52,7 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
 
   openDialog($event): void {
     this.close.emit($event);
-    this.dialog.open(StudentProfileComponent);
+    this.dialog.open(UserProfileComponent);
   }
 
 
