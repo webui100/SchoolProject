@@ -9,16 +9,12 @@ import {
   State as ScheduleState
 } from './schedule/schedule.reducer'; // +
 import { diaryReducer, DiaryState } from './diary/diary.reducer';
-import { profileReducer, ProfileState } from './profile/profile.reducer';
 import { chartReducer, State as ChartState } from './chart/chart.reducer';
 import {
   teachersDataReducer,
   State as TeachersState
 } from './teachers/teachers.reducer';
-import {
-  currentUserReducer,
-  State as currentUserState
-} from './current/current-user.reducer';
+import { currentUserReducer, CurrentUserState } from './current-user/current-user.reducer';
 import { RouterStateUrl } from './router.reducer';
 import {
   subjectsDataReducer,
@@ -55,9 +51,8 @@ export interface State {
   teacherSubjects: TeacherSubjectsState;
   teacherJournals: TeacherJournalsState;
   diary: DiaryState;
-  profile: ProfileState;
   chart: ChartState;
-  currentUser: currentUserState;
+  currentUser: CurrentUserState;
   router: RouterReducerState<RouterStateUrl>;
   students: StudentsState;
   classes: ClassesState;
@@ -77,7 +72,6 @@ export const reducers: ActionReducerMap<State> = {
   teacherSubjects: teacherSubjectsDataReducer,
   teacherJournals: teacherJournalsDataReducer,
   diary: diaryReducer,
-  profile: profileReducer,
   students: studentsReducer,
   classes: classesReducer,
   newYear: newYearReducer,

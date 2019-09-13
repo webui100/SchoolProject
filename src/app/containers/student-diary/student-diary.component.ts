@@ -11,7 +11,6 @@ import { addDays, subDays, getDate, getDay, setDate } from 'date-fns';
 import { HomeworkDialogComponent } from '../../components/homework-dialog/homework-dialog.component';
 import { Lesson } from '../../models/diary.model';
 import { StudentDiaryService } from '../../services/student-diary.service';
-import { StudentProfileService } from '../../services/student-profile.service';
 import { selectLessons } from '../../store/diary/diary.selectors';
 
 
@@ -33,14 +32,16 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
 
   constructor(
     private studentDiary: StudentDiaryService,
-    private studentProfile: StudentProfileService,
     private store: Store<{ diary }>,
     private dateAdapter: DateAdapter<Date>,
     public dialog: MatDialog
   ) {
     this.diary$ = this.store.pipe(select(selectLessons));
-    this.store.pipe(select(selectLessons))
-      .pipe(takeUntil(this.destroyStream$))
+    this.store
+      .pipe(
+        select(selectLessons),
+        takeUntil(this.destroyStream$)
+      )
       .subscribe(lessons => {
         this.showDiary = !!(lessons && lessons.length);
         if (lessons) {
@@ -53,10 +54,9 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
           });
         }
       });
-    this.studentProfile.fetchProfile();
   }
 
-  getStartOfWeek() {
+  getStartOfWeek(): Date {
     const today = new Date();
     const weekDaysPassed = getDay(today) - 1;
     return setDate(today, getDate(today) - weekDaysPassed);
@@ -104,17 +104,18 @@ export class StudentDiaryComponent implements OnInit, OnDestroy {
     this.fetchDiary();
   }
 
-  dateFilter(date) {
+  dateFilter(date: Date): boolean {
     const day = date.getDay();
     return day === 1;
   }
 
-  downloadFile(lessonId): void {
+  downloadFile(lessonId: number): void {
     this.studentDiary.downloadHomeworkFile(lessonId);
   }
 
-  openFile(lessonId): void {
+  openFile(lessonId: number): void {
     this.studentDiary.openHomeworkFile(lessonId)
+      .pipe(takeUntil(this.destroyStream$))
       .subscribe(data => {
         this.dialog.open(HomeworkDialogComponent, {
           panelClass: 'custom-dialog-container',

@@ -69,7 +69,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
-import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 
@@ -118,7 +118,7 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
     UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
-    StudentProfileComponent,
+    UserProfileComponent
   ],
   imports: [
     ChartsModule,
@@ -161,7 +161,8 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
     ModalDialogComponent,
     TeachersComponent,
     TemporaryComponent,
-    HomeworkDialogComponent
+    HomeworkDialogComponent,
+    UserProfileComponent
   ]
 })
 export class AppModule {}

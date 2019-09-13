@@ -14,14 +14,15 @@ import { HomeworkFile } from '../models/diary.model';
   providedIn: 'root'
 })
 export class StudentDiaryService {
+
+  private BASE_URI = environment.APIEndpoint;
+
   constructor(
     private http: HttpClient,
     private store: Store<{ diary }>
   ) {}
 
-  private BASE_URI = environment.APIEndpoint;
-
-  fetchStudentDiary(data) {
+  fetchStudentDiary(data: Date) {
     const formattedDate = format(
       new Date(data),
       'YYYY-MM-DD'
@@ -39,7 +40,7 @@ export class StudentDiaryService {
       });
   }
 
-  downloadHomeworkFile(lessonId) {
+  downloadHomeworkFile(lessonId: number) {
     return this.http
       .get(`${this.BASE_URI}homeworks/files/${lessonId}`, {
         headers: new HttpHeaders({
@@ -59,7 +60,7 @@ export class StudentDiaryService {
       });
   }
 
-  openHomeworkFile(lessonId) {
+  openHomeworkFile(lessonId: number) {
     return this.http
       .get(`${this.BASE_URI}homeworks/files/${lessonId}`, {
         headers: new HttpHeaders({
