@@ -1,5 +1,5 @@
-import { TeacherJournalsComponent } from './containers/teacher-panel-journals/teacher-panel-journals.component';
-import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component';
+import { TeacherSubjectsComponent } from "./containers/teacher-panel-subjects/teacher-panel-subjects.component";
+import { TeacherJournalsComponent } from "./containers/teacher-panel-journals/teacher-panel-journals.component";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -24,9 +24,9 @@ import { DailyScheduleComponent } from './containers/schedule/daily-schedule/dai
 import { ClassesComponent } from './containers/classes/classes.component';
 import {
   NavigationActionTiming,
-  RouterStateSerializer,
-  StoreRouterConnectingModule
-} from "@ngrx/router-store";
+   RouterStateSerializer,
+   StoreRouterConnectingModule
+  } from "@ngrx/router-store";
 import { CustomSerializer } from "./store/router.reducer";
 
 import { CurrentUserComponent } from "./components/current-user/current-user.component";
@@ -62,17 +62,21 @@ import { IsGraduationPipe } from "./pipes/is-graduation.pipe";
 import { ModalDialogComponent } from "./components/modal-dialog/modal-dialog.component";
 import { TeacherJournalComponent } from './components/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teacher-detail-container/teacher-detail-container.component';
-import { TeacherComponent } from "./pages/teacher/teacher.component";
-import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
-import { NotFoundComponent } from "./pages/not-found/not-found.component";
-import { NewYearControllComponent } from "./components/new-year-controll/new-year-controll.component";
-import { NewYearPipe } from "./pipes/new-year.pipe";
-import { LocaleHeaderPipe } from "./pipes/locale-header.pipe";
+import { TeacherComponent } from './pages/teacher/teacher.component';
+import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
+import { NewYearPipe } from './pipes/new-year.pipe';
+import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
 import { UserProfileComponent } from './containers/user-profile/user-profile.component';
-import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
-import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
+import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
+import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
+import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
+
 
 @NgModule({
   declarations: [
@@ -118,6 +122,8 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     NewYearPipe,
     LocaleHeaderPipe,
     UserProfileComponent,
+    TeacherChartComponent,
+    TeacherPanelStatisticsComponent,
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
@@ -136,6 +142,7 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
+    MatMenuModule,
     MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
