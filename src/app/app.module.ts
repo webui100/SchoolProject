@@ -22,10 +22,10 @@ import { reducers, metaReducers } from './store';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
 import { DailyScheduleComponent } from './containers/schedule/daily-schedule/daily-schedule.component';
 import { ClassesComponent } from './containers/classes/classes.component';
-import { 
+import {
   NavigationActionTiming,
-   RouterStateSerializer, 
-   StoreRouterConnectingModule 
+   RouterStateSerializer,
+   StoreRouterConnectingModule
   } from "@ngrx/router-store";
 import { CustomSerializer } from "./store/router.reducer";
 
@@ -68,7 +68,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
-import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
@@ -121,7 +121,7 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
-    StudentProfileComponent,
+    UserProfileComponent,
     TeacherChartComponent,
     TeacherPanelStatisticsComponent,
     CustomErrorComponent,
@@ -173,6 +173,7 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     TeachersComponent,
     TemporaryComponent,
     HomeworkDialogComponent,
+    UserProfileComponent,
     CustomErrorComponent
   ]
 })
