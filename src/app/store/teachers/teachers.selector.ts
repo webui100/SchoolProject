@@ -2,6 +2,8 @@ import { createSelector } from '@ngrx/store';
 import { State as AppState } from '../index';
 import { ISortOptions } from 'src/app/models/sortOptions.model';
 import { ITeacher } from 'src/app/models/teacher.model';
+import { selectAllSubjects } from '../subjects/subjects.selector';
+import { selectClassesList } from '../classes/classes.selector';
 
 export const selectTeachers = (state: AppState) => state.teachers.teachersList;
 
@@ -25,26 +27,35 @@ export const getBindById = (id: number) =>
     }
   );
 
-export const teachersSortByName = createSelector(
-  selectTeachers,
+export const teachersSortByName =  createSelector(
   sortOptions,
-  (state: ITeacher[], options: ISortOptions) => {
-    if (state !== null || undefined) {
-      const filtered = state.filter((el, index) => {
-        if (el !== undefined) {
-          return el;
-        } else {
-          state.splice(index, 1);
-        }
+  selectTeachers,
+  ({column, direction}: ISortOptions, state: ITeacher[]) => {
+    if (state) {
+      const filtered = [...state].sort((a: object, b: object): number => {
+        return a[column].localeCompare(b[column]);
       });
-
-      filtered.sort((a: any, b: any): number => {
-        return a[options.column].localeCompare(b[options.column]);
-      });
-      if (options.direction === 'desc') {
+      if (direction === 'desc') {
         filtered.reverse();
       }
       return filtered;
     }
   }
+
 );
+
+
+export const getAllBindInfo = (id: number) => createSelector(
+  getBindById(id),
+  selectAllSubjects,
+  selectClassesList,
+  (journal, subjects, classes) => (
+    {
+      teacherId: id,
+      journalList: journal,
+      subjectList: subjects,
+      classList: classes,
+    }
+  )
+);
+

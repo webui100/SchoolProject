@@ -1,18 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AdminPanelService} from '../../services/admin-panel.service';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {Chart} from '../../models/chart.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AdminPanelService } from '../../services/admin-panel.service';
+import { Observable, Subject, Subscription, ReplaySubject } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { Chart } from '../../models/chart.model';
 import {
   chartSelector,
   getStudentsFromClass,
   selectQuantityTSC,
   selectActiveClasses
 } from 'src/app/store/chart/chart.selectors';
-import {TeachersService} from '../../services/teachers.service';
-import {ClassesService} from '../../services/classes.service';
-import {SubjectsService} from '../../services/subjects.service';
-import {QtObj} from '../../models/quantityObj.model';
+import { TeachersService } from '../../services/teachers.service';
+import { ClassesService } from '../../services/classes.service';
+import { SubjectsService } from '../../services/subjects.service';
+import { QtObj } from '../../models/quantityObj.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-admin-panel',
@@ -21,10 +22,10 @@ import {QtObj} from '../../models/quantityObj.model';
 })
 export class AdminPanelComponent implements OnInit, OnDestroy {
 
-  constructor(public panelService: AdminPanelService, private store: Store<{chart}>,
-              private teachersService: TeachersService,
-              private classesService: ClassesService,
-              private subjectsService: SubjectsService) {
+  constructor(public panelService: AdminPanelService, private store: Store<{ chart }>,
+    private teachersService: TeachersService,
+    private classesService: ClassesService,
+    private subjectsService: SubjectsService) {
 
   }
 
@@ -32,6 +33,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   chart$: Observable<Chart>;
   chartTypeListener$ = new Subject<string>();
   studentsSelector$: Subscription;
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
 
@@ -41,8 +43,8 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     const colors: Array<object> = [{
       backgroundColor: []
     }];
-    this.studentsSelector$ = this.store.select(getStudentsFromClass, {className})
-    .subscribe((value: Array<ChartData>) => {
+    this.studentsSelector$ = this.store.select(getStudentsFromClass, { className })
+      .subscribe((value: Array<ChartData>) => {
         value.forEach(dataset => {
           data.push(dataset.data[0]);
           labels.push(dataset.label);
@@ -50,8 +52,8 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
           colors[0].backgroundColor.push(this.panelService.getRandomColor());
         });
       },
-      (error) => console.log(error)
-    );
+        (error) => console.log(error)
+      );
     this.studentsSelector$.unsubscribe();
     this.panelService.generateChart(data, labels, colors);
   }
@@ -64,27 +66,39 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     this.classesService.getClasses();
     let classesIsExist = false;
     let selectActiveRef: Subscription;
-    selectActiveRef = this.store.select(selectActiveClasses).subscribe(value => {
-        if (value.length > 0) {
-          classesIsExist = true;
-        }
-        if (classesIsExist && selectActiveRef) {
-          this.setClassChart(11);
-          selectActiveRef.unsubscribe();
-        }
+    selectActiveRef = this.store.select(selectActiveClasses).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(value => {
+      if (value.length > 0) {
+        classesIsExist = true;
       }
+      if (classesIsExist && selectActiveRef) {
+        this.setClassChart(11);
+        selectActiveRef.unsubscribe();
+      }
+    }
     );
 
-    this.chartTypeListener$.subscribe(value => this.panelService.setChartType(value));
+    this.chartTypeListener$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(value => this.panelService.setChartType(value));
 
-    this.quantityObj$ = this.store.select(selectQuantityTSC);
+    this.quantityObj$ = this.store.pipe(
+      select(selectQuantityTSC),
+      takeUntil(this.destroy$)
+    );
 
-    this.chart$ = this.store.select(chartSelector);
+    this.chart$ = this.store.pipe(
+      select(chartSelector),
+      takeUntil(this.destroy$)
+    );
 
   }
 
   ngOnDestroy() {
-    this.chartTypeListener$.unsubscribe();
+    this.destroy$.next(true);
+
+    this.destroy$.unsubscribe();
 
   }
 

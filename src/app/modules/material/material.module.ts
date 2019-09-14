@@ -79,4 +79,4 @@ export const MaterialComponents = [
   exports: [MaterialComponents],
   providers: []
 })
-export class MaterialModule {}
+export class MaterialModule { }
