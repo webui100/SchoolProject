@@ -15,6 +15,9 @@
 
 %material-theme-defaults {
   min-height: 100vh;
+  .mat-drawer-side {
+    border-right: none !important;
+  }
 
     mat-sidenav-container, mat-sidenav-content {
       min-height: 100vh;

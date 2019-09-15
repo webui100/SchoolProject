@@ -1,6 +1,6 @@
 export const dayTheme = {
   "main-color": "	#dfe4ea",
-  "light-color": "#ffffff",
+  "light-color": "#fafafa",
   "dark-color": "#2f3542",
   "font-color": "black",
   "contrast-font-color": "#ced6e0",

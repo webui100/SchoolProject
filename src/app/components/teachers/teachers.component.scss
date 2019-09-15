@@ -1,4 +1,4 @@
-$base-background: #673ab7;
+$base-background: var(--dark-color);
 
 %flex-center {
   display: flex;
@@ -24,7 +24,7 @@ mat-icon:hover {
   @extend %flex-center;
   background-color: $base-background;
   width: 90%;
-  color: white;
+  color: var(--contrast-font-color);
   padding: 1rem 0;
   align-self: center;
   margin-top: 1rem;
@@ -95,7 +95,7 @@ table {
   width: 100%;
 
   .teacher-row:hover {
-    background-color: #e8e8e8;
+    background-color: var(--light-color);
   }
   td {
     font-size: 12px;
@@ -114,7 +114,7 @@ table {
 }
 
 th.mat-sort-header-sorted {
-  color: black;
+  color: var(--font-color);
 }
 
 .teacher-detail {
