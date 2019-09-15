@@ -11,6 +11,17 @@ export const getTeacherJournalsAction = createAction(
     props<{ journalsList: TeacherJournals}>()
 );
 
+export const setCurrentJournalAction = createAction(
+    '[Journals Data] CurrentJournal',
+    props<{ currentJournal: object }>()
+);
 
+export const setCurrentJournalToListAction = createAction(
+    '[Journal Table] CurrentJournalToList',
+    props<{ currentJournal: object, idClass: number, idSubject: number }>()
+);
 
-
+export const setCurrentLessonIdToStoreAction = createAction(
+    '[Journal Table] CurrentLessonId',
+    props<{ currentLessonId: number }>()
+);

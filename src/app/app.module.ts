@@ -76,6 +76,8 @@ import { CustomErrorComponent } from './components/custom-error/custom-error.com
 import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
+import { JournalTableComponent } from './components/journal-table/journal-table.component';
+import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
 
 
 @NgModule({
@@ -127,7 +129,9 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
-    TeacherJournalsComponent
+    TeacherJournalsComponent,
+    JournalTableComponent,
+    JournalHomeworkDialogComponent
   ],
   imports: [
     ChartsModule,

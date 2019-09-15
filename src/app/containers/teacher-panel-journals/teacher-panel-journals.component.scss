@@ -1,7 +1,14 @@
 .main-container {
     width: 100%;
-    height: 400px;//this value is temporary
+    min-height: 100vh;//this value is temporary
   }
+
+[mat-raised-button] {
+  display: block;
+  margin-right: 10%;
+  margin-left: auto;
+}
+
   .header {
     display: flex;
     justify-content: center;
