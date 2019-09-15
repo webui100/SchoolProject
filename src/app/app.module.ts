@@ -81,6 +81,8 @@ import { DisabledMarksComponent } from './components/mark-component/disabled-mar
 import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
+import { JournalTableComponent } from './components/journal-table/journal-table.component';
+import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
 
 
 @NgModule({
@@ -133,6 +135,8 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     TeacherSubjectsComponent,
     TeacherJournalComponent,
     TeacherJournalsComponent,
+    JournalTableComponent,
+    JournalHomeworkDialogComponent,
     MarkControllerComponent,
     MarkComponentComponent,
     AddMarkComponent,
