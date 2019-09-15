@@ -13,7 +13,7 @@ if (environment.production) {
 }
 
 getAllDataFromLocalForage({
-  driver: localForage.LOCALSTORAGE,
+  driver: localForage.INDEXEDDB,
   keys: [
     'user',
     'errors',
@@ -31,7 +31,8 @@ getAllDataFromLocalForage({
     'classes',
     'newYear',
     'avatar',
-    'theme'
+    'theme',
+    'marks'
   ],
 }).then(() => {
   platformBrowserDynamic()

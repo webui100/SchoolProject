@@ -70,7 +70,7 @@ export class TeacherCardComponent implements OnInit {
     dateOfBirth: [this.teacher.dateOfBirth, Validators.required],
     email: [this.teacher.email, [Validators.pattern(this.validServ.emailRegExp)]],
     phone: [this.teacher.phone, [Validators.pattern(this.validServ.phoneRegExp)]],
-    login: [this.teacher.login, [Validators.required, Validators.pattern(this.validServ.loginRegExp)]]
+    login: [this.teacher.login, [Validators.required,Validators.pattern(this.validServ.loginRegExp)]]
   });
    this.avatarImg = this.teacher.avatar
       ? this.teacher.avatar

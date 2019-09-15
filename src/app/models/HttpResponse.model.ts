@@ -23,3 +23,8 @@ export interface IHttpPostPutResponse {
   body: object;
   data: ITeacher;
 }
+
+export interface IHTTPGetResponse {
+  data;
+  status;
+}

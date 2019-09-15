@@ -1,5 +1,4 @@
 import { TeacherJournalsComponent } from './containers/teacher-panel-journals/teacher-panel-journals.component';
-import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -26,55 +25,67 @@ import {
   NavigationActionTiming,
   RouterStateSerializer,
   StoreRouterConnectingModule
-} from "@ngrx/router-store";
-import { CustomSerializer } from "./store/router.reducer";
+} from '@ngrx/router-store';
+import { CustomSerializer } from './store/router.reducer';
+import 'hammerjs';
 
-import { CurrentUserComponent } from "./components/current-user/current-user.component";
-import { HeaderComponent } from "./components/header/header.component";
-
-import { MainNavComponent } from "./components/main-nav/main-nav.component";
-import { MatListModule, MatDialogModule, MatPaginatorIntl } from "@angular/material";
-import { AdminPanelComponent } from "./containers/admin-panel/admin-panel.component";
-import { ChartsModule } from "ng2-charts";
-import "hammerjs";
-import { TeacherCardComponent } from "./components/teachers/teacher-card/teacher-card.component";
-import { ErrorService } from "./services/error.service";
-import { StudentDiaryComponent } from "./containers/student-diary/student-diary.component";
-import { TeacherCreateComponent } from "./components/teachers/teacher-create/teacher-create.component";
-import { TemporaryComponent } from "./components/temporary/temporary.component";
-import { MaterialModule } from "./modules/material/material.module";
-import { ChartComponent } from "./components/chart/chart.component";
-import { AuthInterceptor } from "./interсeptors/http-interceptor/auth-interceptor";
-import { StudentsComponent } from "./pages/students/students.component";
-import { UpdateStudentComponent } from "./pages/students/update-student/update-student.component";
-import { CreateStudentComponent } from "./pages/students/create-student/create-student.component";
-import { SubjectsComponent } from "./containers/subjects/subjects.component";
-import { StudentComponent } from "./pages/student/student.component";
+import { CurrentUserComponent } from './components/current-user/current-user.component';
+import { HeaderComponent } from './components/header/header.component';
+import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component'
+import { MainNavComponent } from './components/main-nav/main-nav.component';
+import { MatListModule, MatDialogModule, MatPaginatorIntl } from '@angular/material';
+import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
+import { ChartsModule } from 'ng2-charts';
+import 'hammerjs';
+import { TeacherCardComponent } from './components/teachers/teacher-card/teacher-card.component';
+import { ErrorService } from './services/error.service';
+import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
+import { TeacherCreateComponent } from './components/teachers/teacher-create/teacher-create.component';
+import { TemporaryComponent } from './components/temporary/temporary.component';
+import { MaterialModule } from './modules/material/material.module';
+import { ChartComponent } from './components/chart/chart.component';
+import { AuthInterceptor } from './interсeptors/http-interceptor/auth-interceptor';
+import { StudentsComponent } from './pages/students/students.component';
+import { UpdateStudentComponent } from './pages/students/update-student/update-student.component';
+import { CreateStudentComponent } from './pages/students/create-student/create-student.component';
+import { SubjectsComponent } from './containers/subjects/subjects.component';
+import { StudentComponent } from './pages/student/student.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CountBarComponent } from "./components/count-bar/count-bar.component";
-import { HomeworkDialogComponent } from "./components/homework-dialog/homework-dialog.component";
-import { NewYearComponent } from "./containers/new-year/new-year.component";
-import { TransferStudentsTableComponent } from "./components/transfer-students-table/transfer-students-table.component";
-import { TeachersContainerComponent } from "./containers/teachers-container/teachers-container.component";
-import { SortButtonComponent } from "./components/sort-button/sort-button.component";
-import { TransferedClassesTableComponent } from "./components/transfered-classes-table/transfered-classes-table.component";
-import { IsGraduationPipe } from "./pipes/is-graduation.pipe";
-import { ModalDialogComponent } from "./components/modal-dialog/modal-dialog.component";
+import { CountBarComponent } from './components/count-bar/count-bar.component';
+import { HomeworkDialogComponent } from './components/homework-dialog/homework-dialog.component';
+import { NewYearComponent } from './containers/new-year/new-year.component';
+import { TransferStudentsTableComponent } from './components/transfer-students-table/transfer-students-table.component';
+import { TeachersContainerComponent } from './containers/teachers-container/teachers-container.component';
+import { SortButtonComponent } from './components/sort-button/sort-button.component';
+import { TransferedClassesTableComponent } from './components/transfered-classes-table/transfered-classes-table.component';
+import { IsGraduationPipe } from './pipes/is-graduation.pipe';
+import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 import { TeacherJournalComponent } from './components/teachers/teacher-journal/teacher-journal.component';
 import { TeacherDetailContainerComponent } from './containers/teacher-detail-container/teacher-detail-container.component';
-import { TeacherComponent } from "./pages/teacher/teacher.component";
-import { TeacherNavComponent } from "./components/teacher-nav/teacher-nav.component";
-import { NotFoundComponent } from "./pages/not-found/not-found.component";
-import { NewYearControllComponent } from "./components/new-year-controll/new-year-controll.component";
-import { NewYearPipe } from "./pipes/new-year.pipe";
-import { LocaleHeaderPipe } from "./pipes/locale-header.pipe";
-import { StudentProfileComponent } from "./containers/student-profile/student-profile.component";
-import { FormGeneratorComponent } from "./components/form-generator/form-generator.component";
-import { UrlSanitizerPipe } from "./pipes/url-sanitizer.pipe";
-import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
+import { TeacherComponent } from './pages/teacher/teacher.component';
+import { TeacherNavComponent } from './components/teacher-nav/teacher-nav.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
+import { NewYearPipe } from './pipes/new-year.pipe';
+import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
+import { UserProfileComponent } from './containers/user-profile/user-profile.component';
+import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
+import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
+import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
 import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
+import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
+import { MarkComponentComponent } from './components/mark-component/mark-component.component';
+import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
+import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
+import { DisabledMarksComponent } from './components/mark-component/disabled-marks/disabled-marks.component';
+import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
+import { JournalTableComponent } from './components/journal-table/journal-table.component';
+import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -119,13 +130,22 @@ import { ThemePickerComponent } from './components/theme-picker/theme-picker.com
     UrlSanitizerPipe,
     NewYearPipe,
     LocaleHeaderPipe,
-    StudentProfileComponent,
+    UserProfileComponent,
+    TeacherChartComponent,
+    TeacherPanelStatisticsComponent,
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
     TeacherJournalsComponent,
     ThemeButtonComponent,
-    ThemePickerComponent
+    ThemePickerComponent,
+    JournalTableComponent,
+    JournalHomeworkDialogComponent,
+    MarkControllerComponent,
+    MarkComponentComponent,
+    AddMarkComponent,
+    EditMarkComponent,
+    DisabledMarksComponent
   ],
   imports: [
     ChartsModule,
@@ -140,6 +160,7 @@ import { ThemePickerComponent } from './components/theme-picker/theme-picker.com
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
+    MatMenuModule,
     MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
@@ -171,7 +192,8 @@ import { ThemePickerComponent } from './components/theme-picker/theme-picker.com
     TemporaryComponent,
     HomeworkDialogComponent,
     CustomErrorComponent,
-    ThemePickerComponent
+    ThemePickerComponent,
+    UserProfileComponent,
   ]
 })
 export class AppModule { }

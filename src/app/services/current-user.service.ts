@@ -4,7 +4,7 @@ import {Store, select} from '@ngrx/store';
 import {selectId, selectRole} from '../store/login/login.selectors';
 import {environment} from '../../environments/environment';
 import {every, flatMap, map, switchMap, tap} from 'rxjs/operators';
-import {currentUserAction} from '../store/current/current-user.action';
+import {currentUserAction} from '../store/current-user/current-user.action';
 import { adminData } from './../models/admin-data';
 
 @Injectable({
@@ -62,7 +62,7 @@ export class CurrentUserService {
   }
 
   // temporary func
-  isStudent():boolean {
+  isStudent(): boolean {
     if (this.role === 'ROLE_USER') {
       return true;
     } else {
