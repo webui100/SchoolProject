@@ -1,0 +1,43 @@
+<div class="header mat-elevation-z5">
+    <div class="header-text">
+        <h3>Типи оцінок</h3>
+    </div>
+</div>
+
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            Добавити тип оцінки
+        </mat-expansion-panel-header>
+        <webui-add-mark (postData)="postMark($event)"></webui-add-mark>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<div class="mat-elevation-z5 table-container">
+    <table mat-table [dataSource]="marksList" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+            <th mat-header-cell *matHeaderCellDef>{{column | localeHeader}}
+            </th>
+            <td mat-cell *matCellDef="let mark"> {{mark[column]}} </td>
+        </ng-container>
+
+        <!-- Expanded Content Column  -->
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let mark" [attr.colspan]="columnsToDisplay.length" >
+                <div class="mark-detail" [@detailExpand]="mark === expandedElement ? 'expanded' : 'collapsed'">
+                    <webui-edit-mark *ngIf="mark == expandedElement" [markType]="mark" (putMark)="putMark($event)"></webui-edit-mark>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let mark; columns: columnsToDisplay;" class="mark-row"
+            [class.mark-expanded-row]="expandedElement === mark"
+            (click)="expandedElement = expandedElement === mark ? null : mark">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mark-detail-row"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+</div>
+    <webui-disabled-marks [disabledMarksList]="marksDisabled" (editMark)="putMark($event)"></webui-disabled-marks>

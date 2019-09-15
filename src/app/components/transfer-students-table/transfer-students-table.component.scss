@@ -13,8 +13,8 @@ td, th {
 
 .table-title {
   padding: 10px;
-  background-color: #694CB7;
-  color: white;
+  background-color: var(--dark-color);
+  color: var(--contrast-font-color);
   text-transform: uppercase;
   width: 100%;
   display: flex;

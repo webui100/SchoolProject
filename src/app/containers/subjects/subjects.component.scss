@@ -4,9 +4,9 @@
 .header {
   display: flex;
   justify-content: center;
-  background-color: #673ab7;
+  background-color: var(--dark-color);
   width: 90%;
-  color: white;
+  color: var(--contrast-font-color);
   padding: 10px 0;
   margin: 20px auto 10px auto;
 }
@@ -65,7 +65,7 @@ table .mat-form-field {
   margin: 0 15px 0 0;
 }
 table .mat-card {
-  border-bottom: #673ab7;
+  border-bottom: var(--alternative-accent-color);
   border-bottom-style: solid;
   border-bottom-width: 5px; 
   width: 100%;
@@ -90,7 +90,8 @@ tr.subject-detail-row {
 }
 
 tr.subject-row:not(.subject-expanded-row):hover {
-  background: #F1F3F4;
+  background: var(--light-color);
+
   cursor: pointer;
 }
 

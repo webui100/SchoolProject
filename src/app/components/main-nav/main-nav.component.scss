@@ -21,18 +21,18 @@
 
 
 mat-sidenav mat-toolbar{
-  background-color: #694CB7 !important;
-  color: white !important;
+  background-color: var(--dark-color) !important;
   text-transform: uppercase;
 }
 
 mat-sidenav {
   border: none;
-  color: #694CB7;
+  color: var(--font-color);
 }
 
 mat-nav-list{
   padding: 0 !important;
+  color: var(--font-color);
 }
 
 mat-list-item {
@@ -44,7 +44,7 @@ mat-nav-list i {
 }
 
 .active {
-  color: #f04d36;
+  color: var(--alternative-accent-color);
 }
 
 .button-container {
@@ -57,8 +57,7 @@ mat-nav-list i {
 
 mat-drawer {
   padding: 10px 20px 10px 20px;
-    z-index: 102 !important;
-
+  z-index: 102 !important;
 }
 
 mat-sidenav-content{
@@ -76,4 +75,22 @@ mat-sidenav-content{
 
 mat-toolbar {
   z-index: 101 !important;
+  background-color: var(--dark-color) !important;
+  color: var(--contrast-font-color) !important;
+}
+
+.mat-drawer-container {
+  background-color: var(--main-color) !important;
+}
+
+.mat-drawer {
+  background-color: var(--light-color) !important;
+}
+
+.mat-list-item {
+  color: inherit;
+}
+
+.mat-list-item.active {
+  color: var(--accent-color) !important;
 }
