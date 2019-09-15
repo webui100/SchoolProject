@@ -14,39 +14,19 @@
   <mat-card-content>
     <form [formGroup]="profile" (ngSubmit)="onSubmit()">
       <mat-form-field>
-        <input
-          matInput
-          placeholder="Ім'я"
-          [value]="student.firstname || student.firstName"
-          disabled
-        >
+        <input matInput placeholder="Ім'я" [value]="user.firstname || user.firstName" disabled>
       </mat-form-field>
 
       <mat-form-field>
-        <input
-          matInput
-          placeholder="Прізвище"
-          [value]="student.lastname || student.lastName"
-          disabled
-        >
+        <input matInput placeholder="Прізвище" [value]="user.lastname || user.lastName" disabled>
       </mat-form-field>
 
       <mat-form-field>
-        <input
-          matInput
-          placeholder="По батькові"
-          [value]="student.patronymic"
-          disabled
-        >
+        <input matInput placeholder="По батькові" [value]="user.patronymic" disabled>
       </mat-form-field>
 
       <mat-form-field>
-        <input
-          matInput
-          placeholder="Логін"
-          [value]="student.login"
-          disabled
-        >
+        <input matInput placeholder="Логін" [value]="user.login" disabled>
       </mat-form-field>
 
       <mat-form-field>
@@ -74,15 +54,27 @@
 
       <mat-form-field>
         <input matInput type="password" placeholder="Старий пароль" formControlName="oldPass">
-        <mat-error *ngIf="this.profile.get('oldPass').invalid">Пароль повинен містити від 5 до 16 символів</mat-error>
+        <mat-error *ngIf="this.profile.get('oldPass').invalid">
+          Пароль повинен містити від 5 до 16 лат. символів
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <input matInput type="password" placeholder="Новий пароль" formControlName="newPass">
+        <mat-error *ngIf="this.profile.get('newPass').invalid">
+          Новий пароль повинен містити від 5 до 16 лат. символів
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="confirm-password">
-        <input matInput type="password" placeholder="Підтвердіть новий пароль">
+      <mat-form-field class="confirm-password" floatLabel="never">
+        <input
+          matInput
+          type="password"
+          placeholder="Підтвердіть новий пароль"
+          formControlName="confirmPass"
+          [errorStateMatcher]="matcher"
+        >
+        <mat-error *ngIf="profile.hasError('notSame')">Паролі не співпадають</mat-error>
       </mat-form-field>
 
       <mat-card-actions>

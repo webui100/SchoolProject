@@ -1,4 +1,3 @@
-import { State } from './../current/current-user.reducer';
 import { createSelector } from '@ngrx/store';
 import { State as AppState } from '../index';
 import { ISortOptions } from 'src/app/models/sortOptions.model';

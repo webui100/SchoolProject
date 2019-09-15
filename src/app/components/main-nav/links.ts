@@ -30,6 +30,11 @@ const links = [
     icon: 'schedule'
   },
   {
+    path: 'mark-controller',
+    title: 'Типи оцінок',
+    icon: 'assignment_turned_in'
+  },
+  {
     path: 'new-year-transition',
     title: 'Перехід на новий рік',
     icon: 'transfer_within_a_station'
