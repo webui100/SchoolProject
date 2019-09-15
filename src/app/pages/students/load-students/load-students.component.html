@@ -1,0 +1,20 @@
+<div>Виберіть список класів:</div>
+<mat-radio-group (change)="onChange($event)" labelPosition="after">
+  <mat-radio-button value="active" checked>Активні</mat-radio-button>
+  <mat-radio-button value="nonactive">Не активні</mat-radio-button>
+</mat-radio-group>
+
+<mat-form-field class="example-full-width">
+  <input
+    type="text"
+    placeholder="Виберіть клас"
+    aria-label="Number"
+    matInput
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete #auto="matAutocomplete">
+    <!-- <mat-option *ngFor="let class of classesData.studentClasses | async">
+      {{ class.id }}
+    </mat-option> -->
+  </mat-autocomplete>
+</mat-form-field>

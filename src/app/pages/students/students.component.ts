@@ -39,7 +39,12 @@ import { filter } from "rxjs/operators";
 export class StudentsComponent implements OnInit, OnDestroy {
   private data: MatTableDataSource<Object>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private columnsToDisplay = ["lastname", "firstname", "patronymic", "delete"];
+  private columnsToDisplay: String[] = [
+    "lastname",
+    "firstname",
+    "patronymic",
+    "delete"
+  ];
 
   private expandedElement: Student | null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -56,6 +61,7 @@ export class StudentsComponent implements OnInit, OnDestroy {
     private studentsService: StudentsService,
     private store: Store<{ students }>
   ) {}
+
   private loadStudents() {
     this.store
       .pipe(
@@ -73,7 +79,8 @@ export class StudentsComponent implements OnInit, OnDestroy {
         }
       });
   }
-  onDelete(id: number) {
+
+  private onDelete(id: number) {
     this.studentsService.deleteStudent(id);
   }
   ngOnInit() {
