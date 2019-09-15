@@ -1,4 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../assets/mat-themes/light-theme.scss";
+@import "../assets/mat-themes/night-theme.scss";
+@import "../assets/mat-themes/medium-theme.scss";
 
 :host {
   --main-color: #ff6f61;
@@ -9,6 +12,33 @@
   --alternative-accent-color: #007c7c;
   --contrast-font-color: #ced6e0;
 }
+
+%material-theme-defaults {
+  min-height: 100vh;
+
+    mat-sidenav-container, mat-sidenav-content {
+      min-height: 100vh;
+    }
+}
+
+
+:host ::ng-deep .dayTheme {
+  @include angular-material-theme($my-day-theme);
+  @extend %material-theme-defaults;
+}
+    
+
+:host ::ng-deep .nightTheme {
+  @include angular-material-theme($my-night-theme);
+  @extend %material-theme-defaults;
+}
+
+:host ::ng-deep .morningTheme {
+  @include angular-material-theme($my-morning-theme);
+  @extend %material-theme-defaults;
+}
+
+
 
 // "main-color": "	#dfe4ea",
 //   "light-color": "#ffffff",

@@ -21,9 +21,9 @@ export const nightTheme = {
 export const morningTheme = {
   "main-color": "	#a7b2ad",
   "light-color": "#eaeee8",
-  "dark-color": "#ff6f61",
+  "dark-color": "#b22222",
   "font-color": "#3f5663",
-  "accent-color": "#ffd833",
+  "accent-color": "#b43757",
   "contrast-font-color": "#eaeee8",
   "alternative-accent-color": "	#fca239"
 }

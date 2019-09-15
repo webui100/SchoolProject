@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ThemeService } from './../../services/theme.service';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'webui-theme-button',

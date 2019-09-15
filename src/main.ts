@@ -30,7 +30,8 @@ getAllDataFromLocalForage({
     'students',
     'classes',
     'newYear',
-    'avatar'
+    'avatar',
+    'theme'
   ],
 }).then(() => {
   platformBrowserDynamic()

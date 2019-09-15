@@ -76,7 +76,7 @@ mat-sidenav-content{
 mat-toolbar {
   z-index: 101 !important;
   background-color: var(--dark-color) !important;
-  color: var(--contrast-font-color);
+  color: var(--contrast-font-color) !important;
 }
 
 .mat-drawer-container {
@@ -92,5 +92,5 @@ mat-toolbar {
 }
 
 .mat-list-item.active {
-  color: var(--accent-color);
+  color: var(--accent-color) !important;
 }
