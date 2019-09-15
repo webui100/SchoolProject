@@ -17,13 +17,13 @@ table {
     left: 0;
     width: 100%;
     height: 10px;
-    background-color: #673ab7;
+    background-color: var(--alternative-accent-color);
   }
 }
 form {
   max-width: 900px;
   width: 100%;
-  background-color: #f8f8f8;
+  background-color: var(--light-color);
   justify-content: center;
   display: flex;
   flex-wrap: wrap;
@@ -46,8 +46,8 @@ mat-card-actions {
   margin-left: 10px;
 
   & > button:enabled {
-    background-color: #673ab7;
-    color: white !important;
+    background-color: var(--light-color);
+    color: var(--font-color) !important;
   }
 }
 

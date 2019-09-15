@@ -49,7 +49,7 @@
             </mat-form-field>
 
             <mat-form-field class="card-input">
-                <input matInput placeholder="Логін" formControlName="login" required>
+                <input matInput placeholder="Логін" formControlName="login" required readonly>
                 <mat-error *ngIf="this.editTeacher.get('login').invalid">Мінімум 5 лат. символів</mat-error>
             </mat-form-field>
 

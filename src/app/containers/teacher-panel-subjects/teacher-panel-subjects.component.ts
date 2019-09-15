@@ -23,7 +23,7 @@ export class TeacherSubjectsComponent implements OnInit {
       private columnsToDisplay: string[] = ['subjectName', 'subjectDescription'];
       private teacherSubjectsList: any;
 
-
+    
     // Get subjects for teacher
     getSubjects(): void {
       this.observable$.subscribe(response => {

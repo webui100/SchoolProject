@@ -7,6 +7,7 @@ import { storeFreeze } from "ngrx-store-freeze";
 import {
   scheduleReducer,
   State as ScheduleState
+<<<<<<< HEAD
 } from "./schedule/schedule.reducer"; // +
 import { diaryReducer, DiaryState } from "./diary/diary.reducer";
 import { profileReducer, ProfileState } from "./profile/profile.reducer";
@@ -20,6 +21,17 @@ import {
   State as currentUserState
 } from "./current/current-user.reducer";
 import { RouterStateUrl } from "./router.reducer";
+=======
+} from './schedule/schedule.reducer'; // +
+import { diaryReducer, DiaryState } from './diary/diary.reducer';
+import { chartReducer, State as ChartState } from './chart/chart.reducer';
+import {
+  teachersDataReducer,
+  State as TeachersState
+} from './teachers/teachers.reducer';
+import { currentUserReducer, CurrentUserState } from './current-user/current-user.reducer';
+import { RouterStateUrl } from './router.reducer';
+>>>>>>> 309dd565c0c780142ac79bd0906105b121a84c63
 import {
   subjectsDataReducer,
   State as SubjectsState
@@ -27,7 +39,7 @@ import {
 import {
   dataForTeacherReducer,
   TeacherPanelState
-} from "./teacher-panel/teacher-panel.reducer";
+} from './teacher-panel/teacher-panel.reducer';
 import {
   studentsReducer,
   State as StudentsState
@@ -39,8 +51,15 @@ import {
 import {
   newYearReducer,
   State as NewYearState
+<<<<<<< HEAD
 } from "./newyear/newyear.reducer";
 import { avatarReducer, State as FormState } from "./avatar/avatar.reducer";
+=======
+} from './newyear/newyear.reducer';
+import { avatarReducer, State as FormState } from './avatar/avatar.reducer';
+import { themeReducer, State as ThemeState } from "./theme/theme.reducer";
+import { marksReducer, State as MarksState } from './marks/marks.reducer';
+>>>>>>> 309dd565c0c780142ac79bd0906105b121a84c63
 
 export interface State {
   user: LoginState;
@@ -50,14 +69,15 @@ export interface State {
   subjects: SubjectsState;
   teacherPanel: TeacherPanelState;
   diary: DiaryState;
-  profile: ProfileState;
   chart: ChartState;
-  currentUser: currentUserState;
+  currentUser: CurrentUserState;
   router: RouterReducerState<RouterStateUrl>;
   students: StudentsState;
   classes: ClassesState;
   newYear: NewYearState;
   avatar: FormState;
+  theme: ThemeState;
+  marks: MarksState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -71,11 +91,12 @@ export const reducers: ActionReducerMap<State> = {
   subjects: subjectsDataReducer,
   teacherPanel: dataForTeacherReducer,
   diary: diaryReducer,
-  profile: profileReducer,
   students: studentsReducer,
   classes: classesReducer,
   newYear: newYearReducer,
-  avatar: avatarReducer
+  avatar: avatarReducer,
+  theme: themeReducer,
+  marks: marksReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
