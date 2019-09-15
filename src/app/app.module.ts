@@ -23,9 +23,9 @@ import { DailyScheduleComponent } from './containers/schedule/daily-schedule/dai
 import { ClassesComponent } from './containers/classes/classes.component';
 import {
   NavigationActionTiming,
-   RouterStateSerializer,
-   StoreRouterConnectingModule
-  } from '@ngrx/router-store';
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { CustomSerializer } from './store/router.reducer';
 import 'hammerjs';
 
@@ -73,6 +73,8 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
+import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
 import { MarkComponentComponent } from './components/mark-component/mark-component.component';
 import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
@@ -135,6 +137,8 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
     TeacherSubjectsComponent,
     TeacherJournalComponent,
     TeacherJournalsComponent,
+    ThemeButtonComponent,
+    ThemePickerComponent,
     JournalTableComponent,
     JournalHomeworkDialogComponent,
     MarkControllerComponent,
@@ -187,8 +191,9 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
     TeachersComponent,
     TemporaryComponent,
     HomeworkDialogComponent,
+    CustomErrorComponent,
+    ThemePickerComponent,
     UserProfileComponent,
-    CustomErrorComponent
   ]
 })
 export class AppModule { }

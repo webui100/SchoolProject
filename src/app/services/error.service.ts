@@ -26,6 +26,7 @@ export class ErrorService implements ErrorHandler {
     } else {
       notify.showError(notify.errorParser(error), error);
     }
+    console.error(error);
     errorStoreRef.unsubscribe();
 
   }

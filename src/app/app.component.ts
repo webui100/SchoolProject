@@ -1,5 +1,9 @@
+import { ThemeService } from './services/theme.service';
 import { NotificationService } from './services/notification.service';
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ElementRef } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import * as themeSelector from "./store/theme/theme.selector";
+import * as themeList from "./utilities/themesList";
 
 @Component({
   selector: 'webui-root',
@@ -10,11 +14,23 @@ export class AppComponent implements OnInit {
   title = 'webui100';
 
   constructor(private notificationService: NotificationService,
-    private viewContainerRef: ViewContainerRef) {
+    private viewContainerRef: ViewContainerRef,
+    private el: ElementRef,
+    private store: Store<{ theme }>) {
 
   }
+
+  public themeClass: string;
 
   ngOnInit() {
     this.notificationService.setRootViewContainerRef(this.viewContainerRef);
+    this.store.pipe(select(themeSelector.selectThemeName))
+      .subscribe((themeName: string) => {
+        this.themeClass = themeName;
+        Object.keys(themeList[themeName]).forEach((prop) => {
+          this.el.nativeElement.style.setProperty(`--${prop}`, themeList[themeName][prop]);
+        })
+      })
   }
+
 }

@@ -37,6 +37,7 @@ import {
   State as NewYearState
 } from './newyear/newyear.reducer';
 import { avatarReducer, State as FormState } from './avatar/avatar.reducer';
+import { themeReducer, State as ThemeState } from "./theme/theme.reducer";
 import { marksReducer, State as MarksState } from './marks/marks.reducer';
 
 export interface State {
@@ -54,6 +55,7 @@ export interface State {
   classes: ClassesState;
   newYear: NewYearState;
   avatar: FormState;
+  theme: ThemeState;
   marks: MarksState;
 }
 
@@ -72,6 +74,7 @@ export const reducers: ActionReducerMap<State> = {
   classes: classesReducer,
   newYear: newYearReducer,
   avatar: avatarReducer,
+  theme: themeReducer,
   marks: marksReducer,
 };
 
