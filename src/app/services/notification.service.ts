@@ -1,27 +1,36 @@
-import { Injectable } from '@angular/core';
-import {MatSnackBar} from '@angular/material';
-import {HttpErrorResponse} from '@angular/common/http';
-import {Store} from '@ngrx/store';
+import { CustomErrorComponent } from './../components/custom-error/custom-error.component';
+import { Injectable, ViewContainerRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { ComponentFactoryResolver } from '@angular/core';
 import * as ErrorActions from '../store/error/error.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
+  public rootViewContainer: ViewContainerRef;
 
-  constructor(public snackBar: MatSnackBar, private store: Store<{ errors }>) {
-
+  constructor(public snackBar: MatSnackBar, private store: Store<{ errors }>,
+    private factoryResolver: ComponentFactoryResolver) {
   }
 
-  showError(message: string, error: Error): void {
-    const snackRef = this.snackBar.open(message, '', {
-      panelClass: ['error'],
-      duration: 2300
-    });
+  setRootViewContainerRef(viewContainerRef: ViewContainerRef) {
+    this.rootViewContainer = viewContainerRef;
+  }
 
-    snackRef.afterDismissed().subscribe(() => {
-      this.store.dispatch(ErrorActions.removeErrorAction({error}));
-    });
+
+  showError(message: string, error: Error): void {
+    const factory = this.factoryResolver.resolveComponentFactory(CustomErrorComponent);
+    const component = factory.create(this.rootViewContainer.injector);
+    (<CustomErrorComponent>component.instance).error = error;
+    (<CustomErrorComponent>component.instance).message = message;
+    (<CustomErrorComponent>component.instance).componentRef = component;
+
+    this.rootViewContainer.insert(component.hostView);
+    component.changeDetectorRef.detectChanges();
+
   }
 
   notifySuccess(message: string) {

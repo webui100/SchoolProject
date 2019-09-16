@@ -5,14 +5,15 @@ mat-card {
   box-shadow: none !important;
 
   mat-card-title {
-    background-color: #694CB7;
+    background-color: var(--dark-color);
     padding: 10px;
-    color: white;
+    color: var(--contrast-font-color);
     margin: 0;
   }
 
   mat-card-content {
-
+    background-color: var(--light-color);
+    color: var(--font-color);
     width: 100%;
     font-size: 30px;
     display: flex;

@@ -6,9 +6,9 @@
 .header {
   display: flex;
   justify-content: center;
-  background-color: #673ab7;
+  background-color: var(--dark-color);
   width: 90%;
-  color: white;
+  color: var(--contrast-font-color);
   padding: 1rem 0;
   align-self: center;
   margin-top: 1rem;
@@ -46,4 +46,3 @@ tr.class-row:not(.expanded-row):hover {
 .class-description {
   padding: 16px;
 }
-// -------------------------------------------------------------testing exp table

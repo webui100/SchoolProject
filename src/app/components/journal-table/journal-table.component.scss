@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: #673ab7;
+  width: 80%;
+  color: white;
+  padding: 10px 0;
+  margin: 5px auto 10px auto;
+}
+
+.header div {
+  padding: 6px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+mat-table {
+  max-width: 90%;
+  margin: 10px auto;
+  overflow: auto;
+
+  th, td {
+    padding: 0 5px;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .fullName {
+    width: 300px;
+  }
+
+  ng-container:hover, tr:hover {
+    background-color: #f1f3f4;
+  }
+}

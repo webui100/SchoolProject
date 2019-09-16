@@ -1,0 +1,46 @@
+<div class="main-container">
+    <div [ngSwitch]="showJournal">
+        <div *ngSwitchDefault>
+        <!-- Header -->
+            <div class="header mat-elevation-z5">
+                <div><h3> Перелік доступних журналів </h3></div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container mat-elevation-z2">
+                <table mat-table 
+                [dataSource]="teacherJournalsList"
+                multiTemplateDataRows>
+                <!-- Name Column -->
+                    <ng-container matColumnDef="subjectName">
+                        <th mat-header-cell *matHeaderCellDef> Назва предмету </th>
+                        <td mat-cell *matCellDef="let item"> {{item.subjectName}} </td>
+                    </ng-container>
+
+                <!-- Class Column -->
+                    <ng-container matColumnDef="className">
+                        <th mat-header-cell *matHeaderCellDef> Назва класу </th>
+                        <td mat-cell *matCellDef="let item"> {{item.className}} </td>
+                    </ng-container>
+
+                <!-- Year Column -->
+                    <ng-container matColumnDef="academicYear">
+                        <th mat-header-cell *matHeaderCellDef> Академічний рік </th>
+                        <td mat-cell *matCellDef="let item"> {{item.academicYear}} </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr mat-row *matRowDef="let journal; columns: columnsToDisplay;"
+                        class="journal-row"
+                        (click)="putSelectedJournal(journal); showJournal=true"></tr> 
+                </table>
+            </div>
+        </div>
+        <div *ngSwitchCase="true">
+            <button mat-raised-button 
+                (click)="showJournal = false">&larr; Повернутись до списку журналів</button>
+            <webui-journal-table>
+            </webui-journal-table>
+        </div>
+    </div>
+</div>  

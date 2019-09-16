@@ -1,0 +1,84 @@
+.main-container {
+    width: 100%;
+    min-height: 100vh;//this value is temporary
+  }
+
+[mat-raised-button] {
+  display: block;
+  margin-right: 10%;
+  margin-left: auto;
+}
+
+  .header {
+    display: flex;
+    justify-content: center;
+    background-color: #673ab7;
+    width: 80%;
+    color: white;
+    padding: 10px 0;
+    margin: 5px auto 10px auto;
+  }
+  .header div {
+    padding: 6px;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  //-----------------------
+  .table-container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 80%;
+    margin: 0 auto 20px auto;
+  }
+  table {
+    width: 100%;
+  }
+  table .mat-form-field {
+    width: 100%;
+    margin: 0 15px 0 0;
+  }
+  table .mat-card {
+    width: 50%;
+    border-radius: 0;
+    padding: 10px auto 10px auto;
+    margin-bottom: 10px;
+    background-color:#FAFAFA;
+  }
+  .mat-card div{
+    text-align: center;
+  }
+  .journal-detail {
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  td.mat-cell:first-of-type {
+    width: 42%;
+  }
+  
+  tr.journal-detail-row {
+    height: 0; 
+  }
+  
+  tr.journal-row:not(.journal-expanded-row):hover {
+    background: #F1F3F4;
+    cursor: pointer;
+  }
+  
+  .journal-row td {
+    border-bottom-width: 0;
+  }
+  
+  @media (max-width: 798px) {
+    .mat-card-content {
+      flex-direction: column;
+    }
+    td.mat-cell {
+      padding: 10px 5px 0 5px;
+    }
+  }

@@ -1,1 +1,52 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../assets/mat-themes/light-theme.scss";
+@import "../assets/mat-themes/night-theme.scss";
+@import "../assets/mat-themes/medium-theme.scss";
+
+:host {
+  --main-color: #ff6f61;
+  --light-color: #f4d8e2;
+  --dark-color: #ffbe62;
+  --font-color: black;
+  --accent-color: #65f1ff;
+  --alternative-accent-color: #007c7c;
+  --contrast-font-color: #ced6e0;
+}
+
+%material-theme-defaults {
+  min-height: 100vh;
+  .mat-drawer-side {
+    border-right: none !important;
+  }
+
+    mat-sidenav-container, mat-sidenav-content {
+      min-height: 100vh;
+    }
+}
+
+
+:host ::ng-deep .dayTheme {
+  @include angular-material-theme($my-day-theme);
+  @extend %material-theme-defaults;
+}
+    
+
+:host ::ng-deep .nightTheme {
+  @include angular-material-theme($my-night-theme);
+  @extend %material-theme-defaults;
+}
+
+:host ::ng-deep .morningTheme {
+  @include angular-material-theme($my-morning-theme);
+  @extend %material-theme-defaults;
+}
+
+
+
+// "main-color": "	#dfe4ea",
+//   "light-color": "#ffffff",
+//   "dark-color": "#2f3542",
+//   "font-color": "black",
+//   "contrast-font-color": "#ced6e0",
+//   "accent-color": "#ff6348",
+//   "alternative-accent-color": "#ff7f50"
