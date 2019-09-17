@@ -28,7 +28,7 @@ export class TeacherJournalsComponent implements OnInit {
       this.observable$ = this.store.pipe(select(selectAllJournals));
     };
     private columnsToDisplay: string[] = ['subjectName', 'className', 'academicYear'];
-    private expandedElement: TeacherJournals | null;
+    // private expandedElement: TeacherJournals | null;
     private teacherJournalsList: any;
 
 
@@ -41,6 +41,10 @@ export class TeacherJournalsComponent implements OnInit {
     if (!this.data) {
       this.teacherJournals.getTeacherJournalsService();
     }
+  }
+
+  putSelectedJournal(journal: object): void {
+    this.teacherJournals.putSelectedJournalToStore(journal)
   }
 
   ngOnInit(){

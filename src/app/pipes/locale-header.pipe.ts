@@ -12,6 +12,10 @@ export class LocaleHeaderPipe implements PipeTransform {
         return 'По-батькові';
       case 'lastname':
         return 'Прізвище';
+      case 'markType':
+        return 'Тип оцінки';
+      case 'description':
+        return 'Опис';
     }
   }
 }

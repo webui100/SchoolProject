@@ -3,11 +3,13 @@ mat-card {
   height: 100%;
   padding: 0 !important;
   box-shadow: none !important;
+  background-color: var(--light-color);
+  color: var(--font-color);
 
   mat-card-title {
-    background-color: #694CB7;
+    background-color: var(--dark-color);
     padding: 10px;
-    color: white;
+    color: var(--contrast-font-color);
     margin: 0;
   }
 
@@ -34,9 +36,6 @@ mat-card {
 
 .card-container {
   padding: 0 10px;
-}
-
-.chart-card {
 }
 
 .w-100 {
