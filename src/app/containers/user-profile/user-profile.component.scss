@@ -6,6 +6,10 @@ mat-dialog-content {
   overflow-y: auto;
   overflow-x: hidden;
   margin: -24px;
+  background-color: var(--light-color);
+  color: var(--font-color);
+
+
   mat-card-header {
     display: flex;
     flex-direction: column;
@@ -34,7 +38,7 @@ mat-dialog-content {
       mat-card-actions {
         padding: 0;
         button {
-          background-color: #6f33b5;
+          background-color: var(--accent-color);
           color: #fff;
           width: 10rem;
         }

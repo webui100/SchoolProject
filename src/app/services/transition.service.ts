@@ -32,6 +32,9 @@ export class TransitionService {
   getStudents(classesList: Array<ClassModel>) {
     const setStudentsObs: Observable<any> = from(classesList).pipe(
       filter((classObj: ClassModel) => classObj.numOfStudents !== 0),
+      filter((classObj: ClassModel) => !this.transitionStudents.some((student) => {
+        return student.classId === classObj.id;
+      })),
       map((classObj: ClassModel) => classObj.id),
       map((classId: number) => this.dispatchStudents(classId))
     );

@@ -11,6 +11,7 @@ export class NewYearControllComponent implements OnInit, OnChanges {
 
   @Input() classesYears: Array<number>;
   @Input() currentYear: number;
+  @Input() isWithStudents: boolean;
 
   @Output() emitYear: EventEmitter<number> = new EventEmitter();
   @Output() emitWithStudents: EventEmitter<boolean> = new EventEmitter();
