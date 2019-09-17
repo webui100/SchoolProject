@@ -21,25 +21,25 @@ export class ClassesService {
   sortClasses() {
     return this.sortKeys;
   }
-  // Sorting logic
-  isNumber(value) {
-    return Number.isInteger(value);
-  }
-  getClassinScopes(clasName) {
-    return Number(clasName.match(/\((.*)\)/)[1]);
-  }
 
   // Sorting Accordions of Classes.
   // At first sort "main" classes "1-11"
-  sortKeys(current, previous) {
+  private sortKeys(current, previous) {
     const parsedCurrent = Number(current.key);
     const parsedPrevious = Number(previous.key);
+    // Sorting logic
+    function isNumber(value) {
+      return Number.isInteger(value);
+    }
+    function getClassinScopes(clasName) {
+      return Number(clasName.match(/\((.*)\)/)[1]);
+    }
 
-    if (this.isNumber(parsedCurrent) && this.isNumber(parsedPrevious)) {
+    if (isNumber(parsedCurrent) && isNumber(parsedPrevious)) {
       return parsedCurrent - parsedPrevious;
     } else if (
-      this.isNumber(parsedCurrent) &&
-      !this.isNumber(parsedPrevious) &&
+      isNumber(parsedCurrent) &&
+      !isNumber(parsedPrevious) &&
       parsedCurrent != 0
     ) {
       return -1;
@@ -47,7 +47,7 @@ export class ClassesService {
     // Sorting custom classes "4(8)  at first by custom class.( in scopes "(8)").
     // Then by main (class before scopes).
     else if (current.key.includes("(") && previous.key.includes("(")) {
-      const currentCustomClass = this.getClassinScopes(current.key);
+      const currentCustomClass = getClassinScopes(current.key);
       const previousCustomClass = Number(previous.key.match(/\((.*)\)/)[1]);
       const currentMainClass = parseInt(current.key);
       const previousMainClass = parseInt(previous.key);

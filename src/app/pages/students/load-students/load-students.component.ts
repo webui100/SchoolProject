@@ -1,33 +1,43 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { selectData } from "../../../store/classes/classes.selector";
+import { selectClassesData } from "../../../store/students/students.selector";
 import { ClassesService } from "../../../services/classes.service";
 import { MatRadioChange } from "@angular/material/radio";
 import { filter } from "rxjs/operators";
+
 @Component({
   selector: "webui-load-students",
   templateUrl: "./load-students.component.html",
   styleUrls: ["./load-students.component.scss"]
 })
 export class LoadStudentsComponent implements OnInit {
+  private classesData;
+  @Output() selectClassEvent = new EventEmitter();
   constructor(
     private classesService: ClassesService,
     private store: Store<{}>
   ) {}
-  private classesData;
-  private classList;
-  onChange(classGroup: MatRadioChange) {
-    classGroup.value == "active"
-      ? this.selectActiveClasses()
-      : this.selectNonActiveClasses();
+  private loadClasses() {
+    if (!this.classesData) {
+      this.classesService.getClasses();
+    }
+    this.store.pipe(select(selectClassesData)).subscribe(data => {
+      this.classesData = data.classesList;
+    });
   }
-  selectActiveClasses() {
-    this.classesData = this.store.pipe(select(selectData));
+  onClassSelect(e) {
+    console.log(e) 
+    this.selectClassEvent.emit(e);
+    
   }
-  selectNonActiveClasses() {
-    this.classesData = this.store.pipe(select(selectData));
+
+  private onChange(classGroup: MatRadioChange) {
+    // this.classesData =
+    //   classGroup.value == "active"
+    //     ?
   }
+
   ngOnInit() {
-    this.selectActiveClasses();
+    this.loadClasses();
   }
 }

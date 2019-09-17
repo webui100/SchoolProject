@@ -7,10 +7,8 @@ import { storeFreeze } from "ngrx-store-freeze";
 import {
   scheduleReducer,
   State as ScheduleState
-<<<<<<< HEAD
 } from "./schedule/schedule.reducer"; // +
 import { diaryReducer, DiaryState } from "./diary/diary.reducer";
-import { profileReducer, ProfileState } from "./profile/profile.reducer";
 import { chartReducer, State as ChartState } from "./chart/chart.reducer";
 import {
   teachersDataReducer,
@@ -18,20 +16,9 @@ import {
 } from "./teachers/teachers.reducer";
 import {
   currentUserReducer,
-  State as currentUserState
-} from "./current/current-user.reducer";
+  CurrentUserState
+} from "./current-user/current-user.reducer";
 import { RouterStateUrl } from "./router.reducer";
-=======
-} from './schedule/schedule.reducer'; // +
-import { diaryReducer, DiaryState } from './diary/diary.reducer';
-import { chartReducer, State as ChartState } from './chart/chart.reducer';
-import {
-  teachersDataReducer,
-  State as TeachersState
-} from './teachers/teachers.reducer';
-import { currentUserReducer, CurrentUserState } from './current-user/current-user.reducer';
-import { RouterStateUrl } from './router.reducer';
->>>>>>> 309dd565c0c780142ac79bd0906105b121a84c63
 import {
   subjectsDataReducer,
   State as SubjectsState
@@ -39,10 +26,10 @@ import {
 import {
   dataForTeacherReducer,
   TeacherPanelState
-} from './teacher-panel/teacher-panel.reducer';
+} from "./teacher-panel/teacher-panel.reducer";
 import {
   studentsReducer,
-  State as StudentsState
+  IStudents as StudentsState
 } from "./students/students.reducer";
 import {
   classesReducer,
@@ -51,15 +38,10 @@ import {
 import {
   newYearReducer,
   State as NewYearState
-<<<<<<< HEAD
 } from "./newyear/newyear.reducer";
 import { avatarReducer, State as FormState } from "./avatar/avatar.reducer";
-=======
-} from './newyear/newyear.reducer';
-import { avatarReducer, State as FormState } from './avatar/avatar.reducer';
 import { themeReducer, State as ThemeState } from "./theme/theme.reducer";
-import { marksReducer, State as MarksState } from './marks/marks.reducer';
->>>>>>> 309dd565c0c780142ac79bd0906105b121a84c63
+import { marksReducer, State as MarksState } from "./marks/marks.reducer";
 
 export interface State {
   user: LoginState;
@@ -78,6 +60,7 @@ export interface State {
   avatar: FormState;
   theme: ThemeState;
   marks: MarksState;
+  classesList: ClassesState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -97,6 +80,7 @@ export const reducers: ActionReducerMap<State> = {
   avatar: avatarReducer,
   theme: themeReducer,
   marks: marksReducer,
+  classesList: classesReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

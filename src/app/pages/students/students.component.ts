@@ -7,7 +7,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Store, select } from "@ngrx/store";
 import { selectStudentsData } from "../../store/students/students.selector";
 import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { takeUntil, filter } from "rxjs/operators";
 import {
   animate,
   state,
@@ -15,8 +15,6 @@ import {
   transition,
   trigger
 } from "@angular/animations";
-
-import { filter } from "rxjs/operators";
 
 /**
  * @title Table with expandable rows
@@ -26,7 +24,7 @@ import { filter } from "rxjs/operators";
   templateUrl: "./students.component.html",
   styleUrls: ["./students.component.scss"],
   animations: [
-    trigger("detailExpand", [
+    trigger(" ", [
       state("collapsed", style({ height: "0px", minHeight: "0" })),
       state("expanded", style({ height: "*" })),
       transition(
@@ -61,8 +59,11 @@ export class StudentsComponent implements OnInit, OnDestroy {
     private studentsService: StudentsService,
     private store: Store<{ students }>
   ) {}
+  private setId(e) {
+    this.loadStudents(e);
+  }
 
-  private loadStudents() {
+  private loadStudents(id) {
     this.store
       .pipe(
         select(selectStudentsData),
@@ -70,21 +71,21 @@ export class StudentsComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(data => {
-        if (!data.students) {
-          this.studentsService.getStudents(17);
-        } else {
-          this.data = new MatTableDataSource(data.students);
-          this.data.paginator = this.paginator;
-          this.data.sort = this.sort;
+        this.studentsService.getStudents(id);
+        
+        this.data = new MatTableDataSource(data.students);
+        if(this.data){
+        this.data.paginator = this.paginator;
+        this.data.sort = this.sort;
         }
       });
   }
-
+  
   private onDelete(id: number) {
     this.studentsService.deleteStudent(id);
   }
   ngOnInit() {
-    this.loadStudents();
+  
   }
 
   ngOnDestroy() {

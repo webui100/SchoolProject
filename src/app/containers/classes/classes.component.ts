@@ -30,7 +30,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
   private classes$: any;
   private classesSubscription: Subscription;
   public expandedElement: ClassTable | null;
-  sortKeys;
+  private sortKeys;
 
   constructor(
     private classesService: ClassesService,
