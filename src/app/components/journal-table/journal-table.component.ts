@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { TeacherPanelService } from 'src/app/services/teacher-panel.service';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { selectCurrentJournal, selectCurrentJournalData } from 'src/app/store/teacher-panel/teacher-panel.selector';
 import { MatTableDataSource } from '@angular/material';
 import { setCurrentLessonIdToStoreAction } from 'src/app/store/teacher-panel/teacher-panel.action';
+import { MarkControllerService } from 'src/app/services/mark-controller.service';
+import { activeMark } from 'src/app/store/marks/marks.selector';
 
 @Component({
   selector: 'webui-journal-table',
@@ -14,27 +16,44 @@ import { setCurrentLessonIdToStoreAction } from 'src/app/store/teacher-panel/tea
 export class JournalTableComponent implements OnInit, OnDestroy {
 
   journal: any;
+  journalArray: any[];
   journalData: any;
   chosenJournal$: any;
   chosenJournalData$: any;
   chosenJournalSubscription: Subscription;
   chosenJournalDataSubscription: Subscription;
+  chosenMarkField: HTMLElement;
+  chosenLesson: any;
 
   tableDates: string[];
   tableHeaders: string[];
+  tableMarkTypes: string[];
+  tableMarkTypesHeaders: string[];
   journalDataTable: any;
+
+  markFieldVisible = false;
+  markFieldTop: number;
+  markFieldLeft: number;
+  getMarksList$: Observable<any>;
+  getMarksListSubscription: Subscription;
+
+  private hoveredLesson = null;
 
   constructor(
     // private teacherPanelService: TeacherPanelService,
-    private store: Store<{ teacherPanel }>
+    private markServ: MarkControllerService,
+    private store: Store<object>,
+    private teacherPanelStore: Store<{ teacherPanel }>
   ) {
-    this.chosenJournal$ = this.store.pipe(select(selectCurrentJournal));
-    this.chosenJournalData$ = this.store.pipe(select(selectCurrentJournalData));
+    this.getMarksList$ = this.store.pipe(select(activeMark(true)));
+    this.chosenJournal$ = this.teacherPanelStore.pipe(select(selectCurrentJournal));
+    this.chosenJournalData$ = this.teacherPanelStore.pipe(select(selectCurrentJournalData));
   }
 
   ngOnInit() {
     this.getChosenJournal();
     this.getChosenJournalData();
+    this.getMarksTypes();
   }
 
   getChosenJournal(): void {
@@ -53,17 +72,46 @@ export class JournalTableComponent implements OnInit, OnDestroy {
   }
 
   buildTable(): void {
-    const journalArray = Object.values(this.journalData.journal);
-    console.log(journalArray)
-    this.journalDataTable = new MatTableDataSource<any>(journalArray);
+    this.journalArray = Object.values(this.journalData.journal);
+    this.journalArray.forEach((item: any) => {
+        item.marks.sort((a, b) => {
+          if (new Date(a.dateMark) > new Date(b.dateMark)) 
+            return 1;
+          if (new Date(a.dateMark) < new Date(b.dateMark)) 
+            return -1;
+          if (new Date(a.dateMark) === new Date(b.dateMark)) 
+            return 0;
+            
+        });
+      });
+    console.log(this.journalArray)
+    this.journalDataTable = new MatTableDataSource<any>(this.journalArray);
 
-    this.tableDates = this.journalData.journal[0].marks.reduce((accArr: [], day: any) => [...accArr, day.dateMark.slice(5)], []);
+    this.tableDates = this.journalData.journal[0].marks.reduce((accArr: [], day: any) => [...accArr, day.dateMark], []);
+    this.tableMarkTypes = this.journalData.journal[0].marks.reduce((accArr: [], day: any) => [...accArr, day.typeMark], []);
     this.tableHeaders = ['fullName', ...this.tableDates];
   }
 
-  setLessonIdToStore(lessonId: number): void {
-    console.log(lessonId);
-    this.store.dispatch(setCurrentLessonIdToStoreAction({ currentLessonId: lessonId }))
+  setLessonIdToStore(lesson: any): void {
+    this.teacherPanelStore.dispatch(setCurrentLessonIdToStoreAction({ currentLessonId: lesson.idLesson }))
+  }
+
+  getMarksTypes() {
+    this.getMarksListSubscription = this.getMarksList$.subscribe(val => {
+      if (!val.length) {
+        this.markServ.getMarks();
+      };
+      this.getMarksListSubscription.unsubscribe()
+    })
+
+  }
+
+  getPosition(event): void {
+    this.markFieldLeft = event.srcElement.getBoundingClientRect().left;
+    this.markFieldTop = event.srcElement.getBoundingClientRect().top + event.srcElement.getBoundingClientRect().height;
+  }
+
+  expandedFn(val) {
   }
 
   ngOnDestroy() {

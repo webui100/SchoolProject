@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'webui-journal-homework-dialog',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./journal-homework-dialog.component.scss']
 })
 export class JournalHomeworkDialogComponent implements OnInit {
+
+  @Input() lessonData: any;
 
   constructor() { }
 

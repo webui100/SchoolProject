@@ -2,23 +2,82 @@
     <div><h3>{{journal.subjectName}}. {{journal.className}} клас.</h3></div>
 </div>
 
-<p>idClass: {{journal.idClass}}</p>
-<p>idSubject: {{journal.idSubject}}</p>
-
-<mat-table [dataSource]="journalDataTable">
-    <ng-container matColumnDef="fullName" sticky class="fullName">
-        <th mat-header-cell *matHeaderCellDef> Учень </th>
-        <td mat-cell *matCellDef="let element">{{index}}. {{element.studentFullName}} </td>
+<mat-table [dataSource]="journalDataTable" class="mat-elevation-z8">
+    <ng-container matColumnDef="fullName" sticky>
+        <th mat-header-cell *matHeaderCellDef class="fullName"> Учень </th>
+        <td mat-cell *matCellDef="let element" class="fullName">
+            {{element.studentFullName}} 
+        </td>
+        <td mat-footer-cell *matFooterCellDef>Домашнє завдання</td>
     </ng-container>
 
-    <ng-container *ngFor="let col of tableDates; let i=index" [matColumnDef]="col">
-        <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+    <ng-container *ngFor="let date of tableDates; let i=index" [matColumnDef]="date">
+        <th mat-header-cell *matHeaderCellDef
+            [ngClass]="{'hovered': hoveredLessonDate === date}"
+            (mouseenter)="hoveredLessonDate = date">
+                {{date | journalDateFormat}}
+        </th>
         <td mat-cell *matCellDef="let element"
-            (click)="setLessonIdToStore(element.marks[i].idLesson)"> {{element.marks[i].mark}} </td>
+            [ngClass]="{'hovered': hoveredLessonDate === element.marks[i].dateMark}"
+            (mouseenter)="hoveredLessonDate = element.marks[i].dateMark"
+            (click)="setLessonIdToStore(element.marks[i]);
+                    chosenElement = element;
+                    chosenLesson = element.marks[i];
+                    getPosition($event);
+                    markFieldVisible = true">
+                {{element.marks[i].mark}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef
+            (mouseenter)="hoveredLessonDate = date">
+                <webui-journal-homework-dialog
+                    [lessonData]="{idClass: journal.idClass,
+                        idSubject: journal.idSubject,
+                        idLesson: journalArray[0].marks[i].idLesson}">
+                </webui-journal-homework-dialog>
+        </td>
     </ng-container>
-  
+    
     <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
-    <tr mat-row *matRowDef="let row; columns: tableHeaders"></tr>
-  </mat-table>
+    <tr mat-row *matRowDef="let student; columns: tableHeaders"></tr>
+    <tr mat-footer-row *matFooterRowDef="tableHeaders"></tr>
+</mat-table>
 
-  <webui-journal-homework-dialog></webui-journal-homework-dialog>
+<div class="mark-field" 
+    *ngIf="markFieldVisible"
+    [ngStyle]="{'top.px': markFieldTop, 'left.px': markFieldLeft}"
+>
+    {{chosenElement.studentFullName}}, <strong>{{chosenLesson.dateMark | journalDateFormat}}</strong>
+    <form>
+        <mat-form-field>
+            <input matInput 
+                type="number"
+                min="1"
+                max="12"
+                [value]="chosenLesson.mark ? chosenLesson.mark : null"
+                placeholder="Оцінка"
+            >
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Тип оцінки</mat-label>
+            <mat-select [value]="chosenLesson.typeMark ? chosenLesson.typeMark : null">
+                <mat-option *ngFor="let mark of getMarksList$ | async"                    
+                    [value]="mark.markType">
+                    {{mark.markType}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea matInput
+                name="mark-note"
+                id="mark-note"
+                rows="2"
+                [value]="chosenLesson.note ? chosenLesson.note : null"
+                placeholder="Коментар до оцінки"
+            >
+            </textarea>
+        </mat-form-field>
+        <button mat-button
+            (click)="markFieldVisible=false">Скасувати</button>
+        <button mat-button>Зберегти</button>
+    </form>
+</div>

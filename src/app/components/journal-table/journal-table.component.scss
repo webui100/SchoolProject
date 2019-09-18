@@ -29,10 +29,62 @@ mat-table {
   }
 
   .fullName {
-    width: 300px;
+    white-space: nowrap;
   }
 
-  ng-container:hover, tr:hover {
+  [mat-cell].fullName {
+    padding: 3px;
+    text-align: left;
+  }
+
+  tr:hover {
     background-color: #f1f3f4;
+
+    th:hover {
+      background-color: #d6dadb;
+    }
+
+    td {
+      cursor: pointer;
+    
+      &:hover {
+        background-color: #d6dadb;
+      }
+    }
+  }
+
+  .hovered {
+    background-color: #f1f3f4;
+  }
+}
+
+.mark-field {
+  padding: 5px;
+  position: absolute;
+  background-color: #f4f6f6;
+  box-shadow: 0 3px 5px 2px #e9ecec;
+  text-align: center;
+
+  
+  mat-form-field {
+    display: block;
+    margin: 2px auto;
+    padding: 2px;
+  }
+  
+  input {
+    width: 40%;
+    max-width: 40px;
+  }
+
+  textarea {
+    width: 90%;
+    resize: none;
+  }
+
+  button {
+    display: inline-block;
+    width: 45%;
+    margin: 2px auto;
   }
 }
