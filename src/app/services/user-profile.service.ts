@@ -64,7 +64,6 @@ export class UserProfileService implements OnDestroy {
       const reader: FileReader = new FileReader();
       reader.onloadend = () => {
         this.subject.next(reader.result);
-        // console.log('reader result --- ', `${reader.result}`.split(',')[1]);
       };
       reader.readAsDataURL(file);
     } else {
