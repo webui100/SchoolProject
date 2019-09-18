@@ -1,12 +1,13 @@
 <div class="heading">
   <div class="students-heading"><h3>Список учнів</h3></div>
-
+</div>
+<div class="heading">
   <div class="search">
     <webui-load-students
       (selectClassEvent)="setId($event)"
     ></webui-load-students>
   </div>
-  <webui-create-student></webui-create-student>
+  <webui-create-student [idOfClass]="classId"></webui-create-student>
   <div class="search">
     <mat-form-field>
       <input
@@ -57,7 +58,7 @@
           "
         >
           <webui-update-student
-            *ngIf="expandedElement == element"
+            *ngIf="element == expandedElement"
             [student]="element"
           ></webui-update-student>
         </div>

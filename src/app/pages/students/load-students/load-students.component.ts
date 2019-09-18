@@ -3,7 +3,8 @@ import { Store, select } from "@ngrx/store";
 import { selectClassesData } from "../../../store/students/students.selector";
 import { ClassesService } from "../../../services/classes.service";
 import { MatRadioChange } from "@angular/material/radio";
-import { filter } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "webui-load-students",
@@ -12,32 +13,55 @@ import { filter } from "rxjs/operators";
 })
 export class LoadStudentsComponent implements OnInit {
   private classesData;
+  private classesList: Object[];
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  //Active not active always reasign, need to add new variable for that!!
   @Output() selectClassEvent = new EventEmitter();
   constructor(
     private classesService: ClassesService,
     private store: Store<{}>
   ) {}
   private loadClasses() {
-    if (!this.classesData) {
-      this.classesService.getClasses();
-    }
-    this.store.pipe(select(selectClassesData)).subscribe(data => {
-      this.classesData = data.classesList;
-    });
+    this.classesService.getClasses();
+    this.store
+      .pipe(
+        select(selectClassesData),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(data => {
+        this.classesData = data.classesList;
+        if (this.classesData) {
+          this.selectClassGroup(true);
+        }
+      });
   }
-  onClassSelect(e) {
-    console.log(e) 
+  private selectClassGroup(isActive: boolean) {
+    if (isActive) {
+      this.classesList = this.classesData.filter(
+        data => data.isActive === true
+      );
+    } else {
+      this.classesList = this.classesData.filter(
+        data => data.isActive === false
+      );
+    }
+  }
+
+  private onClassSelect(e) {
     this.selectClassEvent.emit(e);
-    
   }
 
   private onChange(classGroup: MatRadioChange) {
-    // this.classesData =
-    //   classGroup.value == "active"
-    //     ?
+    classGroup.value == "active"
+      ? this.selectClassGroup(true)
+      : this.selectClassGroup(false);
   }
 
   ngOnInit() {
     this.loadClasses();
+  }
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

@@ -24,7 +24,7 @@ import {
   templateUrl: "./students.component.html",
   styleUrls: ["./students.component.scss"],
   animations: [
-    trigger(" ", [
+    trigger("detailExpand", [
       state("collapsed", style({ height: "0px", minHeight: "0" })),
       state("expanded", style({ height: "*" })),
       transition(
@@ -37,6 +37,7 @@ import {
 export class StudentsComponent implements OnInit, OnDestroy {
   private data: MatTableDataSource<Object>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private classId: Number;
   private columnsToDisplay: String[] = [
     "lastname",
     "firstname",
@@ -61,9 +62,11 @@ export class StudentsComponent implements OnInit, OnDestroy {
   ) {}
   private setId(e) {
     this.loadStudents(e);
+    this.classId = e;
   }
 
   private loadStudents(id) {
+    this.studentsService.getStudents(id);
     this.store
       .pipe(
         select(selectStudentsData),
@@ -71,22 +74,18 @@ export class StudentsComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(data => {
-        this.studentsService.getStudents(id);
-        
         this.data = new MatTableDataSource(data.students);
-        if(this.data){
-        this.data.paginator = this.paginator;
-        this.data.sort = this.sort;
+        if (this.data) {
+          this.data.paginator = this.paginator;
+          this.data.sort = this.sort;
         }
       });
   }
-  
+
   private onDelete(id: number) {
     this.studentsService.deleteStudent(id);
   }
-  ngOnInit() {
-  
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
