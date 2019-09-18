@@ -7,5 +7,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-checkbox (change)="changeOnlyWithStudents($event.value)">Тільки з учнями</mat-checkbox>
+  <mat-checkbox (change)="changeOnlyWithStudents($event.value)" [checked]="isWithStudents">Тільки з учнями
+  </mat-checkbox>
 </div>
