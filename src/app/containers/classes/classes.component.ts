@@ -36,15 +36,6 @@ export class ClassesComponent implements OnInit, OnDestroy {
     'numOfStudents'
   ];
 
-  private classTableHead (columnName){
-    switch(columnName){
-      case 'className': return 'Клас';
-      case 'classYear': return 'Рік';
-      case 'numOfStudents': return 'Кількість учнів';
-    }
-
-  }
-
   activeUniqueClassList: Map<string, Array<Object>>;
   nonActiveUniqueClassList: Map<string, Array<Object>>;
 

@@ -85,6 +85,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
+import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
 
 
 @NgModule({
@@ -145,7 +146,8 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
     MarkComponentComponent,
     AddMarkComponent,
     EditMarkComponent,
-    DisabledMarksComponent
+    DisabledMarksComponent,
+    ClassListHeaderPipe
   ],
   imports: [
     ChartsModule,
