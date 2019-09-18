@@ -61,12 +61,10 @@ export class UserProfileService implements OnDestroy {
   readImage(inputValue: HTMLInputElement): void {
     const file: File = inputValue.files[0];
     if (file.type.includes('image') && file.size < 1000000) {
-      console.log("type", file.type);
-      console.log("name", file.name);
       const reader: FileReader = new FileReader();
       reader.onloadend = () => {
         this.subject.next(reader.result);
-        console.log('reader result --- ', `${reader.result}`.split(',')[1]);
+        // console.log('reader result --- ', `${reader.result}`.split(',')[1]);
       };
       reader.readAsDataURL(file);
     } else {

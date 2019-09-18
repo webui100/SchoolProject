@@ -81,7 +81,7 @@ export class StudentDiaryService {
     const name = file.name;
     const reader: FileReader = new FileReader();
     reader.onloadend = () => {
-      // this.subject.next(reader.result);
+      this.subject.next(reader.result);
       console.log('reader result --- ', `${reader.result}`.split(',')[1]);
     };
   }
