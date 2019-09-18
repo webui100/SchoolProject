@@ -74,4 +74,15 @@ export class StudentDiaryService {
         map((body: HomeworkFile) => body.data)
       );
   }
+
+  uploadFile(inputValue: HTMLInputElement) {
+    const file: File = inputValue.files[0];
+    const type = file.type;
+    const name = file.name;
+    const reader: FileReader = new FileReader();
+    reader.onloadend = () => {
+      // this.subject.next(reader.result);
+      console.log('reader result --- ', `${reader.result}`.split(',')[1]);
+    };
+  }
 }
