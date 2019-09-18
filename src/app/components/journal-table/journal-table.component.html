@@ -6,7 +6,7 @@
     <ng-container matColumnDef="fullName" sticky>
         <th mat-header-cell *matHeaderCellDef class="fullName"> Учень </th>
         <td mat-cell *matCellDef="let element" class="fullName">
-            {{element.studentFullName}} 
+            {{element.studentFullName}}
         </td>
         <td mat-footer-cell *matFooterCellDef>Домашнє завдання</td>
     </ng-container>
@@ -29,27 +29,42 @@
         </td>
         <td mat-footer-cell *matFooterCellDef
             (mouseenter)="hoveredLessonDate = date">
-                <webui-journal-homework-dialog
-                    [lessonData]="{idClass: journal.idClass,
-                        idSubject: journal.idSubject,
-                        idLesson: journalArray[0].marks[i].idLesson}">
-                </webui-journal-homework-dialog>
+          <mat-icon
+            (click)="downloadFile(journalArray[0].marks[i].idLesson)"
+            title="Завантажити"
+          >
+            save_alt
+          </mat-icon>
+
+<!--          *ngIf="data.homeworkFileId !== null"-->
+          <mat-icon
+            (click)="openFile(journalArray[0].marks[i].idLesson)"
+            title="Переглянути"
+          >
+            zoom_in
+          </mat-icon>
         </td>
+<!--                <webui-journal-homework-dialog-->
+<!--                    [lessonData]="{idClass: journal.idClass,-->
+<!--                        idSubject: journal.idSubject,-->
+<!--                        idLesson: journalArray[0].marks[i].idLesson}">-->
+<!--                </webui-journal-homework-dialog>-->
+
     </ng-container>
-    
+
     <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
     <tr mat-row *matRowDef="let student; columns: tableHeaders"></tr>
     <tr mat-footer-row *matFooterRowDef="tableHeaders"></tr>
 </mat-table>
 
-<div class="mark-field" 
+<div class="mark-field"
     *ngIf="markFieldVisible"
     [ngStyle]="{'top.px': markFieldTop, 'left.px': markFieldLeft}"
 >
     {{chosenElement.studentFullName}}, <strong>{{chosenLesson.dateMark | journalDateFormat}}</strong>
     <form>
         <mat-form-field>
-            <input matInput 
+            <input matInput
                 type="number"
                 min="1"
                 max="12"
@@ -60,7 +75,7 @@
         <mat-form-field>
             <mat-label>Тип оцінки</mat-label>
             <mat-select [value]="chosenLesson.typeMark ? chosenLesson.typeMark : null">
-                <mat-option *ngFor="let mark of getMarksList$ | async"                    
+                <mat-option *ngFor="let mark of getMarksList$ | async"
                     [value]="mark.markType">
                     {{mark.markType}}
                 </mat-option>
