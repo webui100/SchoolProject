@@ -6,8 +6,8 @@ import { State as AppState } from '../index';
 
 const selectClasses = (state: AppState) => state.classes.classesList;
 const selectStudents = (state: AppState) => state.newYear.transferStudents;
-const selectYear = (state: AppState) => state.newYear.year;
-const selectIsWithStudents = (state: AppState) => state.newYear.isWithStudents;
+export const selectYear = (state: AppState) => state.newYear.year;
+export const selectIsWithStudents = (state: AppState) => state.newYear.isWithStudents;
 
 export const selectTransferClasses = createSelector(
   selectClasses,
