@@ -43,6 +43,12 @@
           >
             zoom_in
           </mat-icon>
+          <input type="file" #inputFile id="file" (change)="selectFile($event)" [hidden]="true">
+          <mat-card-actions>
+            <button mat-stroked-button type="button" (click)="inputFile.click()">Вибрати фото</button>
+          </mat-card-actions>
+
+          <span>{{name}}</span>
         </td>
 <!--                <webui-journal-homework-dialog-->
 <!--                    [lessonData]="{idClass: journal.idClass,-->

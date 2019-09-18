@@ -8,7 +8,7 @@ import { setCurrentLessonIdToStoreAction } from 'src/app/store/teacher-panel/tea
 import { MarkControllerService } from 'src/app/services/mark-controller.service';
 import { activeMark } from 'src/app/store/marks/marks.selector';
 import { StudentDiaryService } from '../../services/student-diary.service';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { HomeworkDialogComponent } from 'src/app/components/homework-dialog/homework-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -43,7 +43,10 @@ export class JournalTableComponent implements OnInit, OnDestroy {
   getMarksListSubscription: Subscription;
 
   private hoveredLesson = null;
+
   private destroyStream$ = new Subject<void>();
+  public subject = new Subject<string | ArrayBuffer>();
+  name: any;
 
   constructor(
     // private teacherPanelService: TeacherPanelService,
@@ -140,6 +143,34 @@ export class JournalTableComponent implements OnInit, OnDestroy {
           height: '80vh',
           data
         });
+      });
+  }
+
+  readFile(inputValue: HTMLInputElement): void {
+    const file: File = inputValue.files[0];
+    const type = file.type;
+    const name = file.name;
+    this.name = name;
+    const reader: FileReader = new FileReader();
+    reader.onloadend = () => {
+      const data = `${reader.result}`.split(',')[1];
+      const fileData = {
+        type: type,
+        name: name,
+        data: data
+      };
+      this.subject.next(fileData);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  selectFile(event): void {
+    this.readFile(event.target);
+    this.subject
+      .pipe(take(1))
+      .subscribe(data => {
+        console.log(data);
+        // send put method (http://35.228.14.201:8080/swagger-ui.html#!/homework-controller/postHomeworkUsingPUT)
       });
   }
 }
