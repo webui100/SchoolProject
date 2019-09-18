@@ -4,8 +4,8 @@ export const dayTheme = {
   "dark-color": "#2f3542",
   "font-color": "black",
   "contrast-font-color": "#ced6e0",
-  "accent-color": "#ff6348",
-  "alternative-accent-color": "#ff7f50"
+  "accent-color": "#F44336",
+  "alternative-accent-color": "#FF4081"
 }
 
 export const nightTheme = {
@@ -14,8 +14,8 @@ export const nightTheme = {
   "dark-color": "#1e0000",
   "font-color": "#fbf8ea",
   "contrast-font-color": "#afb9bf",
-  "accent-color": "#39ace7",
-  "alternative-accent-color": "#0784b5"
+  "accent-color": "#03A9F4",
+  "alternative-accent-color": "#FFAB40"
 }
 
 export const morningTheme = {
@@ -23,7 +23,7 @@ export const morningTheme = {
   "light-color": "#eaeee8",
   "dark-color": "#b22222",
   "font-color": "#3f5663",
-  "accent-color": "#b43757",
+  "accent-color": "#009688",
   "contrast-font-color": "#eaeee8",
-  "alternative-accent-color": "	#fca239"
+  "alternative-accent-color": "#795548"
 }

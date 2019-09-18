@@ -1,4 +1,4 @@
-$base-background: #673ab7;
+$base-background: var(--dark-color);
 
 %flex-center {
   display: flex;
@@ -35,7 +35,7 @@ mat-icon:hover {
   @extend %flex-center;
   background-color: $base-background;
   width: 90%;
-  color: white;
+  color: var(--constrast-font-color);
   padding: 1rem 0;
   align-self: center;
   margin-top: 1rem;
@@ -62,7 +62,7 @@ table {
 }
 
 .mark-row:hover {
-  background-color: #e8e8e8;
+  background-color: var(--light-color);
   cursor: pointer;
 }
 

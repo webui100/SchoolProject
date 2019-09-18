@@ -2,7 +2,8 @@ import { TransitionService } from 'src/app/services/transition.service';
 import {
   selectTransferClasses, selectTransferStudents,
   selectTransferedClasses, selectClassesYears,
-  selectAllTransferStudents
+  selectAllTransferStudents, selectYear,
+  selectIsWithStudents
 } from './../../store/newyear/newyear.selector';
 import { ClassesService } from './../../services/classes.service';
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
@@ -36,6 +37,7 @@ export class NewYearComponent implements OnInit, OnDestroy {
     private transitionService: TransitionService) { }
 
   public year: number;
+  public isWithStudents: boolean;
   public transferList$: Observable<Array<object>>;
   public studentsList$: Observable<object>;
   // classes that can be transfered
@@ -57,10 +59,18 @@ export class NewYearComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   ngOnInit() {
+    this.initControllPanel();
+    this.store.pipe(
+      select(selectAllTransferStudents),
+      takeUntil(this.destroy$)
+    ).subscribe((students: []) => {
+      this.transitionService.setTransferStudents(students);
+    });
+
     this.classService.getClasses();
-    this.year = new Date(Date.now()).getFullYear() - 1;
     this.yearSubject$ = new BehaviorSubject(this.year);
     this.isWithStudentsSubject$ = new Subject();
+
 
     this.transferList$ = this.store.pipe(
       select(selectTransferClasses),
@@ -78,13 +88,6 @@ export class NewYearComponent implements OnInit, OnDestroy {
     this.classesYears$ = this.store.pipe(
       select(selectClassesYears),
       takeUntil(this.destroy$));
-
-    this.store.pipe(
-      select(selectAllTransferStudents),
-      takeUntil(this.destroy$)
-    ).subscribe((students: []) => {
-      this.transitionService.setTransferStudents(students);
-    });
 
     this.transferList$.subscribe((list: Array<ClassModel>) => {
       this.transferClasses = list;
@@ -146,6 +149,21 @@ export class NewYearComponent implements OnInit, OnDestroy {
 
   transferAllClasses(studingYear: number) {
     this.transitionService.transferStudents(this.transferClasses, studingYear);
+  }
+
+  initControllPanel() {
+    const yearRef = this.store.pipe(
+      select(selectYear),
+      takeUntil(this.destroy$)
+    ).subscribe((year: number) => this.year = year);
+
+    const isWithStudentsRef = this.store.pipe(
+      select(selectIsWithStudents),
+      takeUntil(this.destroy$)
+    ).subscribe((isWithStudents: boolean) => this.isWithStudents = isWithStudents);
+
+    yearRef.unsubscribe();
+    isWithStudentsRef.unsubscribe();
   }
 
 }

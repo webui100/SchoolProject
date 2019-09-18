@@ -52,8 +52,8 @@ form {
 button {
   cursor: pointer;
   width: 100%;
-  background-color: var(--alternative-accent-color);
-  color: var(--font-color);
+  background-color: var(--accent-color);
+  color: #fff;
   height: 40px;
   &:disabled {
     background-color: var(--light-color);

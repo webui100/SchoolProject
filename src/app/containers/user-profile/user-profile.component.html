@@ -30,13 +30,8 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input
-          matInput
-          placeholder="Дата народження"
-          formControlName="dateOfBirth"
-          [matDatepicker]="datepicker"
-          [max]="maxDate"
-        >
+        <input matInput placeholder="Дата народження" formControlName="dateOfBirth" [matDatepicker]="datepicker"
+          [max]="maxDate">
         <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
         <mat-datepicker #datepicker></mat-datepicker>
         <mat-error *ngIf="this.profile.get('dateOfBirth').invalid">Введіть дату народження</mat-error>
@@ -67,13 +62,8 @@
       </mat-form-field>
 
       <mat-form-field class="confirm-password" floatLabel="never">
-        <input
-          matInput
-          type="password"
-          placeholder="Підтвердіть новий пароль"
-          formControlName="confirmPass"
-          [errorStateMatcher]="matcher"
-        >
+        <input matInput type="password" placeholder="Підтвердіть новий пароль" formControlName="confirmPass"
+          [errorStateMatcher]="matcher">
         <mat-error *ngIf="profile.hasError('notSame')">Паролі не співпадають</mat-error>
       </mat-form-field>
 
