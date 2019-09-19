@@ -1,1 +1,7 @@
-<webui-mark-component [marksData]="getMarksList$ | async" [marksDisabled]="getMarksDisabled$ | async" (editMark)="putMark($event)" (getMarks)="getMarks($event)" (createMark)="postMark($event)" ></webui-mark-component>
+<webui-mark-component 
+    [marksData]="getMarksList$ | async" 
+    [marksDisabled]="getMarksDisabled$ | async" 
+    (editMark)="putMark($event)" 
+    (getMarks)="getMarks($event)" 
+    (createMark)="postMark($event)" >
+</webui-mark-component>
