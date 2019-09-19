@@ -152,7 +152,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     AddMarkComponent,
     EditMarkComponent,
     DisabledMarksComponent,
-    ArrayFilterPipe
+    ArrayFilterPipe,
     LoadStudentsComponent
   ],
   imports: [
