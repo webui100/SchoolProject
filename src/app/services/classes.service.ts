@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, Observer, Subject } from "rxjs";
-import { getClassAction } from "../store/classes/classes.action";
+import { getClassAction, addClassAction } from "../store/classes/classes.action";
 
 @Injectable({
   providedIn: "root"
@@ -71,15 +71,14 @@ export class ClassesService {
   }
 
   addClass(classData){
-    this.http.post(`${this.BASE_URI}classes`, classData, {observe: 'response'})
+    this.http.post(`${this.BASE_URI}classes`, classData)
     .subscribe(response => {
       this.notify.notifySuccess('Успішно створено');
+      this.store.dispatch(addClassAction({ newClass: response["data"] }))
     },
     error => {
       this.errorMessage(error);
     }
-    
-    
     )
   }
   private errorMessage(err: any) {

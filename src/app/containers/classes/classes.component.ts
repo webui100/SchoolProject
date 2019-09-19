@@ -30,13 +30,14 @@ export class ClassesComponent implements OnInit, OnDestroy {
   private classes$: any;
   private classesSubscription: Subscription;
   public expandedElement: ClassTable | null;
-  private sortKeys;
+  private sortKeys: Function;
 
   constructor(
     private classesService: ClassesService,
     private store: Store<{}>
   ) {
     this.classes$ = this.store.pipe(select(selectClassesAll));
+    this.sortKeys = this.classesService.sortClasses();
   }
 
   displayedColumns: string[] = ["className", "classYear", "numOfStudents"];
@@ -51,7 +52,6 @@ export class ClassesComponent implements OnInit, OnDestroy {
     });
     // get data from endpoint
     this.classesService.getClasses();
-    this.sortKeys = this.classesService.sortClasses();
   }
   ngOnDestroy(): void {
     this.classesSubscription.unsubscribe();
