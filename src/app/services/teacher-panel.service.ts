@@ -28,7 +28,7 @@ export class TeacherPanelService{
      }
 
     getTeacherId() {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       return jwt_decode(token).jti;
     }
 //------------------------------------------------------------
