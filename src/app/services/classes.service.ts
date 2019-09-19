@@ -1,13 +1,13 @@
-import { NotificationService } from "./notification.service";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable, Observer, Subject } from "rxjs";
-import { getClassAction } from "../store/classes/classes.action";
+import { NotificationService } from './notification.service';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Observer, Subject } from 'rxjs';
+import { getClassAction } from '../store/classes/classes.action';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class ClassesService {
   public subject = new Subject<string | ArrayBuffer>();
@@ -46,7 +46,7 @@ export class ClassesService {
     }
     // Sorting custom classes "4(8)  at first by custom class.( in scopes "(8)").
     // Then by main (class before scopes).
-    else if (current.key.includes("(") && previous.key.includes("(")) {
+    else if (current.key.includes('(') && previous.key.includes('(')) {
       const currentCustomClass = getClassinScopes(current.key);
       const previousCustomClass = Number(previous.key.match(/\((.*)\)/)[1]);
       const currentMainClass = parseInt(current.key);
@@ -66,7 +66,7 @@ export class ClassesService {
 
   getClasses() {
     this.http.get(`${this.BASE_URI}classes`).subscribe(response => {
-      this.store.dispatch(getClassAction({ classesList: response["data"] }));
+      this.store.dispatch(getClassAction({ classesList: response['data'] }));
     });
   }
 }
