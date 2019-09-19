@@ -19,7 +19,7 @@ export const selectAllMarks = (state: AppState) => {
 
     return {
         data: [
-            {data, label: 'Оцінки за вибраний період'},
+            {data, label: 'Оцінка'},
           ],
         labels
     };
