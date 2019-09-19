@@ -28,7 +28,6 @@ import {
 } from "@ngrx/router-store";
 import { CustomSerializer } from "./store/router.reducer";
 import "hammerjs";
-
 import { CurrentUserComponent } from "./components/current-user/current-user.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { TeacherSubjectsComponent } from "./containers/teacher-panel-subjects/teacher-panel-subjects.component";
@@ -86,13 +85,14 @@ import { AddMarkComponent } from "./components/mark-component/add-mark/add-mark.
 import { EditMarkComponent } from "./components/mark-component/edit-mark/edit-mark.component";
 import { LoadStudentsComponent } from "./pages/students/load-students/load-students.component";
 import { DisabledMarksComponent } from "./components/mark-component/disabled-marks/disabled-marks.component";
-import { TeacherChartComponent } from "./components/teacher-panel-chart/teacher-panel-chart.component";
 import { MatMenuModule } from "@angular/material/menu";
 import { TeacherPanelStatisticsComponent } from "./containers/teacher-panel-statistics/teacher-panel-statistics.component";
 import { JournalTableComponent } from "./components/journal-table/journal-table.component";
 import { JournalHomeworkDialogComponent } from "./components/journal-homework-dialog/journal-homework-dialog.component";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatSelectModule } from "@angular/material/select";
+import { ArrayFilterPipe } from './pipes/array-filter.pipe';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -138,7 +138,6 @@ import { MatSelectModule } from "@angular/material/select";
     NewYearPipe,
     LocaleHeaderPipe,
     UserProfileComponent,
-    TeacherChartComponent,
     TeacherPanelStatisticsComponent,
     CustomErrorComponent,
     TeacherSubjectsComponent,
@@ -153,6 +152,7 @@ import { MatSelectModule } from "@angular/material/select";
     AddMarkComponent,
     EditMarkComponent,
     DisabledMarksComponent,
+    ArrayFilterPipe,
     LoadStudentsComponent
   ],
   imports: [
@@ -171,6 +171,7 @@ import { MatSelectModule } from "@angular/material/select";
     PdfViewerModule,
     MaterialModule,
     MatMenuModule,
+    MatStepperModule,
     MatTabsModule,
 
     FlexLayoutModule,
