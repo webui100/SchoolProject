@@ -27,9 +27,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'uk-UK'},
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UK' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {

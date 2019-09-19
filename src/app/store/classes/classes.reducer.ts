@@ -1,17 +1,16 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import * as ClassData from './classes.action';
+import { Action, createReducer, on } from "@ngrx/store";
+import * as ClassData from "./classes.action";
 
 export interface State {
   classesList: Array<object>;
 }
 
 export const initialState: State = {
-  classesList: null,
+  classesList: null
 };
-
 const reducer = createReducer(
   initialState,
-  on(ClassData.getClassAction, (state, { classesList }) => ({ 
+  on(ClassData.getClassAction, (state, { classesList }) => ({
     ...state,
     classesList
   }))

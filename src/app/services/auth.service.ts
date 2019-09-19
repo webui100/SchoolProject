@@ -7,7 +7,7 @@ import * as jwt_decode from '../../../node_modules/jwt-decode';
 import { Store, select } from '@ngrx/store';
 import { login } from '../store/login/login.actions';
 import { selectRole, selectId } from '../store/login/login.selectors';
-import { takeUntil, tap} from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 import {timer} from 'rxjs/internal/observable/timer';
 import {Subject} from 'rxjs/internal/Subject';
@@ -16,7 +16,7 @@ import { Logout } from '../store/logout.reducer';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
   private timerTerminator$ = new Subject();
   role$: any;
   role: any;
@@ -41,7 +41,7 @@ export class AuthService implements OnDestroy{
 
   signIn(userData) {
     this.http
-      .post( `${this.BASE_URI}signin`, userData, {
+      .post(`${this.BASE_URI}signin`, userData, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           Accept: '*/*'
@@ -63,7 +63,7 @@ export class AuthService implements OnDestroy{
     const token = this.getToken();
     const userRole = jwt_decode(token).Roles.authority;
     const userId = jwt_decode(token).jti;
-    this.store.dispatch(login({role: userRole, id: userId}));
+    this.store.dispatch(login({ role: userRole, id: userId }));
   }
 
   moveUserToPage() {

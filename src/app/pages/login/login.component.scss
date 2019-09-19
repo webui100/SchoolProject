@@ -18,6 +18,7 @@ figure {
   display: flex;
   justify-content: center;
   position: relative;
+  z-index: 2;
   max-width: 300px;
   margin: 0.6rem;
   align-self: center;
