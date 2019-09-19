@@ -24,13 +24,26 @@ import { TeacherJournalsComponent } from './containers/teacher-panel-journals/te
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component'
 import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import { LoginUserComponent } from './containers/authorization/login-user/login-user.component';
+import { RequestPasswordComponent } from './containers/authorization/request-password/request-password.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    canActivate: [LoginGuard]
-  },
+    canActivate: [LoginGuard],
+    children: [
+      {
+        path: '',
+        component: LoginUserComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'request-password',
+        component: RequestPasswordComponent,
+        pathMatch: 'full'
+      }
+    ]},
   {
     path: 'login',
     component: LoginComponent

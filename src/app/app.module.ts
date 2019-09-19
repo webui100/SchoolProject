@@ -68,7 +68,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewYearControllComponent } from './components/new-year-controll/new-year-controll.component';
 import { NewYearPipe } from './pipes/new-year.pipe';
 import { LocaleHeaderPipe } from './pipes/locale-header.pipe';
-import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
+//import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
 import { clearState } from './store/logout.reducer';
 import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
@@ -87,6 +87,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
+import { RequestPasswordComponent } from './containers/authorization/request-password/request-password.component';
+import { LoginUserComponent } from './containers/authorization/login-user/login-user.component';
 
 
 @NgModule({
@@ -147,7 +149,9 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
     MarkComponentComponent,
     AddMarkComponent,
     EditMarkComponent,
-    DisabledMarksComponent
+    DisabledMarksComponent,
+    RequestPasswordComponent,
+    LoginUserComponent
   ],
   imports: [
     ChartsModule,
