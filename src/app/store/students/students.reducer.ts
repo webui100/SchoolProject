@@ -1,12 +1,12 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import * as GetStudents from "./students.action";
+import { Action, createReducer, on } from '@ngrx/store';
+import * as GetStudents from './students.action';
 
-export interface State {
+export interface IStudents {
   students: Array<Object>;
   selectedStudent: Object;
 }
 
-export const initialState: State = {
+export const initialState: IStudents = {
   students: null,
   selectedStudent: null
 };
@@ -40,9 +40,6 @@ const StudentsReducer = createReducer(
   })
 );
 
-export function studentsReducer(state: State | undefined, action: Action) {
+export function studentsReducer(state: IStudents | undefined, action: Action) {
   return StudentsReducer(state, action);
-}
-export function ClassesReducer(state: State | undefined, action: Action) {
-  return ClassesReducer(state, action);
 }
