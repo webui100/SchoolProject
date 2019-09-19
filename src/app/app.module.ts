@@ -75,10 +75,12 @@ import { CustomErrorComponent } from "./components/custom-error/custom-error.com
 import { ThemeButtonComponent } from "./components/theme-button/theme-button.component";
 import { ThemePickerComponent } from "./components/theme-picker/theme-picker.component";
 import { MarkControllerComponent } from "./containers/mark-controller/mark-controller.component";
-import { MatPaginatorIntl,
+import {
+  MatPaginatorIntl,
   MatMenuModule,
   MatTabsModule,
-  MatStepperModule } from '@angular/material';
+  MatStepperModule
+} from '@angular/material';
 import { MarkComponentComponent } from "./components/mark-component/mark-component.component";
 import { AddMarkComponent } from "./components/mark-component/add-mark/add-mark.component";
 import { EditMarkComponent } from "./components/mark-component/edit-mark/edit-mark.component";
@@ -203,4 +205,4 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
     UserProfileComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }
