@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ValidationService } from "../services/validation.service";
-import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
-import { format, compareAsc } from "date-fns";
-import { getAvatarAction } from "../store/avatar/avatar.actions";
-import { environment } from "../../environments/environment";
-import { NotificationService } from "./notification.service";
-import { Store } from "@ngrx/store";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ValidationService } from '../services/validation.service';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { format, compareAsc } from 'date-fns';
+import { getAvatarAction } from '../store/avatar/avatar.actions';
+import { environment } from '../../environments/environment';
+import { NotificationService } from './notification.service';
+import { Store } from '@ngrx/store';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class FormService {
   BASE_URL = environment.APIEndpoint;
@@ -21,7 +21,7 @@ export class FormService {
   ) {}
 
   formatDateToValidString(date) {
-    return format(date, "YYYY-MM-DD");
+    return format(date, 'YYYY-MM-DD');
   }
   loadAvatar(e): void {
     const reader = new FileReader();
@@ -43,7 +43,7 @@ export class FormService {
     const formGroup = {};
     formPattern.forEach(formControl => {
       if (formControl.validation.required && formControl.validation.type) {
-        formGroup[formControl.controlName] = new FormControl("", [
+        formGroup[formControl.controlName] = new FormControl('', [
           Validators.required,
           Validators.pattern(this.formValidation[formControl.validation.type])
         ]);
@@ -52,7 +52,7 @@ export class FormService {
         formControl.validation.type
       ) {
         formGroup[formControl.controlName] = new FormControl(
-          "",
+          '',
           Validators.pattern(this.formValidation[formControl.validation.type])
         );
       } else if (
@@ -60,11 +60,11 @@ export class FormService {
         !formControl.validation.type
       ) {
         formGroup[formControl.controlName] = new FormControl(
-          "",
+          '',
           Validators.required
         );
       } else {
-        formGroup[formControl.controlName] = new FormControl("");
+        formGroup[formControl.controlName] = new FormControl('');
       }
     });
     return new FormGroup(formGroup);
