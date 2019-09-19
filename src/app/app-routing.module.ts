@@ -2,7 +2,6 @@ import { NewYearComponent } from './containers/new-year/new-year.component';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -22,7 +21,7 @@ import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/te
 import { TeacherJournalsComponent } from './containers/teacher-panel-journals/teacher-panel-journals.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component'
-import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 
 const routes: Routes = [
   {
@@ -49,8 +48,12 @@ const routes: Routes = [
         component: TeacherJournalsComponent
       },
       {
-        path: 'statistics',
-        component: TeacherChartComponent
+        path: "statistics",
+        component: TeacherPanelStatisticsComponent
+      },
+      {
+        path: "subjects",
+        component: TeacherSubjectsComponent
       },
     ]
   },
