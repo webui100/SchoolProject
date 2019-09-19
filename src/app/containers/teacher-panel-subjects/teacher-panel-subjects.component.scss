@@ -4,9 +4,9 @@
 .header {
   display: flex;
   justify-content: center;
-  background-color: #673ab7;
+  background-color: var(--dark-color);
   width: 80%;
-  color: white;
+  color: var(--contrast-font-color);
   padding: 10px 0;
   margin: 5px auto 10px auto;
 }
@@ -31,26 +31,13 @@ table .mat-form-field {
   width: 100%;
   margin: 0 15px 0 0;
 }
-table .mat-card {
-  border-bottom: #673ab7;
-  border-bottom-style: solid;
-  border-bottom-width: 5px; 
-  width: 100%;
-  border-radius: 0;
-  padding: 10px 0 0 0;
-  margin-bottom: 10px;
-  
-}
 
 td.mat-cell:first-of-type {
   width: 42%;
 }
 
 @media (max-width: 798px) {
-  .mat-card-content {
-    flex-direction: column;
-  }
-  td.mat-cell {
+    td.mat-cell {
     padding: 10px 5px 0 5px;
   }
 }

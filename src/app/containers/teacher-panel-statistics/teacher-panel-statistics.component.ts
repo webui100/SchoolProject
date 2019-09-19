@@ -73,9 +73,7 @@ export class TeacherPanelStatisticsComponent implements OnInit {
   };
   public itemOfSubjects;
   public onSubjectSelect(value) {
-    console.log(this.itemOfSubjects);
     this.itemOfSubjects = value.idSubject;
-    console.log(this.itemOfSubjects);
   }
   public itemOfStudents;
   public onStudentSelect(value) {

@@ -1,0 +1,20 @@
+<mat-card>
+    <form [formGroup]="addMark" (ngSubmit)="submitAdd($event)">
+        <mat-card-content>
+
+            <mat-form-field class="name-input">
+                <input matInput placeholder="Назва типу оцінки" formControlName="markType" required>
+            </mat-form-field>
+            <mat-form-field class="text-area-field" >
+                <textarea matInput placeholder="Додаткова інформація" formControlName="description"></textarea>
+            </mat-form-field>
+            <mat-radio-group aria-label="markState" formControlName="active">
+                <mat-radio-button value="true" [checked]="true">Активний</mat-radio-button>
+                <mat-radio-button value="false" >Неактивний</mat-radio-button>
+            </mat-radio-group>
+            <mat-card-actions>
+                    <button mat-button type="submit" [disabled]="addMark.invalid"> Добавити </button>
+                </mat-card-actions>
+        </mat-card-content>
+    </form>
+</mat-card>

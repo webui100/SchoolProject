@@ -4,9 +4,9 @@
 .header {
   display: flex;
   justify-content: center;
-  background-color: #673ab7;
+  background-color: var(--dark-color);
   width: 80%;
-  color: white;
+  color: var(--contrast-font-color);;
   padding: 10px 0;
   margin: 5px auto 10px auto;
 }
@@ -28,13 +28,8 @@ mat-card {
   height: 100%;
   padding: 0 !important;
   min-height: 560px;
+  background-color: var(--light-color);
   }
-mat-card-title {
-  background-color: #694CB7;
-  padding: 10px;
-  color: white;
-  margin: 0;
-}
 mat-card-content {
   width: 100%;
   font-size: 30px;

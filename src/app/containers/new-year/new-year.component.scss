@@ -1,4 +1,3 @@
-$base-background: #673ab7;
 
 table {
   width: 100%;
@@ -42,12 +41,12 @@ tr.element-row{
 }
 
 tr.element-row:not(.expanded-row):hover {
-  background: rgb(238, 238, 238);
+  background: var(--light-color);
   cursor: pointer;
 }
 
 tr.element-row:not(.expanded-row):active {
-  background: #efefef;
+  background: var(--light-color);
 }
 
 .element-row td {
@@ -68,8 +67,8 @@ webui-transfer-students-table {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $base-background;
-  color: white;
+  background-color: var(--light-color);
+  color: var(--font-color);
 }
 
 .new-year-spinner {
