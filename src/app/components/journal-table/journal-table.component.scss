@@ -52,6 +52,13 @@ mat-table {
       }
     }
   }
+  
+  td.footer {
+    background-color: #f5f8fa;
+    vertical-align: text-top;
+    padding-top: 5px;
+    cursor: unset !important;
+  }
 
   .hovered {
     background-color: #f1f3f4;
@@ -62,7 +69,7 @@ mat-table {
   padding: 5px;
   position: absolute;
   background-color: #f4f6f6;
-  box-shadow: 0 3px 5px 2px #e9ecec;
+  box-shadow: 0 3px 5px 2px #c2c3c3;
   text-align: center;
 
   
@@ -74,7 +81,6 @@ mat-table {
   
   input {
     width: 40%;
-    max-width: 40px;
   }
 
   textarea {
@@ -87,4 +93,9 @@ mat-table {
     width: 45%;
     margin: 2px auto;
   }
+}
+
+.spinner-container {
+  margin: 30px auto;
+  width: fit-content;
 }

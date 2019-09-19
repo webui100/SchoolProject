@@ -1,17 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-// import { TeacherPanelService } from 'src/app/services/teacher-panel.service';
+import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
+import { TeacherPanelService } from 'src/app/services/teacher-panel.service';
 import { Store, select } from '@ngrx/store';
-import { Subscription, Observable, Subject } from 'rxjs';
-import { selectCurrentJournal, selectCurrentJournalData } from 'src/app/store/teacher-panel/teacher-panel.selector';
+import { Subscription, Observable } from 'rxjs';
+import { selectCurrentJournalData, selectHomeworkList } from 'src/app/store/teacher-panel/teacher-panel.selector';
 import { MatTableDataSource } from '@angular/material';
 import { setCurrentLessonIdToStoreAction } from 'src/app/store/teacher-panel/teacher-panel.action';
 import { MarkControllerService } from 'src/app/services/mark-controller.service';
 import { activeMark } from 'src/app/store/marks/marks.selector';
-import { StudentDiaryService } from '../../services/student-diary.service';
-import { take, takeUntil } from 'rxjs/operators';
-import { HomeworkDialogComponent } from 'src/app/components/homework-dialog/homework-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-
 
 @Component({
   selector: 'webui-journal-table',
@@ -20,12 +15,19 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class JournalTableComponent implements OnInit, OnDestroy {
 
-  journal: any;
+  @Input() journal: any;
+
+  markFieldVisible = false;
+  @HostListener('document:keydown.escape', ['$event']) 
+    onKeydownHandler(event: KeyboardEvent) {
+    if (this.markFieldVisible) {
+      this.markFieldVisible = false
+    }
+  }
+
   journalArray: any[];
   journalData: any;
-  chosenJournal$: any;
   chosenJournalData$: any;
-  chosenJournalSubscription: Subscription;
   chosenJournalDataSubscription: Subscription;
   chosenMarkField: HTMLElement;
   chosenLesson: any;
@@ -36,47 +38,39 @@ export class JournalTableComponent implements OnInit, OnDestroy {
   tableMarkTypesHeaders: string[];
   journalDataTable: any;
 
-  markFieldVisible = false;
   markFieldTop: number;
   markFieldLeft: number;
-  getMarksList$: Observable<any>;
-  getMarksListSubscription: Subscription;
+  marksList$: Observable<any>;
+  marksList: any[];
+  marksListSubscription: Subscription;
 
-  private hoveredLesson = null;
-
-  private destroyStream$ = new Subject<void>();
-  public subject = new Subject<string | ArrayBuffer>();
-  name: any;
+  homeWorkList$: Observable<any>;
+  homeWorkListSubscription: Subscription;
+  homeworkListArray: object[];
 
   constructor(
-    // private teacherPanelService: TeacherPanelService,
+    private teacherPanelService: TeacherPanelService,
     private markServ: MarkControllerService,
     private store: Store<object>,
-    private teacherPanelStore: Store<{ teacherPanel }>,
-    private studentDiary: StudentDiaryService,
-    public dialog: MatDialog
+    private teacherPanelStore: Store<{ teacherPanel }>
   ) {
-    this.getMarksList$ = this.store.pipe(select(activeMark(true)));
-    this.chosenJournal$ = this.teacherPanelStore.pipe(select(selectCurrentJournal));
+    this.marksList$ = this.store.pipe(select(activeMark(true)));
     this.chosenJournalData$ = this.teacherPanelStore.pipe(select(selectCurrentJournalData));
+    this.homeWorkList$ = this.teacherPanelStore.pipe(select(selectHomeworkList));
   }
 
   ngOnInit() {
-    this.getChosenJournal();
+    this.getHomeworkList();
     this.getChosenJournalData();
     this.getMarksTypes();
-  }
-
-  getChosenJournal(): void {
-    this.chosenJournalSubscription = this.chosenJournal$.subscribe(res => {
-      this.journal = res
-    });
   }
 
   getChosenJournalData() {
     this.chosenJournalDataSubscription = this.chosenJournalData$.subscribe(res => {
       if (res && res.journal[0]) {
         this.journalData = res;
+      }
+      if (this.journalData && this.homeworkListArray.length) {
         this.buildTable();
       }
     });
@@ -95,82 +89,78 @@ export class JournalTableComponent implements OnInit, OnDestroy {
 
         });
       });
-    console.log(this.journalArray)
+
     this.journalDataTable = new MatTableDataSource<any>(this.journalArray);
 
-    this.tableDates = this.journalData.journal[0].marks.reduce((accArr: [], day: any) => [...accArr, day.dateMark], []);
-    this.tableMarkTypes = this.journalData.journal[0].marks.reduce((accArr: [], day: any) => [...accArr, day.typeMark], []);
+    this.tableDates = this.journalData.journal[0].marks
+      .reduce((accArr: [], day: any) => [...accArr, day.dateMark], []);
+    this.tableMarkTypes = this.journalData.journal[0].marks
+      .reduce((accArr: [], day: any) => [...accArr, day.typeMark], []);
     this.tableHeaders = ['fullName', ...this.tableDates];
   }
 
   setLessonIdToStore(lesson: any): void {
-    this.teacherPanelStore.dispatch(setCurrentLessonIdToStoreAction({ currentLessonId: lesson.idLesson }))
+    this.teacherPanelStore
+    .dispatch(setCurrentLessonIdToStoreAction({ currentLessonId: lesson.idLesson }))
   }
 
   getMarksTypes() {
-    this.getMarksListSubscription = this.getMarksList$.subscribe(val => {
+    this.marksListSubscription = this.marksList$.subscribe(val => {
       if (!val.length) {
         this.markServ.getMarks();
       };
-      this.getMarksListSubscription.unsubscribe()
+      this.marksList = val;
     })
+  }
 
+  getHomeworkList() {
+    this.homeWorkListSubscription = this.homeWorkList$.subscribe(val => {
+      if (!val.length) {
+        this.teacherPanelService
+          .getHomeworkList(this.journal.idSubject, this.journal.idClass);
+      };
+      this.homeworkListArray = Object.values(val)
+    })
   }
 
   getPosition(event): void {
     this.markFieldLeft = event.srcElement.getBoundingClientRect().left;
-    this.markFieldTop = event.srcElement.getBoundingClientRect().top + event.srcElement.getBoundingClientRect().height;
+    const maxLeft = window.innerWidth - 250;
+    if (this.markFieldLeft > maxLeft) {
+      this.markFieldLeft = maxLeft
+    }
+    this.markFieldTop = event.srcElement.getBoundingClientRect().top
+      + event.srcElement.getBoundingClientRect().height;
+    const maxTop = window.innerHeight - 320;
+    if (this.markFieldTop > maxTop) {
+      this.markFieldTop = maxTop
+    }
   }
 
-  expandedFn(val) {
+  saveMark(
+    mark: number,
+    markType: any,
+    markNote: string,
+    idStudent: number,
+    idLesson: number
+  ): void {
+    if (markType !== this.chosenLesson.typeMark) {
+      const newMarkType = this.marksList.filter(item => item.markType === markType)[0];
+      this.teacherPanelService.putChangeMarkType(newMarkType, idLesson);
+
+    }
+    
+    this.teacherPanelService.postSaveMark({
+      idLesson: idLesson,
+      idStudent: idStudent,
+      mark: mark.toString(),
+      note: markNote
+    });
   }
 
   ngOnDestroy() {
-    this.chosenJournalDataSubscription.unsubscribe()
-  }
-
-  downloadFile(lessonId: number): void {
-    this.studentDiary.downloadHomeworkFile(lessonId);
-  }
-
-  openFile(lessonId: number): void {
-    this.studentDiary.openHomeworkFile(lessonId)
-      .pipe(takeUntil(this.destroyStream$))
-      .subscribe(data => {
-        this.dialog.open(HomeworkDialogComponent, {
-          panelClass: 'custom-dialog-container',
-          width: '90vw',
-          height: '80vh',
-          data
-        });
-      });
-  }
-
-  readFile(inputValue: HTMLInputElement): void {
-    const file: File = inputValue.files[0];
-    const type = file.type;
-    const name = file.name;
-    this.name = name;
-    const reader: FileReader = new FileReader();
-    reader.onloadend = () => {
-      const data = `${reader.result}`.split(',')[1];
-      const fileData = {
-        type: type,
-        name: name,
-        data: data
-      };
-      this.subject.next(fileData);
-    };
-    reader.readAsDataURL(file);
-  }
-
-  selectFile(event): void {
-    this.readFile(event.target);
-    this.subject
-      .pipe(take(1))
-      .subscribe(data => {
-        console.log(data);
-        // send put method (http://35.228.14.201:8080/swagger-ui.html#!/homework-controller/postHomeworkUsingPUT)
-      });
+    this.chosenJournalDataSubscription.unsubscribe();
+    this.homeWorkListSubscription.unsubscribe();
+    this.marksListSubscription.unsubscribe()    
   }
 }

@@ -1,6 +1,6 @@
 .main-container {
     width: 100%;
-    min-height: 100vh;//this value is temporary
+    min-height: calc(100vh - 125px);//this value is temporary
   }
 
 [mat-raised-button] {
