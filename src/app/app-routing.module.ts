@@ -8,7 +8,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
-// import { StudentProfileComponent } from './containers/student-profile/student-profile.component';
 import { AdminGuard } from './services/guards/admin.guard';
 import { TeacherGuard } from './services/guards/teacher.guard';
 import { StudentGuard } from './services/guards/student.guard';
