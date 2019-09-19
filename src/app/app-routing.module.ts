@@ -22,7 +22,7 @@ import { TeacherComponent } from "./pages/teacher/teacher.component";
 import { TeacherSubjectsComponent } from "./containers/teacher-panel-subjects/teacher-panel-subjects.component";
 import { TeacherJournalsComponent } from "./containers/teacher-panel-journals/teacher-panel-journals.component";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
-import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
+import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 
 const routes: Routes = [
   {
@@ -50,7 +50,11 @@ const routes: Routes = [
       },
       {
         path: "statistics",
-        component: TeacherChartComponent
+        component: TeacherPanelStatisticsComponent
+      },
+      {
+        path: "subjects",
+        component: TeacherSubjectsComponent
       },
     ]
   },

@@ -29,6 +29,10 @@ import {
   TeacherPanelState
 } from "./teacher-panel/teacher-panel.reducer";
 import {
+  dataStatisticsReducer,
+  TeacherPanelStatisticsState
+} from "./teacher-panel-statistics/teacher-panel.statistics.reducer";
+import {
   studentsReducer,
   State as StudentsState
 } from './students/students.reducer';
@@ -49,6 +53,7 @@ export interface State {
   teachers: TeachersState;
   subjects: SubjectsState;
   teacherPanel: TeacherPanelState;
+  teacherPanelStatistics: TeacherPanelStatisticsState
   diary: DiaryState;
   profile: ProfileState;
   chart: ChartState;
@@ -70,6 +75,7 @@ export const reducers: ActionReducerMap<State> = {
   router: routerReducer,
   subjects: subjectsDataReducer,
   teacherPanel: dataForTeacherReducer,
+  teacherPanelStatistics: dataStatisticsReducer ,
   diary: diaryReducer,
   profile: profileReducer,
   students: studentsReducer,

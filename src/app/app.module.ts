@@ -73,10 +73,10 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from "./utilities/mat-pagination-intl";
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
-import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
-
+import { ArrayFilterPipe } from './pipes/array-filter.pipe';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -122,12 +122,12 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     NewYearPipe,
     LocaleHeaderPipe,
     StudentProfileComponent,
-    TeacherChartComponent,
     TeacherPanelStatisticsComponent,
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
-    TeacherJournalsComponent
+    TeacherJournalsComponent,
+    ArrayFilterPipe
   ],
   imports: [
     ChartsModule,
@@ -143,6 +143,7 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     PdfViewerModule,
     MaterialModule,
     MatMenuModule,
+    MatStepperModule,
     MatTabsModule,
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
@@ -162,7 +163,7 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
     })
   ],
   providers: [
-    { provide: ErrorHandler, useClass: ErrorService },
+    // { provide: ErrorHandler, useClass: ErrorService },// off error service
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
