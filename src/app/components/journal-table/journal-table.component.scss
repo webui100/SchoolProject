@@ -1,9 +1,9 @@
 .header {
   display: flex;
   justify-content: center;
-  background-color: #673ab7;
+  background-color: var(--dark-color);
   width: 80%;
-  color: white;
+  color: var(--contrast-font-color);
   padding: 10px 0;
   margin: 5px auto 10px auto;
 }
@@ -62,6 +62,8 @@ mat-table {
 
   .hovered {
     background-color: #f1f3f4;
+  ng-container:hover, tr:hover {
+    background-color: var(--light-color);
   }
 }
 

@@ -12,9 +12,9 @@
   .header {
     display: flex;
     justify-content: center;
-    background-color: #673ab7;
+    background-color: var(--dark-color);
     width: 80%;
-    color: white;
+    color: var(--contrast-font-color);
     padding: 10px 0;
     margin: 5px auto 10px auto;
   }
@@ -45,7 +45,7 @@
     border-radius: 0;
     padding: 10px auto 10px auto;
     margin-bottom: 10px;
-    background-color:#FAFAFA;
+    background-color: var(--light-color);
   }
   .mat-card div{
     text-align: center;
@@ -66,7 +66,7 @@
   }
   
   tr.journal-row:not(.journal-expanded-row):hover {
-    background: #F1F3F4;
+    background: var(--light-color);
     cursor: pointer;
   }
   

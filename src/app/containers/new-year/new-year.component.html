@@ -1,6 +1,6 @@
 <div class="table-container">
   <webui-new-year-controll [classesYears]="classesYears$ | async" (emitYear)="yearSubject$.next($event)"
-    [currentYear]="year" (emitWithStudents)="isWithStudentsSubject$.next($event)">
+    [currentYear]="year" (emitWithStudents)="isWithStudentsSubject$.next($event)" [isWithStudents]="isWithStudents">
   </webui-new-year-controll>
 
   <table class="active-table" mat-table [dataSource]="transferClassesData" multiTemplateDataRows

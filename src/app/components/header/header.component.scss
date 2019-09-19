@@ -22,3 +22,8 @@ mat-sidenav-content{
   flex-direction: column;
   align-items: center;
 }
+
+.mat-toolbar {
+  background-color: var(--dark-color) !important;
+  color: var(--contrast-font-color) !important;
+}

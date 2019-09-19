@@ -23,20 +23,20 @@ import { DailyScheduleComponent } from './containers/schedule/daily-schedule/dai
 import { ClassesComponent } from './containers/classes/classes.component';
 import {
   NavigationActionTiming,
-   RouterStateSerializer,
-   StoreRouterConnectingModule
-  } from '@ngrx/router-store';
-import { CustomSerializer } from './store/router.reducer';
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import 'hammerjs';
-
+import { clearState } from './store/logout.reducer';
+import { RequestPasswordComponent } from './containers/authorization/request-password/request-password.component';
+import { LoginUserComponent } from './containers/authorization/login-user/login-user.component';
+import { CustomSerializer } from './store/router.reducer';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { HeaderComponent } from './components/header/header.component';
-import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component'
+import { TeacherSubjectsComponent } from './containers/teacher-panel-subjects/teacher-panel-subjects.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
-import { MatListModule, MatDialogModule, MatPaginatorIntl } from '@angular/material';
 import { AdminPanelComponent } from './containers/admin-panel/admin-panel.component';
 import { ChartsModule } from 'ng2-charts';
-import 'hammerjs';
 import { TeacherCardComponent } from './components/teachers/teacher-card/teacher-card.component';
 import { ErrorService } from './services/error.service';
 import { StudentDiaryComponent } from './containers/student-diary/student-diary.component';
@@ -50,7 +50,6 @@ import { UpdateStudentComponent } from './pages/students/update-student/update-s
 import { CreateStudentComponent } from './pages/students/create-student/create-student.component';
 import { SubjectsComponent } from './containers/subjects/subjects.component';
 import { StudentComponent } from './pages/student/student.component';
-import { MatTabsModule } from '@angular/material/tabs';
 import { CountBarComponent } from './components/count-bar/count-bar.component';
 import { HomeworkDialogComponent } from './components/homework-dialog/homework-dialog.component';
 import { NewYearComponent } from './containers/new-year/new-year.component';
@@ -73,17 +72,30 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
+import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
+import {
+  MatPaginatorIntl,
+  MatMenuModule,
+  MatTabsModule,
+  MatStepperModule
+} from '@angular/material';
 import { MarkComponentComponent } from './components/mark-component/mark-component.component';
 import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.component';
 import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
+import { LoadStudentsComponent } from './pages/students/load-students/load-students.component';
 import { DisabledMarksComponent } from './components/mark-component/disabled-marks/disabled-marks.component';
-import { TeacherChartComponent } from './components/teacher-panel-chart/teacher-panel-chart.component';
-import { MatMenuModule } from '@angular/material/menu';
+
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
 import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
+
+import { ArrayFilterPipe } from './pipes/array-filter.pipe';
+
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -129,12 +141,13 @@ import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
     NewYearPipe,
     LocaleHeaderPipe,
     UserProfileComponent,
-    TeacherChartComponent,
     TeacherPanelStatisticsComponent,
     CustomErrorComponent,
     TeacherSubjectsComponent,
     TeacherJournalComponent,
     TeacherJournalsComponent,
+    ThemeButtonComponent,
+    ThemePickerComponent,
     JournalTableComponent,
     JournalHomeworkDialogComponent,
     MarkControllerComponent,
@@ -142,33 +155,35 @@ import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
     AddMarkComponent,
     EditMarkComponent,
     DisabledMarksComponent,
-    JournalDateFormatPipe
+    JournalDateFormatPipe,
+    RequestPasswordComponent,
+    LoginUserComponent,
+    ArrayFilterPipe,
+    LoadStudentsComponent
   ],
   imports: [
     ChartsModule,
-    MatListModule,
-    MatDialogModule,
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+
     FormsModule,
     ReactiveFormsModule,
+
     HttpClientModule,
     PdfViewerModule,
     MaterialModule,
     MatMenuModule,
     MatTabsModule,
+    MatStepperModule,
+
     FlexLayoutModule,
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     StoreModule.forRoot(reducers, {
-      metaReducers: [storageSyncMetaReducer]
-      // runtimeChecks: {
-      //   strictStateImmutability: true,
-      //   strictActionImmutability: true
-      // }
+      metaReducers: [storageSyncMetaReducer, clearState]
     }),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
@@ -188,8 +203,9 @@ import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
     TeachersComponent,
     TemporaryComponent,
     HomeworkDialogComponent,
-    UserProfileComponent,
-    CustomErrorComponent
+    CustomErrorComponent,
+    ThemePickerComponent,
+    UserProfileComponent
   ]
 })
-export class AppModule { }
+export class AppModule {}

@@ -19,7 +19,7 @@
         left: 0;
         width: 100%;
         height: 10px;
-        background-color: #673ab7;
+        background-color: var(--accent-color);
       }  
 }
 form{
@@ -35,7 +35,6 @@ mat-card-actions {
   justify-content: flex-end;
   
   &>button:enabled{
-    background-color: #673AB7;
-    color: white !important;
+    background-color: var(--accent-color);
   }
 }

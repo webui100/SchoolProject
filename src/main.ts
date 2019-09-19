@@ -31,6 +31,7 @@ getAllDataFromLocalForage({
     'classes',
     'newYear',
     'avatar',
+    'theme',
     'marks'
   ],
 }).then(() => {

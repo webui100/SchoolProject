@@ -1,5 +1,5 @@
 .error-container {
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   background-color: #b22222;
   color: white;
@@ -10,6 +10,7 @@
   border-radius: 8px;
   transition: .3s;
   animation: .4s getin;
+  z-index: 1000;
 }
 
 .noDisplay {

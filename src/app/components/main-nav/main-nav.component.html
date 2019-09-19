@@ -25,10 +25,12 @@
     </div>
   </mat-sidenav>
   <mat-toolbar color="primary">
+
     <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="isOpened = true" *ngIf="!isOpened">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
     <mat-toolbar color="primary" class="button-container">
+      <webui-theme-button></webui-theme-button>
       <button class="current-user-icon" (click)="sideNav.toggle()" mat-fab color="grey">
         <mat-icon>person</mat-icon>
       </button>
