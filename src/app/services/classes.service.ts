@@ -24,4 +24,33 @@ export class ClassesService {
         this.store.dispatch(getClassAction({classesList: response['data']}));
       })      
   }
+
+  addClass(classData){
+    this.http.post(`${this.BASE_URI}classes`, classData, {observe: 'response'})
+    .subscribe(response => {
+      this.notify.notifySuccess('Успішно створено');
+    },
+    error => {
+      this.errorMessage(error);
+    }
+    
+    
+    )
+  }
+  private errorMessage(err: any) {
+    if (err.error.status.code === 400) {
+      this.notify.notifyFailure('Невірно введені дані');
+      throw new Error(`Server error: ${err.error.data}`);
+    } else {
+      const errParse = this.notify.errorParser(err);
+      this.notify.notifyFailure(errParse);
+      throw new Error(`Server error: ${err.error.data}`);
+    }
+  }
 }
+
+
+// вызываем фенкцию onSubmit.
+// достать значения с формконтролов и засунуть в объект.
+// вызвать функцию addClass в onSubmit.
+// объект передаем в бади в функцию addClass.

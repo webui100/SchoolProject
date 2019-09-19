@@ -86,6 +86,7 @@ import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-stat
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
 import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
+import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
 
 
 @NgModule({
@@ -147,7 +148,8 @@ import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
     AddMarkComponent,
     EditMarkComponent,
     DisabledMarksComponent,
-    ClassListHeaderPipe
+    ClassListHeaderPipe,
+    CreateClassComponent
   ],
   imports: [
     ChartsModule,
