@@ -3,13 +3,13 @@ header, footer {
   justify-content: flex-end;
   align-items: center;
   height: 10%;
-  background: #5b33a1;
+  background: var(--dark-color);
   button {
-    background-color: #cccccc;
+    background-color: #cccccc !important;
     margin-right: 3rem;
     transform: scale(0.8);
     &:hover {
-      background-color: #e91e63;
+      background-color: #e91e63 !important;
     }
   }
 }
@@ -39,7 +39,7 @@ footer {
   button {
     margin-right: 2rem;
     &:hover {
-      background-color: #f44336;
+      background-color: #f44336 !important;
     }
   }
 }
