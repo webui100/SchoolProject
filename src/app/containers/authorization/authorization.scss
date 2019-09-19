@@ -1,0 +1,96 @@
+$font-color: #fff;
+$half-dark: rgba(
+  $color: #3762d3,
+  $alpha: 1
+);
+
+figure {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  
+  .form-block {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: 0 20%;
+    // 
+    margin: 0.6rem;
+    align-self: center;
+    text-align: center;
+    // margin-top: -20% !important;
+  }
+  
+  .logotype {
+    width: 150px;
+  }
+  .mat-h1 {
+    color: rgba($color: black, $alpha: 0.7);
+    font-size: 24px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    min-width: 300px;
+  }
+  
+  .error {
+    padding: 16px;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.2);
+  }
+
+  
+  
+  .button {
+    display: flex;
+    justify-content: flex-end;
+  
+    button {
+      background-color: $half-dark;
+      color: white;
+      &:hover {
+        background-color: #8d4efc;
+  
+        color: $font-color;
+      }
+      &:disabled {
+        background-color: #cccccc;
+        color: #666666;
+      }
+    }
+  }
+
+  .toggle-group{
+    margin-bottom: 12px;
+  }
+
+  .button-container {
+        a {
+          float: left;
+        }
+        .button {
+          float: right;
+        }
+
+        .button-back {
+          float: left;
+        }
+      
+  }
+  
+  @media only screen and (min-width: 576px) {
+    .form-block {
+      margin: 5rem;
+      margin-top: -10% !important;
+    }
+  }
+  
+  
+  @media (min-width: 992px) {
+    .form-block {
+      padding: 6rem;
+      max-width: 300px;
+    }
+  }

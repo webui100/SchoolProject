@@ -38,7 +38,6 @@ export class StudentsComponent implements OnInit, OnDestroy {
   private data: MatTableDataSource<Object>;
   private classInfo;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
   private columnsToDisplay: String[] = [
     'lastname',
     'firstname',

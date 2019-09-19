@@ -24,9 +24,6 @@ export class TeacherDetailContainerComponent implements OnInit {
 
   ngOnInit() {
     this.fullData = this.store.pipe(select(getAllBindInfo(this.teacher.id)));
-    //this.classServ.getClasses();
-    //this.subjServ.getSubjects();
-    //this.teachServ.getTeacherBind(this.teacher.id);
   }
 
   getData(value: any) {
