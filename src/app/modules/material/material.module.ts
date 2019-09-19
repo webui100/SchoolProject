@@ -29,9 +29,6 @@ import {
   MatButtonToggleModule,
   MatDialogModule,
   MatProgressSpinnerModule,
-  MatMenuModule,
-  MatTabsModule,
-  MatStepperModule
 } from "@angular/material";
 import { ReactiveFormsModule } from "@angular/forms";
 
