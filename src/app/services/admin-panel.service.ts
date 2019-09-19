@@ -1,15 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {filter, reduce, switchMap} from 'rxjs/operators';
+import {from} from 'rxjs';
+import {Store} from '@ngrx/store';
 import * as ChartActions from '../store/chart/chart.actions';
+import {Chart} from 'chart.js';
 import randomC from 'randomcolor';
-import { getStudentsFromClass } from '../store/chart/chart.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminPanelService {
+  private uri = environment.APIEndpoint;
 
-  constructor(private store: Store<{ chart }>) {
+  constructor(private http: HttpClient, private store: Store<{chart}>) {
   }
 
   getRandomColor(): string {
@@ -20,30 +26,9 @@ export class AdminPanelService {
     });
   }
 
-  setClassChart(className: number) {
-    const data: Array<number> = [];
-    const labels: Array<string> = [];
-    const colors: Array<object> = [{
-      backgroundColor: []
-    }];
-    const studentsSelector$ = this.store.select(getStudentsFromClass, { className })
-      .subscribe((value: Array<ChartData>) => {
-        value.forEach(dataset => {
-          data.push(dataset.data[0]);
-          labels.push(dataset.label);
-          // @ts-ignore
-          colors[0].backgroundColor.push(this.getRandomColor());
-        });
-      },
-        (error) => console.log(error)
-      );
-    studentsSelector$.unsubscribe();
-    this.generateChart(data, labels, colors, className);
-  }
 
-
-  generateChart(data: Array<number>, labels: Array<string>, colors: Array<object>, year: number) {
-    this.store.dispatch(ChartActions.setChartData({ data, labels, colors, year }));
+  generateChart(data: Array<number>, labels: Array<string>, colors: Array<object>) {
+    this.store.dispatch(ChartActions.setChartData({data, labels, colors}));
   }
 
   setChartType(chartType: string) {
@@ -106,14 +91,16 @@ export class AdminPanelService {
           responsive: true
         };
     }
-    this.store.dispatch(ChartActions.setCartType({ chartType, options, legend }));
+    this.store.dispatch(ChartActions.setCartType({chartType, options, legend}));
   }
 
 }
 
 
-
-interface ChartData {
-  data: Array<number>;
-  label: string;
+interface Response {
+  data: Array<object>;
+  id: number;
+  isActive: boolean;
+  numOfStudents: number;
+  className: string;
 }

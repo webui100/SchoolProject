@@ -7,15 +7,13 @@ import {
   chartSelector,
   getStudentsFromClass,
   selectQuantityTSC,
-  selectActiveClasses,
-  selectChartYear,
-  selectChartType
+  selectActiveClasses
 } from 'src/app/store/chart/chart.selectors';
 import { TeachersService } from '../../services/teachers.service';
 import { ClassesService } from '../../services/classes.service';
 import { SubjectsService } from '../../services/subjects.service';
 import { QtObj } from '../../models/quantityObj.model';
-import { takeUntil, map, take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-admin-panel',
@@ -34,25 +32,49 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   quantityObj$: Observable<QtObj>;
   chart$: Observable<Chart>;
   chartTypeListener$ = new Subject<string>();
+  studentsSelector$: Subscription;
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
-  public year: number;
-  public chartType: string;
+
+
+
+  setClassChart(className) {
+    const data: Array<number> = [];
+    const labels: Array<string> = [];
+    const colors: Array<object> = [{
+      backgroundColor: []
+    }];
+    this.studentsSelector$ = this.store.select(getStudentsFromClass, { className })
+      .subscribe((value: Array<ChartData>) => {
+        value.forEach(dataset => {
+          data.push(dataset.data[0]);
+          labels.push(dataset.label);
+          // @ts-ignore
+          colors[0].backgroundColor.push(this.panelService.getRandomColor());
+        });
+      },
+        (error) => console.log(error)
+      );
+    this.studentsSelector$.unsubscribe();
+    this.panelService.generateChart(data, labels, colors);
+  }
 
 
   ngOnInit() {
 
-    this.store.pipe(
-      select(selectChartYear),
-      take(1),
-      takeUntil(this.destroy$),
-    ).subscribe((year) => this.year = year);
-
-    this.store.pipe(
-      select(selectChartType),
-      take(1),
-      takeUntil(this.destroy$),
-    ).subscribe((chartType) => this.chartType = chartType);
-
+    let classesIsExist = false;
+    let selectActiveRef: Subscription;
+    selectActiveRef = this.store.select(selectActiveClasses).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(value => {
+      if (value.length > 0) {
+        classesIsExist = true;
+      }
+      if (classesIsExist && selectActiveRef) {
+        this.setClassChart(11);
+        selectActiveRef.unsubscribe();
+      }
+    }
+    );
 
     this.chartTypeListener$.pipe(
       takeUntil(this.destroy$)
@@ -92,25 +114,13 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       };
     });
 
-    const selectChartRef = this.store.pipe(
-      select(chartSelector),
-      map((chartObj: Chart) => chartObj.labels[0])
-    ).subscribe((label: string) => {
-      if (!label) {
-        this.panelService.setClassChart(8);
-      }
-    })
-
     selectRef.unsubscribe();
-    selectChartRef.unsubscribe();
-  };
-
-  setClassChart(className: number) {
-    this.panelService.setClassChart(className);
   }
 
 
 }
 
-
-
+interface ChartData {
+  data: Array<number>;
+  label: string;
+}
