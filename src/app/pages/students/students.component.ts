@@ -1,48 +1,49 @@
-import { Student } from "../../models/students";
-import { StudentsService } from "../../services/students.service";
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { Store, select } from "@ngrx/store";
-import { selectStudentsData } from "../../store/students/students.selector";
-import { Subject } from "rxjs";
-import { takeUntil, filter } from "rxjs/operators";
+import { Student } from '../../models/students';
+import { StudentsService } from '../../services/students.service';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Store, select } from '@ngrx/store';
+import { selectStudentsData } from '../../store/students/students.selector';
+import { Subject } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/operators';
 import {
   animate,
   state,
   style,
   transition,
   trigger
-} from "@angular/animations";
+} from '@angular/animations';
 
 /**
  * @title Table with expandable rows
  */
 @Component({
-  selector: "webui-students",
-  templateUrl: "./students.component.html",
-  styleUrls: ["./students.component.scss"],
+  selector: 'webui-students',
+  templateUrl: './students.component.html',
+  styleUrls: ['./students.component.scss'],
   animations: [
-    trigger("detailExpand", [
-      state("collapsed", style({ height: "0px", minHeight: "0" })),
-      state("expanded", style({ height: "*" })),
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       )
     ])
   ]
 })
 export class StudentsComponent implements OnInit, OnDestroy {
   private data: MatTableDataSource<Object>;
+  private classInfo;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private classId: Number;
+
   private columnsToDisplay: String[] = [
-    "lastname",
-    "firstname",
-    "patronymic",
-    "delete"
+    'lastname',
+    'firstname',
+    'patronymic',
+    'delete'
   ];
 
   private expandedElement: Student | null;
@@ -60,9 +61,9 @@ export class StudentsComponent implements OnInit, OnDestroy {
     private studentsService: StudentsService,
     private store: Store<{ students }>
   ) {}
-  private setId(e) {
-    this.loadStudents(e);
-    this.classId = e;
+  private onClassSelect(e) {
+    this.loadStudents(e.id);
+    this.classInfo = e;
   }
 
   private loadStudents(id) {

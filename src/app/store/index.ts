@@ -1,47 +1,47 @@
-import { ActionReducerMap, MetaReducer } from "@ngrx/store";
-import { routerReducer, RouterReducerState } from "@ngrx/router-store";
-import { environment } from "../../environments/environment";
-import { loginReducer, State as LoginState } from "./login/login.reducer";
-import { errorReducer, State as ErrorState } from "./error/error.reducer";
-import { storeFreeze } from "ngrx-store-freeze";
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { routerReducer, RouterReducerState } from '@ngrx/router-store';
+import { environment } from '../../environments/environment';
+import { loginReducer, State as LoginState } from './login/login.reducer';
+import { errorReducer, State as ErrorState } from './error/error.reducer';
+import { storeFreeze } from 'ngrx-store-freeze';
 import {
   scheduleReducer,
   State as ScheduleState
-} from "./schedule/schedule.reducer"; // +
-import { diaryReducer, DiaryState } from "./diary/diary.reducer";
-import { chartReducer, State as ChartState } from "./chart/chart.reducer";
+} from './schedule/schedule.reducer'; // +
+import { diaryReducer, DiaryState } from './diary/diary.reducer';
+import { chartReducer, State as ChartState } from './chart/chart.reducer';
 import {
   teachersDataReducer,
   State as TeachersState
-} from "./teachers/teachers.reducer";
+} from './teachers/teachers.reducer';
 import {
   currentUserReducer,
   CurrentUserState
-} from "./current-user/current-user.reducer";
-import { RouterStateUrl } from "./router.reducer";
+} from './current-user/current-user.reducer';
+import { RouterStateUrl } from './router.reducer';
 import {
   subjectsDataReducer,
   State as SubjectsState
-} from "./subjects/subjects.reducer";
+} from './subjects/subjects.reducer';
 import {
   dataForTeacherReducer,
   TeacherPanelState
-} from "./teacher-panel/teacher-panel.reducer";
+} from './teacher-panel/teacher-panel.reducer';
 import {
   studentsReducer,
   IStudents as StudentsState
-} from "./students/students.reducer";
+} from './students/students.reducer';
 import {
   classesReducer,
   State as ClassesState
-} from "./classes/classes.reducer";
+} from './classes/classes.reducer';
 import {
   newYearReducer,
   State as NewYearState
-} from "./newyear/newyear.reducer";
-import { avatarReducer, State as FormState } from "./avatar/avatar.reducer";
-import { themeReducer, State as ThemeState } from "./theme/theme.reducer";
-import { marksReducer, State as MarksState } from "./marks/marks.reducer";
+} from './newyear/newyear.reducer';
+import { avatarReducer, State as FormState } from './avatar/avatar.reducer';
+import { themeReducer, State as ThemeState } from './theme/theme.reducer';
+import { marksReducer, State as MarksState } from './marks/marks.reducer';
 
 export interface State {
   user: LoginState;
