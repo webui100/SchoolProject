@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { FormPattern } from "../../../form-data/create-student";
 import { StudentsService } from "../../../services/students.service";
 
@@ -9,11 +9,13 @@ import { StudentsService } from "../../../services/students.service";
   providers: []
 })
 export class CreateStudentComponent implements OnInit {
-  data = FormPattern;
+  private data = FormPattern;
+  @Input() idOfClass;
+
   constructor(private studentsService: StudentsService) {}
   receiveMessage($event) {
     let data = {
-      classId: 17,
+      classId: this.idOfClass,
       login: "",
       oldPass: "",
       newPass: "",

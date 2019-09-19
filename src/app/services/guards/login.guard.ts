@@ -12,7 +12,7 @@ export class LoginGuard implements CanActivate {
   constructor(private _authService: AuthService, private _route: Router) {}
   canActivate() {
     if (this._authService.loggedIn()) {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
       return true;
     } else {
       return true;
