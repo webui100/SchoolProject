@@ -15,7 +15,7 @@ import { TeachersService } from '../../services/teachers.service';
 import { ClassesService } from '../../services/classes.service';
 import { SubjectsService } from '../../services/subjects.service';
 import { QtObj } from '../../models/quantityObj.model';
-import { takeUntil, map, take } from 'rxjs/operators';
+import { takeUntil, map, take, first } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-admin-panel',
@@ -43,14 +43,12 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
 
     this.store.pipe(
       select(selectChartYear),
-      take(1),
-      takeUntil(this.destroy$),
+      first()
     ).subscribe((year) => this.year = year);
 
     this.store.pipe(
       select(selectChartType),
-      take(1),
-      takeUntil(this.destroy$),
+      first()
     ).subscribe((chartType) => this.chartType = chartType);
 
 
@@ -80,7 +78,11 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   }
 
   initializeInfo() {
-    const selectRef = this.quantityObj$.subscribe((resValue) => {
+    const selectRef = this.store.pipe(
+      select(selectQuantityTSC),
+      first(),
+      takeUntil(this.destroy$)
+    ).subscribe((resValue) => {
       if (!resValue.classes) {
         this.classesService.getClasses();
       };
@@ -94,7 +96,8 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
 
     const selectChartRef = this.store.pipe(
       select(chartSelector),
-      map((chartObj: Chart) => chartObj.labels[0])
+      map((chartObj: Chart) => chartObj.labels[0]),
+      first()
     ).subscribe((label: string) => {
       if (!label) {
         this.panelService.setClassChart(8);
