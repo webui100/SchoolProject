@@ -14,7 +14,10 @@ import {
   teachersDataReducer,
   State as TeachersState
 } from './teachers/teachers.reducer';
-import { currentUserReducer, CurrentUserState } from './current-user/current-user.reducer';
+import {
+  currentUserReducer,
+  CurrentUserState
+} from './current-user/current-user.reducer';
 import { RouterStateUrl } from './router.reducer';
 import {
   subjectsDataReducer,
@@ -25,8 +28,12 @@ import {
   TeacherPanelState
 } from './teacher-panel/teacher-panel.reducer';
 import {
+  dataStatisticsReducer,
+  TeacherPanelStatisticsState
+} from './teacher-panel-statistics/teacher-panel.statistics.reducer';
+import {
   studentsReducer,
-  State as StudentsState
+  IStudents as StudentsState
 } from './students/students.reducer';
 import {
   classesReducer,
@@ -37,6 +44,7 @@ import {
   State as NewYearState
 } from './newyear/newyear.reducer';
 import { avatarReducer, State as FormState } from './avatar/avatar.reducer';
+import { themeReducer, State as ThemeState } from './theme/theme.reducer';
 import { marksReducer, State as MarksState } from './marks/marks.reducer';
 
 export interface State {
@@ -46,6 +54,7 @@ export interface State {
   teachers: TeachersState;
   subjects: SubjectsState;
   teacherPanel: TeacherPanelState;
+  teacherPanelStatistics: TeacherPanelStatisticsState;
   diary: DiaryState;
   chart: ChartState;
   currentUser: CurrentUserState;
@@ -54,7 +63,9 @@ export interface State {
   classes: ClassesState;
   newYear: NewYearState;
   avatar: FormState;
+  theme: ThemeState;
   marks: MarksState;
+  classesList: ClassesState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -67,12 +78,15 @@ export const reducers: ActionReducerMap<State> = {
   router: routerReducer,
   subjects: subjectsDataReducer,
   teacherPanel: dataForTeacherReducer,
+  teacherPanelStatistics: dataStatisticsReducer,
   diary: diaryReducer,
   students: studentsReducer,
   classes: classesReducer,
   newYear: newYearReducer,
   avatar: avatarReducer,
+  theme: themeReducer,
   marks: marksReducer,
+  classesList: classesReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

@@ -22,5 +22,7 @@ export class UpdateStudentComponent implements OnInit {
     this.studentsService.updateStudentData(data, this.student.id);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("say hi");
+  }
 }

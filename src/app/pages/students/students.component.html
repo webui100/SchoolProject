@@ -1,6 +1,12 @@
-<div class="heading">
-  <div class="students-heading"><h3>Список учнів</h3></div>
-  <div class="search">
+<div class="container">
+  <div class="header"><h3>Список учнів</h3></div>
+
+  <webui-load-students
+    (selectClassEvent)="onClassSelect($event)"
+  ></webui-load-students>
+  <div *ngIf="classInfo" class="students-container">
+    <webui-create-student [idOfClass]="classInfo.id"></webui-create-student>
+
     <mat-form-field>
       <input
         matInput
@@ -8,67 +14,76 @@
         placeholder="Знайти учня"
       />
     </mat-form-field>
-  </div>
-  <webui-create-student></webui-create-student>
-</div>
 
-<div class="div-table mat-elevation-z8">
-  <table
-    mat-table
-    [dataSource]="data"
-    multiTemplateDataRows
-    class="mat-elevation-z8"
-    matSort
-  >
-    <ng-container
-      matColumnDef="{{ column }}"
-      *ngFor="let column of columnsToDisplay"
+    <table
+      mat-table
+      [dataSource]="data"
+      multiTemplateDataRows
+      class="mat-elevation-z8"
+      matSort
     >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ column | localeHeader }}
-      </th>
-      <td mat-cell *matCellDef="let element">
-        {{ element[column] }}
-        <mat-icon
-          *ngIf="column == 'delete'"
-          (click)="onDelete(element.id); $event.stopPropagation()"
-          >delete_outline</mat-icon
-        >
-      </td>
-    </ng-container>
-
-    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
-    <ng-container matColumnDef="expandedDetail">
-      <td
-        mat-cell
-        *matCellDef="let element"
-        [attr.colspan]="columnsToDisplay.length"
+      <ng-container
+        matColumnDef="{{ column }}"
+        *ngFor="let column of columnsToDisplay"
       >
-        <div
-          class="example-element-detail"
-          [@detailExpand]="
-            element == expandedElement ? 'expanded' : 'collapsed'
-          "
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column | localeHeader }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element[column] }}
+          <mat-icon
+            *ngIf="column == 'delete'"
+            (click)="onDelete(element.id); $event.stopPropagation()"
+            >delete_outline</mat-icon
+          >
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="columnsToDisplay.length"
         >
-          <webui-update-student [student]="element"></webui-update-student>
-        </div>
-      </td>
-    </ng-container>
+          <div
+            class="example-element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <webui-update-student
+              *ngIf="element == expandedElement"
+              [student]="element"
+            ></webui-update-student>
+          </div>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr
-      mat-row
-      *matRowDef="let element; columns: columnsToDisplay"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element"
-    ></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: ['expandedDetail']"
-      class="example-detail-row"
-    ></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplay"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+      ></tr>
+    </table>
 
-  <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+
+  <div *ngIf="!data" class="banner">
+    <h2>
+      <strong><em> Виберіть клас з якого хочете відобразити учнів.</em></strong>
+    </h2>
+  </div>
 </div>

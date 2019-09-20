@@ -1,1 +1,157 @@
-<p>teacher-panel-statistics works!</p>
+<div class="main-container">
+  <!-- Header -->
+  <div class="header mat-elevation-z5">
+      <div><h3> Статистика </h3></div>
+  </div>
+  <div class="main-chart-container">
+    <mat-card class="chart-card">
+        <mat-card-content>
+          <div class="myrow w-100">
+            <div class="mycol-desktop-1-4">
+              <div class="chart-control-panel">
+                  <mat-vertical-stepper [linear]="isLinear" #stepper>
+                    <!-- Step1 -->
+                      <mat-step [stepControl]="firstFormGroup">
+                        <form [formGroup]="firstFormGroup">
+                          <ng-template matStepLabel>Виберіть клас</ng-template>
+                          <mat-form-field>
+                              <mat-label>Клас</mat-label>
+                              <mat-select (selectionChange)="onClassSelect($event.value)" 
+                                [value]="selectedClass"
+                                formControlName="firstCtrl" required>
+                                <mat-option
+                                  *ngFor="let item of uniqueSubjectsFromJournals"
+                                  [value]="item">
+                                  {{item.className}}
+                                </mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                          <div>
+                            <button class="primary-button"
+                            mat-raised-button 
+                            color="primary" 
+                            mat-button matStepperNext>Далі</button>
+                          </div>
+                        </form>
+                      </mat-step>
+                      <!-- Step2 -->
+                      <mat-step [stepControl]="secondFormGroup">
+                        <form [formGroup]="secondFormGroup">
+                          <ng-template matStepLabel>Виберіть предмет</ng-template>
+                          <mat-form-field>
+                            <mat-label>Назва предмету</mat-label>
+                            <mat-select  (selectionChange)="onSubjectSelect($event.value)" 
+                            [value]="selectedSubject" formControlName="secondCtrl" required>
+                              <mat-option
+                                *ngFor="let itemOfSubjects of dataFromJournals | arrayFilter:'className':selectedClass?.className"
+                                [value]="itemOfSubjects">
+                                {{itemOfSubjects.subjectName}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div>
+                            <button class="primary-button show-button"
+                            mat-raised-button 
+                            color="primary" 
+                            mat-button matStepperNext>Далі</button>
+                            <button class="primary-button"
+                              mat-raised-button 
+                              color="Basic" 
+                              (click)="stepper.reset()">Скинути</button>
+                          </div>
+                        </form>
+                      </mat-step>
+                      <!-- Step3 -->
+                      <mat-step [stepControl]="thirdFormGroup">
+                          <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Виберіть учня</ng-template>
+                            <mat-form-field>
+                              <mat-label>Прізвище та ім'я</mat-label>
+                              <mat-select  
+                                (selectionChange)="onStudentSelect($event.value)" 
+                                [value]="selectedStudent"
+                                formControlName="thirdCtrl" required>
+                                <mat-option
+                                  *ngFor='let itemOfStudents of dataAboutStudents'
+                                  [value]="itemOfStudents">
+                                  {{itemOfStudents.firstname + " " + itemOfStudents.lastname}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div>
+                              <button class="primary-button show-button"
+                                mat-raised-button 
+                                color="primary" 
+                                mat-button matStepperNext>Далі</button>
+                              <button class="primary-button"
+                                mat-raised-button 
+                                color="Basic" 
+                                (click)="stepper.reset()">Скинути</button>
+                            </div>
+                          </form>
+                        </mat-step>
+                        <!-- Step4 -->
+                        <mat-step [stepControl]="fourthFormGroup">
+                            <form [formGroup]="fourthFormGroup">
+                              <ng-template matStepLabel>Вкажіть дату</ng-template>
+                              <mat-form-field>
+                                <input matInput [matDatepicker]="picker1" placeholder="Початкова дата" 
+                                      formControlName="fourthCtrl" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                              </mat-form-field>
+                              <mat-form-field>
+                                <input matInput [matDatepicker]="picker2" placeholder="Кінцева дата" 
+                                      formControlName="fourthCtrl" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                              </mat-form-field>
+                              <div>
+                                <button class="primary-button show-button"
+                                mat-raised-button 
+                                color="primary" 
+                                mat-button matStepperNext>Далі</button>
+                                <button class="primary-button"
+                                mat-raised-button 
+                                color="Basic" 
+                                (click)="stepper.reset()">Скинути</button>
+                              </div>
+                            </form>
+                          </mat-step>
+                          <!-- Step5 -->
+                      <mat-step>
+                        <ng-template matStepLabel>Показати статистику</ng-template>
+                        <div>
+                          <button class="primary-button show-chart-button"
+                                mat-raised-button 
+                                color="primary" 
+                                type="submit" 
+                                (click)="getMarks()"
+                                [disabled]="">Показати
+                          </button>
+                          <button class="primary-button"
+                                mat-raised-button 
+                                color="Basic" 
+                                (click)="stepper.reset()">Скинути
+                          </button>
+                        </div>
+                      </mat-step>
+                    </mat-vertical-stepper>
+              </div>
+            </div>
+            <div class="mycol-desktop-3-4">
+              <div class="chart-container" *ngIf="marksData?.data?.length">
+                  <canvas baseChart
+                    [datasets]="marksData.data"
+                    [labels]="marksData.labels"
+                    [options]="barChartOptions"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType">
+                  </canvas>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+    </mat-card>
+  </div>
+</div>

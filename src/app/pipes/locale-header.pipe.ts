@@ -1,21 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { dictionaryHeader } from 'src/app/utilities/localeHeaderList';
 
 @Pipe({
   name: 'localeHeader'
 })
 export class LocaleHeaderPipe implements PipeTransform {
-  transform(value: string): string {
-    switch (value) {
-      case 'firstname':
-        return 'Ім\'я';
-      case 'patronymic':
-        return 'По-батькові';
-      case 'lastname':
-        return 'Прізвище';
-      case 'markType':
-        return 'Тип оцінки';
-      case 'description':
-        return 'Опис';
+  transform(header: string): string {
+    for (const key in dictionaryHeader) {
+      if (key === header) {
+        return dictionaryHeader[key];
+      }
     }
   }
 }

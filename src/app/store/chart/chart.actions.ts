@@ -15,4 +15,3 @@ export const setCartType = createAction(
   '[Chart] set chart type',
   props<{ chartType: string, options: object, legend: boolean}>()
 );
-
