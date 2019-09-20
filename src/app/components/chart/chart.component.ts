@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Chart } from '../../models/chart.model';
+
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Chart} from '../../models/chart.model';
 
 @Component({
   selector: 'webui-chart',
@@ -9,8 +10,6 @@ import { Chart } from '../../models/chart.model';
 export class ChartComponent implements OnInit {
 
   @Input() chartObj: Chart;
-  @Input() year: number;
-  @Input() type: string;
   @Output() emitChartType: EventEmitter<string> = new EventEmitter();
   @Output() emitChartClass: EventEmitter<number> = new EventEmitter();
 
@@ -27,7 +26,7 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.year);
+
   }
 
 }
