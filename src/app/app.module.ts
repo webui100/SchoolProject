@@ -90,6 +90,7 @@ import { DisabledMarksComponent } from './components/mark-component/disabled-mar
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
+import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
 
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 
@@ -154,6 +155,7 @@ import { MatSelectModule } from '@angular/material/select';
     AddMarkComponent,
     EditMarkComponent,
     DisabledMarksComponent,
+    JournalDateFormatPipe,
     RequestPasswordComponent,
     LoginUserComponent,
     ArrayFilterPipe,

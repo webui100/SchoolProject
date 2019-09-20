@@ -32,14 +32,16 @@
                     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                     <tr mat-row *matRowDef="let journal; columns: columnsToDisplay;"
                         class="journal-row"
-                        (click)="putSelectedJournal(journal); showJournal=true"></tr> 
+                        (click)="putSelectedJournal(journal);
+                            showJournal=true;
+                            chosenJournal=journal"></tr> 
                 </table>
             </div>
         </div>
         <div *ngSwitchCase="true">
             <button mat-raised-button 
                 (click)="showJournal = false">&larr; Повернутись до списку журналів</button>
-            <webui-journal-table>
+            <webui-journal-table [journal]="chosenJournal">
             </webui-journal-table>
         </div>
     </div>

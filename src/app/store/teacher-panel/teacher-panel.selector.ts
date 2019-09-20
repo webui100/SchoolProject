@@ -18,3 +18,5 @@ export const selectCurrentJournalData = createSelector(
 );
 
 export const selectCurrentLessonId = (state: AppState) => state.teacherPanel.currentLessonId;
+
+export const selectHomeworkList = (state: AppState) => state.teacherPanel.homeworkList;
