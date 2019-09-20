@@ -1,5 +1,5 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import * as GetStudents from "./students.action";
+import { Action, createReducer, on } from '@ngrx/store';
+import * as GetStudents from './students.action';
 
 export interface IStudents {
   students: Array<Object>;
