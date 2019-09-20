@@ -93,6 +93,8 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
 
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -180,8 +182,7 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
     }),
     StoreModule.forRoot(reducers, {
       metaReducers: [storageSyncMetaReducer, clearState]
-    }
-    ),
+    }),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -205,4 +206,4 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
     UserProfileComponent
   ]
 })
-export class AppModule { }
+export class AppModule {}

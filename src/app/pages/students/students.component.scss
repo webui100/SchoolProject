@@ -1,10 +1,22 @@
-.div-table {
-  width: 85%;
-  margin: auto;
+.container {
+  width: 90%;
+  margin: 0 auto;
 }
-.heading {
-  width: 85%;
-  margin: auto;
+.banner {
+  text-align: center;
+  font-size: 30px;
+  opacity: 0.4;
+}
+.header {
+  color: var(--contrast-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2.5%;
+  height: 50px;
+  text-align: center;
+  background-color: var(--dark-color);
+  font-weight: 100;
 }
 table {
   width: 100%;
@@ -15,28 +27,7 @@ mat-icon {
     color: #d63031;
   }
 }
-.search {
-  height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 1.5%;
-}
-.students-heading {
-  margin-top: 1.5%;
-  display: flex;
-  width: 100%;
-  height: 50px;
-  background-color: var(--dark-color);
-  color: var(--contrast-font-color);
-  justify-content: center;
-  align-items: center;
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-}
+
 .mat-form-field {
   font-size: 14px;
   width: 25%;
