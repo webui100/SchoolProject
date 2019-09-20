@@ -1,8 +1,34 @@
-$font-color: #fff;
-$half-dark: rgba(
-  $color: #3762d3,
-  $alpha: 1
-);
+.substrate {
+  background-color: rgba($color: #ffffff, $alpha: 0.4);
+  height: 100%;
+  color: black;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+}
+
+figure {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.form-block {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  max-width: 300px;
+  margin: 0.6rem;
+  align-self: center;
+  text-align: center;
+  margin-top: -20% !important;
+}
+
+.logotype {
+  width: 150px;
+}
 
 .background {
   height: 100vh;
@@ -16,88 +42,16 @@ $half-dark: rgba(
   padding: 0 !important;
 }
 
-figure {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-}
-
-.form-block {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  max-width: 300px;
-  margin: 0.6rem;
-  align-self: center;
-  text-align: center;
-  margin-top: -20% !important;
-}
-
-.substrate {
-  background-color: rgba($color: #ffffff, $alpha: 0.4);
-  height: 100%;
-  color: black;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-.logotype {
-  width: 150px;
-}
-.mat-h1 {
-  color: rgba($color: black, $alpha: 0.7);
-  font-size: 24px;
-}
-
-mat-form-field {
-  width: 100%;
-  min-width: 300px;
-}
-
-.error {
-  padding: 16px;
-  color: white;
-  background-color: rgba(255, 0, 0, 0.2);
-}
-
-.button {
-  display: flex;
-  justify-content: flex-end;
-
-  button {
-    background-color: $half-dark;
-    color: white;
-    &:hover {
-      background-color: #8d4efc;
-
-      color: $font-color;
-    }
-    &:disabled {
-      background-color: #cccccc;
-      color: #666666;
-    }
-  }
-}
-
-@media only screen and (min-width: 576px) {
-  .form-block {
-    margin: 5rem;
-    margin-top: -10% !important;
-  }
-  .substrate {
-    width: auto;
-  }
-}
-
 @media only screen and (min-width: 768px) {
   .background {
     justify-content: flex-start;
   }
 }
 
-@media (min-width: 992px) {
-  .form-block {
-    padding: 6rem;
+@media only screen and (min-width: 576px) {
+  .substrate {
+    width: auto;
   }
 }
+
+

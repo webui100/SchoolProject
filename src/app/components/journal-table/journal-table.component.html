@@ -3,7 +3,13 @@
         <h3>{{journal.subjectName}}. {{journal.className}} клас.</h3>
     </div>
 </div>
-<div *ngIf="marksList && homeworkListArray.length && journalArray.length; else spinner">
+<div *ngIf="marksList
+        && homeworkListArray
+        && homeworkListArray.length
+        && journalArray
+        && journalArray.length;
+    else spinner"
+>
     <mat-table [dataSource]="journalDataTable" class="mat-elevation-z8">
         <ng-container matColumnDef="fullName" sticky>
             <th mat-header-cell *matHeaderCellDef class="fullName"> Учень </th>

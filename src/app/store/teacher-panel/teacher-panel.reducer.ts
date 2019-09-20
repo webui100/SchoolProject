@@ -69,7 +69,6 @@ const reducer = createReducer(
   })}),
 
   on(DataForTeacher.saveMarkAction, (state, { markData }) => {
-    console.log(markData)
     const newUploadedJournals = JSON.parse(JSON.stringify(state.uploadedJournals));
     newUploadedJournals.forEach((journal: any) => {
       const studentIndex = Object.values(journal.journal).findIndex(item => 

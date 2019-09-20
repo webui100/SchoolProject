@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject, Subscription, ReplaySubject } from 'rxjs';
+import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { map, share, takeUntil } from 'rxjs/operators';
 import links from './links';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.breakpointObserver.isMatched(Breakpoints.Handset));
   public buttonOpened$: BehaviorSubject<boolean> = new BehaviorSubject(
     this.breakpointObserver.isMatched(Breakpoints.Handset));
-  private sidenavPosition = 'end';
+  public sidenavPosition = 'end';
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
@@ -54,7 +54,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   constructor(public breakpointObserver: BreakpointObserver,
-    private router: Router,
-    private http: AuthService) { }
+    public router: Router,
+    public http: AuthService) { }
 
 }

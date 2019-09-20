@@ -1,4 +1,7 @@
-<div *ngIf="lessonData.homework.fileName">
+<div *ngIf="lessonData
+    && lessonData.homework
+    && lessonData.homework.fileName"
+>
     <mat-icon (click)="openFile(lessonData.idLesson)" title="Переглянути вкладення">
         zoom_in
     </mat-icon>
@@ -9,28 +12,39 @@
         attach_file
     </mat-icon>
 </div>
-<mat-icon *ngIf="!lessonData.homework.fileName"
+<mat-icon *ngIf="!(lessonData
+                && lessonData.homework
+                && lessonData.homework.fileName)"
     class="add-homework"
     (click)="inputFile.click()"
     title="Додати файл"
 >
     attach_file
 </mat-icon>
-<mat-icon *ngIf="!lessonData.homework.homework"
+<mat-icon *ngIf="!(lessonData
+            && lessonData.homework
+            && lessonData.homework.homework)"
     class="add-homework"
     (click)="getPosition($event); hometaskVisible=true"
     title="Додати текс завдання"
 >
     post_add
 </mat-icon>
-<mat-icon *ngIf="lessonData.homework.homework"
+<mat-icon *ngIf="lessonData
+            && lessonData.homework
+            && lessonData.homework.homework"
     (click)="getPosition($event); hometaskVisible=true"
     title="Переглянути текст завдання"
 >
     list_alt
 </mat-icon>
 <mat-icon class="clear"
-    *ngIf="lessonData.homework.homework || lessonData.homework.fileName"
+    *ngIf="(lessonData
+        && lessonData.homework
+        && lessonData.homework.homework) 
+        || (lessonData
+        && lessonData.homework
+        && lessonData.homework.fileName)"
     (click)="clearHometask()"
     title="Видалити завдання"
 >

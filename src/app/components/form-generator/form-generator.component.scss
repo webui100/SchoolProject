@@ -52,11 +52,12 @@ form {
 button {
   cursor: pointer;
   width: 100%;
-  background-color: rgba(45, 52, 54, 1);
-  color: white;
+  background-color: var(--accent-color);
+  color: #fff;
   height: 40px;
   &:disabled {
-    background-color: rgba(223, 230, 233, 1);
+    background-color: var(--light-color);
+    color: var(--contrast-font-color);
     cursor: not-allowed;
   }
   margin-bottom: 0.4%;

@@ -1,3 +1,4 @@
+
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Chart} from '../../models/chart.model';
 

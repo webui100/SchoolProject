@@ -38,6 +38,7 @@ export class TeachersService {
   private CLASSES_URI = 'classes/';
   private SUBJECTS_URI = 'subjects/';
   private JOURNAL_URI = 'journal/';
+  private currentTeacherId: number;
 
   constructor(
     private http: HttpClient,
@@ -74,19 +75,18 @@ export class TeachersService {
   }
 
   editTeacher(teacherId: number, data: ITeacher) {
+    this.currentTeacherId = teacherId;
     return this.http
       .put<IHttpPostPutResponse>(
         `${this.BASE_URI}${this.ADMIN_URI}${this.TEACHER_URI}${teacherId}`,
-        data,
-        {
-          observe: 'response'
-        }
-      )
+        data, { observe: 'response'})
       .subscribe(
         response => {
+          const res: ITeacher = response.body.data;
+          res.id = this.currentTeacherId;
           this.notify.notifySuccess('Успішно редаговано');
           this.store.dispatch(
-            editTeacher({ editedTeacher: response.body.data })
+            editTeacher({ editedTeacher: res })
           );
         },
         error => {
@@ -104,6 +104,7 @@ export class TeachersService {
         response => {
           this.notify.notifySuccess('Успішно створено');
           this.store.dispatch(addOneTeacher({ teacher: response.body.data }));
+          this.getTeachers(); // request for update new teacher id, cause teacher in POST response always have id: 0
         },
         error => {
           this.errorMessage(error);
@@ -177,7 +178,7 @@ export class TeachersService {
       };
       reader.readAsDataURL(file);
     } else {
-      this.subject.error('IncorrectFile');
+      this.subject.error('Incorrect file type, please use jpg, jpeg or png');
     }
   }
 
@@ -198,11 +199,11 @@ export class TeachersService {
 
   private errorMessage(err: any) {
     if (err.error.status.code === 400) {
-      this.notify.notifyFailure('Невірно введені дані');
+      this.notify.showError('Невірно введені дані', err);
       throw new Error(`Server error: ${err.error.data}`);
     } else {
       const errParse = this.notify.errorParser(err);
-      this.notify.notifyFailure(errParse);
+      this.notify.showError(errParse, err);
       throw new Error(`Server error: ${err.error.data}`);
     }
   }

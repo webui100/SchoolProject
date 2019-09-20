@@ -28,7 +28,7 @@ import {
   MAT_DATE_FORMATS,
   MatButtonToggleModule,
   MatDialogModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
 } from "@angular/material";
 import { ReactiveFormsModule } from "@angular/forms";
 

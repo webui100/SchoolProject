@@ -61,9 +61,6 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.teachersService.getTeachers();
-    this.subjectsService.getSubjects();
-    this.classesService.getClasses();
     let classesIsExist = false;
     let selectActiveRef: Subscription;
     selectActiveRef = this.store.select(selectActiveClasses).pipe(
@@ -93,6 +90,8 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     );
 
+    this.initializeInfo();
+
   }
 
   ngOnDestroy() {
@@ -102,6 +101,22 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
 
   }
 
+  initializeInfo() {
+    const selectRef = this.quantityObj$.subscribe((resValue) => {
+      if (!resValue.classes) {
+        this.classesService.getClasses();
+      };
+      if (!resValue.subjects) {
+        this.subjectsService.getSubjects();
+      };
+      if (!resValue.teachers) {
+        this.teachersService.getTeachers();
+      };
+    });
+
+    selectRef.unsubscribe();
+  }
+
 
 }
 
@@ -109,5 +124,3 @@ interface ChartData {
   data: Array<number>;
   label: string;
 }
-
-

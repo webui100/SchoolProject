@@ -25,22 +25,23 @@
         border-spacing: 1px;
         th {
           padding: .5rem;
-          background: #5b33a1;
-          color: #fff;
+          background-color: var(--dark-color);
+          color: var(--contrast-font-color);
         }
         td {
           padding: .5rem;
-          background: #ecf0f1;
+          background: var(--light-color);
+          color: var(--font-color);
           text-align: center;
           mat-icon {
             vertical-align: middle;
             margin: -.7rem 0 -0.5rem;
             padding: .9rem .4rem;
             font-size: 28px;
-            color: #2f255f;
+            color: var(--accent-color);
             cursor: pointer;
             &:hover {
-              color: #ff0059;
+              color: var(--alternative-accent-color);
             }
           }
         }
@@ -53,7 +54,7 @@
   h3 {
     margin: 3rem 2rem;
     text-align: center;
-    color: #5b33a1;
+    color: var(--font-color);
   }
 }
 

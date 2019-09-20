@@ -30,12 +30,13 @@ export class StudentsService {
     private store: Store<{ students }>,
     private notify: NotificationService
   ) {}
+
   //Gets all students from class (id paramether)
   getStudents(id) {
     return this.http
       .get<Ihttp>(`${this.BASE_URL}students/classes/${id}`)
       .subscribe(res => {
-        if (res["status"].code == 200) {
+        if (res.status.code == 200) {
           this.store.dispatch(getStudentsAction({ students: res.data }));
         } else {
           this.notify.notifyFailure(
@@ -94,8 +95,8 @@ export class StudentsService {
     return this.http
       .patch<Ihttp>(`${this.BASE_URL}users/${id}`, { observe: "response" })
       .subscribe(res => {
-        // this.store.dispatch(deleteStudentAction({ deleteStudent: id }));
-        this.getStudents(17);
+        this.store.dispatch(deleteStudentAction({ deleteStudent: id }));
+
         this.notify.notifySuccess("Успішно видалено");
       });
   }

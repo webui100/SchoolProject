@@ -34,7 +34,7 @@ export class TeacherPanelService{
      }
 
     getTeacherId() {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       return jwt_decode(token).jti;
     }
 //------------------------------------------------------------
@@ -62,7 +62,9 @@ export class TeacherPanelService{
     this.uploadedJournalsListSubscription = this.uploadedJournalsList$.subscribe(res => {
       if (!res.some((item: any) => item.idSubject === journal.idSubject && item.idClass === journal.idClass)) {
         this.getCurrentJournal(journal.idClass, journal.idSubject);
-        this.uploadedJournalsListSubscription.unsubscribe()
+        if (this.uploadedJournalsListSubscription) {
+          this.uploadedJournalsListSubscription.unsubscribe()
+        }
       }
     })
   }

@@ -1,9 +1,9 @@
 .header {
   display: flex;
   justify-content: center;
-  background-color: #673ab7;
+  background-color: var(--dark-color);
   width: 80%;
-  color: white;
+  color: var(--contrast-font-color);
   padding: 10px 0;
   margin: 5px auto 10px auto;
 }
@@ -22,7 +22,8 @@ mat-table {
   margin: 10px auto;
   overflow: auto;
 
-  th, td {
+  th,
+  td {
     padding: 0 5px;
     vertical-align: middle;
     text-align: center;
@@ -46,13 +47,13 @@ mat-table {
 
     td {
       cursor: pointer;
-    
+
       &:hover {
         background-color: #d6dadb;
       }
     }
   }
-  
+
   td.footer {
     background-color: #f5f8fa;
     vertical-align: text-top;
@@ -62,6 +63,10 @@ mat-table {
 
   .hovered {
     background-color: #f1f3f4;
+    ng-container:hover,
+    tr:hover {
+      background-color: var(--light-color);
+    }
   }
 }
 
@@ -72,13 +77,12 @@ mat-table {
   box-shadow: 0 3px 5px 2px #c2c3c3;
   text-align: center;
 
-  
   mat-form-field {
     display: block;
     margin: 2px auto;
     padding: 2px;
   }
-  
+
   input {
     width: 40%;
   }
