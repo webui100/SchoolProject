@@ -93,6 +93,8 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
 import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
 
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
+import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
+import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
 
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -159,7 +161,9 @@ import { MatSelectModule } from '@angular/material/select';
     RequestPasswordComponent,
     LoginUserComponent,
     ArrayFilterPipe,
-    LoadStudentsComponent
+    LoadStudentsComponent,
+    ClassListHeaderPipe,
+    CreateClassComponent
   ],
   imports: [
     ChartsModule,
