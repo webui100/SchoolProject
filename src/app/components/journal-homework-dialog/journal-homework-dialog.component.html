@@ -1,1 +1,82 @@
-<p>journal-homework-dialog works!</p>
+<div *ngIf="lessonData
+    && lessonData.homework
+    && lessonData.homework.fileName"
+>
+    <mat-icon (click)="openFile(lessonData.idLesson)" title="Переглянути вкладення">
+        zoom_in
+    </mat-icon>
+    <mat-icon (click)="downloadFile(lessonData.idLesson)" title="Завантажити вкладений файл">
+        save_alt
+    </mat-icon>
+    <mat-icon (click)="inputFile.click()" title="Змінити вкладення">
+        attach_file
+    </mat-icon>
+</div>
+<mat-icon *ngIf="!(lessonData
+                && lessonData.homework
+                && lessonData.homework.fileName)"
+    class="add-homework"
+    (click)="inputFile.click()"
+    title="Додати файл"
+>
+    attach_file
+</mat-icon>
+<mat-icon *ngIf="!(lessonData
+            && lessonData.homework
+            && lessonData.homework.homework)"
+    class="add-homework"
+    (click)="getPosition($event); hometaskVisible=true"
+    title="Додати текс завдання"
+>
+    post_add
+</mat-icon>
+<mat-icon *ngIf="lessonData
+            && lessonData.homework
+            && lessonData.homework.homework"
+    (click)="getPosition($event); hometaskVisible=true"
+    title="Переглянути текст завдання"
+>
+    list_alt
+</mat-icon>
+<mat-icon class="clear"
+    *ngIf="(lessonData
+        && lessonData.homework
+        && lessonData.homework.homework) 
+        || (lessonData
+        && lessonData.homework
+        && lessonData.homework.fileName)"
+    (click)="clearHometask()"
+    title="Видалити завдання"
+>
+    clear
+</mat-icon>
+<input type="file"
+    #inputFile
+    (change)="selectFile($event)"
+    [hidden]="true"
+>
+
+<div class="hometask-field" *ngIf="hometaskVisible"
+    [ngStyle]="{'top.px': hometaskFieldTop - 200, 'left.px': hometaskFieldLeft}">
+    <strong>{{lessonData.homework.date | journalDateFormat}}</strong>
+    <form>
+        <mat-form-field>
+            <textarea matInput
+                name="hometask"
+                #hometask
+                rows="2"
+                [value]="lessonData.homework.homework"
+                placeholder="Домашнє завдання"
+                autofocus
+            >
+                </textarea>
+        </mat-form-field>
+        <button mat-button (click)="hometaskVisible=false">Скасувати</button>
+        <button mat-button type="button"
+            [disabled]="lessonData.homework.homework === hometask.value"
+            (click)="hometaskVisible=false; saveHometask(hometask.value)"
+        >
+            Зберегти
+        </button>
+    </form>
+</div>

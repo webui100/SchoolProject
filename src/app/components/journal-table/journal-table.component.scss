@@ -22,17 +22,84 @@ mat-table {
   margin: 10px auto;
   overflow: auto;
 
-  th, td {
+  th,
+  td {
     padding: 0 5px;
     vertical-align: middle;
     text-align: center;
   }
 
   .fullName {
-    width: 300px;
+    white-space: nowrap;
   }
 
-  ng-container:hover, tr:hover {
-    background-color: var(--light-color);
+  [mat-cell].fullName {
+    padding: 3px;
+    text-align: left;
   }
+
+  tr:hover {
+    background-color: #f1f3f4;
+
+    th:hover {
+      background-color: #d6dadb;
+    }
+
+    td {
+      cursor: pointer;
+
+      &:hover {
+        background-color: #d6dadb;
+      }
+    }
+  }
+
+  td.footer {
+    background-color: #f5f8fa;
+    vertical-align: text-top;
+    padding-top: 5px;
+    cursor: unset !important;
+  }
+
+  .hovered {
+    background-color: #f1f3f4;
+    ng-container:hover,
+    tr:hover {
+      background-color: var(--light-color);
+    }
+  }
+}
+
+.mark-field {
+  padding: 5px;
+  position: absolute;
+  background-color: #f4f6f6;
+  box-shadow: 0 3px 5px 2px #c2c3c3;
+  text-align: center;
+
+  mat-form-field {
+    display: block;
+    margin: 2px auto;
+    padding: 2px;
+  }
+
+  input {
+    width: 40%;
+  }
+
+  textarea {
+    width: 90%;
+    resize: none;
+  }
+
+  button {
+    display: inline-block;
+    width: 45%;
+    margin: 2px auto;
+  }
+}
+
+.spinner-container {
+  margin: 30px auto;
+  width: fit-content;
 }
