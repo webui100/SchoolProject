@@ -1,7 +1,7 @@
 import { selectChartType, selectChartYear } from './../../store/chart/chart.selectors';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminPanelService } from '../../services/admin-panel.service';
-import { Observable, Subject, Subscription, ReplaySubject } from 'rxjs';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Chart } from '../../models/chart.model';
 import {

@@ -96,9 +96,6 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
 import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
 
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -212,4 +209,4 @@ import { MatSelectModule } from '@angular/material/select';
     UserProfileComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }
