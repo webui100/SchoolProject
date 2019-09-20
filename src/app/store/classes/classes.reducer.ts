@@ -6,14 +6,19 @@ export interface State {
 }
 
 export const initialState: State = {
-  classesList: null
+  classesList: []
 };
 const reducer = createReducer(
   initialState,
   on(ClassData.getClassAction, (state, { classesList }) => ({
     ...state,
     classesList
-  }))
+  })),
+  on(ClassData.addClassAction, (state, { newClass }) => {
+    const newState = {...state};
+    newState.classesList.push(newClass);
+    return newState
+  })
 );
 
 export function classesReducer(state: State | undefined, action: Action) {

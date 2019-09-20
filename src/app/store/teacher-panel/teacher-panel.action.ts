@@ -25,3 +25,23 @@ export const setCurrentLessonIdToStoreAction = createAction(
     '[Journal Table] CurrentLessonId',
     props<{ currentLessonId: number }>()
 );
+
+export const setHomeworkListAction = createAction(
+    '[Journal Table] HomeworkList',
+    props<{ homeworkList: object[] }>()
+);
+
+export const putHomeworkAction = createAction(
+    '[Journal Table] SaveHomework',
+    props<{ homework: object }>()
+);
+
+export const saveMarkAction = createAction(
+    '[Journal Table] SaveMark',
+    props<{ markData: object }>()
+);
+
+export const changeMarkTypeAction = createAction(
+    '[Journal Table] ChangeMarkType',
+    props<{ newMarkType: object, idLesson: number }>()
+);
