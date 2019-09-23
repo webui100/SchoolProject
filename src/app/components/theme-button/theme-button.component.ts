@@ -28,12 +28,19 @@ export class ThemeButtonComponent implements OnInit {
     });
   }
 
-  changeTheme(isChecked: boolean) {
-    if (isChecked) {
-      this.store.dispatch(themeActions.setTheme({ themeName: 'nightTheme' }));
-    } else {
-      this.store.dispatch(themeActions.setTheme({ themeName: 'dayTheme' }));
-    }
+  changeTheme(event) {
+    const isChecked = event.target.checked;
+    event.target.disabled = true;
+    setTimeout(() => {
+      if (isChecked) {
+        this.store.dispatch(themeActions.setTheme({ themeName: 'nightTheme' }));
+      } else {
+        this.store.dispatch(themeActions.setTheme({ themeName: 'dayTheme' }));
+      };
+    }, 400);
+    setTimeout(() => {
+      event.target.disabled = false;
+    }, 700);
 
   }
 
