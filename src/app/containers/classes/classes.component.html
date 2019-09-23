@@ -19,8 +19,8 @@
                 </mat-expansion-panel-header>
                 <table mat-table [dataSource]="activeClass.value" multiTemplateDataRows>
                     <ng-container matColumnDef="{{actClass}}" *ngFor="let actClass of displayedColumns">
-                        <!-- classListHeader pipe chanes table header names from eng to ua language -->
-                        <th mat-header-cell *matHeaderCellDef> {{actClass | classListHeader}} </th>
+                        <!-- localeHeader pipe chanes table header names from eng to ua language -->
+                        <th mat-header-cell *matHeaderCellDef> {{actClass | localeHeader}} </th>
                         <td mat-cell *matCellDef="let class"> {{class[actClass]}} </td>
                     </ng-container>
                     <ng-container matColumnDef="expandedDetail">
@@ -28,7 +28,7 @@
                             <div class="class-detail"
                                 [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
                                 <div class="class-description">
-                                    {{class.numOfStudents}}
+                                    {{class.numOfStudents}}    {{class.id}}
                                 </div>
                             </div>
                         </td>
@@ -56,8 +56,8 @@
                 </mat-expansion-panel-header>
                 <table mat-table [dataSource]="nonActiveClass.value" multiTemplateDataRows>
                     <ng-container matColumnDef="{{nonActClass}}" *ngFor="let nonActClass of displayedColumns">
-                        <!-- classListHeader pipe chanes table header names from eng to ua language -->
-                        <th mat-header-cell *matHeaderCellDef> {{nonActClass | classListHeader}} </th>
+                        <!-- localeHeader pipe chanes table header names from eng to ua language -->
+                        <th mat-header-cell *matHeaderCellDef> {{nonActClass | localeHeader}} </th>
                         <td mat-cell *matCellDef="let class"> {{class[nonActClass]}} </td>
                     </ng-container>
                     <ng-container matColumnDef="expandedDetail">

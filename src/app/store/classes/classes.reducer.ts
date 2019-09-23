@@ -14,11 +14,10 @@ const reducer = createReducer(
     ...state,
     classesList
   })),
-  on(ClassData.addClassAction, (state, { newClass }) => {
-    const newState = {...state};
-    newState.classesList.push(newClass);
-    return newState
-  })
+  on(ClassData.addClassAction, (state, { newClass }) => ({
+    ...state,
+    classesList: [...state.classesList, newClass ]
+  }))
 );
 
 export function classesReducer(state: State | undefined, action: Action) {

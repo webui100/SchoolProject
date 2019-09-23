@@ -7,13 +7,13 @@
             <mat-form-field appearance="outline">
                 <mat-label>Назва класу</mat-label>
                 <input formControlName="className" matInput placeholder="1-А" required>
-                <mat-error *ngIf="">Без пропуків</mat-error>
+                <mat-error *ngIf="this.addNewClass.get('className').invalid">Лише заголовні 1-В / 1(5-В)</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Навчальний рік</mat-label>
                 <input formControlName="classYear" matInput placeholder="2019" required>
-                <mat-error *ngIf="">Тільки цифри</mat-error>
+                <mat-error *ngIf="this.addNewClass.get('classYear').invalid">Введіть рік більше 2000</mat-error>
             </mat-form-field>
         </div>
 
@@ -28,7 +28,7 @@
         </mat-radio-group>
 
         <mat-card-actions>
-            <button  action="submit" mat-raised-button [disabled]="addNewClass.invalid"> Створити </button>
+            <button  action="submit" mat-raised-button [disabled]="!addNewClass.valid"> Створити </button>
         </mat-card-actions>
     </form>
 

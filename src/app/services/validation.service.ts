@@ -12,6 +12,9 @@ export class ValidationService {
   private loginReg = /^[a-zA-Z0-9]{5,16}$/i;
   private passwordReg = /^[a-zA-Z0-9]{5,16}$/;
   private marknameReg = /^[А-ЯІҐЄЇ -]{1}[а-яіїєґ -]*$/;
+  private classNameReg = /(^[\d]{1,2}-[А-ЮҐІЇЄ]{1}$)|(^[\d]{1,2}\([\d]{1,2}-[А-ЮҐІЇЄ]{1}\)$)/;
+  private classYearReg = /^\d{4,4}$/; 
+  private rusLangReg = /[^ЁЪЭЫ]/;
 
   get ukrNameRegExp(): RegExp {
     return this.ukrNameReg;
@@ -34,5 +37,14 @@ export class ValidationService {
   }
   get markNameRegExp(): RegExp {
     return this.marknameReg;
+  }
+  get classNameRegExp(): RegExp {
+    return this.classNameReg;
+  }
+  get classYearRegExp(): RegExp {
+    return this.classYearReg;
+  }
+  get rusLangRegExp(): RegExp {
+    return this.rusLangReg;
   }
 }

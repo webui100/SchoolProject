@@ -81,6 +81,7 @@ export class ClassesService {
     }
     )
   }
+
   private errorMessage(err: any) {
     if (err.error.status.code === 400) {
       this.notify.notifyFailure('Невірно введені дані');
