@@ -1,0 +1,37 @@
+mat-icon {
+    color: rgb(116, 116, 116);
+    font-size: 1.5em;
+
+    &:hover {
+        color: black;
+        cursor: pointer;
+    }
+}
+
+.clear {
+    color: rgb(224, 85, 85);
+    font-size: 0.8em;
+    padding: 0.1em;
+
+    &:hover {
+        color: red;
+        font-weight: bold;
+        font-size: 1em;
+    }
+}
+
+.add-homework {
+    color: rgb(200, 200, 200);
+}
+
+.hometask-field {
+    padding: 5px;
+    position: absolute;
+    background-color: #f4f6f6;
+    box-shadow: 0 3px 5px 2px #c2c3c3;
+    text-align: center;
+
+    mat-form-field {
+        display: block;
+    }
+}
