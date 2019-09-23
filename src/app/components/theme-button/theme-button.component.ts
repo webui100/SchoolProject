@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ThemeService } from './../../services/theme.service';
-import * as themesList from '../../utilities/themesList';
 import * as themeActions from '../../store/theme/theme.action';
 import { Store, select } from '@ngrx/store';
 import { selectThemeName } from 'src/app/store/theme/theme.selector';

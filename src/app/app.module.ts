@@ -73,7 +73,6 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
-import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
 import {
   MatPaginatorIntl,
@@ -146,7 +145,6 @@ import { CreateClassComponent } from './containers/classes/create-class/create-c
     TeacherJournalComponent,
     TeacherJournalsComponent,
     ThemeButtonComponent,
-    ThemePickerComponent,
     JournalTableComponent,
     JournalHomeworkDialogComponent,
     MarkControllerComponent,
@@ -205,7 +203,6 @@ import { CreateClassComponent } from './containers/classes/create-class/create-c
     TemporaryComponent,
     HomeworkDialogComponent,
     CustomErrorComponent,
-    ThemePickerComponent,
     UserProfileComponent
   ]
 })

@@ -1,4 +1,3 @@
-import { ThemeService } from './services/theme.service';
 import { NotificationService } from './services/notification.service';
 import { Component, OnInit, ViewContainerRef, ElementRef, Inject } from '@angular/core';
 import { Store, select } from '@ngrx/store';
