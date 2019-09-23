@@ -1,4 +1,3 @@
-import { selectChartType, selectChartYear } from './../../store/chart/chart.selectors';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminPanelService } from '../../services/admin-panel.service';
 import { Observable, Subject, ReplaySubject } from 'rxjs';
@@ -8,7 +7,9 @@ import {
   chartSelector,
   getStudentsFromClass,
   selectQuantityTSC,
-  selectActiveClasses
+  selectActiveClasses,
+  selectChartYear,
+  selectChartType
 } from 'src/app/store/chart/chart.selectors';
 import { TeachersService } from '../../services/teachers.service';
 import { ClassesService } from '../../services/classes.service';
@@ -33,14 +34,12 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   quantityObj$: Observable<QtObj>;
   chart$: Observable<Chart>;
   chartTypeListener$ = new Subject<string>();
-  studentsSelector$: Subscription;
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   public year: number;
   public chartType: string;
 
 
   ngOnInit() {
-    this.initializeInfo();
 
     this.store.pipe(
       select(selectChartYear),
@@ -51,6 +50,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       select(selectChartType),
       first()
     ).subscribe((chartType) => this.chartType = chartType);
+
 
     this.chartTypeListener$.pipe(
       takeUntil(this.destroy$)
@@ -66,7 +66,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     );
 
-
+    this.initializeInfo();
 
   }
 
@@ -105,12 +105,15 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     })
 
     selectRef.unsubscribe();
+    selectChartRef.unsubscribe();
+  };
+
+  setClassChart(className: number) {
+    this.panelService.setClassChart(className);
   }
 
 
 }
 
-interface ChartData {
-  data: Array<number>;
-  label: string;
-}
+
+
