@@ -42,14 +42,14 @@ export class TeachersService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<object>,
+    private store: Store<ITeacher>,
     private notify: NotificationService
   ) {}
 
   getTeachers() {
     return this.http.get(`${this.BASE_URI}${this.TEACHER_URI}`).subscribe(
       (response: IHttpGetResponseList) => {
-        this.store.dispatch(teacherAction({ teachersList: response.data }));
+       this.store.dispatch(teacherAction({ teachersList: response.data }));
       },
       error => {
         this.errorMessage(error);
