@@ -1,19 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminPanelService } from '../../services/admin-panel.service';
-import { Observable, Subject, Subscription, ReplaySubject } from 'rxjs';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Chart } from '../../models/chart.model';
 import {
   chartSelector,
   getStudentsFromClass,
   selectQuantityTSC,
-  selectActiveClasses
+  selectActiveClasses,
+  selectChartYear,
+  selectChartType
 } from 'src/app/store/chart/chart.selectors';
 import { TeachersService } from '../../services/teachers.service';
 import { ClassesService } from '../../services/classes.service';
 import { SubjectsService } from '../../services/subjects.service';
 import { QtObj } from '../../models/quantityObj.model';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map, take, first } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-admin-panel',
@@ -32,49 +34,23 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   quantityObj$: Observable<QtObj>;
   chart$: Observable<Chart>;
   chartTypeListener$ = new Subject<string>();
-  studentsSelector$: Subscription;
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
-
-
-
-  setClassChart(className) {
-    const data: Array<number> = [];
-    const labels: Array<string> = [];
-    const colors: Array<object> = [{
-      backgroundColor: []
-    }];
-    this.studentsSelector$ = this.store.select(getStudentsFromClass, { className })
-      .subscribe((value: Array<ChartData>) => {
-        value.forEach(dataset => {
-          data.push(dataset.data[0]);
-          labels.push(dataset.label);
-          // @ts-ignore
-          colors[0].backgroundColor.push(this.panelService.getRandomColor());
-        });
-      },
-        (error) => console.log(error)
-      );
-    this.studentsSelector$.unsubscribe();
-    this.panelService.generateChart(data, labels, colors);
-  }
+  public year: number;
+  public chartType: string;
 
 
   ngOnInit() {
 
-    let classesIsExist = false;
-    let selectActiveRef: Subscription;
-    selectActiveRef = this.store.select(selectActiveClasses).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(value => {
-      if (value.length > 0) {
-        classesIsExist = true;
-      }
-      if (classesIsExist && selectActiveRef) {
-        this.setClassChart(11);
-        selectActiveRef.unsubscribe();
-      }
-    }
-    );
+    this.store.pipe(
+      select(selectChartYear),
+      first()
+    ).subscribe((year) => this.year = year);
+
+    this.store.pipe(
+      select(selectChartType),
+      first()
+    ).subscribe((chartType) => this.chartType = chartType);
+
 
     this.chartTypeListener$.pipe(
       takeUntil(this.destroy$)
@@ -102,7 +78,11 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   }
 
   initializeInfo() {
-    const selectRef = this.quantityObj$.subscribe((resValue) => {
+    const selectRef = this.store.pipe(
+      select(selectQuantityTSC),
+      first(),
+      takeUntil(this.destroy$)
+    ).subscribe((resValue) => {
       if (!resValue.classes) {
         this.classesService.getClasses();
       };
@@ -114,13 +94,26 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       };
     });
 
+    const selectChartRef = this.store.pipe(
+      select(chartSelector),
+      map((chartObj: Chart) => chartObj.labels[0]),
+      first()
+    ).subscribe((label: string) => {
+      if (!label) {
+        this.panelService.setClassChart(8);
+      }
+    })
+
     selectRef.unsubscribe();
+    selectChartRef.unsubscribe();
+  };
+
+  setClassChart(className: number) {
+    this.panelService.setClassChart(className);
   }
 
 
 }
 
-interface ChartData {
-  data: Array<number>;
-  label: string;
-}
+
+

@@ -1,12 +1,13 @@
 import { State as AppState } from '../index';
-import {createSelector} from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import ClassModel from '../../models/schoolclass.model';
 
 
 export const chartSelector = (state: AppState) => state.chart;
-
+export const selectChartYear = (state: AppState) => state.chart.year;
 export const selectTeachers = (state: AppState) => state.teachers.teachersList;
 export const selectSubjects = (state: AppState) => state.subjects.data;
+export const selectChartType = (state: AppState) => state.chart.type;
 export const selectActiveClasses = (state: AppState) => {
   if (state.classes.classesList) {
     return state.classes.classesList.filter((item: ClassModel) => item.isActive !== false);
@@ -36,11 +37,11 @@ export const getStudentsFromClass = createSelector(
     return classes
       .filter((value) => regex.test(value.className))
       .reduce((acc, value: ClassModel) => {
-      acc.push({
-        data: [value.numOfStudents],
-        label: value.className
-      });
-      return acc;
-    }, []);
+        acc.push({
+          data: [value.numOfStudents],
+          label: value.className
+        });
+        return acc;
+      }, []);
   }
 );
