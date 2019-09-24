@@ -1,11 +1,10 @@
 import { ValidationService } from '../../../services/validation.service';
 import { TeachersService } from '../../../services/teachers.service';
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, NgForm } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { format, addYears } from 'date-fns';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'webui-teacher-create',
@@ -19,9 +18,8 @@ import { format, addYears } from 'date-fns';
 })
 export class TeacherCreateComponent implements OnInit {
   private avatarImg = '../../../assets/images/no-user-image.png';
-  private subject: Subject<string | ArrayBuffer>;
   private maxAge = addYears(new Date(), -18);
-  private addTeacher: FormGroup;
+  addTeacher: FormGroup;
 
   constructor(private teachServise: TeachersService,
               private validServ: ValidationService,
