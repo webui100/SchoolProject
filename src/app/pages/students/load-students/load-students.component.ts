@@ -14,9 +14,9 @@ import { FormControl } from '@angular/forms';
 })
 export class LoadStudentsComponent implements OnInit {
   private classesData;
-  private classesList: Object[];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  //Active not active always reasign, need to add new variable for that!!
+  private myControl = new FormControl();
+  private filteredOptions: Observable<string[]>;
   @Output() selectClassEvent = new EventEmitter();
   constructor(
     private classesService: ClassesService,
@@ -35,31 +35,43 @@ export class LoadStudentsComponent implements OnInit {
           this.classesData = this.classesData.sort(
             (a, b) => parseInt(a.className, 10) - parseInt(b.className, 10)
           );
-
           this.selectClassGroup(true);
         }
       });
   }
-  private selectClassGroup(isActive: boolean) {
-    if (isActive) {
-      this.classesList = this.classesData.filter(data => data.isActive);
-    } else {
-      this.classesList = this.classesData.filter(data => !data.isActive);
-    }
-  }
-
-  private onClassSelect(e) {
-    this.selectClassEvent.emit(e);
-  }
-
   private onChange(classGroup: MatRadioChange) {
     classGroup.value == 'active'
       ? this.selectClassGroup(true)
       : this.selectClassGroup(false);
   }
+  private selectClassGroup(isActive: boolean) {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value, isActive))
+    );
+  }
 
+  private onClassSelect(e) {
+    this.selectClassEvent.emit(e);
+  }
   ngOnInit() {
     this.loadClasses();
+  }
+  private _filter(value: string, isActive: boolean): string[] {
+    const filterValue = value.toLowerCase();
+    if (isActive) {
+      return this.classesData.filter(
+        option =>
+          option.className.toLowerCase().includes(filterValue) &&
+          option.isActive
+      );
+    } else {
+      return this.classesData.filter(
+        option =>
+          option.className.toLowerCase().includes(filterValue) &&
+          !option.isActive
+      );
+    }
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();

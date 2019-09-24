@@ -10,22 +10,23 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./theme-button.component.scss']
 })
 export class ThemeButtonComponent implements OnInit {
-
-  constructor(private store: Store<{ theme }>) { }
+  constructor(private store: Store<{ theme }>) {}
 
   public themeNameChecked: boolean;
 
   ngOnInit() {
-    this.store.pipe(
-      select(selectThemeName),
-      first()
-    ).subscribe((themeName) => {
-      if (themeName === 'nightTheme') {
-        this.themeNameChecked = true;
-      } else {
-        this.themeNameChecked = false;
-      }
-    });
+    this.store
+      .pipe(
+        select(selectThemeName),
+        first()
+      )
+      .subscribe(themeName => {
+        if (themeName === 'nightTheme') {
+          this.themeNameChecked = true;
+        } else {
+          this.themeNameChecked = false;
+        }
+      });
   }
 
   changeTheme(event) {
@@ -36,12 +37,10 @@ export class ThemeButtonComponent implements OnInit {
         this.store.dispatch(themeActions.setTheme({ themeName: 'nightTheme' }));
       } else {
         this.store.dispatch(themeActions.setTheme({ themeName: 'dayTheme' }));
-      };
+      }
     }, 400);
     setTimeout(() => {
       event.target.disabled = false;
     }, 700);
-
   }
-
 }
