@@ -140,9 +140,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.schedule.setClearedScheduleToStore(this.scheduleForm.value, this.scheduleCleared);
 
     Object.keys((this.scheduleForm.get('scheduleForWeek') as FormGroup).controls).forEach(key => {
-      while ((this.scheduleForm.get('scheduleForWeek').get(key) as FormArray).length > 1) {
-        (this.scheduleForm.get('scheduleForWeek').get(key) as FormArray).removeAt(0);
-      }
+      const dayLessons = this.scheduleForm.get('scheduleForWeek').get(key) as FormArray;
+      while (dayLessons.length > 1) {
+        dayLessons.removeAt(1)
+      };
+
+      dayLessons.at(0).get('firstGroup').patchValue('');
+      dayLessons.at(0).get('firstGroupTeacher').patchValue('');
+      dayLessons.at(0).get('secondGroup').patchValue('');
+      dayLessons.at(0).get('secondGroupTeacher').patchValue('');
     });
   }
 
