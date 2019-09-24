@@ -73,7 +73,6 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
-import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
 import {
   MatPaginatorIntl,
@@ -90,11 +89,11 @@ import { DisabledMarksComponent } from './components/mark-component/disabled-mar
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
+import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
 
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
-
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
+import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
+import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
 
 @NgModule({
   declarations: [
@@ -146,7 +145,6 @@ import { MatSelectModule } from '@angular/material/select';
     TeacherJournalComponent,
     TeacherJournalsComponent,
     ThemeButtonComponent,
-    ThemePickerComponent,
     JournalTableComponent,
     JournalHomeworkDialogComponent,
     MarkControllerComponent,
@@ -154,10 +152,13 @@ import { MatSelectModule } from '@angular/material/select';
     AddMarkComponent,
     EditMarkComponent,
     DisabledMarksComponent,
+    JournalDateFormatPipe,
     RequestPasswordComponent,
     LoginUserComponent,
     ArrayFilterPipe,
-    LoadStudentsComponent
+    LoadStudentsComponent,
+    ClassListHeaderPipe,
+    CreateClassComponent
   ],
   imports: [
     ChartsModule,
@@ -202,8 +203,7 @@ import { MatSelectModule } from '@angular/material/select';
     TemporaryComponent,
     HomeworkDialogComponent,
     CustomErrorComponent,
-    ThemePickerComponent,
     UserProfileComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }
