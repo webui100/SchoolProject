@@ -1,10 +1,15 @@
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
 .header {
     display: flex;
     justify-content: center;
     background-color: var(--dark-color);
-    width: 90%;
+    width: 100%;
     color: var(--contrast-font-color);
-    padding: 0.6rem 0;
+    padding: 0.9rem 0;
     margin: 15px auto;
     
   }
@@ -15,9 +20,9 @@ h1 {
     font-weight: 400;
 }
 
-mat-expansion-panel {
-    margin: auto 20px;
-}
+// mat-expansion-panel {
+//     margin: auto 20px;
+// }
 
 mat-panel-title {
     width: 0;

@@ -19,7 +19,7 @@ h3 {
 
 mat-table {
   max-width: 90%;
-  margin: 10px auto;
+  margin: 20px auto;
   overflow: auto;
 
   th,
@@ -34,47 +34,39 @@ mat-table {
   }
 
   [mat-cell].fullName {
-    padding: 3px;
+    padding: 0 10px;
     text-align: left;
   }
 
   tr:hover {
-    background-color: #f1f3f4;
-
-    th:hover {
-      background-color: #d6dadb;
-    }
+    background-color: var(--hovered-col-row-color);
 
     td {
       cursor: pointer;
 
       &:hover {
-        background-color: #d6dadb;
+        background-color: var(--hovered-cell-color);
       }
     }
   }
 
   td.footer {
-    background-color: #f5f8fa;
+    background-color: var(--hovered-col-row-color);
     vertical-align: text-top;
     padding-top: 5px;
     cursor: unset !important;
   }
 
   .hovered {
-    background-color: #f1f3f4;
-    ng-container:hover,
-    tr:hover {
-      background-color: var(--light-color);
-    }
+    background-color: var(--hovered-col-row-color);
   }
 }
 
 .mark-field {
   padding: 5px;
   position: absolute;
-  background-color: #f4f6f6;
-  box-shadow: 0 3px 5px 2px #c2c3c3;
+  background-color: var(--box-bg-color);
+  box-shadow: 0 3px 5px 2px var(--box-shadow-color);
   text-align: center;
 
   mat-form-field {
