@@ -1,15 +1,15 @@
 mat-icon {
-    color: rgb(116, 116, 116);
+    color: var(--homework-icon-color);
     font-size: 1.5em;
 
     &:hover {
-        color: black;
+        color: var(--font-color);
         cursor: pointer;
     }
 }
 
 .clear {
-    color: rgb(224, 85, 85);
+    color: #E05555;
     font-size: 0.8em;
     padding: 0.1em;
 
@@ -21,14 +21,14 @@ mat-icon {
 }
 
 .add-homework {
-    color: rgb(200, 200, 200);
+    color: var(--add-icon-color);
 }
 
 .hometask-field {
     padding: 5px;
     position: absolute;
-    background-color: #f4f6f6;
-    box-shadow: 0 3px 5px 2px #c2c3c3;
+    background-color: var(--box-bg-color);
+    box-shadow: 0 3px 5px 2px var(--box-shadow-color);
     text-align: center;
 
     mat-form-field {
