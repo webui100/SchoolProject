@@ -1,12 +1,25 @@
-// import { TestBed } from '@angular/core/testing';
+import { MaterialModule } from './../modules/material/material.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { MarkControllerService } from './mark-controller.service';
 
-// import { MarkControllerService } from './mark-controller.service';
+describe('MarkControllerService', () => {
+  const initialState = { marks: [] };
+  let service: MarkControllerService;
 
-// describe('MarkControllerService', () => {
-//   beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach( async () => TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule,
+                MaterialModule],
+      providers: [ provideMockStore({ initialState })]
+  }).compileComponents()
+  );
 
-//   it('should be created', () => {
-//     const service: MarkControllerService = TestBed.get(MarkControllerService);
-//     expect(service).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+      service = TestBed.get(MarkControllerService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});

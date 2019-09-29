@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { IBindTeacher } from '../../../models/teacher.model';
 import { TeachersService } from 'src/app/services/teachers.service';
 import {
@@ -8,7 +9,7 @@ import {
   EventEmitter,
   OnChanges,
 } from '@angular/core';
-import { FormBuilder, AbstractControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
@@ -24,7 +25,7 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
   public classes$: Observable<string[]>;
   public subjects$: Observable<string[]>;
   public displayedColumns: string[] = ['subjectName', 'className'];
-  private bindTeacherJournal: AbstractControl;
+  public bindTeacherJournal: FormGroup;
 
   constructor(
     private teachServ: TeachersService,

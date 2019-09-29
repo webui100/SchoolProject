@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { format, addYears } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
@@ -26,7 +27,7 @@ export class TeacherCardComponent implements OnInit {
   private fileToUpload: string | ArrayBuffer;
   private avatarImg: string | ArrayBuffer;
   private maxAge =  addYears(new Date(), -18); // this.teachServise.checkAgeDate();
-  public editTeacher;
+  editTeacher: FormGroup;
 
   constructor(private teachServise: TeachersService,
               private validServ: ValidationService,
