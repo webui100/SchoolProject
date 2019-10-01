@@ -97,6 +97,7 @@ import { CreateClassComponent } from './containers/classes/create-class/create-c
 
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { ClassEditComponent } from './containers/classes/class-edit/class-edit.component';
 
 @NgModule({
   declarations: [
@@ -161,7 +162,8 @@ import { MatSelectModule } from '@angular/material/select';
     LoginUserComponent,
     ArrayFilterPipe,
     LoadStudentsComponent,
-    CreateClassComponent
+    CreateClassComponent,
+    ClassEditComponent
   ],
   imports: [
     ChartsModule,
@@ -207,7 +209,8 @@ import { MatSelectModule } from '@angular/material/select';
     HomeworkDialogComponent,
     CustomErrorComponent,
     ThemePickerComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ClassEditComponent
   ]
 })
 export class AppModule {}

@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { NgZone, ViewChild } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ClassesService } from '../../../services/classes.service';
 import { ValidationService } from '../../../services/validation.service';
@@ -14,7 +11,6 @@ import { ValidationService } from '../../../services/validation.service';
 export class CreateClassComponent implements OnInit {
   private addNewClass: FormGroup
   constructor(
-    private _ngZone: NgZone,
     private classesService: ClassesService,
     private ValidationService: ValidationService
   ) { }
@@ -24,13 +20,6 @@ export class CreateClassComponent implements OnInit {
     let newClassData = this.addNewClass.value;
     this.classesService.addClass(newClassData);
     this.addNewClass.reset();
-  }
-
-  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
-
-  triggerResize() {
-    this._ngZone.onStable.pipe(take(1))
-      .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
   ngOnInit() {
@@ -45,4 +34,3 @@ export class CreateClassComponent implements OnInit {
   }
 
 }
-// Validators.pattern(this.ValidationService.classYearRegExp)]
