@@ -16,11 +16,12 @@
         aria-label="Number"
         matInput
         [matAutocomplete]="auto"
+        [formControl]="myControl"
       />
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option
           (click)="onClassSelect(class)"
-          *ngFor="let class of classesList"
+          *ngFor="let class of filteredOptions | async"
           [value]="class.className"
         >
           {{ class.className }} | {{ class.classYear }} рік

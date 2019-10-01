@@ -38,9 +38,10 @@ export class DailyScheduleComponent implements OnInit, OnDestroy {
 
     this.buildDailySchedule();
 
-    for (let i = 0; i < this.lessonsMaxPerDay; i++) {
-      this.secondGroupVisible.push(false);
-    }
+    // for (let i = 0; i < this.lessonsMaxPerDay; i++) {
+    //   this.secondGroupVisible.push(false);
+    // }
+    this.secondGroupVisible = new Array(this.lessonsMaxPerDay).fill(false)
   }
 
   buildDailySchedule() {

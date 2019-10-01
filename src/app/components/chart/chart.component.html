@@ -7,14 +7,14 @@
         <div class="chart-control-panel">
           <mat-form-field>
             <mat-label>Виберіть потік</mat-label>
-            <mat-select (selectionChange)="setChartClass($event.value)" [value]="11">
+            <mat-select (selectionChange)="setChartClass($event.value)" [value]="year">
               <mat-option *ngFor='let num of listOfClasses' [value]="num">
                 {{num}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-radio-group (change)="setChartType($event.value)">
-            <mat-radio-button value="bar" checked>Стовпці</mat-radio-button>
+          <mat-radio-group (change)="setChartType($event.value)" [value]="type">
+            <mat-radio-button value="bar">Стовпці</mat-radio-button>
             <mat-radio-button value="pie">Диск</mat-radio-button>
             <mat-radio-button value="doughnut">Кiльце</mat-radio-button>
           </mat-radio-group>

@@ -73,7 +73,6 @@ import { UrlSanitizerPipe } from './pipes/url-sanitizer.pipe';
 import { getMatPaginatorUkr } from './utilities/mat-pagination-intl';
 import { CustomErrorComponent } from './components/custom-error/custom-error.component';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
-import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { MarkControllerComponent } from './containers/mark-controller/mark-controller.component';
 import {
   MatPaginatorIntl,
@@ -94,9 +93,6 @@ import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
 
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
-
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 import { ClassEditComponent } from './containers/classes/class-edit/class-edit.component';
 
 @NgModule({
@@ -149,7 +145,6 @@ import { ClassEditComponent } from './containers/classes/class-edit/class-edit.c
     TeacherJournalComponent,
     TeacherJournalsComponent,
     ThemeButtonComponent,
-    ThemePickerComponent,
     JournalTableComponent,
     JournalHomeworkDialogComponent,
     MarkControllerComponent,
@@ -208,9 +203,8 @@ import { ClassEditComponent } from './containers/classes/class-edit/class-edit.c
     TemporaryComponent,
     HomeworkDialogComponent,
     CustomErrorComponent,
-    ThemePickerComponent,
     UserProfileComponent,
     ClassEditComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }
