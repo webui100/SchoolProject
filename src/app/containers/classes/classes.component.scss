@@ -1,4 +1,4 @@
-.mainExpansion{
+.mainExpansion, .tab {
     max-width: 90%;
     margin: 15px auto;
   }
@@ -40,9 +40,7 @@ tr.class-row:not(.expanded-row):hover {
 
 .class-detail {
   overflow: hidden;
-  display: flex;
 }
 
-.class-description {
-  padding: 16px;
-}
+
+

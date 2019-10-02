@@ -1,19 +1,16 @@
-<mat-expansion-panel hideToggle class="mainExpansion">
-    <mat-expansion-panel-header>
-        <mat-panel-title>Додати клас</mat-panel-title>
-    </mat-expansion-panel-header>
-    <form [formGroup]="addNewClass" (ngSubmit)="onSubmit($event)" class="container">
+
+    <form [formGroup]="editClass" (ngSubmit)="onSubmit($event)" class="mainExpansion container">
         <div class="inputRequired">
             <mat-form-field appearance="outline">
                 <mat-label>Назва класу</mat-label>
                 <input formControlName="className" matInput placeholder="1-А" required>
-                <mat-error *ngIf="this.addNewClass.get('className').invalid">Лише заголовні 1-В / 1(5-В)</mat-error>
+                <mat-error *ngIf="this.editClass.get('className').invalid">Лише заголовні 1-В / 1(5-В)</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Навчальний рік</mat-label>
                 <input formControlName="classYear" matInput placeholder="2019" required>
-                <mat-error *ngIf="this.addNewClass.get('classYear').invalid">Введіть рік більше 2000</mat-error>
+                <mat-error *ngIf="this.editClass.get('classYear').invalid">Введіть рік більше 2000</mat-error>
             </mat-form-field>
         </div>
 
@@ -28,8 +25,7 @@
         </mat-radio-group>
 
         <mat-card-actions>
-            <button  action="submit" mat-raised-button [disabled]="!addNewClass.valid"> Створити </button>
+            <button  action="submit" mat-raised-button [disabled]="!editClass.valid"> Зберегти </button>
         </mat-card-actions>
     </form>
 
-</mat-expansion-panel>

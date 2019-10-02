@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { NgZone, ViewChild } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ClassesService } from '../../../services/classes.service';
+import { ValidationService } from '../../../services/validation.service';
 
 @Component({
   selector: 'webui-create-class',
@@ -13,29 +11,25 @@ import { ClassesService } from '../../../services/classes.service';
 export class CreateClassComponent implements OnInit {
   private addNewClass: FormGroup
   constructor(
-    private _ngZone: NgZone,
-    private classesService: ClassesService
+    private classesService: ClassesService,
+    private ValidationService: ValidationService
   ) { }
 
   // addNewClass.get('isActive');
   onSubmit() {
     let newClassData = this.addNewClass.value;
     this.classesService.addClass(newClassData);
-  }
-
-  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
-
-  triggerResize() {
-    this._ngZone.onStable.pipe(take(1))
-      .subscribe(() => this.autosize.resizeToFitContent(true));
+    this.addNewClass.reset();
   }
 
   ngOnInit() {
     this.addNewClass = new FormGroup({
-      className: new FormControl('', Validators.required),
-      classYear: new FormControl('', Validators.required),
+      className: new FormControl('', [Validators.required, Validators.pattern(this.ValidationService.classNameRegExp)]),
+      classYear: new FormControl('', [Validators.required,
+                                      Validators.pattern(this.ValidationService.classYearRegExp),
+                                      Validators.min(2000)]),
       isActive: new FormControl('', Validators.required),
-      classDescription: new FormControl('', Validators.required)
+      classDescription: new FormControl('')
     });
   }
 
