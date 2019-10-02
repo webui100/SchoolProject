@@ -30,7 +30,7 @@ export class ClassesService {
   }
 
   addClass(classData: ClassModel) {
-    this.http.post(`${this.BASE_URI}classes`, classData).subscribe(
+    this.http.post(`${this.BASE_URI}${this.CLASSES_URI}`, classData).subscribe(
       response => {
         this.notify.notifySuccess("Успішно створено");
         this.store.dispatch(addClassAction({ newClass: response["data"] }));
@@ -42,7 +42,7 @@ export class ClassesService {
   }
 
   editClass(classId: number, classData: ClassModel) {
-    this.http.put(`${this.BASE_URI}classes/${classId}`, classData).subscribe(
+    this.http.put(`${this.BASE_URI}${this.CLASSES_URI}${classId}`, classData).subscribe(
       response => {
         this.notify.notifySuccess("Успішно відредаговано");
         this.store.dispatch(editClassAction({ editClass: response["data"] }));
