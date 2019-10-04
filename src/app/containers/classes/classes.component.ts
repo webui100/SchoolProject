@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy} from '@angular/core';
 import { selectClassesAll } from 'src/app/store/classes/classes.selector';
 import { Store, select } from '@ngrx/store';
 import { ClassesService } from '../../services/classes.service';
@@ -10,6 +13,7 @@ import {
   trigger
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
+import ClassModel  from '../../models/schoolclass.model'
 
 @Component({
   selector: 'webui-classes',
@@ -26,20 +30,22 @@ import { Subscription } from 'rxjs';
     ])
   ]
 })
+
 export class ClassesComponent implements OnInit, OnDestroy {
-  private classes$: any;
-  private classesSubscription: Subscription;
-  public expandedElement: ClassTable | null;
-  private sortKeys: Function;
 
   constructor(
     private classesService: ClassesService,
-    private store: Store<{}>
+    private store: Store<{}>,
   ) {
     this.classes$ = this.store.pipe(select(selectClassesAll));
     this.sortKeys = this.classesService.sortClasses();
   }
 
+  private classes$: any;
+  private classesSubscription: Subscription;
+  public expandedElement: ClassModel | null;
+  private sortKeys: Function;
+  
   displayedColumns: string[] = ['className', 'classYear', 'numOfStudents'];
 
   activeUniqueClassList: Map<string, Array<Object>>;
@@ -53,16 +59,8 @@ export class ClassesComponent implements OnInit, OnDestroy {
     // get data from endpoint
     this.classesService.getClasses();
   }
+
   ngOnDestroy(): void {
     this.classesSubscription.unsubscribe();
   }
-}
-
-export interface ClassTable {
-  className: string;
-  classYear: number;
-  numOfStudents: number;
-  id: number;
-  classDescription: string;
-  isActive: boolean;
 }

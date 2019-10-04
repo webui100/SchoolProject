@@ -92,8 +92,8 @@ import { JournalHomeworkDialogComponent } from './components/journal-homework-di
 import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
 
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
-import { ClassListHeaderPipe } from './pipes/class-list-header.pipe';
 import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
+import { ClassEditComponent } from './containers/classes/class-edit/class-edit.component';
 
 @NgModule({
   declarations: [
@@ -157,8 +157,8 @@ import { CreateClassComponent } from './containers/classes/create-class/create-c
     LoginUserComponent,
     ArrayFilterPipe,
     LoadStudentsComponent,
-    ClassListHeaderPipe,
-    CreateClassComponent
+    CreateClassComponent,
+    ClassEditComponent
   ],
   imports: [
     ChartsModule,
@@ -203,7 +203,8 @@ import { CreateClassComponent } from './containers/classes/create-class/create-c
     TemporaryComponent,
     HomeworkDialogComponent,
     CustomErrorComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ClassEditComponent
   ]
 })
 export class AppModule { }

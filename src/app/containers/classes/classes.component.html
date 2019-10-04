@@ -6,11 +6,8 @@
     <webui-create-class></webui-create-class>
 </div>
 
-<mat-accordion>
-    <mat-expansion-panel hideToggle class="mainExpansion">
-        <mat-expansion-panel-header>
-            <mat-panel-title>Активні класи</mat-panel-title>    
-        </mat-expansion-panel-header>
+<mat-tab-group mat-stretch-tabs class='tab'>
+    <mat-tab label="Активні">
         <mat-accordion>
             <mat-expansion-panel *ngFor="let activeClass of activeUniqueClassList | keyvalue: sortKeys" hideToggle
                 class="groupofclasses">
@@ -19,17 +16,15 @@
                 </mat-expansion-panel-header>
                 <table mat-table [dataSource]="activeClass.value" multiTemplateDataRows>
                     <ng-container matColumnDef="{{actClass}}" *ngFor="let actClass of displayedColumns">
-                        <!-- classListHeader pipe chanes table header names from eng to ua language -->
-                        <th mat-header-cell *matHeaderCellDef> {{actClass | classListHeader}} </th>
+                        <!-- localeHeader pipe chanes table header names from eng to ua language -->
+                        <th mat-header-cell *matHeaderCellDef> {{actClass | localeHeader}} </th>
                         <td mat-cell *matCellDef="let class"> {{class[actClass]}} </td>
                     </ng-container>
                     <ng-container matColumnDef="expandedDetail">
                         <td mat-cell *matCellDef="let class" [attr.colspan]="displayedColumns.length">
-                            <div class="class-detail"
-                                [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
-                                <div class="class-description">
-                                    {{class.numOfStudents}}
-                                </div>
+                            <div class="class-detail" [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
+                                <webui-class-edit [class]="class" *ngIf="class == expandedElement">
+                                </webui-class-edit>
                             </div>
                         </td>
                     </ng-container>
@@ -42,12 +37,9 @@
                 </table>
             </mat-expansion-panel>
         </mat-accordion>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel hideToggle class="mainExpansion">
-        <mat-expansion-panel-header>
-            <mat-panel-title>Неактивні класи</mat-panel-title>
-        </mat-expansion-panel-header>
+    </mat-tab>
+    
+    <mat-tab label="Не активні">
         <mat-accordion>
             <mat-expansion-panel *ngFor="let nonActiveClass of nonActiveUniqueClassList | keyvalue: sortKeys" hideToggle
                 class="groupofclasses">
@@ -56,17 +48,15 @@
                 </mat-expansion-panel-header>
                 <table mat-table [dataSource]="nonActiveClass.value" multiTemplateDataRows>
                     <ng-container matColumnDef="{{nonActClass}}" *ngFor="let nonActClass of displayedColumns">
-                        <!-- classListHeader pipe chanes table header names from eng to ua language -->
-                        <th mat-header-cell *matHeaderCellDef> {{nonActClass | classListHeader}} </th>
+                        <!-- localeHeader pipe chanes table header names from eng to ua language -->
+                        <th mat-header-cell *matHeaderCellDef> {{nonActClass | localeHeader}} </th>
                         <td mat-cell *matCellDef="let class"> {{class[nonActClass]}} </td>
                     </ng-container>
                     <ng-container matColumnDef="expandedDetail">
                         <td mat-cell *matCellDef="let class" [attr.colspan]="displayedColumns.length">
-                            <div class="class-detail"
-                                [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
-                                <div class="class-description">
-                                    {{class.numOfStudents}}
-                                </div>
+                            <div class="class-detail" [@detailExpand]="class == expandedElement ? 'expanded' : 'collapsed'">
+                                <webui-class-edit [class]="class" *ngIf="class == expandedElement">
+                                </webui-class-edit>
                             </div>
                         </td>
                     </ng-container>
@@ -79,5 +69,5 @@
                 </table>
             </mat-expansion-panel>
         </mat-accordion>
-    </mat-expansion-panel>
-</mat-accordion>
+    </mat-tab>
+</mat-tab-group>
