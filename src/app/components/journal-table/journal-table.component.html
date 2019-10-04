@@ -72,7 +72,7 @@
     [ngStyle]="{'top.px': markFieldTop, 'left.px': markFieldLeft}"
 >
     {{chosenElement.studentFullName}}, <strong>{{chosenLesson.dateMark | journalDateFormat}}</strong>
-    <form>
+    <form [formGroup]="markFieldForm">
         <mat-form-field>
             <input matInput
                 type="number"
