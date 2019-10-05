@@ -1,23 +1,23 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import * as ClassData from "./classes.action";
-import ClassModel from "src/app/models/schoolclass.model";
+import { Action, createReducer, on } from '@ngrx/store';
+import * as ClassData from './classes.action';
+import ClassModel from 'src/app/models/schoolclass.model';
 
 export interface State {
   classesList: Array<object>;
 }
 
 export const initialState: State = {
-  classesList: []
+  classesList: [],
 };
 const reducer = createReducer(
   initialState,
   on(ClassData.getClassAction, (state: State, { classesList }) => ({
     ...state,
-    classesList
+    classesList,
   })),
   on(ClassData.addClassAction, (state: State, { newClass }) => ({
     ...state,
-    classesList: [...state.classesList, newClass]
+    classesList: [...state.classesList, newClass],
   })),
   on(ClassData.editClassAction, (state: State, { editClass }) => ({
     ...state,
@@ -27,7 +27,7 @@ const reducer = createReducer(
       } else {
         return currentClass;
       }
-    })
+    }),
   }))
 );
 

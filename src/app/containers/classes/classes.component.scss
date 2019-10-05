@@ -1,7 +1,8 @@
-.mainExpansion, .tab {
-    max-width: 90%;
-    margin: 15px auto;
-  }
+.mainExpansion,
+.tab {
+  max-width: 90%;
+  margin: 15px auto;
+}
 
 .header {
   display: flex;
@@ -35,12 +36,9 @@ tr.class-row:not(.expanded-row):hover {
 
 .class-row td {
   border-bottom-width: 0;
-  width: 33%
+  width: 33%;
 }
 
 .class-detail {
   overflow: hidden;
 }
-
-
-

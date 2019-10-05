@@ -16,20 +16,18 @@
                 <mat-error *ngIf="this.addNewClass.get('classYear').invalid">Введіть рік більше 2000</mat-error>
             </mat-form-field>
         </div>
-
         <mat-form-field class="addInform" appearance="outline">
             <mat-label>Додаткова інформація</mat-label>
-            <textarea formControlName="classDescription" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"></textarea>
+            <textarea formControlName="classDescription" matInput cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"></textarea>
         </mat-form-field>
-
         <mat-radio-group formControlName="isActive">
-            <mat-radio-button value="true" >Активний</mat-radio-button>
-            <mat-radio-button value="false" >Не активний</mat-radio-button>
+            <mat-radio-button value="true">Активний</mat-radio-button>
+            <mat-radio-button value="false">Не активний</mat-radio-button>
         </mat-radio-group>
 
         <mat-card-actions>
-            <button  action="submit" mat-raised-button [disabled]="!addNewClass.valid"> Створити </button>
+            <button action="submit" mat-raised-button [disabled]="!addNewClass.valid"> Створити </button>
         </mat-card-actions>
     </form>
-
 </mat-expansion-panel>

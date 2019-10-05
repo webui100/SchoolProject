@@ -7,11 +7,12 @@ import { Subject } from 'rxjs';
 import {
   getClassAction,
   addClassAction,
-  editClassAction } from '../store/classes/classes.action';
-  import ClassModel from 'src/app/models/schoolclass.model';
+  editClassAction,
+} from '../store/classes/classes.action';
+import ClassModel from 'src/app/models/schoolclass.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClassesService {
   public subject = new Subject<string | ArrayBuffer>();
@@ -25,15 +26,15 @@ export class ClassesService {
 
   getClasses() {
     this.http.get(`${this.BASE_URI}${this.CLASSES_URI}`).subscribe(response => {
-      this.store.dispatch(getClassAction({ classesList: response["data"] }));
+      this.store.dispatch(getClassAction({ classesList: response['data'] }));
     });
   }
 
   addClass(classData: ClassModel) {
     this.http.post(`${this.BASE_URI}${this.CLASSES_URI}`, classData).subscribe(
       response => {
-        this.notify.notifySuccess("Успішно створено");
-        this.store.dispatch(addClassAction({ newClass: response["data"] }));
+        this.notify.notifySuccess('Успішно створено');
+        this.store.dispatch(addClassAction({ newClass: response['data'] }));
       },
       error => {
         this.errorMessage(error);
@@ -42,15 +43,17 @@ export class ClassesService {
   }
 
   editClass(classId: number, classData: ClassModel) {
-    this.http.put(`${this.BASE_URI}${this.CLASSES_URI}${classId}`, classData).subscribe(
-      response => {
-        this.notify.notifySuccess("Успішно відредаговано");
-        this.store.dispatch(editClassAction({ editClass: response["data"] }));
-      },
-      error => {
-        this.errorMessage(error);
-      }
-    );
+    this.http
+      .put(`${this.BASE_URI}${this.CLASSES_URI}${classId}`, classData)
+      .subscribe(
+        response => {
+          this.notify.notifySuccess('Успішно відредаговано');
+          this.store.dispatch(editClassAction({ editClass: response['data'] }));
+        },
+        error => {
+          this.errorMessage(error);
+        }
+      );
   }
 
   sortClasses() {
@@ -81,7 +84,7 @@ export class ClassesService {
     }
     // Sorting custom classes "4(8)  at first by custom class.( in scopes "(8)").
     // Then by main (class before scopes).
-    else if (current.key.includes("(") && previous.key.includes("(")) {
+    else if (current.key.includes('(') && previous.key.includes('(')) {
       const currentCustomClass = getClassinScopes(current.key);
       const previousCustomClass = Number(previous.key.match(/\((.*)\)/)[1]);
       const currentMainClass = parseInt(current.key);
@@ -101,7 +104,7 @@ export class ClassesService {
 
   private errorMessage(err: any) {
     if (err.error.status.code === 400) {
-      this.notify.notifyFailure("Невірно введені дані");
+      this.notify.notifyFailure('Невірно введені дані');
       throw new Error(`Server error: ${err.error.data}`);
     } else {
       const errParse = this.notify.errorParser(err);

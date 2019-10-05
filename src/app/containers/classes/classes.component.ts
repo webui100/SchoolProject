@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { selectClassesAll } from 'src/app/store/classes/classes.selector';
 import { Store, select } from '@ngrx/store';
 import { ClassesService } from '../../services/classes.service';
@@ -10,10 +7,10 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
-import ClassModel  from '../../models/schoolclass.model'
+import ClassModel from '../../models/schoolclass.model';
 
 @Component({
   selector: 'webui-classes',
@@ -26,16 +23,14 @@ import ClassModel  from '../../models/schoolclass.model'
       transition(
         'expanded <=> collapsed',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      )
-    ])
-  ]
+      ),
+    ]),
+  ],
 })
-
 export class ClassesComponent implements OnInit, OnDestroy {
-
   constructor(
     private classesService: ClassesService,
-    private store: Store<{}>,
+    private store: Store<{}>
   ) {
     this.classes$ = this.store.pipe(select(selectClassesAll));
     this.sortKeys = this.classesService.sortClasses();
@@ -45,7 +40,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
   private classesSubscription: Subscription;
   public expandedElement: ClassModel | null;
   private sortKeys: Function;
-  
+
   displayedColumns: string[] = ['className', 'classYear', 'numOfStudents'];
 
   activeUniqueClassList: Map<string, Array<Object>>;
