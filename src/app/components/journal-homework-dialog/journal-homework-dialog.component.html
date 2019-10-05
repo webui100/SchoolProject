@@ -59,7 +59,7 @@
 <div class="hometask-field" *ngIf="hometaskVisible"
     [ngStyle]="{'top.px': hometaskFieldTop - 200, 'left.px': hometaskFieldLeft}">
     <strong>{{lessonData.homework.date | journalDateFormat}}</strong>
-    <form>
+    <form [formGroup]="homeworkFieldForm">
         <mat-form-field>
             <textarea matInput
                 name="hometask"
