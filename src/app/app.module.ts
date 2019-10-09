@@ -93,6 +93,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatSelectModule } from "@angular/material/select";
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 import { MatStepperModule } from '@angular/material/stepper';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -192,10 +193,11 @@ import { MatStepperModule } from '@angular/material/stepper';
     })
   ],
   providers: [
-    { provide: ErrorHandler, useClass: ErrorService },
+    // { provide: ErrorHandler, useClass: ErrorService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
+    { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
   entryComponents: [
