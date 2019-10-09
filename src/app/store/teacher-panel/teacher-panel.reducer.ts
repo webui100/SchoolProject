@@ -7,14 +7,16 @@ export interface TeacherPanelState {
   journalsList: TeacherJournals;
   currentJournal: object;
   uploadedJournals: object[],
-  currentLessonId: number
+  currentLessonId: number,
+  homeworkList: object[]
 }
 export const initialState: TeacherPanelState = {
   subjectsList: null,
   journalsList: null,
   currentJournal: null,
   uploadedJournals: [],
-  currentLessonId: null
+  currentLessonId: null,
+  homeworkList: []
 };
 
 const reducer = createReducer(
@@ -47,7 +49,62 @@ const reducer = createReducer(
   on(DataForTeacher.setCurrentLessonIdToStoreAction, (state, { currentLessonId }) => ({
     ...state,
     currentLessonId
-  }))
+  })),
+
+  on(DataForTeacher.setHomeworkListAction, (state, { homeworkList }) => ({
+    ...state,
+    homeworkList
+  })),
+
+  on(DataForTeacher.putHomeworkAction, (state, { homework }) => {
+    const newHomeworkList = JSON.parse(JSON.stringify(state.homeworkList));
+    const index = newHomeworkList.findIndex((item: any) => 
+      item.idLesson === (homework as any).idLesson
+    );
+    (newHomeworkList[index]as any).fileName = (homework as any).fileName;
+    (newHomeworkList[index]as any).homework = (homework as any).homework;
+    return ({
+    ...state,
+    homeworkList: newHomeworkList
+  })}),
+
+  on(DataForTeacher.saveMarkAction, (state, { markData }) => {
+    const newUploadedJournals = JSON.parse(JSON.stringify(state.uploadedJournals));
+    newUploadedJournals.forEach((journal: any) => {
+      const studentIndex = Object.values(journal.journal).findIndex(item => 
+        (item as any).idStudent == (markData as any).idStudent
+      );
+      if (studentIndex >= 0) {
+        const lessonIndex = journal.journal[studentIndex].marks.findIndex(item =>
+          item.idLesson ==  (markData as any).idLesson
+        );
+        if (lessonIndex >= 0) {
+          journal.journal[studentIndex].marks[lessonIndex].mark = (markData as any).mark;
+          journal.journal[studentIndex].marks[lessonIndex].note = (markData as any).note;
+        }
+      }
+    });
+    return ({
+    ...state,
+    uploadedJournals: newUploadedJournals
+  })}),
+
+  on(DataForTeacher.changeMarkTypeAction, (state, { newMarkType, idLesson }) => {
+    const newUploadedJournals = JSON.parse(JSON.stringify(state.uploadedJournals));
+    newUploadedJournals.forEach((journal: any) => {
+      const lessonIndex = journal.journal[0].marks.findIndex(item => 
+        item.idLesson ==  idLesson
+      );
+      if (lessonIndex >= 0) {
+        Object.values(journal.journal).forEach((student: any) => {
+          student.marks[lessonIndex].typeMark = (newMarkType as any).markType;
+        })
+      }
+    });
+    return ({
+    ...state,
+    uploadedJournals: newUploadedJournals
+  })})
 );
 
 export function dataForTeacherReducer(state: TeacherPanelState | undefined, action: Action) {

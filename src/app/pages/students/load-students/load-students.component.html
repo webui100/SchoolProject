@@ -1,24 +1,32 @@
-<div class="class-select-header">Оберіть список класів:</div>
-<mat-radio-group (change)="onChange($event)" labelPosition="after">
-  <mat-radio-button value="active" checked>Активні</mat-radio-button>
-  <mat-radio-button value="nonactive">Не активні</mat-radio-button>
-</mat-radio-group>
-
-<mat-form-field class="example-full-width">
-  <input
-    type="text"
-    placeholder="Оберіть клас"
-    aria-label="Number"
-    matInput
-    [matAutocomplete]="auto"
-  />
-  <mat-autocomplete #auto="matAutocomplete">
-    <mat-option
-      (click)="onClassSelect(class.id)"
-      *ngFor="let class of classesList"
-      [value]="class.className"
-    >
-      {{ class.className }}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
+<div class="class-select-header"><h3>Виберіть список класів:</h3></div>
+<div class="class-select-header">
+  <mat-radio-group
+    (change)="onChange($event)"
+    class="justify"
+    labelPosition="after"
+  >
+    <mat-radio-button value="active" checked>Активні</mat-radio-button>
+    <mat-radio-button value="nonactive">Не активні</mat-radio-button>
+  </mat-radio-group>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input
+        type="text"
+        placeholder="Класи"
+        aria-label="Number"
+        matInput
+        [matAutocomplete]="auto"
+        [formControl]="myControl"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          (click)="onClassSelect(class)"
+          *ngFor="let class of filteredOptions | async"
+          [value]="class.className"
+        >
+          {{ class.className }} | {{ class.classYear }} рік
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>

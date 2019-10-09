@@ -1,0 +1,21 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    margin: 15px;
+
+    .inputRequired{
+        flex-direction: row;
+    }
+    mat-form-field{
+        margin: auto 15px;
+    }
+
+    mat-radio-button {
+        margin: 15px;
+    }
+
+    mat-card-actions{
+        justify-content: center;
+        margin: auto;
+    }
+}

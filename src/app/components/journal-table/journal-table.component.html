@@ -1,24 +1,127 @@
 <div class="header mat-elevation-z5">
-    <div><h3>{{journal.subjectName}}. {{journal.className}} клас.</h3></div>
+    <div>
+        <h3>{{journal.subjectName}}. {{journal.className}} клас.</h3>
+    </div>
+</div>
+<div *ngIf="marksList
+        && homeworkListArray
+        && homeworkListArray.length
+        && journalArray
+        && journalArray.length;
+    else spinner"
+>
+    <mat-table [dataSource]="journalDataTable" class="mat-elevation-z8">
+        <ng-container matColumnDef="fullName" sticky>
+            <th mat-header-cell *matHeaderCellDef class="fullName"> Учень </th>
+            <td mat-cell *matCellDef="let element" class="fullName">
+                {{element.studentFullName}}
+            </td>
+            <td mat-footer-cell *matFooterCellDef>Домашнє завдання</td>
+        </ng-container>
+
+        <ng-container *ngFor="let date of tableDates; let i=index" [matColumnDef]="date">
+            <th mat-header-cell
+                *matHeaderCellDef
+                [ngClass]="{'hovered': hoveredLessonDate === date}"
+                (mouseenter)="hoveredLessonDate = date"
+                (mouseout)="hoveredLessonDate = null"
+            >
+                {{date | journalDateFormat}}
+            </th>
+            <td mat-cell
+                *matCellDef="let element"
+                [ngClass]="{'hovered': hoveredLessonDate === element.marks[i].dateMark}"
+                (mouseenter)="hoveredLessonDate = element.marks[i].dateMark"
+                (mouseout)="hoveredLessonDate = null"
+                (click)="setLessonIdToStore(element.marks[i]);
+                    chosenElement = element;
+                    chosenLesson = element.marks[i];
+                    getPosition($event);
+                    markFieldVisible = true">
+                {{element.marks[i].mark}}
+            </td>
+            <td mat-footer-cell
+                *matFooterCellDef
+                class="footer"
+                (mouseenter)="hoveredLessonDate = date"
+                (mouseout)="hoveredLessonDate = null"
+            >
+                <webui-journal-homework-dialog [lessonData]="{idClass: journal.idClass,
+                                           idSubject: journal.idSubject,
+                                           idLesson: journalArray[0].marks[i].idLesson,
+                                           homework: homeworkListArray[i]}">
+                </webui-journal-homework-dialog>
+            </td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
+        <tr mat-row *matRowDef="let student; columns: tableHeaders"></tr>
+        <tr mat-footer-row *matFooterRowDef="tableHeaders"></tr>
+    </mat-table>
 </div>
 
-<p>idClass: {{journal.idClass}}</p>
-<p>idSubject: {{journal.idSubject}}</p>
+<ng-template #spinner>
+    <div class="spinner-container">
+        <mat-spinner class="count-bar-spinner"></mat-spinner>
+    </div>
+</ng-template>
 
-<mat-table [dataSource]="journalDataTable">
-    <ng-container matColumnDef="fullName" sticky class="fullName">
-        <th mat-header-cell *matHeaderCellDef> Учень </th>
-        <td mat-cell *matCellDef="let element">{{index}}. {{element.studentFullName}} </td>
-    </ng-container>
-
-    <ng-container *ngFor="let col of tableDates; let i=index" [matColumnDef]="col">
-        <th mat-header-cell *matHeaderCellDef> {{col}} </th>
-        <td mat-cell *matCellDef="let element"
-            (click)="setLessonIdToStore(element.marks[i].idLesson)"> {{element.marks[i].mark}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
-    <tr mat-row *matRowDef="let row; columns: tableHeaders"></tr>
-  </mat-table>
-
-  <webui-journal-homework-dialog></webui-journal-homework-dialog>
+<div class="mark-field"
+    *ngIf="markFieldVisible"
+    [ngStyle]="{'top.px': markFieldTop, 'left.px': markFieldLeft}"
+>
+    {{chosenElement.studentFullName}}, <strong>{{chosenLesson.dateMark | journalDateFormat}}</strong>
+    <form [formGroup]="markFieldForm">
+        <mat-form-field>
+            <input matInput
+                type="number"
+                #markInput
+                min="1"
+                max="12"
+                [value]="chosenLesson.mark ? chosenLesson.mark : null"
+                placeholder="Оцінка"
+                autofocus
+            >
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Тип оцінки</mat-label>
+            <mat-select #markTypeSelect
+                [value]="chosenLesson.typeMark ? chosenLesson.typeMark : null"
+            >
+                <mat-option *ngFor="let mark of marksList$ | async" [value]="mark.markType">
+                    {{mark.markType}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea matInput
+                name="mark-note"
+                #markNote
+                rows="2"
+                [value]="chosenLesson.note ? chosenLesson.note : null"
+                placeholder="Коментар до оцінки"
+            >
+            </textarea>
+        </mat-form-field>
+        <button mat-button
+            (click)="markFieldVisible=false"
+        >
+            Скасувати
+        </button>
+        <button mat-button
+            type="button"
+            (click)="markFieldVisible=false;
+                saveMark(
+                    markInput.value,
+                    markTypeSelect.value,
+                    markNote.value,
+                    chosenElement.idStudent,
+                    chosenLesson.idLesson
+                )"
+            [disabled]="!markTypeSelect.value || !markInput.value"
+        >
+            Зберегти
+        </button>
+    </form>
+</div>
