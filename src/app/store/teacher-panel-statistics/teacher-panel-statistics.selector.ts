@@ -14,7 +14,7 @@ export const selectAllMarks = (state: AppState) => {
     });
 
     const labels = state.teacherPanelStatistics.marksList.map(item => {
-        return item.x.join('.');
+        return item.x.join('/');
     });
 
     return {

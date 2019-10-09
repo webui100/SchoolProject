@@ -190,7 +190,7 @@ import { DatePipe } from '@angular/common';
     })
   ],
   providers: [
-    // { provide: ErrorHandler, useClass: ErrorService },
+    { provide: ErrorHandler, useClass: ErrorService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() },
