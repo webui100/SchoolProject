@@ -60,7 +60,6 @@ export class TeacherPanelStatisticsComponent implements OnInit {
       }]
     }
   };
-  // public barChartData = [{data: [8, 10, 6, 8, 7, 6, 8, 8, 10, 6, 8, 7, 6, 8], label: 'Оцінки за вибраний період'},];
   public barChartType = 'bar';
   public barChartLegend = true;
   public chartData;
@@ -89,16 +88,14 @@ export class TeacherPanelStatisticsComponent implements OnInit {
     this.idOfStudents = value.id;//student_id
     this.nameOfStudents = value.lastname + " " + value.firstname;
   };
-
   //average mark
   public averageMark;
-
   // date
   public dateValueOfStart;
   public dateValueOfEnd;
   public startDate;
   public endDate;
-
+  //unsubscribe
   private cancelSubscription$: Subject<void> = new Subject();
 
   // Get data for statistics from teacher's active journals
@@ -118,7 +115,6 @@ export class TeacherPanelStatisticsComponent implements OnInit {
       this.dataAboutStudents = response;
     })
   }
-
   //date
   transformDate() {
     this.startDate = this.datepipe.transform(this.dateValueOfStart, 'yyyy-MM-dd');
@@ -144,7 +140,6 @@ export class TeacherPanelStatisticsComponent implements OnInit {
         }
     });   
   }
-
   // Chart
   setInitialDataOfChart(): void {
     this.marksData = {

@@ -1,6 +1,5 @@
 import { State as AppState } from '../index';
 
-
 export const selectAllStudents = (state: AppState) => state.teacherPanelStatistics.studentsList;
 export const selectAllMarks = (state: AppState) => {
     if (!state.teacherPanelStatistics.marksList) {
