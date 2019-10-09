@@ -57,7 +57,7 @@
                             <button class="primary-button"
                               mat-raised-button 
                               color="Basic" 
-                              (click)="stepper.reset()">Скинути</button>
+                              (click)="stepper.reset(); setInitialDataOfChart()">Скинути</button>
                           </div>
                         </form>
                       </mat-step>
@@ -74,7 +74,7 @@
                                 <mat-option
                                   *ngFor='let itemOfStudents of dataAboutStudents'
                                   [value]="itemOfStudents">
-                                  {{itemOfStudents.firstname + " " + itemOfStudents.lastname}}
+                                  {{itemOfStudents.lastname + " " + itemOfStudents.firstname}}
                                 </mat-option>
                               </mat-select>
                             </mat-form-field>
@@ -86,7 +86,7 @@
                               <button class="primary-button"
                                 mat-raised-button 
                                 color="Basic" 
-                                (click)="stepper.reset()">Скинути</button>
+                                (click)="stepper.reset(); setInitialDataOfChart()">Скинути</button>
                             </div>
                           </form>
                         </mat-step>
@@ -96,13 +96,15 @@
                               <ng-template matStepLabel>Вкажіть дату</ng-template>
                               <mat-form-field>
                                 <input matInput [matDatepicker]="picker1" placeholder="Початкова дата" 
-                                      formControlName="fourthCtrl" required>
+                                      formControlName="fourthCtrl" 
+                                      [(ngModel)]="dateValueOfStart">
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                 <mat-datepicker #picker1></mat-datepicker>
                               </mat-form-field>
                               <mat-form-field>
                                 <input matInput [matDatepicker]="picker2" placeholder="Кінцева дата" 
-                                      formControlName="fourthCtrl" required>
+                                      formControlName="fourthCtrl" 
+                                      [(ngModel)]="dateValueOfEnd">
                                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                               </mat-form-field>
@@ -110,11 +112,12 @@
                                 <button class="primary-button show-button"
                                 mat-raised-button 
                                 color="primary" 
-                                mat-button matStepperNext>Далі</button>
+                                mat-button matStepperNext
+                                (click)="transformDate()">Далі</button>
                                 <button class="primary-button"
                                 mat-raised-button 
                                 color="Basic" 
-                                (click)="stepper.reset()">Скинути</button>
+                                (click)="stepper.reset(); setInitialDataOfChart()">Скинути</button>
                               </div>
                             </form>
                           </mat-step>
@@ -132,7 +135,7 @@
                           <button class="primary-button"
                                 mat-raised-button 
                                 color="Basic" 
-                                (click)="stepper.reset()">Скинути
+                                (click)="stepper.reset(); setInitialDataOfChart()">Скинути
                           </button>
                         </div>
                       </mat-step>
@@ -148,6 +151,12 @@
                     [legend]="barChartLegend"
                     [chartType]="barChartType">
                   </canvas>
+              </div>
+              <div class="info-container" *ngIf="marksData?.labels?.length">
+                <p>Вибраний клас: {{selectedClass.className}}</p>
+                <p>Вибраний предмет: {{nameOfSubjects}}</p>
+                <p>Вибраний учень: {{nameOfStudents}}</p>
+                <p>Середня оцінка: {{averageMark}}</p>
               </div>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import { State as AppState } from '../index';
 
-
 export const selectAllStudents = (state: AppState) => state.teacherPanelStatistics.studentsList;
 export const selectAllMarks = (state: AppState) => {
     if (!state.teacherPanelStatistics.marksList) {
@@ -14,7 +13,7 @@ export const selectAllMarks = (state: AppState) => {
     });
 
     const labels = state.teacherPanelStatistics.marksList.map(item => {
-        return item.x.join('.');
+        return item.x.join('/');
     });
 
     return {

@@ -7,6 +7,9 @@ import { TeacherPanelStatisticService } from 'src/app/services/teacher-panel-sta
 import { TeacherJournals } from '../../models/teacher-panel.model';
 import { TeacherPanelService } from '../../services/teacher-panel.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common'
+import { takeUntil } from 'rxjs/operators'
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'webui-teacher-panel-statistics',
@@ -26,6 +29,7 @@ export class TeacherPanelStatisticsComponent implements OnInit {
     private storeStudentsData: Store<{ teacherPanelStatistics }>,
     private storeMarksData: Store<{ teacherPanelStatistics }>,
     private _formBuilder: FormBuilder,
+    public datepipe: DatePipe,
     ) {
       this.observableStatistics$ = this.storeJournalsData.pipe(select(selectAllJournals));
       this.observableStudents$ = this.storeStudentsData.pipe(select(selectAllStudents));
@@ -56,29 +60,44 @@ export class TeacherPanelStatisticsComponent implements OnInit {
       }]
     }
   };
-  public barChartLabels = ['01.02.19' , '01.02.19', '01.02.19', '01.02.19', '01.02.19', '01.02.19', '01.02.19', '01.02.19' , '01.02.19', '01.02.19', '01.02.19', '01.02.19', '01.02.19', '01.02.19'];
-  public barChartData = [{data: [8, 10, 6, 8, 7, 6, 8, 8, 10, 6, 8, 7, 6, 8], label: 'Оцінки за вибраний період'},];
   public barChartType = 'bar';
   public barChartLegend = true;
   public chartData;
-  marksData = {
+  public marksData = {
     data: [],
     labels: [],
   };
-  //get id
+  //get id and name
+  //first step
   public selectedClass;
   public onClassSelect(value) {
     this.selectedClass = value;
     this.getStudents(value.idClass);
   };
-  public itemOfSubjects;
+  //second step
+  public idOfSubjects;
+  public nameOfSubjects;
   public onSubjectSelect(value) {
-    this.itemOfSubjects = value.idSubject;
-  }
-  public itemOfStudents;
+    this.idOfSubjects = value.idSubject;
+    this.nameOfSubjects = value.subjectName
+  };
+  //third step
+  public idOfStudents;
+  public nameOfStudents;
   public onStudentSelect(value) {
-    this.itemOfStudents = value.id;//student_id
-  }
+    this.idOfStudents = value.id;//student_id
+    this.nameOfStudents = value.lastname + " " + value.firstname;
+  };
+  //average mark
+  public averageMark;
+  // date
+  public dateValueOfStart;
+  public dateValueOfEnd;
+  public startDate;
+  public endDate;
+  //unsubscribe
+  private cancelSubscription$: Subject<void> = new Subject();
+
   // Get data for statistics from teacher's active journals
   getData(): void {
     this.observableStatistics$.subscribe(response => {
@@ -96,20 +115,43 @@ export class TeacherPanelStatisticsComponent implements OnInit {
       this.dataAboutStudents = response;
     })
   }
+  //date
+  transformDate() {
+    this.startDate = this.datepipe.transform(this.dateValueOfStart, 'yyyy-MM-dd');
+    this.endDate = this.datepipe.transform(this.dateValueOfEnd, 'yyyy-MM-dd');
+    if(!this.startDate){
+      this.startDate = "1970-01-01";
+    }
+    if(!this.endDate){
+      this.endDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    }
+  }
   // Get all marks
   getMarks(): void {
-    this.serviceMarksOfStudent.getMarksService(this.itemOfStudents, this.itemOfSubjects);
-    this.observableMarks$.subscribe(response => {
-      this.marksData = response.data && response;
-      // console.log(this.marksData)
-    });
-      // if (!this.marksData) {
-      //   this.serviceMarksOfStudent.getMarksService();
-      // }
+      this.serviceMarksOfStudent.getMarksService(this.idOfStudents, this.idOfSubjects, this.startDate, this.endDate);
+      this.observableMarks$
+      .pipe(takeUntil(this.cancelSubscription$))
+      .subscribe(response => {
+        if(response.data[0]){
+          this.marksData = response;
+          //get average mark
+          this.averageMark = this.marksData.data[0].data
+          .reduce((a, b)=>(a + b))/this.marksData.data[0].data.length;
+        }
+    });   
+  }
+  // Chart
+  setInitialDataOfChart(): void {
+    this.marksData = {
+      data: [{data: [], label: 'Оцінка'}],
+      labels: []
+    }
+    this.cancelSubscription$.next();
   }
 
   ngOnInit() {
     this.getData();
+    this.setInitialDataOfChart();
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -120,7 +162,7 @@ export class TeacherPanelStatisticsComponent implements OnInit {
       thirdCtrl: ['', Validators.required]
     });
     this.fourthFormGroup = this._formBuilder.group({
-      fourthCtrl: ['', Validators.required]
+      fourthCtrl: []
     });
   }
 }
