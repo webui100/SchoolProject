@@ -2,11 +2,9 @@
   <div class="myrow">
     <webui-count-bar [quantityObj]="quantityObj$ | async"></webui-count-bar>
     <div class="chart-block-container">
-      <webui-chart [chartObj]="chart$ | async"
-                   (emitChartType)="chartTypeListener$.next($event)"
-                   (emitChartClass)="setClassChart($event)">
+      <webui-chart [chartObj]="chart$ | async" [year]="year" (emitChartType)="chartTypeListener$.next($event)"
+        (emitChartClass)="setClassChart($event)" [type]="chartType">
       </webui-chart>
     </div>
   </div>
 </div>
-

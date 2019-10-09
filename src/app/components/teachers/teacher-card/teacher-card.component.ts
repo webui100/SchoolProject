@@ -1,5 +1,6 @@
+import { FormGroup } from '@angular/forms';
 import { format, addYears } from 'date-fns';
-import { Subscription, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { TeachersService } from '../../../services/teachers.service';
 import { ITeacher } from '../../../models/teacher.model';
@@ -8,7 +9,7 @@ import { Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ValidationService } from '../../../services/validation.service';
-import { take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'webui-teacher-card',
@@ -26,29 +27,27 @@ export class TeacherCardComponent implements OnInit {
   private fileToUpload: string | ArrayBuffer;
   private avatarImg: string | ArrayBuffer;
   private maxAge =  addYears(new Date(), -18); // this.teachServise.checkAgeDate();
-  public editTeacher;
+  editTeacher: FormGroup;
 
-  constructor(private teachServise?: TeachersService,
-              private validServ?: ValidationService,
-              private formBuilder?: FormBuilder,
-              private notify?: NotificationService) {
+  constructor(private teachServise: TeachersService,
+              private validServ: ValidationService,
+              private formBuilder: FormBuilder,
+              private notify: NotificationService) {
               }
 
   handleFileInput(event: any): void {
     this.teachServise.readFileImage(event.target);
     this.teachServise.subject
-    .pipe(take(1))
+    .pipe(first())
     .subscribe(
     response => {
       this.avatarImg = response;
       this.fileToUpload = response;
     },
     error => {
-      this.notify.notifyFailure('Не вдалося завантажити фото');
+      this.notify.showError('Не вдалося завантажити фото', error);
       this.teachServise.subject = new Subject();
-      throw new Error(error);
-    },
-    () => console.log('complete'));
+    });
   }
 
   submitEdit(event: Event): void {

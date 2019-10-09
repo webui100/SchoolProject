@@ -1,0 +1,37 @@
+mat-icon {
+    color: var(--homework-icon-color);
+    font-size: 1.5em;
+
+    &:hover {
+        color: var(--font-color);
+        cursor: pointer;
+    }
+}
+
+.clear {
+    color: #E05555;
+    font-size: 0.8em;
+    padding: 0.1em;
+
+    &:hover {
+        color: red;
+        font-weight: bold;
+        font-size: 1em;
+    }
+}
+
+.add-homework {
+    color: var(--add-icon-color);
+}
+
+.hometask-field {
+    padding: 5px;
+    position: absolute;
+    background-color: var(--box-bg-color);
+    box-shadow: 0 3px 5px 2px var(--box-shadow-color);
+    text-align: center;
+
+    mat-form-field {
+        display: block;
+    }
+}

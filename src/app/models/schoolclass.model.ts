@@ -1,8 +1,8 @@
 export default interface ClassModel {
-  id: number;
+  id?: number;
   classYear: number;
   className: string;
   classDescription: string;
   isActive: boolean;
-  numOfStudents: number;
+  numOfStudents?: number;
 }

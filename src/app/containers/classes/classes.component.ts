@@ -1,56 +1,52 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { selectClassesAll } from "src/app/store/classes/classes.selector";
-import { Store, select } from "@ngrx/store";
-import { ClassesService } from "../../services/classes.service";
+import {
+  Component,
+  OnInit,
+  OnDestroy} from '@angular/core';
+import { selectClassesAll } from 'src/app/store/classes/classes.selector';
+import { Store, select } from '@ngrx/store';
+import { ClassesService } from '../../services/classes.service';
 import {
   animate,
   state,
   style,
   transition,
   trigger
-} from "@angular/animations";
-import { Subscription } from "rxjs";
+} from '@angular/animations';
+import { Subscription } from 'rxjs';
+import ClassModel  from '../../models/schoolclass.model'
 
 @Component({
-  selector: "webui-classes",
-  templateUrl: "./classes.component.html",
-  styleUrls: ["./classes.component.scss"],
+  selector: 'webui-classes',
+  templateUrl: './classes.component.html',
+  styleUrls: ['./classes.component.scss'],
   animations: [
-    trigger("detailExpand", [
-      state("collapsed", style({ height: "0px", minHeight: "0" })),
-      state("expanded", style({ height: "*" })),
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       )
     ])
   ]
 })
+
 export class ClassesComponent implements OnInit, OnDestroy {
-  private classes$: any;
-  private classesSubscription: Subscription;
-  public expandedElement: ClassTable | null;
-  private sortKeys;
 
   constructor(
     private classesService: ClassesService,
-    private store: Store<{}>
+    private store: Store<{}>,
   ) {
     this.classes$ = this.store.pipe(select(selectClassesAll));
+    this.sortKeys = this.classesService.sortClasses();
   }
 
-  displayedColumns: string[] = ["className", "classYear", "numOfStudents"];
-
-  private classTableHead(columnName) {
-    switch (columnName) {
-      case "className":
-        return "Клас";
-      case "classYear":
-        return "Рік";
-      case "numOfStudents":
-        return "Кількість учнів";
-    }
-  }
+  private classes$: any;
+  private classesSubscription: Subscription;
+  public expandedElement: ClassModel | null;
+  private sortKeys: Function;
+  
+  displayedColumns: string[] = ['className', 'classYear', 'numOfStudents'];
 
   activeUniqueClassList: Map<string, Array<Object>>;
   nonActiveUniqueClassList: Map<string, Array<Object>>;
@@ -62,18 +58,9 @@ export class ClassesComponent implements OnInit, OnDestroy {
     });
     // get data from endpoint
     this.classesService.getClasses();
-    this.sortKeys = this.classesService.sortClasses();
   }
+
   ngOnDestroy(): void {
     this.classesSubscription.unsubscribe();
   }
-}
-
-export interface ClassTable {
-  className: string;
-  classYear: number;
-  numOfStudents: number;
-  id: number;
-  classDescription: string;
-  isActive: boolean;
 }

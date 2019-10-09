@@ -10,7 +10,8 @@ import { getStudentsAction, getMarksAction} from '../store/teacher-panel-statist
 export class TeacherPanelStatisticService {
     private BASE_URI = environment.APIEndpoint;
     constructor(private http: HttpClient,
-    private store: Store<{ object }>){ }
+    private store: Store<{ object }>){ };
+    public indicateOfWorking;
 
     // Get students by class_id
     getStudentsService(class_id) { 
@@ -21,12 +22,11 @@ export class TeacherPanelStatisticService {
       });
   }
     // Get marks
-    getMarksService(student_id, subject_id) { 
-      return this.http.get(`${this.BASE_URI}marks?student_id=${student_id}&subject_id=${subject_id}`) 
+    getMarksService(student_id, subject_id, start_date, end_date) { 
+      return this.http.get(`${this.BASE_URI}marks?student_id=${student_id}&subject_id=${subject_id}&period_start=${start_date}&period_end=${end_date}`) 
       .subscribe(response => {
         //@ts-ignore
         this.store.dispatch(getMarksAction({ marksList: response.data }));
       });
-      
     }
 }

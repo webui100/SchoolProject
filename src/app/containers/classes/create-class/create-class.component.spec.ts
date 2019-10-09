@@ -1,20 +1,20 @@
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { UserProfileComponent } from './user-profile.component';
+// import { CreateClassComponent } from './create-class.component';
 
-// describe('UserProfileComponent', () => {
-//   let component: UserProfileComponent;
-//   let fixture: ComponentFixture<UserProfileComponent>;
+// describe('CreateClassComponent', () => {
+//   let component: CreateClassComponent;
+//   let fixture: ComponentFixture<CreateClassComponent>;
 
 //   beforeEach(async(() => {
 //     TestBed.configureTestingModule({
-//       declarations: [ UserProfileComponent ]
+//       declarations: [ CreateClassComponent ]
 //     })
 //     .compileComponents();
 //   }));
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(UserProfileComponent);
+//     fixture = TestBed.createComponent(CreateClassComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });
