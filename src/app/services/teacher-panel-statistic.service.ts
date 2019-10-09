@@ -25,7 +25,6 @@ export class TeacherPanelStatisticService {
     getMarksService(student_id, subject_id, start_date, end_date) { 
       return this.http.get(`${this.BASE_URI}marks?student_id=${student_id}&subject_id=${subject_id}&period_start=${start_date}&period_end=${end_date}`) 
       .subscribe(response => {
-        console.log("service works");
         //@ts-ignore
         this.store.dispatch(getMarksAction({ marksList: response.data }));
       });

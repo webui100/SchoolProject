@@ -132,7 +132,6 @@ export class TeacherPanelStatisticsComponent implements OnInit {
   }
   // Get all marks
   getMarks(): void {
-    console.log('getMarks');
       this.serviceMarksOfStudent.getMarksService(this.idOfStudents, this.idOfSubjects, this.startDate, this.endDate);
       this.observableMarks$
       .pipe(takeUntil(this.cancelSubscription$))
@@ -142,7 +141,6 @@ export class TeacherPanelStatisticsComponent implements OnInit {
           //get average mark
           this.averageMark = this.marksData.data[0].data
           .reduce((a, b)=>(a + b))/this.marksData.data[0].data.length;
-          console.log(this.marksData);
         }
     });   
   }
