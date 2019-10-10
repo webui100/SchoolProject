@@ -61,6 +61,7 @@ export class TeacherPanelService implements OnDestroy{
       }
   }
     getTeacherJournalsService() { 
+        // const teacherId = this.getTeacherId();
         if (this.id){
         return this.http.get(`${this.BASE_URI}journals/teachers/${this.id}/active`)
         .subscribe(response => {
@@ -69,6 +70,7 @@ export class TeacherPanelService implements OnDestroy{
         });
       }
     }
+
   putSelectedJournalToStore(journal: any): void {
     this.store.dispatch(setCurrentJournalAction({currentJournal: journal}));
 
