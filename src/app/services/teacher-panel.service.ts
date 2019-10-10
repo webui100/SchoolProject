@@ -13,6 +13,7 @@ import { getTeacherJournalsAction,
 import * as jwt_decode from 'jwt-decode';
 import { Subscription } from 'rxjs';
 import { selectUploadedJournals } from '../store/teacher-panel/teacher-panel.selector';
+import { selectId } from '../store/login/login.selectors';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -23,19 +24,24 @@ export class TeacherPanelService{
 
     private uploadedJournalsList$: any;
     private uploadedJournalsListSubscription: Subscription;
+    id$: any;
 
     constructor(
       private http: HttpClient,
       private store: Store<{ object }>,
       private journalStore: Store<{ teacherPanel }>,
       private notify: NotificationService,
-    ){
+      private storeId: Store<{ user }>,
+ 
+    ) {
       this.uploadedJournalsList$ = this.journalStore.pipe(select(selectUploadedJournals))
+      this.id$ = this.storeId.pipe(select(selectId));
      }
 
     getTeacherId() {
-      const token = sessionStorage.getItem('token');
-      return jwt_decode(token).jti;
+      let id: number;
+      this.id$.subscribe((data) => id = data);
+      return id;
     }
 //------------------------------------------------------------
     getTeacherSubjectsService() { 
@@ -49,11 +55,13 @@ export class TeacherPanelService{
 //------------------------------------------------------------  
     getTeacherJournalsService() { 
         const teacherId = this.getTeacherId();
-        return this.http.get(`${this.BASE_URI}journals/teachers/${teacherId}/active`)
+        if (teacherId != null) {
+          return this.http.get(`${this.BASE_URI}journals/teachers/${teacherId}/active`)
         .subscribe(response => {
           //@ts-ignore
           this.store.dispatch(getTeacherJournalsAction({ journalsList: response.data }));
         });
+        }
     }
 
   putSelectedJournalToStore(journal: any): void {
