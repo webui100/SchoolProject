@@ -30,7 +30,7 @@ const reducer = createReducer(
     return {
       ...state,
       teachersList: state.teachersList.map((teacher: ITeacher) => {
-        return teacher.login === editedTeacher.login ? editedTeacher : teacher;
+        return teacher.id === editedTeacher.id ? editedTeacher : teacher;
       })
     };
   }),
@@ -58,8 +58,8 @@ const reducer = createReducer(
     return {
       ...state,
       bindedTeachers: state.bindedTeachers.map((el: IBindTeacher) => {
-        const bindId = Object.keys(addBindTeacher)[0];
-        if (el.hasOwnProperty(bindId)) {
+        const bindId = Object.keys(addBindTeacher)[0]; // get teacher id in key
+        if (el.hasOwnProperty(bindId)) { // check if object have the same id in key
           return { [bindId]: [...el[bindId], addBindTeacher[bindId]] };
         }
         return el;

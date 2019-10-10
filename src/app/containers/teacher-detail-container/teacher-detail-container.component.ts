@@ -13,7 +13,7 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./teacher-detail-container.component.scss']
 })
 export class TeacherDetailContainerComponent implements OnInit {
-  @Input() teacher: ITeacher;
+  @Input() teacher: ITeacher; // accept current teacher by id
   public fullData;
 
   constructor(private store: Store<object>,
@@ -25,7 +25,7 @@ export class TeacherDetailContainerComponent implements OnInit {
   ngOnInit() {
     this.fullData = this.store.pipe(select(getAllBindInfo(this.teacher.id)));
   }
-
+  // accept value with string witch catch and handle do request to server
   getData(value: any) {
     if (typeof value === 'string') {
     switch (value) {

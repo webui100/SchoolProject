@@ -16,6 +16,7 @@ export class TeachersContainerComponent implements OnInit {
 
   constructor(private store: Store<object>) {}
 
+  // method select teachers list from store in with sorting options
   teachersSorting(options) {
     this.store.dispatch(sortColumn({ sortOptions: options }));
     this.teachersList$ = this.store.select(teachersSortByName);

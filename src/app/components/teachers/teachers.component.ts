@@ -38,41 +38,45 @@ import { ModalDialogComponent } from 'src/app/components/modal-dialog/modal-dial
   ]
 })
 export class TeachersComponent implements OnInit, OnChanges {
-  private columnsToDisplay: string[] = [
+  private columnsToDisplay: string[] = [   // array with string for table headers
     'lastname',
     'firstname',
     'patronymic',
     'delete'
   ];
   private expandedElement: ITeacher | null;
-  private teachersList = new MatTableDataSource<ITeacher>();
+  private teachersList = new MatTableDataSource<ITeacher>(); // instance mat table data source
 
   constructor(private teachServ: TeachersService,
               public dialog: MatDialog
               ) {}
-  @Input() teachersData: ITeacher[];
-  @Output() teachersSorting = new EventEmitter();
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @Input() teachersData: ITeacher[]; // input with list of teachers from store
+  @Output() teachersSorting = new EventEmitter(); // emit storting options with current column and direction
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator; // material paginator
 
-  // function for sorting, trim() remove spaces
+  // method for sorting, trim() remove spaces, default material search
   applyFilter(filterValue: string): void {
     this.teachersList.filter = filterValue.trim().toLowerCase();
   }
 
+  // method for emitting sorting options
   sortOptions(options: object): void {
     this.teachersSorting.emit(options);
-    this.fillTable();
+    this.fillTable(); // refresh table data
   }
 
+  // method refresh table data after changes
   private fillTable(): void {
     this.teachersList = new MatTableDataSource<ITeacher>(this.teachersData);
     this.teachersList.paginator = this.paginator;
   }
 
+  // method accepts event and teacherId,
+  // call modal window with comfirmation
   deleteTeacher(e: Event, teacherId: number): void {
     e.stopPropagation();
     this.dialog.open(ModalDialogComponent, {
-      data: {
+      data: { // options for correct view modal window
         id: teacherId,
         message: 'Видалити користувача?',
         buttonText: 'Видалити'
@@ -80,9 +84,10 @@ export class TeachersComponent implements OnInit, OnChanges {
     });
   }
 
+  // method send teacher list data to admin email
   sendTeacherList(): void {
     this.dialog.open(ModalDialogComponent, {
-      data: {
+      data: { // options for correct view modal window
         id: null,
         message: 'Відправити список вчителів на електронну почту?',
         buttonText: 'Відправити'
@@ -90,13 +95,14 @@ export class TeachersComponent implements OnInit, OnChanges {
     });
   }
 
+  // fill table and check if data is exist
   ngOnInit(): void {
     this.fillTable();
     if (this.teachersData === undefined) {
-      this.teachServ.getTeachers();
+      this.teachServ.getTeachers(); // request to server
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.fillTable();
+    this.fillTable(); // refresh table if something data change
   }
 }
