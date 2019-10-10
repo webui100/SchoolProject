@@ -18,8 +18,8 @@ export class JournalTableComponent implements OnInit, OnDestroy {
   @Input() journal: any;
 
   markFieldVisible = false;
-  @HostListener('document:keydown.escape', ['$event']) 
-    onKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.escape', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
     if (this.markFieldVisible) {
       this.markFieldVisible = false
     }
@@ -79,16 +79,16 @@ export class JournalTableComponent implements OnInit, OnDestroy {
   buildTable(): void {
     this.journalArray = Object.values(this.journalData.journal);
     this.journalArray.forEach((item: any) => {
-        item.marks.sort((a, b) => {
-          if (new Date(a.dateMark) > new Date(b.dateMark))
-            return 1;
-          if (new Date(a.dateMark) < new Date(b.dateMark))
-            return -1;
-          if (new Date(a.dateMark) === new Date(b.dateMark))
-            return 0;
+      item.marks.sort((a, b) => {
+        if (new Date(a.dateMark) > new Date(b.dateMark))
+          return 1;
+        if (new Date(a.dateMark) < new Date(b.dateMark))
+          return -1;
+        if (new Date(a.dateMark) === new Date(b.dateMark))
+          return 0;
 
-        });
       });
+    });
 
     this.journalDataTable = new MatTableDataSource<any>(this.journalArray);
 
@@ -101,7 +101,7 @@ export class JournalTableComponent implements OnInit, OnDestroy {
 
   setLessonIdToStore(lesson: any): void {
     this.teacherPanelStore
-    .dispatch(setCurrentLessonIdToStoreAction({ currentLessonId: lesson.idLesson }))
+      .dispatch(setCurrentLessonIdToStoreAction({ currentLessonId: lesson.idLesson }))
   }
 
   getMarksTypes() {
@@ -110,6 +110,9 @@ export class JournalTableComponent implements OnInit, OnDestroy {
         this.markServ.getMarks();
       };
       this.marksList = val;
+      if (val && this.marksListSubscription) {
+        this.marksListSubscription.unsubscribe()
+      }
     })
   }
 
@@ -119,7 +122,10 @@ export class JournalTableComponent implements OnInit, OnDestroy {
         this.teacherPanelService
           .getHomeworkList(this.journal.idSubject, this.journal.idClass);
       };
-      this.homeworkListArray = Object.values(val)
+      this.homeworkListArray = Object.values(val);
+      if (val && this.homeWorkListSubscription) {
+        this.homeWorkListSubscription.unsubscribe();
+      }
     })
   }
 
@@ -149,7 +155,7 @@ export class JournalTableComponent implements OnInit, OnDestroy {
       this.teacherPanelService.putChangeMarkType(newMarkType, idLesson);
 
     }
-    
+
     this.teacherPanelService.postSaveMark({
       idLesson: idLesson,
       idStudent: idStudent,
@@ -160,7 +166,7 @@ export class JournalTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.chosenJournalDataSubscription.unsubscribe();
-    this.homeWorkListSubscription.unsubscribe();
-    this.marksListSubscription.unsubscribe()    
+    // this.homeWorkListSubscription.unsubscribe();
+    // this.marksListSubscription.unsubscribe()    
   }
 }
