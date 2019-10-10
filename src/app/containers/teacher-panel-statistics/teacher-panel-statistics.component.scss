@@ -48,7 +48,7 @@ mat-card-content {
   padding: 0 10px;
 }
 .chart-container {
-  padding: 10px 25px;
+  padding: 10px 25px 0 25px;
   overflow: hidden;
 }
 .chart-control-panel {
@@ -68,4 +68,10 @@ padding: 0 !important;
 .show-chart-button {
   margin-top: 15px;
   margin-right: 10px;
+}
+.info-container {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0 0 15px 38px;
 }

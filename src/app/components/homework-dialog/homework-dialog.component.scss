@@ -30,7 +30,7 @@ mat-dialog-content {
     overflow: auto;
   }
   h1 {
-    color: #36266d;
+    color: var(--homework-dialog-font-color);
   }
 }
 

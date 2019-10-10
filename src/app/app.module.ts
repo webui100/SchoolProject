@@ -85,15 +85,14 @@ import { AddMarkComponent } from './components/mark-component/add-mark/add-mark.
 import { EditMarkComponent } from './components/mark-component/edit-mark/edit-mark.component';
 import { LoadStudentsComponent } from './pages/students/load-students/load-students.component';
 import { DisabledMarksComponent } from './components/mark-component/disabled-marks/disabled-marks.component';
-
 import { TeacherPanelStatisticsComponent } from './containers/teacher-panel-statistics/teacher-panel-statistics.component';
 import { JournalTableComponent } from './components/journal-table/journal-table.component';
 import { JournalHomeworkDialogComponent } from './components/journal-homework-dialog/journal-homework-dialog.component';
 import { JournalDateFormatPipe } from './pipes/journal-date-format.pipe';
-
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 import { CreateClassComponent } from './containers/classes/create-class/create-class.component';
 import { ClassEditComponent } from './containers/classes/class-edit/class-edit.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -194,7 +193,8 @@ import { ClassEditComponent } from './containers/classes/class-edit/class-edit.c
     { provide: ErrorHandler, useClass: ErrorService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
+    { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
   entryComponents: [
