@@ -13,7 +13,7 @@ export class ValidationService {
   private passwordReg = /^[a-zA-Z0-9]{5,16}$/;
   private marknameReg = /^[А-ЯІҐЄЇ -]{1}[а-яіїєґ -]*$/;
   private classNameReg = /(^[\d]{1,2}-[А-ЮҐІЇЄ]{1}$)|(^[\d]{1,2}\([\d]{1,2}-[А-ЮҐІЇЄ]{1}\)$)/;
-  private classYearReg = /^\d{4,4}$/; 
+  private classYearReg = /^\d{4,4}$/;
   private rusLangReg = /[^ЁЪЭЫ]/;
 
   get ukrNameRegExp(): RegExp {

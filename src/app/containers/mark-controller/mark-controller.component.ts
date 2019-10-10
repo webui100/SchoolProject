@@ -11,11 +11,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./mark-controller.component.scss']
 })
 export class MarkControllerComponent implements OnInit {
-  public getMarksList$: Observable<IMarkType[]>;
-  public getMarksDisabled$: Observable<IMarkType[]>
+  public getMarksList$: Observable<IMarkType[]>; // active marks
+  public getMarksDisabled$: Observable<IMarkType[]>; // disable marks
 
   constructor(private markServ: MarkControllerService,
               private store: Store<object>) { }
+
+  // requests by service
   getMarks(): void {
     this.markServ.getMarks();
   }
@@ -25,7 +27,7 @@ export class MarkControllerComponent implements OnInit {
   putMark(data: IMarkType): void {
     this.markServ.putMark(data);
   }
-
+  // select data from store
   ngOnInit() {
     this.getMarksList$ = this.store.pipe(select(marksSortByName(true)));
     this.getMarksDisabled$ = this.store.pipe(select(marksSortByName(false)));
