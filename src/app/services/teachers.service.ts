@@ -168,7 +168,7 @@ export class TeachersService {
         }
       );
   }
-
+  // method convert image into base64, check size and type of file
   readFileImage(inputValue: HTMLInputElement) {
     const file: File = inputValue.files[0];
     if (file.type.includes('image') && file.size < 1000000) {

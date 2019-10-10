@@ -25,6 +25,7 @@ export class TeacherCreateComponent implements OnInit {
               private validServ: ValidationService,
               private formBuilder: FormBuilder) {}
 
+// method submit form, edit data for request
 submitAdd(event: Event): void {
     event.preventDefault();
     const data = this.addTeacher.value;
@@ -34,6 +35,7 @@ submitAdd(event: Event): void {
     this.addTeacher.reset();
   }
 
+  // create form with regex validators
   ngOnInit(): void {
     this.addTeacher = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],

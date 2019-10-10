@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Store, select } from '@ngrx/store';
@@ -10,65 +10,58 @@ import { getTeacherJournalsAction,
         putHomeworkAction,
         saveMarkAction,
         changeMarkTypeAction } from '../store/teacher-panel/teacher-panel.action';
+import * as jwt_decode from 'jwt-decode';
 import { Subscription } from 'rxjs';
 import { selectUploadedJournals } from '../store/teacher-panel/teacher-panel.selector';
-import { NotificationService } from './notification.service';
 import { selectId } from '../store/login/login.selectors';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-
-
+import { NotificationService } from './notification.service';
 
 @Injectable({
     providedIn: "root"
   })
-export class TeacherPanelService implements OnDestroy{
+export class TeacherPanelService{
     private BASE_URI = environment.APIEndpoint;
+
     private uploadedJournalsList$: any;
     private uploadedJournalsListSubscription: Subscription;
-    public subject = new Subject<string | ArrayBuffer>();
-    private destroyStream$ = new Subject<void>();
-    private id: number;
+    id$: any;
 
-    constructor(
+    constructor(
       private http: HttpClient,
       private store: Store<{ object }>,
       private journalStore: Store<{ teacherPanel }>,
-      private userStore: Store<{ currentUser }>,
-
       private notify: NotificationService,
-    ){
-      this.uploadedJournalsList$ = this.journalStore.pipe(select(selectUploadedJournals));
-     
-      this.userStore.pipe(
-        select(selectId),
-        takeUntil(this.destroyStream$)
-      )
-      .subscribe(id => this.id = id);
+      private storeId: Store<{ user }>,
+ 
+    ) {
+      this.uploadedJournalsList$ = this.journalStore.pipe(select(selectUploadedJournals))
+      this.id$ = this.storeId.pipe(select(selectId));
      }
-    // getTeacherId() {
-    //   const token = sessionStorage.getItem('token');
-    //   return jwt_decode(token).jti;
-    // }
+
+    getTeacherId() {
+      let id: number;
+      this.id$.subscribe((data) => id = data);
+      return id;
+    }
+//------------------------------------------------------------
     getTeacherSubjectsService() { 
-      // const teacherId = this.getTeacherId();
-      if (this.id){
-          return this.http.get(`${this.BASE_URI}subjects/teachers/${this.id}`)
-        .subscribe(response => {
-          //@ts-ignore
-          this.store.dispatch(getTeacherSubjectsAction({ subjectsList: response.data }));
-        });
-      }
+      const teacherId = this.getTeacherId();
+      return this.http.get(`${this.BASE_URI}subjects/teachers/${teacherId}`)
+      .subscribe(response => {
+        //@ts-ignore
+        this.store.dispatch(getTeacherSubjectsAction({ subjectsList: response.data }));
+      });
   }
+//------------------------------------------------------------  
     getTeacherJournalsService() { 
-        // const teacherId = this.getTeacherId();
-        if (this.id){
-        return this.http.get(`${this.BASE_URI}journals/teachers/${this.id}/active`)
+        const teacherId = this.getTeacherId();
+        if (teacherId != null) {
+          return this.http.get(`${this.BASE_URI}journals/teachers/${teacherId}/active`)
         .subscribe(response => {
           //@ts-ignore
           this.store.dispatch(getTeacherJournalsAction({ journalsList: response.data }));
         });
-      }
+        }
     }
 
   putSelectedJournalToStore(journal: any): void {
@@ -138,8 +131,5 @@ export class TeacherPanelService implements OnDestroy{
 
       this.store.dispatch(changeMarkTypeAction({ newMarkType: newMarkType, idLesson: idLesson }));
     });
-  }
-  ngOnDestroy(): void {
-    this.destroyStream$.next();
   }
 }
