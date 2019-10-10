@@ -30,20 +30,23 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
   constructor(
     private teachServ: TeachersService,
     private formBuilder: FormBuilder) {
+      // create form
       this.bindTeacherJournal = this.formBuilder.group({
         subjectsControl: [''],
         classesControl: [''],
       });
     }
 
+  // default material method for correct view option in selector
   displaySubjectName(subject: any): string | undefined {
     return subject ? subject.subjectName : undefined;
   }
-
+  // default material method for correct view option in selector
   displayClassesName(classes: any): string | undefined {
     return classes ? classes.className : undefined;
   }
-
+  // submit method, emit object with teacherId, classData and subjectData
+  // for correct work with data in service
   submitJournalBind(e: Event) {
     e.preventDefault();
     const formValue = this.bindTeacherJournal.value;
@@ -55,12 +58,16 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
     this.getList.emit(data);
   }
 
+  // method check if data with journal exist
+  // if true return current teacher journal binding
   getBindingList(): IBindTeacher[] {
     if (this.bindData.journalList) {
        return this.bindData.journalList[this.bindData.teacherId];
     }
   }
 
+  // method check if data with subject list exist
+  // if true return filtered value from autocomplete
   getSubjectsList(): Observable<string[]> {
     if (this.bindData.subjectList) {
      return this.teachServ
@@ -71,6 +78,8 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
     }
   }
 
+  // method check if data with subject list exist
+  // if true return filtered value from autocomplete
   getClassesList(): Observable<string[]> {
     if (this.bindData.classList) {
       return this.teachServ
@@ -81,12 +90,14 @@ export class TeacherJournalComponent implements OnInit, OnChanges {
     }
   }
 
+  // checked if data doest exist, if true emit string with value which not have
   ngOnInit() {
     if (!this.bindData.classList) { this.getList.emit('class'); }
     if (!this.bindData.subjectList) { this.getList.emit('subject'); }
     if (!this.bindData.journalList) { this.getList.emit('journal'); }
   }
 
+  // change value if data have some changes
   ngOnChanges(): void {
    this.teacherBindData = this.getBindingList();
    this.classes$ = this.getClassesList();

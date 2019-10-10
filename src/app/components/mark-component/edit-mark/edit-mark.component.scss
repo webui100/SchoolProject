@@ -1,42 +1,53 @@
-:host{
-    display: flex;
-    justify-content: center;
+:host {
+  display: flex;
+  justify-content: center;
 }
 
-.mat-radio-button ~ .mat-radio-button {
-    margin-left: 16px;
+.mat-radio-button~.mat-radio-button {
+  margin-left: 0;
 }
-  .mat-card {
-    position: relative;
-    margin: 2rem;
-    display: flex;
-    flex-direction: column;
-    max-width: 900px;
-    padding-top: 2rem; 
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 10px;
-        background-color: var(--alternative-accent-color);
-      }  
+
+.mat-card {
+  position: relative;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  padding-top: 2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background-color: var(--alternative-accent-color);
+  }
 }
-form{
+
+form {
   display: flex;
   flex-direction: column;
 }
-.mat-form-field{
+
+.mat-form-field {
   width: 100%;
 }
+
 mat-card-actions {
   display: flex;
   width: 100%;
   justify-content: flex-end;
-  
-  &>button:enabled{
-    background-color: var(--accent-color);
+
+  &>button:enabled {
+    background-color: var(--light-color);
     color: var(--font-color) !important;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .mat-radio-button~.mat-radio-button {
+    margin-left: 16px;
   }
 }

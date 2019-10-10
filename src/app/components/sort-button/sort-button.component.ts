@@ -6,17 +6,13 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   templateUrl: './sort-button.component.html',
   styleUrls: ['./sort-button.component.scss']
 })
-export class SortButtonComponent implements OnInit {
+export class SortButtonComponent {
   @Input() columnName: string;
   @Output() sortOptions = new EventEmitter();
 
-  private nextDirection: string;
-  private ascending = true;
+  private nextDirection: string; // next direction value
+  private ascending = true; // default value direction
 
-  constructor( ) { }
-
-  ngOnInit() {
-  }
 
   sortSetting(e): void {
     const currentDirection = e.target.getAttribute('data-nextDirection');

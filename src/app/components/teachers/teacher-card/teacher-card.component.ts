@@ -35,6 +35,7 @@ export class TeacherCardComponent implements OnInit {
               private notify: NotificationService) {
               }
 
+  // handle file with image
   handleFileInput(event: any): void {
     this.teachServise.readFileImage(event.target);
     this.teachServise.subject
@@ -50,6 +51,7 @@ export class TeacherCardComponent implements OnInit {
     });
   }
 
+  // submit form, change data for request to server
   submitEdit(event: Event): void {
     event.preventDefault();
     const data = this.editTeacher.value;
@@ -61,6 +63,7 @@ export class TeacherCardComponent implements OnInit {
     this.teachServise.editTeacher(data.id, data);
   }
 
+  // initialized form with current teacher data
   ngOnInit() {
    this.editTeacher = this.formBuilder.group({
     firstname: [this.teacher.firstname, [Validators.required, Validators.pattern(this.validServ.ukrNameRegExp)]],
