@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { StudentDiaryService } from '../../services/student-diary.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -15,6 +15,7 @@ import { TeacherPanelService } from 'src/app/services/teacher-panel.service';
 export class JournalHomeworkDialogComponent implements OnInit {
 
   @Input() lessonData: any;
+  @Output() addHomework = new EventEmitter();
 
   hometaskVisible = false;
   @HostListener('document:keydown.escape', ['$event']) 
@@ -34,7 +35,7 @@ export class JournalHomeworkDialogComponent implements OnInit {
   constructor(
     private studentDiary: StudentDiaryService,
     public dialog: MatDialog,
-    private teacherPanelService: TeacherPanelService,
+    private teacherPanelService: TeacherPanelService
     ) { }
 
   ngOnInit() {
@@ -113,6 +114,7 @@ export class JournalHomeworkDialogComponent implements OnInit {
 
   postHomework() {
     this.teacherPanelService.postHomework(this.homework);
+    this.addHomework.emit()
   }
 
 }

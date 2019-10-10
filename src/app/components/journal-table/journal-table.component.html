@@ -49,7 +49,8 @@
                 <webui-journal-homework-dialog [lessonData]="{idClass: journal.idClass,
                                            idSubject: journal.idSubject,
                                            idLesson: journalArray[0].marks[i].idLesson,
-                                           homework: homeworkListArray[i]}">
+                                           homework: homeworkListArray[i]}"
+                                           (addHomework)="addHomework($event)">
                 </webui-journal-homework-dialog>
             </td>
 
