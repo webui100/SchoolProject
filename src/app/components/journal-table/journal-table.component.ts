@@ -164,6 +164,10 @@ export class JournalTableComponent implements OnInit, OnDestroy {
     });
   }
 
+  addHomework() {
+    this.getHomeworkList()
+  }
+
   ngOnDestroy() {
     this.chosenJournalDataSubscription.unsubscribe();
     // this.homeWorkListSubscription.unsubscribe();
