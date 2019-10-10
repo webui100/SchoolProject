@@ -158,6 +158,9 @@
                 <p>Вибраний учень: {{nameOfStudents}}</p>
                 <p>Середня оцінка: {{averageMark}}</p>
               </div>
+              <div class="info-container" *ngIf="noMarks">
+                <p >Вибраний учень не має оцінок</p>
+              </div>
             </div>
           </div>
         </mat-card-content>
