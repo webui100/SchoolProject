@@ -5,6 +5,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { ComponentFactoryResolver } from '@angular/core';
 import * as ErrorActions from '../store/error/error.actions';
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class NotificationService {
   public rootViewContainer: ViewContainerRef;
 
   constructor(public snackBar: MatSnackBar, private store: Store<{ errors }>,
-    private factoryResolver: ComponentFactoryResolver) {
+    private factoryResolver: ComponentFactoryResolver, private auth: AuthService) {
   }
 
   setRootViewContainerRef(viewContainerRef: ViewContainerRef) {
@@ -56,6 +58,7 @@ export class NotificationService {
         case 400:
           return 'Ви ввели невірні дані';
         case 401:
+          this.auth.signOut();
           return 'Помилка авторизації';
         case 403:
           return 'Доступ заборонено';

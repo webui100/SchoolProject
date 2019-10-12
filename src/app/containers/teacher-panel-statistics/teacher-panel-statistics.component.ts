@@ -63,6 +63,7 @@ export class TeacherPanelStatisticsComponent implements OnInit {
   public barChartType = 'bar';
   public barChartLegend = true;
   public chartData;
+  public noMarks = false;
   public marksData = {
     data: [],
     labels: [],
@@ -135,9 +136,14 @@ export class TeacherPanelStatisticsComponent implements OnInit {
         if(response.data[0]){
           this.marksData = response;
           //get average mark
-          this.averageMark = this.marksData.data[0].data
-          .reduce((a, b)=>(a + b))/this.marksData.data[0].data.length;
+          if(this.marksData.data[0].data.length){
+            this.noMarks = false;
+            this.averageMark = this.marksData.data[0].data
+            .reduce((a, b)=>(a + b))/this.marksData.data[0].data.length;
+        } else {
+          this.noMarks = true;
         }
+      }  
     });   
   }
   // Chart
@@ -147,6 +153,7 @@ export class TeacherPanelStatisticsComponent implements OnInit {
       labels: []
     }
     this.cancelSubscription$.next();
+    this.noMarks = false;
   }
 
   ngOnInit() {

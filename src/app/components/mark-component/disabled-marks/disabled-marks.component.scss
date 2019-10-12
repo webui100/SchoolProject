@@ -66,6 +66,10 @@ table {
   cursor: pointer;
 }
 
+.mat-card{
+  margin: 0
+}
+
 tr.mark-detail-row {
   height: 0;
   padding: 0 !important;
@@ -80,9 +84,23 @@ tr.mark-detail-row {
   border-bottom-width: 0;
 }
 
+::ng-deep .parametersPanel .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.mat-expansion-panel >.mat-expansion-panel-content > .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+mat-card{
+  margin: 0 !important;
+}
+
 @media only screen and (min-width: 600px) {
   .mat-accordion {
     width: 90%;
   }
 
+    .mat-radio-button ~ .mat-radio-button {
+      margin-left: 16px;
+    }
 }

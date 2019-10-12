@@ -20,15 +20,14 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 })
 export class DisabledMarksComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @Input() disabledMarksList: IMarkType[];
-  @Output() editMark = new EventEmitter();
+  @Input() disabledMarksList: IMarkType[]; // input accept disable mark
+  @Output() editMark = new EventEmitter(); // outpu emit data with edited disabled mark
   private marksListDis;
   public columnsToDisplay: string[] = [
     'markType',
     'description'
   ];
-  constructor() { }
-
+  // method emit data with edited mark 
   putMark(data: IMarkType) {
     this.editMark.emit(data);
   }

@@ -30,7 +30,7 @@ export class RequestPasswordService {
         this._notify.notifySuccess(dataMessage);
         break;
       default:
-        console.log('Знову якась помилка, наша команда рагулі');
+        console.log('Помилка');
     }
   }
 }
